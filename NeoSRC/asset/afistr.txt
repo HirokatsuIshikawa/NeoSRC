@@ -1,0 +1,11 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+</head>
+<body>
+<script type="text/javascript">
+var nend_params = {"media":9629,"site":327571,"spot":972179,"type":1,"oriented":1,"ad_num":6,"space":1,"align":1,"tdisplay":1,"tcolor":"%23000000","width":38,"height":38};
+</script>
+<script type="text/javascript" src="https://js1.nend.net/js/nendAdLoader.js"></script>
+</body>
+</html>

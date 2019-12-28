@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<application xmlns="http://ns.adobe.com/air/application/32.0">
+  <id>NeoSRC</id>
+  <versionNumber>1.104</versionNumber>
+  <filename>NeoSRC</filename>
+  <name>NeoSRC</name>
+  <initialWindow>
+    <title>NeoSRC</title>
+    <content>NeoSRC.swf</content>
+    <systemChrome>standard</systemChrome>
+    <transparent>false</transparent>
+    <visible>true</visible>
+    <minimizable>true</minimizable>
+    <maximizable>false</maximizable>
+    <resizable>false</resizable>
+    <renderMode>direct</renderMode>
+  </initialWindow>
+  <!-- 
+	More options:
+	http://livedocs.adobe.com/flex/3/html/File_formats_1.html#1043413
+	-->
+  <android>
+    <manifestAdditions><![CDATA[<manifest android:installLocation="auto" xmlns:android="http://schemas.android.com/apk/res/android">
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.PERMISSION_NAME" />
+</manifest>]]></manifestAdditions>
+  </android>
+  <icon>
+    <image72x72>icons/NeoSRC72.png</image72x72>
+    <image96x96>icons/NeoSRC96.png</image96x96>
+    <image100x100>icons/NeoSRC100.png</image100x100>
+    <image114x114>icons/NeoSRC114.png</image114x114>
+    <image120x120>icons/NeoSRC120.png</image120x120>
+    <image128x128>icons/NeoSRC128.png</image128x128>
+    <image144x144>icons/NeoSRC144.png</image144x144>
+    <image152x152>icons/NeoSRC152.png</image152x152>
+    <image180x180>icons/NeoSRC180.png</image180x180>
+    <image192x192>icons/NeoSRC192.png</image192x192>
+    <image512x512>icons/NeoSRC512.png</image512x512>
+    <image1024x1024>icons/NeoSRC1024.png</image1024x1024>
+    <image36x36>icons/NeoSRC36.png</image36x36>
+    <image48x48>icons/NeoSRC48.png</image48x48>
+  </icon>
+</application>

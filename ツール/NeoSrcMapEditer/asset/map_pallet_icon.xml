@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:60b3e9a2b8273bba8f43bb7dde428f73:4ad256ab573d54c7ac14f46915698fb3:c17a3ece5e0623e081c34d944fb6a743$ -->
+<TextureAtlas imagePath="map_pallet_icon.png" width="962" height="228">
+    <SubTexture name="AUTO" x="305" y="1" width="32" height="32"/>
+    <SubTexture name="bt_openlistN" x="277" y="1" width="12" height="12" frameX="0" frameY="-4" frameWidth="12" frameHeight="20"/>
+    <SubTexture name="bt_openlistP" x="291" y="1" width="12" height="12" frameX="0" frameY="-4" frameWidth="12" frameHeight="20"/>
+    <SubTexture name="bt_tablist" x="1" y="1" rotated="true" width="16" height="4"/>
+    <SubTexture name="btn_down_d" x="101" y="1" width="20" height="10"/>
+    <SubTexture name="btn_down_n" x="123" y="1" width="20" height="10"/>
+    <SubTexture name="btn_down_o" x="145" y="1" width="20" height="10"/>
+    <SubTexture name="btn_down_p" x="167" y="1" width="20" height="10"/>
+    <SubTexture name="btn_list_main" x="49" y="1" rotated="true" width="24" height="6"/>
+    <SubTexture name="btn_list_sub" x="75" y="1" rotated="true" width="24" height="6"/>
+    <SubTexture name="btn_up_d" x="189" y="1" width="20" height="10"/>
+    <SubTexture name="btn_up_n" x="211" y="1" width="20" height="10"/>
+    <SubTexture name="btn_up_o" x="233" y="1" width="20" height="10"/>
+    <SubTexture name="btn_up_p" x="255" y="1" width="20" height="10"/>
+    <SubTexture name="icon_copy" x="339" y="1" width="32" height="32"/>
+    <SubTexture name="icon_erlaser" x="373" y="1" width="32" height="32"/>
+    <SubTexture name="icon_paint" x="407" y="1" width="32" height="32"/>
+    <SubTexture name="icon_paste" x="441" y="1" width="32" height="32"/>
+    <SubTexture name="icon_pencil" x="475" y="1" width="32" height="32"/>
+    <SubTexture name="icon_rect" x="509" y="1" width="32" height="32"/>
+    <SubTexture name="icon_spoit" x="543" y="1" width="32" height="32"/>
+    <SubTexture name="palletBack" x="1" y="35" width="960" height="192"/>
+    <SubTexture name="select_frame" x="577" y="1" width="32" height="32"/>
+    <SubTexture name="tex_black" x="19" y="1" width="4" height="4"/>
+    <SubTexture name="tex_blue" x="25" y="1" width="4" height="4"/>
+    <SubTexture name="tex_green" x="31" y="1" width="4" height="4"/>
+    <SubTexture name="tex_red" x="37" y="1" width="4" height="4"/>
+    <SubTexture name="tex_white" x="43" y="1" width="4" height="4"/>
+</TextureAtlas>

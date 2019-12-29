@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:f65d516211650046719edfc6d84727c8:033f2d00a861e456677fafd443b0d728:8d53ba37c6f6b15b030c8da02d5b691d$ -->
+<TextureAtlas imagePath="easy.png" width="192" height="34">
+    <SubTexture name="house" x="1" y="1" width="32" height="32"/>
+    <SubTexture name="root_01" x="35" y="1" width="32" height="32"/>
+    <SubTexture name="stair_d_01" x="69" y="1" width="32" height="32"/>
+    <SubTexture name="trap_02_0" x="137" y="1" rotated="true" width="26" height="32" frameX="0" frameY="-6" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="trap_02_1" x="165" y="1" rotated="true" width="26" height="32" frameX="0" frameY="-6" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="wall_01" x="103" y="1" width="32" height="32"/>
+</TextureAtlas>

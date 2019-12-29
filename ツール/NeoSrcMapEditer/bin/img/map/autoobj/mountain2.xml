@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:a5ebfba050b5ef840afe9d9e33fb3b30:70ef488fea45d4d265cc5fb346c00420:78ad12f22691624e8db3770eefc21884$ -->
+<TextureAtlas imagePath="mountain2.png">
+    <SubTexture name="mountain2_0001" x="2" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0002" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0003" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0004" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0005" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0006" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0007" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0008" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0009" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0010" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0013" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0014" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0015" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0016" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0017" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0018" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0040" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0011" x="70" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0024" x="70" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0029" x="70" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0038" x="70" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0012" x="104" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0021" x="104" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0030" x="104" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0039" x="104" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0019" x="138" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0023" x="138" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0032" x="138" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0046" x="138" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0020" x="172" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0022" x="172" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0031" x="172" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0047" x="172" y="2" width="32" height="32"/>
+    <SubTexture name="mountain2_0025" x="2" y="36" width="32" height="32"/>
+    <SubTexture name="mountain2_0035" x="2" y="36" width="32" height="32"/>
+    <SubTexture name="mountain2_0026" x="36" y="36" width="32" height="32"/>
+    <SubTexture name="mountain2_0036" x="36" y="36" width="32" height="32"/>
+    <SubTexture name="mountain2_0027" x="70" y="36" width="32" height="32"/>
+    <SubTexture name="mountain2_0043" x="70" y="36" width="32" height="32"/>
+    <SubTexture name="mountain2_0028" x="104" y="36" width="32" height="32"/>
+    <SubTexture name="mountain2_0044" x="104" y="36" width="32" height="32"/>
+    <SubTexture name="mountain2_0033" x="138" y="36" width="32" height="32"/>
+    <SubTexture name="mountain2_0034" x="172" y="36" width="32" height="32"/>
+    <SubTexture name="mountain2_0037" x="2" y="70" width="32" height="32"/>
+    <SubTexture name="mountain2_0041" x="36" y="70" width="32" height="32"/>
+    <SubTexture name="mountain2_0042" x="70" y="70" width="32" height="32"/>
+    <SubTexture name="mountain2_0045" x="104" y="70" width="32" height="32"/>
+    <SubTexture name="mountain2_0048" x="138" y="70" width="32" height="32"/>
+</TextureAtlas>

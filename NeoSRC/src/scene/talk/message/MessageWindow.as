@@ -135,8 +135,7 @@ package scene.talk.message
 		{
 			_textArea.text = "";
 		}
-		
-		
+				
 		public function deleteText():void
 		{
 			_textArea.text = "";

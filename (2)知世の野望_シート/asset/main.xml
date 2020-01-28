@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:02ab2e4ca256fbab41d22ff6bc26d09b:cf335d4f3a675a5efde25d6a33807b24:f7afabebcd35587b8270ff90b311ebd0$ -->
+<TextureAtlas imagePath="main.png" width="2039" height="913">
+    <SubTexture name="anime/fluganime" x="1983" y="212" rotated="true" width="29" height="190" frameX="0" frameY="-1" frameWidth="190" frameHeight="30"/>
+    <SubTexture name="backimg" x="1759" y="867" width="4" height="4"/>
+    <SubTexture name="btn_Act" x="1363" y="735" width="96" height="64"/>
+    <SubTexture name="btn_Atk" x="1461" y="735" width="96" height="64"/>
+    <SubTexture name="btn_base" x="1307" y="801" width="96" height="64"/>
+    <SubTexture name="btn_base_b" x="767" y="839" width="64" height="64"/>
+    <SubTexture name="btn_base_color" x="1177" y="805" width="128" height="80"/>
+    <SubTexture name="btn_base_w" x="1405" y="801" width="96" height="64"/>
+    <SubTexture name="btn_bgm" x="1699" y="801" width="64" height="64"/>
+    <SubTexture name="btn_chara" x="1355" y="571" width="128" height="80"/>
+    <SubTexture name="btn_close" x="1" y="855" width="96" height="32"/>
+    <SubTexture name="btn_End" x="1559" y="735" width="96" height="64"/>
+    <SubTexture name="btn_event" x="1485" y="571" width="128" height="80"/>
+    <SubTexture name="btn_intermission_base" x="1615" y="571" width="128" height="80"/>
+    <SubTexture name="btn_list_main" x="833" y="839" width="6" height="24"/>
+    <SubTexture name="btn_list_sub" x="1307" y="793" rotated="true" width="24" height="6"/>
+    <SubTexture name="btn_listload" x="1503" y="801" width="96" height="64"/>
+    <SubTexture name="btn_listsave" x="1601" y="801" width="96" height="64"/>
+    <SubTexture name="btn_Menu" x="1657" y="735" width="96" height="64"/>
+    <SubTexture name="btn_Move" x="1948" y="411" rotated="true" width="64" height="96"/>
+    <SubTexture name="btn_newgame" x="1765" y="774" width="96" height="64"/>
+    <SubTexture name="btn_next" x="1363" y="653" width="128" height="80"/>
+    <SubTexture name="btn_Pass" x="1948" y="509" rotated="true" width="64" height="96"/>
+    <SubTexture name="btn_QuickLoad" x="1948" y="607" rotated="true" width="64" height="96"/>
+    <SubTexture name="btn_Reset" x="1948" y="705" rotated="true" width="64" height="96"/>
+    <SubTexture name="btn_Return" x="473" y="839" width="96" height="64"/>
+    <SubTexture name="btn_save" x="1493" y="653" width="128" height="80"/>
+    <SubTexture name="btn_Shop" x="1281" y="663" rotated="true" width="80" height="128"/>
+    <SubTexture name="btn_Skill" x="571" y="839" width="96" height="64"/>
+    <SubTexture name="btn_strength" x="1623" y="653" width="128" height="80"/>
+    <SubTexture name="btn_Strength" x="669" y="839" width="96" height="64"/>
+    <SubTexture name="btn_wide" x="99" y="855" width="96" height="32"/>
+    <SubTexture name="effect/fire" x="1859" y="867" width="31" height="31" frameX="0" frameY="0" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="emptylistitem" x="1631" y="867" width="32" height="32"/>
+    <SubTexture name="frame_b" x="1665" y="867" width="32" height="32"/>
+    <SubTexture name="frame_r" x="1699" y="867" width="32" height="32"/>
+    <SubTexture name="kake" x="1395" y="389" width="16" height="16" frameX="0" frameY="-4" frameWidth="16" frameHeight="24"/>
+    <SubTexture name="listitem" x="1759" y="874" width="32" height="32"/>
+    <SubTexture name="minus" x="833" y="865" rotated="true" width="6" height="14" frameX="-1" frameY="-9" frameWidth="16" frameHeight="24"/>
+    <SubTexture name="msg_window_b" x="1863" y="774" rotated="true" width="60" height="91"/>
+    <SubTexture name="msg_window_r" x="1925" y="803" width="91" height="60"/>
+    <SubTexture name="number_0" x="1395" y="363" width="16" height="24"/>
+    <SubTexture name="number_1" x="1355" y="555" rotated="true" width="24" height="14" frameX="-1" frameY="0" frameWidth="16" frameHeight="24"/>
+    <SubTexture name="number_2" x="368" y="889" rotated="true" width="24" height="16"/>
+    <SubTexture name="number_3" x="394" y="889" rotated="true" width="24" height="16"/>
+    <SubTexture name="number_4" x="420" y="889" rotated="true" width="24" height="16"/>
+    <SubTexture name="number_5" x="2018" y="799" width="16" height="24"/>
+    <SubTexture name="number_6" x="2018" y="825" width="16" height="24"/>
+    <SubTexture name="number_7" x="1755" y="731" width="16" height="24"/>
+    <SubTexture name="number_8" x="1910" y="893" rotated="true" width="24" height="16"/>
+    <SubTexture name="number_9" x="1996" y="865" width="16" height="24"/>
+    <SubTexture name="parcent" x="446" y="889" width="16" height="16" frameX="0" frameY="-4" frameWidth="16" frameHeight="24"/>
+    <SubTexture name="pex_fire" x="1859" y="867" width="31" height="31" frameX="0" frameY="0" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="plus" x="1745" y="637" width="14" height="14" frameX="-1" frameY="-5" frameWidth="16" frameHeight="24"/>
+    <SubTexture name="point" x="1983" y="404" width="6" height="5" frameX="-10" frameY="-19" frameWidth="16" frameHeight="24"/>
+    <SubTexture name="Skl_bullet" x="2014" y="490" rotated="true" width="24" height="50" frameX="-11" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Skl_heal" x="2014" y="646" rotated="true" width="24" height="49" frameX="-11" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Skl_spl" x="2014" y="697" rotated="true" width="24" height="49" frameX="-12" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Skl_target" x="2014" y="542" rotated="true" width="24" height="50" frameX="-11" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Skl_treatment" x="2014" y="594" rotated="true" width="24" height="50" frameX="-10" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="slash" x="2014" y="865" rotated="true" width="24" height="16"/>
+    <SubTexture name="Status_ATK" x="1745" y="571" rotated="true" width="32" height="64"/>
+    <SubTexture name="Status_CAP" x="197" y="855" width="64" height="32"/>
+    <SubTexture name="Status_DEF" x="1307" y="867" width="63" height="32" frameX="0" frameY="0" frameWidth="64" frameHeight="32"/>
+    <SubTexture name="Status_FP" x="782" y="555" rotated="true" width="26" height="53" frameX="-5" frameY="-3" frameWidth="64" frameHeight="32"/>
+    <SubTexture name="Status_HP" x="1372" y="867" width="56" height="26" frameX="-4" frameY="-3" frameWidth="64" frameHeight="32"/>
+    <SubTexture name="Status_Lv" x="810" y="555" rotated="true" width="26" height="52" frameX="-6" frameY="-3" frameWidth="64" frameHeight="32"/>
+    <SubTexture name="Status_MND" x="263" y="855" width="64" height="32"/>
+    <SubTexture name="Status_MOV" x="329" y="855" width="64" height="32"/>
+    <SubTexture name="Status_SPD" x="395" y="855" width="64" height="32"/>
+    <SubTexture name="Status_TEC" x="1765" y="840" width="64" height="32"/>
+    <SubTexture name="Status_TP" x="1430" y="867" width="56" height="26" frameX="-4" frameY="-3" frameWidth="64" frameHeight="32"/>
+    <SubTexture name="Sys_LevelUp" x="1177" y="555" width="176" height="106"/>
+    <SubTexture name="tex_black" x="1853" y="884" width="4" height="4"/>
+    <SubTexture name="tex_blue" x="1853" y="890" width="4" height="4"/>
+    <SubTexture name="tex_green" x="1853" y="896" width="4" height="4"/>
+    <SubTexture name="tex_red" x="418" y="610" width="4" height="4"/>
+    <SubTexture name="tex_white" x="1355" y="653" width="4" height="4"/>
+    <SubTexture name="Tgt_ally" x="2014" y="748" rotated="true" width="24" height="49" frameX="-11" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Tgt_base" x="1210" y="887" width="49" height="24" frameX="-12" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Tgt_enemy" x="1831" y="858" width="26" height="24" frameX="-23" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="WeaponGrap" x="1827" y="884" width="24" height="24"/>
+    <SubTexture name="WeaponGuard" x="1892" y="867" width="24" height="24"/>
+    <SubTexture name="WeaponP" x="1753" y="653" width="24" height="24"/>
+    <SubTexture name="WeaponShot" x="344" y="889" width="22" height="22" frameX="-1" frameY="-1" frameWidth="24" frameHeight="24"/>
+    <SubTexture name="windowitem" x="1793" y="874" width="32" height="32"/>
+    <SubTexture name="Wpn_Atk" x="2014" y="380" rotated="true" width="24" height="53" frameX="-9" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Wpn_CapA" x="1753" y="679" width="24" height="24"/>
+    <SubTexture name="Wpn_CapB" x="101" y="889" rotated="true" width="24" height="23" frameX="0" frameY="0" frameWidth="24" frameHeight="24"/>
+    <SubTexture name="Wpn_CapC" x="127" y="889" rotated="true" width="24" height="23" frameX="0" frameY="0" frameWidth="24" frameHeight="24"/>
+    <SubTexture name="Wpn_CapD" x="318" y="889" rotated="true" width="24" height="22" frameX="-2" frameY="0" frameWidth="24" frameHeight="24"/>
+    <SubTexture name="Wpn_CapGround" x="1753" y="705" width="24" height="24"/>
+    <SubTexture name="Wpn_CapNone" x="1281" y="793" width="24" height="10" frameX="0" frameY="-6" frameWidth="24" frameHeight="24"/>
+    <SubTexture name="Wpn_CapOther" x="1918" y="867" width="24" height="24"/>
+    <SubTexture name="Wpn_CapS" x="1925" y="774" width="21" height="24" frameX="-1" frameY="0" frameWidth="24" frameHeight="24"/>
+    <SubTexture name="Wpn_CapSky" x="1944" y="865" width="24" height="24"/>
+    <SubTexture name="Wpn_CapWater" x="1970" y="865" width="24" height="24"/>
+    <SubTexture name="Wpn_Count" x="1488" y="867" width="48" height="24" frameX="-13" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Wpn_CRT" x="2014" y="212" rotated="true" width="24" height="54" frameX="-9" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Wpn_Eva" x="2014" y="268" rotated="true" width="24" height="54" frameX="-9" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Wpn_Fp" x="1588" y="867" width="41" height="24" frameX="-17" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Wpn_Grd" x="2014" y="324" rotated="true" width="24" height="54" frameX="-8" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Wpn_Hit" x="2014" y="435" rotated="true" width="24" height="53" frameX="-9" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Wpn_Rng" x="1538" y="867" width="48" height="24" frameX="-11" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Wpn_Tp" x="1261" y="887" width="42" height="24" frameX="-15" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="さくら" x="1780" y="411" width="166" height="361" frameX="-80" frameY="-39" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="さくらU" x="1395" y="296" width="17" height="31" frameX="-7" frameY="0" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="なのは" x="473" y="610" rotated="true" width="366" height="227" frameX="-51" frameY="-34" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="なのはU" x="287" y="889" rotated="true" width="29" height="21" frameX="-5" frameY="-3" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="アタッカー" x="782" y="1" rotated="true" width="630" height="293"/>
+    <SubTexture name="アタッカーU" x="1177" y="887" rotated="true" width="31" height="25" frameX="-1" frameY="0" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="アリサ" x="841" y="555" width="166" height="357" frameX="-80" frameY="-43" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="アルフU" x="221" y="889" rotated="true" width="31" height="21" frameX="-6" frameY="-1" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="ケイブガード" x="1414" y="1" rotated="true" width="624" height="209" frameX="-14" frameY="-12" frameWidth="240" frameHeight="640"/>
+    <SubTexture name="ケイブガードU" x="153" y="889" rotated="true" width="32" height="22" frameX="-6" frameY="0" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="ケロちゃん" x="1177" y="663" width="102" height="140" frameX="-13" frameY="-207" frameWidth="120" frameHeight="640"/>
+    <SubTexture name="コクエン隊_男" x="1" y="889" rotated="true" width="32" height="23" frameX="-6" frameY="0" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="シューター" x="782" y="296" rotated="true" width="611" height="257" frameX="-3" frameY="-68" frameWidth="278" frameHeight="680"/>
+    <SubTexture name="シューターU" x="1733" y="867" width="24" height="31" frameX="-2" frameY="0" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="スライムB_U" x="1892" y="893" rotated="true" width="16" height="19" frameX="-6" frameY="-14" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="フェイトU" x="69" y="889" rotated="true" width="30" height="23" frameX="-5" frameY="-1" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="メカニック" x="1" y="1" width="415" height="624"/>
+    <SubTexture name="メカニックU" x="187" y="889" rotated="true" width="32" height="22" frameX="-5" frameY="0" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="ユーノ" x="1395" y="411" rotated="true" width="383" height="158" frameX="-88" frameY="-17" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="ユーノU" x="254" y="889" rotated="true" width="31" height="21" frameX="-6" frameY="-1" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="レイダー" x="418" y="1" width="362" height="607" frameX="-39" frameY="-25" frameWidth="415" frameHeight="640"/>
+    <SubTexture name="レイダーU" x="35" y="889" rotated="true" width="32" height="23" frameX="-6" frameY="0" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="ワイルドランナー" x="1414" y="212" rotated="true" width="567" height="197" frameX="-18" frameY="-58" frameWidth="240" frameHeight="640"/>
+    <SubTexture name="ワイルドランナーU" x="1831" y="840" rotated="true" width="30" height="16" frameX="-8" frameY="-2" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="真ケルベロス" x="1" y="627" rotated="true" width="470" height="226" frameX="-44" frameY="-70" frameWidth="300" frameHeight="540"/>
+    <SubTexture name="知世" x="1009" y="555" width="166" height="357" frameX="-80" frameY="-43" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="虚魂U" x="1395" y="329" rotated="true" width="16" height="32" frameX="0" frameY="-9" frameWidth="32" frameHeight="32"/>
+</TextureAtlas>

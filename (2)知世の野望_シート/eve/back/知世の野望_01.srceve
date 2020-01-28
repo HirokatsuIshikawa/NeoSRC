@@ -1,0 +1,820 @@
+﻿スタート:
+//背景セット
+//Goto 戦闘開始
+AddLayer name:背景 alpha:0
+AddLayer name:キャラクター alpha:0
+AddLayer name:エフェクト alpha:0
+CharaLayer name:キャラクター
+SetImg img:back/さくら部屋.jpg size:fill name:部屋 layer:背景
+SetChara name:木之本桜 x:240
+SetChara name:ケルベロス x:740
+SetChara name:知世 x540
+SetImg xml:システム img:tex_black size:fill name:ブラック layer:エフェクト alpha:1
+ReadyMove
+SetMove layer:エフェクトtime:0.5 fade:in
+StartMove type:同時 wait:on
+Talk 知世
+不覚ですわぁーーーーーッ！！
+
+StartBGM file:BGM/海鳴市.mp3 vol:1 fade:0.5
+ReadyMove
+SetMove layer:背景 time:0.1 fade:in
+SetMove layer:キャラクター time:0.1 fade:in
+SetMove layer:エフェクト time:0.5 fade:out
+StartMove type:同時 wait:on
+wait 0.3
+Talk 知世
+家の用事で出かけられなかったときに
+さくらちゃんが、新しい事件に巻き込まれて
+
+しかも、その時に新しい魔法少女が出てきたなんて……
+
+Talk さくら
+と、知世ちゃん……
+
+なにもそこまで嘆かなくても……
+
+Talk 知世
+エリオル君の事件からはや２ヶ月……
+
+魔法少女のお約束でしたら
+そろそろ新しい仲間や、新たな敵が
+出てくる時期だと分かっていましたのに
+
+完全に油断していました
+大道寺知世、一生の不覚ですわ……
+
+Talk さくら
+知世ちゃん、そんなテレビアニメじゃないんだから……
+
+Talk ケルベロス
+……さくら、それとんでもない問題発言とちゃうか？
+
+Talk 知世
+……まぁ、とりあえず過ぎてしまった事と
+その危険なセリフはひとまず置いといて……
+
+他所の町とは言え
+こうして事件が起こったからには……
+
+カードキャプターさくらの出番
+再びになりますわね
+
+Talk さくら
+ほえ……なんでそうなるの？
+
+Talk 知世
+そこは、大人気魔法少女の
+宿命と言う奴ですわ
+
+今回は、新たな仲間になりそうな子も
+出てきたわけですし……
+
+Talk さくら
+うーん、そんな事言われても……
+
+結局、何の事件が起ってるのか
+よく分かってないし……
+
+それに、新しい仲間って言ったって
+あの子の事、なのはって名前は聞いたけど
+結局、どこの子かも分からないし……
+
+Talk ケルベロス
+お供のフェレットの方は
+ユーノってと呼ばれとったな
+
+Talk 知世
+まぁ……確かに名前だけでは厳しいかもしれませんね
+
+それに、フェレットさんですか
+
+魔法少女の使い魔としては珍しい気もしますわね
+
+犬猫よりは希少ですけど
+不思議な生き物よりは現実的で……
+
+Talk ケルベロス
+……そういや、今更やけど
+あのイタチがしゃべってたの
+さくら、完全にスルーしておったわなぁ
+
+Talk さくら
+まぁね……
+
+いきなりあんな状態だったから
+色々と必死だったし……
+
+それに、これまでの事件のこと考えたら
+フェレットさんがしゃべるのも
+それほど驚く事じゃないかなぁって……
+
+Talk 知世
+まぁ、確かにそれは言えてますわね
+
+それに、さくらちゃんの傍には
+いつもケロちゃんがいますし
+スピネルさんもいらっしゃいますから
+
+普段は、どちらも言葉をしゃべる
+子猫に見えない事もないですし
+
+Talk ケルベロス
+知世、ワイのめっちゃかっちょいい
+真の姿の事も忘れんといてや
+
+まぁ、あのイタチ小僧もホンマは……
+
+Talk さくら
+？
+
+どうかしたの？
+
+Talk ケルベロス
+……いや、とりあえずおいとくか
+
+なにかと、訳ありみたいやったしな
+
+それよりも肝心なのは、アイツらが集めとった
+あの青い宝石……
+
+確か、ジュエルシード呼んでおったな？
+
+Talk さくら
+うん、なのはちゃんが封印する前に
+そう言ってた……
+
+あのネコさんがあんなに大きくなったのも
+あの宝石のせいなんだよね？
+
+Talk ケルベロス
+ごっつい魔力を持っとったし
+まず間違いないやろなぁ
+
+……確か、あのツインテ娘
+封印する時にシリアル１４ちゅうとったから……
+
+最低でもあと１３個
+あの宝石があるっちゅう事になる
+
+Talk 知世
+……と言う事は、その子達の目的は
+なんらかの理由でばら撒かれた
+その宝石を集める事でしょうか？
+
+Talk さくら
+私達がクロウカードを
+集めてた頃みたいに？
+
+まさかぁ……
+
+Talk 知世
+懐かしいですわ……
+
+友枝町にばら撒かれた
+クロウカードを回収する
+さくらちゃんのご町内を守る活躍の日々……
+
+新しい事件の発生と言う事で
+今度は、二つの町を守る活躍に
+スケールアップですわね
+
+Talk さくら
+な、なんかこじんまりとした
+スケールアップだね……
+
+Talk ケルベロス
+まぁ、その発想は
+遠くはないやろうけど……
+
+しっかし、そんな似た様な話
+こうも続けてあるもんなんかなぁ……？
+
+世の中に偶然は無い、あるのは必然だけ
+
+……にしても、流石に出来過ぎとちゃうか？
+
+Talk 知世
+そこはまぁ……
+
+天使な花嫁さんとか
+絶滅危惧動物の力を得た
+ウェイトレスさんとか
+
+ヒットした作品の後には
+テンプレートを基にした作品が
+たくさん出ますから……
+
+Talk ケルベロス
+また大分きわどい発言やけど……
+
+……知世、そのチョイス
+なんか意図ないか？
+
+一番肝心なのを出しとらん
+気がするんやけど……
+
+ほれ、さくらの担任のネーちゃんや
+今のワイ、それに雑貨屋のネーちゃんと
+なんとなく関係ありそうな……
+
+Talk 知世
+もう二人ほど、追加されそうな気もしますが
+そこは、触れてはならない
+都合と言うやつですわ
+
+それにしても、その女の子だけではなく
+もう一人、その宝石を集めてる方も
+いらっしゃるなんて……
+
+Talk ケルベロス
+見たところ、魔術の使い手としては
+あっちの方が数段上手みたいやったで
+
+……ま、ワイと比べりゃ大したことないけど
+
+Talk さくら
+……なんか、ますますクロウカードを
+集めてた時みたいだよね
+
+小狼君と違って、あっちは女の子だけど
+
+Talk 知世
+確かに、当初のさくらちゃんと李君は
+カード集めでも、ライバル関係でしたからね
+
+Talk ケルベロス
+これも魔法少女の宿命ちゅうやつなんかなぁ……
+
+……ん？
+Wait 0.3
+ちょい待ち、ちゅうことは
+ワイはあのイタチ小僧か？
+
+Talk 知世
+まぁ、普段のケロちゃんは見た目が
+どう見てもマスコット枠ですから
+
+Talk ケルベロス
+……しっかし、こうも状況が似ているっちゅうことは
+次は『創（クリエイト）』のカードの時と
+同じような事件が起こるんやないやろうな？
+
+Talk 知世
+そう言えば、今回の話は
+『大（ビッグ）』のカードの時と似ていますわね
+
+じゃあ、今度の事件は……
+
+Talk さくら
+ヒョウが出てきたり、女の人の幽霊が出て来たり
+おっきいドラゴンが出てきたり？
+
+まさかぁ……
+
+Talk 知世
+まぁ、流石にそこまで同じ繰り返しは
+あまりよろしくはありませんわね
+
+オマージュの連続は飽きられてしまいますわ
+
+Talk ケルベロス
+……そういや、さくらとは違うて
+知世ポジションは居らんかったな？
+
+Talk 知世
+まぁ、普通にこういう展開だと
+友達にも魔法の事は秘密にするのがお約束ですから
+
+変身するヒーロー・ヒロインは、正体を隠して戦うのがお約束ですし……
+
+Talk さくら
+……あの子、大丈夫だよね？
+
+Talk 知世
+その辺は、直接会ってみないと
+私にはなんとも……
+
+Talk ケルベロス
+せやったら、次の休みに海鳴へ行って
+探してみぃへんか？
+
+知っとるか知世？
+
+あそこには翠屋っちゅう喫茶店があって
+そこのケーキが……
+
+Talk さくら
+ケロちゃん、どうせ目的はケーキなんでしょ
+
+この間、買いに行く時間が無かったからって
+帰ってきてからそればっかりなんだよ
+
+Talk 知世
+ほほほ、ケロちゃんらしいですわね
+
+hidemsg time:0.3
+ClearMsg type:all
+ReadyMove
+SetMove layer:エフェクト time:1 fade:in
+StartMove type:同時wait:on
+StopBGM
+Wait 1
+ClearLayer name:背景
+ClearLayer name:キャラクター
+SetImg img:back/空中.jpg size:fill name:空 layer:背景
+SetChara name:なのは x:540
+SetChara name:ユーノ x:740 フェレット
+showmsg time:0.3
+StartBGM file:BGM/空中移動.mp3 vol:1 fade:0.5
+Talk ユーノ
+結構、近くにあるんだね……友枝町
+
+ReadyMove
+SetMove layer:エフェクト time:1 fade:out
+StartMove type:同時 wait:on
+Talk なのは
+駅３つの距離だからね
+こうして飛んで来れば、すぐ来れるよ
+
+お母さんさんの話の通りなら
+ここにあの人が居るはずだけど……
+
+Talk ユーノ
+……でも、すぐに見つかるのかな？
+
+分かってるのは、この町に
+住んでるって事だけだし……
+
+Talk なのは
+でも、なにもしなければわからないままだから……
+
+ジュエルシードや、あの子の事を抜きにしても
+もう一度、あってみたくなったんだ
+
+もしかしたら、ずっと前に会った事が
+あるかもしれないって言うのは驚いたけどね
+
+Talk ユーノ
+なのはのお母さんと、あの人のお母さんが
+友達かもしれないんだっけ……
+
+偶然にしては、出来過ぎな気も……
+Wait 0.3
+PlaySound file:SE/シャキーン.mp3
+Wait 1
+ん？
+
+なのは、これ……
+
+Talk なのは
+うん、私も感じた……
+
+あの林の中からかな……？
+
+Talk ユーノ
+あの高台の林の中から、不思議な力を感じる……
+
+でも、なんだろう
+
+魔力みたいだけど、どこか違うような……
+
+Talk なのは
+……とにかく、行ってみよう
+放って置いたら、マズい気もするし
+
+Talk ユーノ
+うん、そうだね
+
+hidemsg time:0.3
+ReadyMove
+SetMove layer:エフェクト time:1 fade:in
+SetMove layer:キャラクター time:1 fade:out
+StartMove type:同時 wait:on
+clearmsg type:all
+DeleteLayer name:背景
+ClearLayer name:キャラクター
+Goto ステージ開始
+Exit
+
+戦闘開始:
+LoadMap file:友枝町の森.map
+LaunchUnit name:高町なのは x:16 y:12
+CreateUnit name:虚魂 x:11 y:11 level:1 side:ユガミ
+CreateUnit name:虚魂 x:10 y:12 level:1 side:ユガミ
+CreateUnit name:虚魂 x:12 y:12 level:1 side:ユガミ
+CreateUnit name:虚魂 x:11 y:13 level:1 side:ユガミ
+SetEvent side:ユガミ label:ステージクリア type:全滅
+DeleteAllLayer
+hidemsg time:0.3
+clearmsg type:all
+Exit
+
+
+ステージ開始:
+StopBGM
+LoadMap file:友枝町の森.map
+ReadyMove
+SetMove layer:エフェクト time:0.3 fade:out
+StartMove type:同時 wait:on
+Wait 1
+LaunchUnit name:高町なのは x:16 y:12
+Wait 1
+SetChara name:なのは x:540
+SetChara name:ユーノ x:840 フェレット
+ReadyMove
+SetMove layer:キャラクター time:0.1 fade:in
+StartMove type:同時 wait:on
+Talk ユーノ
+やっぱり、ここから強い魔力の気配を感じる……
+
+それになんだろう……
+なんだか、結界の中に居る気が……
+
+Talk なのは
+もしかして、あの子がこの近くに……？
+
+Talk ユーノ
+うーん、なんだか違う気もするけれど……
+
+ん……？
+
+なんだあれは……？
+HideMsg time:0.3
+ReadyMove
+SetMove layer:キャラクター time:1 fade:out
+StartMove type:同時 wait:on
+clearmsg type:all
+CreateUnit name:虚魂 x:11 y:11 level:1 side:ユガミ
+CreateUnit name:虚魂 x:10 y:12 level:1 side:ユガミ
+CreateUnit name:虚魂 x:12 y:12 level:1 side:ユガミ
+CreateUnit name:虚魂 x:11 y:13 level:1 side:ユガミ
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:in
+StartMove type:同時 wait:on
+ShowMsg time:0.3
+Talk なのは
+コウモリ……？
+
+……でも、光ってるし
+なんだか目が大きい……
+
+Talk ユガミ
+………………
+
+Talk ユーノ
+今のは……魔力！？
+
+Talk ユーノ
+普通の生き物じゃない……
+
+それに、この言いようのない不安感はいったい……
+
+！
+StartBGM file:BGM/ユガミ.mp3 vol:1 fade:0.5
+wait 1
+Talk ユーノ
+なのは！　こっちに来るよ
+
+Talk なのは
+！
+Flash time:0.3
+PlaySound file:SE/シャキーン.mp3
+Wait 1
+Talk なのは
+バリアジャケットが……！
+
+Talk ユーノ
+こいつら、僕達を狙ってるのか……！
+
+なのは！　一旦この場から離れて……
+
+Talk なのは
+ううん！　このままじゃ
+近くの人を襲うかもしれない！
+
+私の力なら、なんとかなると思うから
+なんとかしてやっつけないと！
+
+Talk ユーノ
+……わかった、でも気を付けて
+
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+SetEvent side:ユガミ label:ステージクリア type:全滅
+SetEvent side:さくらチーム label:ゲームオーバー type:全滅
+DeleteAllLayer
+hidemsg time:0.3
+clearmsg type:all
+Exit
+
+
+ゲームオーバー:
+Select goto:on 再挑戦する:コンティニュー あきらめる:終了
+Exit
+
+コンティニュー:
+QuickLoad
+Exit
+
+終了:
+Finish
+Exit
+
+
+
+ステージクリア:
+AddLayer name:キャラクター alpha:0
+AddLayer name:エフェクト alpha:0
+CharaLayer name:キャラクター
+SetChara name:なのは x:540
+SetChara name:ユーノ x:840 フェレット
+ReadyMove
+SetMove layer:キャラクター time:0.5 fade:in
+StartMove type:同時 wait:on
+Talk ユーノ
+とりあえず、近くに居た奴は全部倒したけど……
+
+なのは、大丈夫？
+
+なのは……？
+
+Talk なのは
+………………
+
+Talk ユーノ
+なのは！？　いったいどうしたの……！？
+
+（なのはの様子がおかしい……！
+
+　大したダメージは受けてないはずなのに……
+　目の焦点が定まってない……）
+
+！？
+
+Flash color:0x0 time:1
+
+（なんだこれは……
+　胸が苦しい……寒気が止まらない……！）
+
+ぐっ……身体全体が重い……
+頭が……おかしくなりそうだ……
+
+なのは……
+
+hidemsg time:0.3
+clearmsg type:all
+SetImg xml:システム img:tex_black size:fill name:ブラック layer:エフェクト alpha:1
+ReadyMove
+SetMove layer:エフェクト time:1 fade:in
+StartMove type:同時 wait:on
+Wait 0.3
+showmsg time:0.3
+Talk ？？？
+おい！　大丈夫か！？
+
+ユキ！　そっちの方を頼む！！
+
+hidemsg time:0.3
+clearmsg type:all
+ClearLayer name:キャラクター
+Goto エピローグ
+Exit
+
+
+エピローグ:
+StopBGM
+AddLayer name:背景 alpha:1 level:0
+CharaLayer name:キャラクター
+SetImg img:back/神社境内.jpg size:just name:部屋 layer:背景
+SetChara name:なのは x:700 alpha:0
+SetChara name:ユーノ x:920 alpha:1 フェレット
+ReadyMove
+SetMove layer:キャラクター time:0.1 fade:in
+SetMove layer:エフェクト time:0.5 fade:out
+StartMove type:連続 wait:on
+StartBGM file:bgm/月峰神社.mp3 vol:1 fade:0.5
+Wait 0.5
+showmsg time:0.3
+Talk ユーノ
+ん……
+
+あれ、ここは……？
+
+さっきの森じゃない……
+
+別の場所みたいだ……
+
+あの門……
+確か鳥居……だったっけ……？
+
+！　なのはっ！？
+
+ReadyMove
+SetMove chara:なのは time:0.1 fade:in
+StartMove type:連続 wait:on
+Talk なのは
+あれ……ユーノ君？
+
+Talk ユーノ
+よかった……無事だったんだ……
+
+大丈夫？　どこか苦しい所はない？
+
+Talk なのは
+うん……今はもう大丈夫だけど……
+
+ここ……神社？
+
+どうしてこんな処に……
+
+Talk ユーノ
+……判らない
+
+僕もさっき目を覚ましたばかりだし
+
+……誰かが、僕達をここまで運んで来てくれたのかな？
+
+SetChara name:桃矢 x:200 alpha:0
+SetChara name:雪兎 x:480 alpha:0
+ReadyMove
+SetMove chara:桃矢 time:0.3 fade:in
+SetMove chara:雪兎 time:0.3 fade:in
+StartMove type:連続 wait:on
+Talk 桃矢
+お、目を覚ましたのか
+
+Talk 雪兎
+よかった……大丈夫？
+
+はいこれ、お水
+
+Talk なのは
+あ……ありがとうございます
+
+Talk 雪兎
+はい、君もどうぞ
+
+Talk ユーノ
+（そう言えばいつの間にか喉がカラカラだ
+
+　僕も、水を飲ませて貰おうっと……）
+
+Talk なのは
+あの……お兄さん達が
+私達をここまで連れて来てくれたんですか？
+
+Talk 雪兎
+うん、見つけた時は本当驚いたよ
+
+近くを通りかかったら、キミ達が倒れてたんだもの
+
+大丈夫？　どこか痛い所はない？
+
+Talk なのは
+あ……はい、大丈夫です
+
+どうもありがとうございます……
+
+Talk 桃矢
+この辺りじゃ見かけない顔だな……
+
+……あそこに行ったのは
+妙な気配を感じたからか？
+
+Talk ユーノ
+ブッ……！？
+wait 0.3
+Talk なのは
+ど、どうしてそれを……？
+
+Talk 桃矢
+……あの林は、前から
+よくないものが集まりやすい場所でな
+
+たまに、感覚が鋭いヤツが足を踏み込むと
+大変な目に会う事があるんだ
+
+……あそこでなにか見えたり
+聞こえたりしただろ？
+
+Talk ユーノ
+（よくないもの……
+
+　あの魔力を放っていたなにかの事なのだろうか？）
+
+Talk なのは
+あ……はい、それっぽいものが……
+
+それで、いつの間にか意識が遠くなって……
+
+Talk 桃矢
+気を付けろよ
+
+お前等みたいなのが目を付けられると
+特に危険なんだ
+
+……この神木、あそこで受けたような
+よくないもんを祓ってくれる力があるから
+
+まだ気分がよくないんだったら
+もう少しそうしてるといい
+
+Talk ユーノ
+（……言われてみれば
+　この木に触れてると、楽になる気がする
+
+　なんでなのかはよくわからないけれど……
+
+　お言葉に甘えて、もう少し休ませてもらおうよ）
+
+Talk なのは
+（……そうだね）
+
+あの……お兄さんは、あそこで
+なにか見えたりするんですか？
+
+Talk 桃矢
+……昔はな
+
+今は、もう見えなくなっちまったけど……
+
+Talk 雪兎
+…………………
+
+Talk ユーノ
+（じゃあ、この人も魔力を……？
+　でも、もう使えないって……）
+
+Talk 桃矢
+ま、別にいいんだけどよ
+
+Talk なのは
+……？
+
+Talk 雪兎
+……桃矢も、以前あそこで大変な目にあったよね
+
+Talk 桃矢
+うるせぇ、あれは別件だ、別件
+
+大体、ユキだって人の事言えねぇじゃねえか
+
+Talk ユーノ
+（あれ……今、桃矢って言った？
+
+　じゃあ、この人が……）
+
+Talk なのは
+もしかして……
+
+hidemsg time:0.3
+clearmsg type:all
+ReadyMove
+SetMove layer:エフェクト time:0.5 fade:in
+SetMove layer:キャラクター time:0.1 fade:out
+StartMove type:連続 wait:on
+StopBGM
+ClearLayer name:背景
+ClearLayer name:キャラクター
+SetImg img:back/さくら部屋.jpg size:fill name:部屋 layer:背景
+SetChara name:木之本桜 x:240
+SetChara name:ケルベロス x:740
+SetChara name:知世 x540
+ReadyMove
+SetMove layer:キャラクター time:0.1 fade:in
+SetMove layer:エフェクト time:0.3 fade:out
+Startmove type:連続
+Wait 1
+showmsg 0.3
+Talk 桃矢
+ただいまー
+
+Talk さくら
+あ……お兄ちゃんが帰って来た
+
+Talk 桃矢
+さくらー、お客さんだぞー！！
+
+Talk さくら
+ほえ？　お客さん……？
+
+いったい誰だろ……？
+
+知世ちゃん、ケロちゃん、ちょっと待っててね
+
+ReadyMove 
+SetMove chara:さくら x:-500 time:1
+Startmove type:同時
+wait 1
+Talk さくら
+ほえっ！？　あなたは……
+
+ReadyMove
+SetMove layer:エフェクト time:1 fade:in
+StartMove type:連続 wait:on
+DeleteAllLayer
+clearmsg
+Continue 知世の野望_02.srceve
+Exit

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:ca2a06634d38511367b9303a0fc03648:e9055830b0ccd4fd6dccb08621daabc7:837ac3ff7b0614058839c8732be1de17$ -->
+<TextureAtlas imagePath="autoobj_mountain1.png">
+    <SubTexture name="autoobj_mountain1_0001" x="2" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0002" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0003" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0004" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0005" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0006" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0007" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0008" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0009" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0010" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0013" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0014" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0015" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0016" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0017" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0018" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0040" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0011" x="70" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0024" x="70" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0029" x="70" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0038" x="70" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0012" x="104" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0021" x="104" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0030" x="104" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0039" x="104" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0019" x="138" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0023" x="138" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0032" x="138" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0046" x="138" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0020" x="172" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0022" x="172" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0031" x="172" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0047" x="172" y="2" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0025" x="2" y="36" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0035" x="2" y="36" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0026" x="36" y="36" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0036" x="36" y="36" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0027" x="70" y="36" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0043" x="70" y="36" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0028" x="104" y="36" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0044" x="104" y="36" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0033" x="138" y="36" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0034" x="172" y="36" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0037" x="2" y="70" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0041" x="36" y="70" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0042" x="70" y="70" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0045" x="104" y="70" width="32" height="32"/>
+    <SubTexture name="autoobj_mountain1_0048" x="138" y="70" width="32" height="32"/>
+</TextureAtlas>

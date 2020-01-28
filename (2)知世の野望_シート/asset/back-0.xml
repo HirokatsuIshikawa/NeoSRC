@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:ef6b5aedd4a11605c937ae4309324d31:b9cb6f23127e114e81ac18f831c20ddf:f6cd30fbd49df2770b519be5e125f418$ -->
+<TextureAtlas imagePath="back-0.png" width="2046" height="1924">
+    <SubTexture name="125234803786616413872_BG05b_80" x="965" y="1" width="800" height="600"/>
+    <SubTexture name="125234806625916413963_BG05d_80" x="1" y="1" rotated="true" width="960" height="1280"/>
+    <SubTexture name="li_room04a_a" x="1" y="1283" rotated="true" width="480" height="640"/>
+    <SubTexture name="lo_house03a_a" x="483" y="1283" rotated="true" width="480" height="640"/>
+    <SubTexture name="sea02" x="963" y="603" rotated="true" width="480" height="640"/>
+    <SubTexture name="住宅地" x="1445" y="603" rotated="true" width="600" height="800"/>
+    <SubTexture name="空中" x="965" y="1405" width="640" height="480"/>
+</TextureAtlas>

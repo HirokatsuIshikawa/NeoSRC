@@ -1,0 +1,53 @@
+﻿
+name:宵闇コクエン
+nickname:コクエン
+type:立ち絵
+x:160,	y:160
+ボディ, 	宵闇コクエン, 	0
+basic:ボディ
+
+name:コクエン親衛隊
+nickname:コクエン親衛隊
+type:立ち絵
+x:160,	y:160
+ボディ, 	コクエン親衛隊, 	0
+basic:ボディ
+
+
+name:コクエン隊・男
+nickname:コクエン隊
+type:立ち絵
+x:160,	y:160
+ボディ, 	レイダー, 	0
+basic:ボディ
+
+
+name:アタッカー
+nickname:アタッカー
+type:立ち絵
+x:160,	y:160
+ボディ, 	アタッカー, 	0
+basic:ボディ
+
+
+name:シューター
+nickname:シューター
+type:立ち絵
+x:160,	y:160
+ボディ, 	シューター, 	0
+basic:ボディ
+
+
+name:メカニック
+nickname:メカニック
+type:立ち絵
+x:160,	y:160
+ボディ, 	メカニック, 	0
+basic:ボディ
+
+name:コクエン隊・女
+nickname:コクエン隊
+type:立ち絵
+x:160,	y:160
+ボディ, 	コクエン隊_女, 	0
+basic:ボディ

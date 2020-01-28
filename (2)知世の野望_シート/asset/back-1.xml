@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:ef6b5aedd4a11605c937ae4309324d31:b9cb6f23127e114e81ac18f831c20ddf:f6cd30fbd49df2770b519be5e125f418$ -->
+<TextureAtlas imagePath="back-1.png" width="1926" height="1084">
+    <SubTexture name="BG05a_80" x="1" y="483" width="800" height="600"/>
+    <SubTexture name="BG22a_80" x="803" y="483" width="800" height="600"/>
+    <SubTexture name="さくら部屋" x="1" y="1" width="640" height="480"/>
+    <SubTexture name="夕方路地裏" x="643" y="1" width="640" height="480"/>
+    <SubTexture name="神社境内" x="1285" y="1" width="640" height="480"/>
+</TextureAtlas>

@@ -62,8 +62,8 @@ package scene.talk
 		public static const TOUCH_MAP:int = 3;
 		
 		/**置き換え式*/
-		public static const REPLACE_ARY:Array = ["math", "unit", "name", "variable", "sidenum"];
-		public static const REPLACE_P_ARY:Array = ["式", "ユニット", "ユニット名", "変数", "陣営数"];
+		public static const REPLACE_ARY:Array = ["variable", "math", "unit", "name", "sidenum"];
+		public static const REPLACE_P_ARY:Array = ["変数", "式", "ユニット", "ユニット名", "陣営数"];
 		
 		//-----------------------------------------------------------------
 		// value
@@ -81,6 +81,8 @@ package scene.talk
 		protected var _textData:Array = null;
 		/**ラベルデータ*/
 		protected var _labelData:Array = null;
+		/**ライン接続フラグ*/
+		protected var _connectLineFlg:Boolean = false;
 		
 		/**入力中メッセージ*/
 		protected var _msgStrage:String = null;
@@ -566,7 +568,7 @@ package scene.talk
 				setLineCommand();
 				break;
 			//-----------------------------------------------------音楽-----------------------------------------------------
-			case "startbgm":
+			case "startbgm": 
 				SingleMusic.stopBGM(0, 0);
 				MainController.$.model.playerParam.playingMapBGM = param.file;
 				if (param.hasOwnProperty("vol"))
@@ -684,7 +686,7 @@ package scene.talk
 				MainController.$.view.battleMap.organizeUnit(param.count, param.x, param.y, param.width, param.height);
 				
 				break;
-			case "unitmove":
+			case "unitmove": 
 				MainController.$.view.battleMap.moveMapUnit(param.unit, param.x, param.y, setLineCommand);
 				
 				break;
@@ -1036,9 +1038,9 @@ package scene.talk
 			{
 				tex = MainController.$.imgAsset.getTexture(param.img);
 			}
-			else if(param.hasOwnProperty("unit"))
+			else if (param.hasOwnProperty("unit"))
 			{
-			 	var unitName:String = MainController.$.model.masterUnitImageData.getUnitImgName(param.unit);
+				var unitName:String = MainController.$.model.masterUnitImageData.getUnitImgName(param.unit);
 				tex = MainController.$.imgAsset.getTexture(unitName);
 			}
 			else
@@ -1201,8 +1203,7 @@ package scene.talk
 			var tex:Texture = null;
 			
 			pex = MainController.$.imgAsset.getXml(param.pex);
-			tex =  MainController.$.imgAsset.getTexture(param.tex);
-			
+			tex = MainController.$.imgAsset.getTexture(param.tex);
 			
 			if (pex == null)
 			{
@@ -1816,7 +1817,7 @@ package scene.talk
 			
 			setLineCommand();
 		}
-				
+		
 		/** パーティクル＆テクスチャ読み込み完了 */
 		protected function pexTexComp(tex:Texture, data:Array, layer:String = null):void
 		{
@@ -2035,12 +2036,14 @@ package scene.talk
 						}
 						answer = CalcInfix.eval(mathStr);
 						line = line.replace(rep + searchStr + ")", answer + "");
+						num--;
 						break;
 					case "name": 
 						searchStr = searchStr.replace(/\s/g, "");
 						ary = searchStr.split(",");
 						data = MainController.$.model.PlayerUnitDataName(ary[0]).name;
 						line = line.replace(rep + searchStr + ")", data + "");
+						num--;
 						break;
 					//ユニット
 					case "unit": 
@@ -2048,6 +2051,7 @@ package scene.talk
 						ary = searchStr.split(",");
 						data = MainController.$.model.PlayerUnitDataName(ary[0])[ary[1]];
 						line = line.replace(rep + searchStr + ")", data + "");
+						num--;
 						break;
 					//変数
 					case "variable": 
@@ -2058,12 +2062,13 @@ package scene.talk
 						{
 							if (playerVariable[k].name === searchStr)
 							{
-								data = playerVariable[k].getValue() as String;
+								data = playerVariable[k].getValue() + "";
 								break;
 							}
 						}
 						
 						line = line.replace(rep + searchStr + ")", data + "");
+						num--;
 						break;
 					//陣営数
 					case "sidenum": 
@@ -2074,7 +2079,7 @@ package scene.talk
 							if (searchStr === MainController.$.view.battleMap.sideState[k].name)
 							{
 								var unitCount:int = 0;
-								for (l = 0; l <  MainController.$.view.battleMap.sideState[k].battleUnit.length; l++ )
+								for (l = 0; l < MainController.$.view.battleMap.sideState[k].battleUnit.length; l++)
 								{
 									if (MainController.$.view.battleMap.sideState[k].battleUnit[l].alive)
 									{
@@ -2082,12 +2087,11 @@ package scene.talk
 									}
 								}
 								
-								
 								line = line.replace(rep + searchStr + ")", unitCount + "");
 								break;
 							}
 						}
-						
+						num--;
 						break;
 					}
 				}

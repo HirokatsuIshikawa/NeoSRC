@@ -3,6 +3,8 @@ package scene.map.battle.anime
 	import a24.tween.Tween24;
 	import common.CommonDef;
 	import common.CommonSystem;
+	import flash.geom.Rectangle;
+	import scene.map.battle.anime.battleback.BattleBack;
 	import scene.unit.BattleUnit;
 	import system.custom.customSprite.CImage;
 	import system.custom.customSprite.CSprite;
@@ -25,8 +27,10 @@ package scene.map.battle.anime
 		private var _rightUnitImg:CImage = null;
 		/**背景*/
 		private var _backImg:CImage = null;
-		
 		private var _tex:Texture = null;
+		
+		/**ループ背景*/
+		private var _battleBack:Vector.<BattleBack> = null;
 		
 		/**ユニットデータ*/
 		private var _leftUnitData:BattleUnit = null;
@@ -53,6 +57,23 @@ package scene.map.battle.anime
 			_backImg.height = CommonDef.WINDOW_H;
 			_backImg.textureSmoothing = TextureSmoothing.NONE;
 			addChild(_backImg);
+			_battleBack = new Vector.<BattleBack>();
+			
+			for (var i:int = 0; i < 2; i++ )
+			{
+				var battleBack:BattleBack;
+				var scrollSide:int = i % 2 == 1 ? 1 : -1;
+				
+				battleBack = new BattleBack("battleback_top", "battleback_bottom",scrollSide);
+				
+				battleBack.x = (i % 2) * (CommonDef.WINDOW_W / 2 + 4);
+				battleBack.y = 0;
+				addChild(battleBack);
+				_battleBack.push(battleBack);
+			}
+			
+			
+
 			_damageNum = new ImgNumber();
 		}
 		

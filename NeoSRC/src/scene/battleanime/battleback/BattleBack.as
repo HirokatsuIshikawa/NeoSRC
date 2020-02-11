@@ -1,4 +1,4 @@
-package scene.map.battle.anime.battleback 
+package scene.battleanime.battleback 
 {
 	import a24.tween.Tween24;
 	import common.CommonDef;

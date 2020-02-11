@@ -15,7 +15,7 @@ package database.dataloader
 	 * ...
 	 * @author
 	 */
-	public class MessageLoader
+	public class EventFileLoader
 	{
 		
 		//テキストロード

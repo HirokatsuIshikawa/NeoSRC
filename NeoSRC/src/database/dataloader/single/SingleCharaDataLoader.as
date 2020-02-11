@@ -1,4 +1,4 @@
-package database.dataloader
+package database.dataloader.single
 {
 	import br.com.stimuli.loading.BulkLoader;
 	import br.com.stimuli.loading.BulkProgressEvent;

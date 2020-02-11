@@ -21,7 +21,6 @@ package viewitem.status
 		
 		private var _blackBackImg:CImage = null;
 		private var _closeBtn:CImgButton = null;
-		private var _customBGMBtn:CImgButton = null;
 		private var _statusWindow:BaseStatusWindow = null;
 		private var _unitId:int = 0;
 		
@@ -51,17 +50,6 @@ package viewitem.status
 			_closeBtn.height = 64;
 			_closeBtn.addEventListener(Event.TRIGGERED, MainController.$.view.interMission.closeStatusWindow);
 			addChild(_closeBtn);
-			
-			// カスタムBGM
-			_customBGMBtn = new CImgButton(MainController.$.imgAsset.getTexture("btn_bgm"));
-			_customBGMBtn.x = 780;
-			_customBGMBtn.y = 240;
-			
-			_customBGMBtn.width = 64;
-			_customBGMBtn.height = 64;
-			_customBGMBtn.addEventListener(Event.TRIGGERED, callCustomBgm);
-			addChild(_customBGMBtn);
-		
 		}
 		
 		override public function dispose():void
@@ -75,14 +63,8 @@ package viewitem.status
 				_closeBtn.removeEventListener(Event.TRIGGERED, MainController.$.view.interMission.closeSaveList);
 				_closeBtn.dispose();
 			}
-			if (_customBGMBtn)
-			{
-				removeChild(_customBGMBtn);
-				_customBGMBtn.removeEventListener(Event.TRIGGERED, callCustomBgm);
-				_customBGMBtn.dispose();
-			}
+
 			_closeBtn = null;
-			_customBGMBtn = null;
 			super.dispose();
 		}
 		
@@ -102,28 +84,7 @@ package viewitem.status
 				}
 		}
 		
-		/**カスタムBGMセット*/
-		public function callCustomBgm(event:Event):void
-		{
-			var i:int = 0;
-			
-			DataLoad.LoadPath("カスタムBGM", "*.mid;*.mp3", compLoad);
-			function compLoad(path:String):void
-			{
-				
-				for (i = 0; i < MainController.$.model.PlayerUnitData.length; i++)
-				{
-					if (MainController.$.model.PlayerUnitData[i].id == _unitId)
-					{
-						MainController.$.model.PlayerUnitData[i].customBgmPath = path;
-						SingleMusic.playBGM(MainController.$.model.PlayerUnitData[i].customBgmHeadPath, 1, 1);
-						break;
-					}
-				}
-			
-			}
-		
-		}
+
 	
 	}
 

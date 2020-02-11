@@ -1,4 +1,4 @@
-package scene.map.battle.anime.data
+package scene.battleanime.data
 {
 	
 	/**

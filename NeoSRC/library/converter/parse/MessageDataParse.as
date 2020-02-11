@@ -11,11 +11,11 @@ package converter.parse
 		//処理ステータス
 		public static const STATE_NONE:int = 0;
 		
-		public static var STATE_LIST:Array = ["回避", "ダメージ", "攻撃", "撃破", "射程外"];
-		public static var STATE_LIST_E:Array = ["回避", "ダメージ", "攻撃", "撃破", "射程外"];
+		public static var STATE_LIST:Array = ["交戦開始", "回避", "ダメージ", "攻撃", "撃破", "射程外"];
+		public static var STATE_LIST_E:Array = ["交戦開始", "回避", "ダメージ", "攻撃", "撃破", "射程外"];
 		
-		public static var CONDITION_LIST:Array = ["hp", "敵", "武装", "スキル"];
-		public static var CONDITION_LIST_E:Array = ["hp", "enemy", "weapon", "skill"];
+		public static var CONDITION_LIST:Array = ["hp", "敵", "武装", "スキル", "命中率"];
+		public static var CONDITION_LIST_E:Array = ["hp", "enemy", "weapon", "skill", "hit"];
 		
 		public static function parseData(str:String):Array
 		{
@@ -42,6 +42,7 @@ package converter.parse
 			//データ読み込み
 			for (i = 0; i < ary.length; i++)
 			{
+				var lineAry:Array;
 				//ライン読み込み
 				var line:String = ary[i];
 				if (line.length <= 0)
@@ -54,27 +55,35 @@ package converter.parse
 				}
 				
 				//nameでスタート
-				if (line.indexOf("name") > 0)
+				if (line.indexOf("name") >= 0)
 				{
-					count++;
-					data[count] = new Object();
 					
-					var ary:Array = line.split(":");
+					lineAry = line.split(":");
 					//キャラ名設定
-					setName = ary[1];
+					setName = lineAry[1];
 					
 				}
+				//共用の場合
+				else if (line === "default")
+				{
+					lineAry = line.split(":");
+					//キャラ名設定
+					setName = line;
+				}
+				//コンディション、メッセージの場合
 				else
 				{
-					var ary:Array = line.split(",");
+					lineAry = line.split(",");
 					var stateFlg:Boolean = false;
 					
 					for (j = 0; j < STATE_LIST.length; j++)
 					{
 						//コンディションがある場合はフラグを立てる
-						if (ary[0] === STATE_LIST || ary[0] === STATE_LIST_E)
+						if (lineAry[0] === STATE_LIST[j] || lineAry[0] === STATE_LIST_E[j])
 						{
-							condition = new StateCondition()
+							condition = new StateCondition();
+							
+							condition.name = setName;
 							stateFlg = true;
 							break;
 						}
@@ -83,9 +92,15 @@ package converter.parse
 					//コンディション設定
 					if (stateFlg)
 					{
-						for (k = 1; k < ary.length; k++ )
+						for (k = 1; k < lineAry.length; k++)
 						{
-							var conditionLine:String = ary[k];							
+							var conditionLine:String = lineAry[k];
+							
+							if (conditionLine == null)
+							{
+								continue;
+							}
+							
 							var conditionAry:Array = conditionLine.split(":")
 							var conditionState:String = conditionAry[0];
 							
@@ -93,32 +108,49 @@ package converter.parse
 							var conditionValue:String = conditionAry[1];
 							
 							//条件スイッチ
-							switch(conditionState.toLowerCase)
+							switch (conditionState.toLowerCase())
 							{
-								//HP
-								case CONDITION_LIST[0]:
-								case CONDITION_LIST_E[1]:
-									var hpValue:String = conditionValue[1];
-									//最大最小
-									var hpCondition:Array = hpValue.split("-");
-									condition.hpRateMax = parseInt(hpCondition[0]);
-									condition.hpRateMin = parseInt(hpCondition[1]);
-									break;
+							//HP
+							case CONDITION_LIST[0]: 
+							case CONDITION_LIST_E[0]: 
+								var hpValue:String = conditionValue;
+								//最大最小
+								var hpCondition:Array = hpValue.split("-");
+								condition.hpRateMin = parseInt(hpCondition[0]);
+								condition.hpRateMax = parseInt(hpCondition[1]);
+								break;
 							}
-							
 							
 						}
 					}
 					//メッセージ設定
 					else
 					{
+						var messageAry:Array = line.split(":");
+						
+						count++;
+						data[count] = new Object();
+						data[count].condition = condition;
+						
+						if (messageAry.length <= 1)
+						{
+							data[count].message = messageAry[0];
+							data[count].talkName = setName;
+						}
+						else
+						{
+							
+							data[count].message = messageAry[1];
+							data[count].talkName = messageAry[0];
+						}
 						
 					}
 					
 				}
 				
 			}
-		
+			
+			return data;
 		}
 	
 	}

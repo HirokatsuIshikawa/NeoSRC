@@ -1,17 +1,17 @@
-package scene.map.battle.anime
+package scene.battleanime
 {
 	import a24.tween.Tween24;
 	import common.CommonDef;
 	import common.CommonSystem;
 	import flash.geom.Rectangle;
-	import scene.map.battle.anime.battleback.BattleBack;
+	import scene.battleanime.battleback.BattleBack;
 	import scene.unit.BattleUnit;
 	import system.custom.customSprite.CImage;
 	import system.custom.customSprite.CSprite;
 	import database.user.UnitCharaData;
 	import starling.textures.Texture;
 	import starling.textures.TextureSmoothing;
-	import scene.map.battle.anime.data.BattleAnimeRecord;
+	import scene.battleanime.data.BattleAnimeRecord;
 	import scene.main.MainController;
 	import viewitem.parts.numbers.ImgNumber;
 	
@@ -71,9 +71,7 @@ package scene.map.battle.anime
 				addChild(battleBack);
 				_battleBack.push(battleBack);
 			}
-			
-			
-
+			this.alpha = 0;
 			_damageNum = new ImgNumber();
 		}
 		

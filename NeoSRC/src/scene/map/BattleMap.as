@@ -21,7 +21,7 @@ package scene.map
 	import starling.events.TouchPhase;
 	import starling.textures.Texture;
 	import starling.textures.TextureSmoothing;
-	import scene.map.battle.anime.BattleActionPanel;
+	import scene.battleanime.BattleActionPanel;
 	import scene.main.MainController;
 	import scene.map.battle.BattleResultmanager;
 	import scene.map.panel.BattleMapPanel;

@@ -8,7 +8,7 @@ package scene.talk
 	import system.custom.customSprite.CImage;
 	import system.custom.customSprite.CSprite;
 	import system.custom.customSprite.CTextArea;
-	import database.dataloader.MessageLoader;
+	import database.dataloader.EventFileLoader;
 	import database.user.FaceData;
 	import flash.desktop.NativeApplication;
 	import flash.filesystem.File;
@@ -291,13 +291,13 @@ package scene.talk
 		{
 			MainController.$.model.playerParam.nowEve = fileName;
 			_startLabel = startLabel;
-			MessageLoader.loadEveData(fileName, setText);
+			EventFileLoader.loadEveData(fileName, setText);
 		}
 		
 		public function eveContinueStart(fileName:String):void
 		{
 			MainController.$.model.playerParam.nowEve = fileName;
-			MessageLoader.loadEveData(fileName, setContinueText);
+			EventFileLoader.loadEveData(fileName, setContinueText);
 		}
 		
 		/**イベントファイル読み込み完了*/
@@ -357,7 +357,7 @@ package scene.talk
 			if (line.substr(0, 1) === "#<" && line.substr(line.length - 1, 1) === ">")
 			{
 				//追加分のテキストをデータに追加
-				MessageLoader.loadEveData(line.substring(1, line.length - 1), addEveData);
+				EventFileLoader.loadEveData(line.substring(1, line.length - 1), addEveData);
 			}
 			//ラベル
 			else if (line.substr(line.length - 1, 1) === ":")

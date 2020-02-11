@@ -1,9 +1,12 @@
 package viewitem.status
 {
+	import bgm.SingleMusic;
 	import common.CommonDef;
 	import common.CommonSystem;
 	import common.util.CharaDataUtil;
+	import starling.events.Event;
 	import system.custom.customSprite.CImage;
+	import system.custom.customSprite.CImgButton;
 	import system.custom.customSprite.CTextArea;
 	import system.custom.customSprite.ImageBoard;
 	import database.master.MasterCharaData;
@@ -16,6 +19,7 @@ package viewitem.status
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
 	import starling.utils.Color;
+	import system.file.DataLoad;
 	import viewitem.base.WindowItemBase;
 	import scene.main.MainController;
 	import scene.unit.BattleUnit;
@@ -34,6 +38,8 @@ package viewitem.status
 		private var _nameTxt:TextArea = null;
 		/**コールバック*/
 		private var _callBack:Function = null;
+		/**カスタムBGM*/
+		private var _customBGMBtn:CImgButton = null;
 		
 		private var _lvImg:ImgNumber = null;
 		private var _hpImg:ImgNumber = null;
@@ -113,6 +119,16 @@ package viewitem.status
 			_movImg = new ImgNumber();
 			_movImg.x = ST_LEFT_X;
 			_movImg.y = ST_BASE_Y + ST_BETWEEN_Y * 3;
+			
+			// カスタムBGM
+			_customBGMBtn = new CImgButton(MainController.$.imgAsset.getTexture("btn_bgm"));
+			_customBGMBtn.x = 780;
+			_customBGMBtn.y = 240;
+			
+			_customBGMBtn.width = 64;
+			_customBGMBtn.height = 64;
+			_customBGMBtn.addEventListener(Event.TRIGGERED, callCustomBgm);
+			addChild(_customBGMBtn);
 		}
 		
 		override public function dispose():void
@@ -142,6 +158,12 @@ package viewitem.status
 			_mndImg.dispose();
 			_capImg.dispose();
 			_movImg.dispose();
+			if (_customBGMBtn)
+			{
+				removeChild(_customBGMBtn);
+				_customBGMBtn.removeEventListener(Event.TRIGGERED, callCustomBgm);
+				_customBGMBtn.dispose();
+			}
 			
 			_lvImg = null;
 			_hpImg = null;
@@ -154,6 +176,9 @@ package viewitem.status
 			_mndImg = null;
 			_capImg = null;
 			_movImg = null;
+			
+			_customBGMBtn = null;
+			
 			super.dispose();
 		}
 		
@@ -178,7 +203,6 @@ package viewitem.status
 			var paramColor:Vector.<uint> = new Vector.<uint>();
 			var addParam:BaseParam = new BaseParam();
 			
-			
 			// ステータスレシオ
 			var ratio:Number;
 			if (data.masterData.MaxLv == 0)
@@ -189,7 +213,6 @@ package viewitem.status
 			{
 				ratio = (data.nowLv - 1.0) / (data.masterData.MaxLv - 1.0);
 			}
-			
 			
 			//基本ステータスゲット
 			for (i = 0; i < MasterCharaData.DATA_TYPE.length; i++)
@@ -216,13 +239,12 @@ package viewitem.status
 						break;
 					}
 				}
-					
 				
-				if (data.param[BaseParam.STATUS_STR[i]] > addParam[BaseParam.STATUS_STR[i]] )
+				if (data.param[BaseParam.STATUS_STR[i]] > addParam[BaseParam.STATUS_STR[i]])
 				{
 					paramColor[i] = 0x44FF44;
 				}
-				else if (data.param[BaseParam.STATUS_STR[i]] < addParam[BaseParam.STATUS_STR[i]] )
+				else if (data.param[BaseParam.STATUS_STR[i]] < addParam[BaseParam.STATUS_STR[i]])
 				{
 					paramColor[i] = 0xFF4444;
 				}
@@ -232,7 +254,6 @@ package viewitem.status
 				}
 				
 			}
-			
 			
 			_lvImg.setNumber(data.nowLv, ImgNumber.TYPE_STATE_Lv);
 			addChild(_lvImg);
@@ -256,6 +277,15 @@ package viewitem.status
 			addChild(_capImg);
 			_movImg.setNumber(data.param.MOV, ImgNumber.TYPE_STATE_MOV, paramColor[8]);
 			addChild(_movImg);
+			
+			if (data.side == 0)
+			{
+				_customBGMBtn.visible = true;
+			}
+			else
+			{
+				_customBGMBtn.visible = false;
+			}
 		
 			//this.addEventListener(TouchEvent.TOUCH, clickHandler);
 		}
@@ -331,6 +361,31 @@ package viewitem.status
 				_windowImg.color = 0xFFFFFF;
 			}
 		}
+		
+		
+		/**カスタムBGMセット*/
+		public function callCustomBgm(event:Event):void
+		{
+			var i:int = 0;
+			DataLoad.LoadPath("カスタムBGM", "*.mid;*.mp3", compLoad);
+			function compLoad(path:String):void
+			{
+				
+				_data.customBgmPath = path;
+				for (i = 0; i < MainController.$.model.PlayerUnitData.length; i++)
+				{
+					if (MainController.$.model.PlayerUnitData[i].id == _data.id)
+					{
+						MainController.$.model.PlayerUnitData[i].customBgmPath = path;
+						SingleMusic.playBGM(MainController.$.model.PlayerUnitData[i].customBgmHeadPath, 1, 1);
+						break;
+					}
+				}
+			
+			}
+		
+		}
+		
 	}
 
 }

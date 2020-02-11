@@ -6,6 +6,8 @@ package database.dataloader
 	import converter.parse.BuffDataParse;
 	import converter.parse.CharaDataParse;
 	import converter.parse.ImgDataParse;
+	import converter.parse.MessageDataParse;
+	import database.master.MasterBattleMessage;
 	import database.master.MasterBuffData;
 	import database.master.MasterCharaData;
 	import database.user.FaceData;
@@ -24,6 +26,7 @@ package database.dataloader
 		public static const TYPE_UNIT:String = "Unit";
 		public static const TYPE_CHARA:String = "Chara";
 		public static const TYPE_BUFF:String = "Buff";
+		public static const TYPE_MESSAGE:String = "Message";
 		
 		/**読み込みデータ*/
 		private var _loadData:Object = null;
@@ -49,12 +52,23 @@ package database.dataloader
 			_dataLoader = new BulkLoader();
 			_dataNameList = new Vector.<String>;
 			
-			for (var i:int = 0; i < name.length; i++)
+			for (var i:int = 0; i <= name.length; i++)
 			{
-				var file:File = File.applicationDirectory.resolvePath(CommonSystem.SCENARIO_PATH + "data/" + name[i] + "/" + type + ".srcdat");
+				var fileName:String = "";
+				if (i == name.length)
+				{
+					fileName = CommonSystem.SCENARIO_PATH + "data/" + type;
+				}
+				else
+				{
+					fileName = CommonSystem.SCENARIO_PATH + "data/" + name[i] + "/" + type;
+				}
+				
+				var file:File = File.applicationDirectory.resolvePath(fileName + ".srcdat");
+				
 				if (!file.exists)
 				{
-					file = File.applicationDirectory.resolvePath(CommonSystem.SCENARIO_PATH + "data/" + name[i] + "/" + type + ".txt");
+					file = File.applicationDirectory.resolvePath(fileName + ".txt");
 					
 					if (!file.exists)
 					{
@@ -65,7 +79,7 @@ package database.dataloader
 				var path:String = file.nativePath;
 				//MainController.$.view.debugText.addText("<br>path_"+ i + ":" + path);
 				_dataLoader.add(CommonSystem.FILE_HEAD + path);
-				_dataNameList[i] = CommonSystem.FILE_HEAD + path;
+				_dataNameList[count] = CommonSystem.FILE_HEAD + path;
 				
 				count++;
 					//MainController.$.view.debugText.addText("<br>path_"+ i + ":" + path);
@@ -85,6 +99,9 @@ package database.dataloader
 					break;
 				case TYPE_BUFF: 
 					_dataLoader.addEventListener(BulkLoader.COMPLETE, loadBuffDataListComp);
+					break;
+				case TYPE_MESSAGE: 
+					_dataLoader.addEventListener(BulkLoader.COMPLETE, loadMessageDataListComp);
 					break;
 				}
 				_dataLoader.addEventListener(BulkLoader.PROGRESS, onProgress);
@@ -246,6 +263,46 @@ package database.dataloader
 			_callBack();
 		
 		}
+		
+		
+		/**バフリスト読み込み完了*/
+		private function loadMessageDataListComp(e:Event):void
+		{
+			var i:int = 0;
+			var j:int = 0;
+			//イベント消去
+			_dataLoader.removeEventListener(BulkLoader.COMPLETE, loadMessageDataListComp);
+			_dataLoader.removeEventListener(BulkLoader.PROGRESS, onProgress);
+			_dataLoader.removeEventListener(BulkLoader.ERROR, onError);
+			
+			MainController.$.view.debugText.addText("メッセージデータ取得");
+			
+			//メッセージを入れる
+			for (i = 0; i < _dataNameList.length; i++)
+			{
+				var data:Object;
+				if (_dataNameList[i].indexOf(".srcdat") >= 0)
+				{
+					data = JSON.parse(_dataLoader.getText(_dataNameList[i]));
+				}
+				else
+				{
+					data = MessageDataParse.parseData(_dataLoader.getText(_dataNameList[i]));
+				}
+				
+				for (j = 0; j < data.length; j++)
+				{
+					var messageData:MasterBattleMessage = new MasterBattleMessage();
+					messageData.setData(j, data[j]);
+					MainController.$.model.masterBattleMessageData.push(messageData);
+				}
+				
+			}
+			
+			_callBack();
+		
+		}
+	
 	
 	}
 

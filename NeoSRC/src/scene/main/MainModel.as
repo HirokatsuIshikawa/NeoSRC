@@ -2,6 +2,7 @@ package scene.main
 {
 	import common.CommonSystem;
 	import common.util.CharaDataUtil;
+	import database.master.MasterBattleMessage;
 	import system.custom.customSprite.CImage;
 	import system.custom.customSprite.ImageBoard;
 	import database.dataloader.MapLoader;
@@ -34,6 +35,8 @@ package scene.main
 		private var _playerUnitData:Vector.<UnitCharaData> = null;
 		/**バフデータ*/
 		private var _masterBuffData:Vector.<MasterBuffData> = null;
+		/**バトルメッセージデータ*/
+		private var _masterBattleMessageData:Vector.<MasterBattleMessage> = null;
 		
 		/** プレイヤーパーティIDリスト */
 		private var _playerPartyList:Vector.<String> = null;
@@ -60,6 +63,7 @@ package scene.main
 			_playerUnitData = new Vector.<UnitCharaData>;
 			_playerPartyList = new Vector.<String>;
 			_enemyPartyList = new Vector.<String>;
+			_masterBattleMessageData = new Vector.<database.master.MasterBattleMessage>;
 			
 			_masterBuffData = new Vector.<MasterBuffData>();
 			//_imgStorage = new ImgStorage();
@@ -331,6 +335,16 @@ package scene.main
 		public function set mapPath(value:String):void 
 		{
 			_mapPath = value;
+		}
+		
+		public function get masterBattleMessageData():Vector.<MasterBattleMessage> 
+		{
+			return _masterBattleMessageData;
+		}
+		
+		public function set masterBattleMessageData(value:Vector.<MasterBattleMessage>):void 
+		{
+			_masterBattleMessageData = value;
 		}
 	
 	/**画像倉庫取得*/

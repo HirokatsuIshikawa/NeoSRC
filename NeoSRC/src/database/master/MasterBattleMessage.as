@@ -19,8 +19,7 @@ package database.master
 		/**防御*/
 		public static const STATE_DEF:int = 4;
 		
-		
-		
+		public var id:int = 0;
 		/**メッセージ本体*/
 		public var message:String = null;
 		/**名前*/
@@ -29,9 +28,24 @@ package database.master
 		public var type:int = 0;
 		public var condition:StateCondition = null;
 		
-		public function MasterBattleMessage(data:Object)
+		public function MasterBattleMessage()
 		{
-			
+		
+		}
+		
+		public function setData(messageId:int, data:Object):void
+		{
+			id = messageId;
+			message = data.message;
+			if (data.hasOwnProperty("condition"))
+			{
+				condition = data.condition;
+			}
+			if (data.hasOwnProperty("talkName"))
+			{
+				name = data.talkName;
+			}
+		
 		}
 	
 	}

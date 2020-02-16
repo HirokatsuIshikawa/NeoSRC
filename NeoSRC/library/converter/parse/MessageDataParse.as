@@ -1,6 +1,6 @@
 package converter.parse
 {
-	import database.master.base.StateCondition;
+	import database.master.base.MessageCondition;
 	
 	/**
 	 * ...
@@ -11,8 +11,8 @@ package converter.parse
 		//処理ステータス
 		public static const STATE_NONE:int = 0;
 		
-		public static var STATE_LIST:Array = ["交戦開始", "回避", "ダメージ", "攻撃", "撃破", "射程外"];
-		public static var STATE_LIST_E:Array = ["交戦開始", "回避", "ダメージ", "攻撃", "撃破", "射程外"];
+		public static var STATE_LIST:Array = ["交戦開始", "回避", "ダメージ", "攻撃", "撃破", "射程外", "スキル"];
+		public static var STATE_LIST_E:Array = ["交戦開始", "回避", "ダメージ", "攻撃", "撃破", "射程外", "スキル"];
 		
 		public static var CONDITION_LIST:Array = ["hp", "敵", "武装", "スキル", "命中率"];
 		public static var CONDITION_LIST_E:Array = ["hp", "enemy", "weapon", "skill", "hit"];
@@ -35,7 +35,7 @@ package converter.parse
 			var ary:Array = str.split("\n");
 			
 			var setName:String = "";
-			var condition:StateCondition = null;
+			var condition:MessageCondition = null;
 			
 			var i:int = 0, j:int = 0, k:int = 0;
 			
@@ -61,7 +61,7 @@ package converter.parse
 					lineAry = line.split(":");
 					//キャラ名設定
 					setName = lineAry[1];
-					
+					data[setName] = new Array();
 				}
 				//共用の場合
 				else if (line === "default")
@@ -69,6 +69,7 @@ package converter.parse
 					lineAry = line.split(":");
 					//キャラ名設定
 					setName = line;
+					data[setName] = new Array();
 				}
 				//コンディション、メッセージの場合
 				else
@@ -81,9 +82,9 @@ package converter.parse
 						//コンディションがある場合はフラグを立てる
 						if (lineAry[0] === STATE_LIST[j] || lineAry[0] === STATE_LIST_E[j])
 						{
-							condition = new StateCondition();
+							condition = new MessageCondition();
 							
-							condition.name = setName;
+							condition.state = STATE_LIST[j];
 							stateFlg = true;
 							break;
 						}
@@ -126,28 +127,19 @@ package converter.parse
 					//メッセージ設定
 					else
 					{
-						var messageAry:Array = line.split(":");
+						var messageAry:Array = line.split(";");
 						
 						count++;
-						data[count] = new Object();
-						data[count].condition = condition;
+						data[setName][count] = new Object();
+						data[setName][count].condition = condition;
+						data[setName][count].condition.message = new Vector.<String>();
 						
-						if (messageAry.length <= 1)
+						for (k = 0; k < messageAry.length; k++ )
 						{
-							data[count].message = messageAry[0];
-							data[count].talkName = setName;
+							data[setName][count].condition.message.push(messageAry[k]);						
 						}
-						else
-						{
-							
-							data[count].message = messageAry[1];
-							data[count].talkName = messageAry[0];
-						}
-						
 					}
-					
 				}
-				
 			}
 			
 			return data;

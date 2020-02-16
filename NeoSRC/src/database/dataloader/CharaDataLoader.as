@@ -290,13 +290,12 @@ package database.dataloader
 					data = MessageDataParse.parseData(_dataLoader.getText(_dataNameList[i]));
 				}
 				
-				for (j = 0; j < data.length; j++)
+				for (var key:String in data)
 				{
 					var messageData:MasterBattleMessage = new MasterBattleMessage();
-					messageData.setData(j, data[j]);
+					messageData.setData(key, data[key]);
 					MainController.$.model.masterBattleMessageData.push(messageData);
 				}
-				
 			}
 			
 			_callBack();

@@ -34,7 +34,6 @@ package scene.talk.message
 		public function MessageWindow()
 		{
 			super();
-			
 			var tex:Texture = MainController.$.imgAsset.getTexture("msg_window_b");
 			_backImg = new CImage(tex);
 			_backImg.scale9Grid = new Rectangle(8, 24, 10, 4);
@@ -76,6 +75,7 @@ package scene.talk.message
 			this.addChild(_textArea);
 			
 			addChild(_nameTxt);
+			this.width;
 			
 		}
 		

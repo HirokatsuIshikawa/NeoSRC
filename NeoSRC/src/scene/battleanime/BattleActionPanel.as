@@ -3,8 +3,10 @@ package scene.battleanime
 	import a24.tween.Tween24;
 	import common.CommonDef;
 	import common.CommonSystem;
+	import converter.parse.MessageDataParse;
 	import flash.geom.Rectangle;
 	import scene.battleanime.battleback.BattleBack;
+	import scene.talk.message.FaceMessageWindow;
 	import scene.unit.BattleUnit;
 	import system.custom.customSprite.CImage;
 	import system.custom.customSprite.CSprite;
@@ -21,7 +23,7 @@ package scene.battleanime
 	 */
 	public class BattleActionPanel extends CSprite
 	{
-		
+		public static const BATTLE_ANIME_MESSAGE_WINDOW_Y:int = 400;
 		/** ユニット */
 		private var _leftUnitImg:CImage = null;
 		private var _rightUnitImg:CImage = null;
@@ -31,6 +33,9 @@ package scene.battleanime
 		
 		/**ループ背景*/
 		private var _battleBack:Vector.<BattleBack> = null;
+		
+		/**メッセージウィンドウ*/
+		private var _messageWindow:FaceMessageWindow = null;
 		
 		/**ユニットデータ*/
 		private var _leftUnitData:BattleUnit = null;
@@ -47,30 +52,43 @@ package scene.battleanime
 		/**ダメージ値*/
 		private var _damageNum:ImgNumber = null;
 		
+		private var _attackMessage:Vector.<String>;
+		private var _targetMessage:Vector.<String>;
+		public var messageCount:int = 0;
+		
 		/**コンストラクタ*/
 		public function BattleActionPanel()
 		{
 			super();
+			//暗幕
 			_tex = MainController.$.imgAsset.getTexture("tex_black");
 			_backImg = new CImage(_tex);
 			_backImg.width = CommonDef.WINDOW_W;
 			_backImg.height = CommonDef.WINDOW_H;
 			_backImg.textureSmoothing = TextureSmoothing.NONE;
 			addChild(_backImg);
+			//移動背景
 			_battleBack = new Vector.<BattleBack>();
 			
-			for (var i:int = 0; i < 2; i++ )
+			for (var i:int = 0; i < 2; i++)
 			{
 				var battleBack:BattleBack;
 				var scrollSide:int = i % 2 == 1 ? 1 : -1;
 				
-				battleBack = new BattleBack("battleback_top", "battleback_bottom",scrollSide);
+				battleBack = new BattleBack("battleback_default", "battleback_default", scrollSide);
 				
 				battleBack.x = (i % 2) * (CommonDef.WINDOW_W / 2 + 4);
 				battleBack.y = 0;
 				addChild(battleBack);
 				_battleBack.push(battleBack);
 			}
+			
+			//メッセージウィンドウ
+			_messageWindow = new FaceMessageWindow();
+			_messageWindow.x = (CommonDef.WINDOW_W - _messageWindow.width) / 2;
+			_messageWindow.y = BATTLE_ANIME_MESSAGE_WINDOW_Y;
+			addChild(_messageWindow);
+			//透明に
 			this.alpha = 0;
 			_damageNum = new ImgNumber();
 		}
@@ -171,6 +189,20 @@ package scene.battleanime
 		
 		}
 		
+		
+		private function playMessage(callBack:Function = null):void
+		{
+			messageCount = 0;
+			var strCount:int = _attackMessage[0].length
+			Tween24.tween(this, strCount * 0.02,null, {messageCount:strCount}).onUpdate(msgUpdate).onComplete(callBack).play();			
+		}
+		
+		private function msgUpdate():void
+		{
+			_messageWindow.setText(_attackMessage[0].substr(0, messageCount));
+		}
+		
+		
 		private function readyAction():void
 		{
 			if (_animeCount == _recordAnime.length)
@@ -205,8 +237,34 @@ package scene.battleanime
 			_tween = makeAction(data)
 			// 終了時アクション
 			_tween.onComplete(readyAction);
-			// ついーん開始
-			_tween.play();
+			var attackState:String = MessageDataParse.STATE_LIST[3];
+			var targetState:String = MessageDataParse.STATE_LIST[1];
+			
+			_attackMessage = MainController.$.model.getRandamBattleMessage(data.attacker.name, attackState, data.attacker, data.target, data.weapon, data.damage);
+			switch (data.effect)
+			{
+			
+			case BattleAnimeRecord.EFFECT_NO_HIT: 
+				targetState = MessageDataParse.STATE_LIST[1];
+				break;
+			case BattleAnimeRecord.EFFECT_DAMAGE: 
+				if (data.target.alive)
+				{
+					targetState = MessageDataParse.STATE_LIST[2];
+				}
+				else
+				{
+					targetState = MessageDataParse.STATE_LIST[4];
+				}
+				break;
+				
+			}
+			
+			_targetMessage = MainController.$.model.getRandamBattleMessage(data.target.name, targetState, data.attacker, data.target, data.weapon, data.damage);
+			
+			
+			//メッセージ開始
+			playMessage(_tween.play);
 		}
 		
 		/** アクション作成 */
@@ -229,7 +287,7 @@ package scene.battleanime
 				break;
 			}
 			
-			waitAction(act, 0.6);
+			waitAction(act, 0.2);
 			setAttackEffect(act, data, atkImg, defImg);
 			waitAction(act, 0.6);
 			resetPosition(act, atkImg, defImg, 0.3);

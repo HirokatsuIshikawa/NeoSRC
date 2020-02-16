@@ -7,15 +7,17 @@ package database.master.base
 	 * ...
 	 * @author ...
 	 */
-	public class StateCondition
+	public class MessageCondition
 	{
+		public var message:Vector.<String>;
+		
 		/**HP率*/
 		public var hpRateMin:int = 0;
 		
 		public var hpRateMax:int = 0;
 		
-		/**キャラ名*/
-		public var name:String = null;
+		/**アクション名*/
+		public var state:String = null;
 		
 		public var weaponName:String = null;
 		
@@ -23,17 +25,17 @@ package database.master.base
 		public var enemy:String = null;
 		
 		/**表示条件*/
-		public function StateCondition()
+		public function MessageCondition()
 		{
-		
+			message = new Vector.<String>();
 		}
 		
-		public function judge(unit:BattleUnit, enemyUnit:BattleUnit, weapon:MasterWeaponData):Boolean
+		public function judge(callState:String, unit:BattleUnit, enemyUnit:BattleUnit, weapon:MasterWeaponData):Boolean
 		{
 			var flg:Boolean = true;
 			
 			//キャラ名
-			if (name != unit.masterData.name)
+			if (state != callState)
 			{
 				return false;
 			}

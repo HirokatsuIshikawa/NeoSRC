@@ -147,7 +147,7 @@ package scene.map.battle
 					animeSide = BattleAnimeRecord.SIDE_LEFT;
 				}
 				
-				addRecord(new BattleAnimeRecord(damage, animeSide, effect, BattleAnimeRecord.TYPE_NORMAL_ATTACK));
+				addRecord(new BattleAnimeRecord(attacker,deffender,attackItem.weapon, damage, animeSide, effect, BattleAnimeRecord.TYPE_NORMAL_ATTACK));
 				
 			}
 		}

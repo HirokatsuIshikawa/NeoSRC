@@ -3,6 +3,9 @@ package scene.main
 	import common.CommonSystem;
 	import common.util.CharaDataUtil;
 	import database.master.MasterBattleMessage;
+	import database.master.MasterWeaponData;
+	import database.master.base.MessageCondition;
+	import scene.unit.BattleUnit;
 	import system.custom.customSprite.CImage;
 	import system.custom.customSprite.ImageBoard;
 	import database.dataloader.MapLoader;
@@ -46,8 +49,6 @@ package scene.main
 		
 		/**マップパス*/
 		private var _mapPath:String = null;
-		
-		
 		
 		/**ボードタイプ･顔*/
 		public static const IMG_BOARD_FACE:int = 0;
@@ -116,7 +117,6 @@ package scene.main
 			return base;
 		}
 		
-		
 		/**マップ読み込み*/
 		public function mapLoad(str:String, callBack:Function = null):void
 		{
@@ -127,12 +127,12 @@ package scene.main
 		
 		/**プレイヤーユニットデータ追加*/
 		/*
-		public function addPlayerUnit(num:int):void
-		{
-			var length:int = _playerUnitData.length;
-			_playerUnitData[length] = new UnitCharaData(length, _masterCharaData[num]);
-		}
-		*/
+		   public function addPlayerUnit(num:int):void
+		   {
+		   var length:int = _playerUnitData.length;
+		   _playerUnitData[length] = new UnitCharaData(length, _masterCharaData[num]);
+		   }
+		 */
 		
 		public function resetUnitDate():void
 		{
@@ -142,11 +142,10 @@ package scene.main
 				_playerUnitData[i] = null;
 				_playerUnitData.splice(i, 1);
 			}
-			
+		
 		}
 		
-		
-		public function addPlayerUnitFromName(name:String, lv:int = 0 , exp:int = 0, strength:int = 0,launch:Boolean = false , customBgm:String = null):void
+		public function addPlayerUnitFromName(name:String, lv:int = 0, exp:int = 0, strength:int = 0, launch:Boolean = false, customBgm:String = null):void
 		{
 			var i:int = 0;
 			var length:int = _masterCharaData.length;
@@ -177,7 +176,7 @@ package scene.main
 			_playerUnitData[setId].exp = exp;
 			_playerUnitData[setId].customBgmPath = customBgm;
 			_playerUnitData[setId].addStrength(strength);
-			
+		
 		}
 		
 		/**プレイヤーユニットデータ*/
@@ -192,7 +191,7 @@ package scene.main
 			var i:int = 0;
 			for (i = 0; i < _playerUnitData.length; i++)
 			{
-				if ( name === _playerUnitData[i].masterData.nickName || name === _playerUnitData[i].masterData.name)
+				if (name === _playerUnitData[i].masterData.nickName || name === _playerUnitData[i].masterData.name)
 				{
 					unit = _playerUnitData[i];
 					break;
@@ -278,9 +277,9 @@ package scene.main
 		{
 			var i:int = 0;
 			var data:FaceData = null;
-			for (i = 0; i < _masterCharaImageData.length; i++ )
+			for (i = 0; i < _masterCharaImageData.length; i++)
 			{
-				if(name === _masterCharaImageData[i].name || name === _masterCharaImageData[i].nickName)
+				if (name === _masterCharaImageData[i].name || name === _masterCharaImageData[i].nickName)
 				{
 					data = _masterCharaImageData[i];
 					break;
@@ -290,71 +289,123 @@ package scene.main
 			return data;
 		}
 		
-		
-		public function get masterCharaImageData():Vector.<FaceData> 
+		public function get masterCharaImageData():Vector.<FaceData>
 		{
 			return _masterCharaImageData;
 		}
 		
-		
-		public function get masterBuffData():Vector.<MasterBuffData> 
+		public function get masterBuffData():Vector.<MasterBuffData>
 		{
 			return _masterBuffData;
 		}
 		
-		public function set masterCharaImageData(value:Vector.<FaceData>):void 
+		public function set masterCharaImageData(value:Vector.<FaceData>):void
 		{
 			_masterCharaImageData = value;
 		}
 		
-		public function get masterUnitImageData():MasterUnitImageData 
+		public function get masterUnitImageData():MasterUnitImageData
 		{
 			return _masterUnitImageData;
 		}
 		
-		public function set masterUnitImageData(value:MasterUnitImageData):void 
+		public function set masterUnitImageData(value:MasterUnitImageData):void
 		{
 			_masterUnitImageData = value;
 		}
 		
-		public function get playerParam():PlayerParam 
+		public function get playerParam():PlayerParam
 		{
 			return _playerParam;
 		}
 		
-		public function set playerParam(value:PlayerParam):void 
+		public function set playerParam(value:PlayerParam):void
 		{
 			_playerParam = value;
 		}
 		
-		public function get mapPath():String 
+		public function get mapPath():String
 		{
 			return _mapPath;
 		}
 		
-		public function set mapPath(value:String):void 
+		public function set mapPath(value:String):void
 		{
 			_mapPath = value;
 		}
 		
-		public function get masterBattleMessageData():Vector.<MasterBattleMessage> 
+		public function get masterBattleMessageData():Vector.<MasterBattleMessage>
 		{
 			return _masterBattleMessageData;
 		}
 		
-		public function set masterBattleMessageData(value:Vector.<MasterBattleMessage>):void 
+		public function set masterBattleMessageData(value:Vector.<MasterBattleMessage>):void
 		{
 			_masterBattleMessageData = value;
 		}
-	
-	/**画像倉庫取得*/
-	/*
-	   public function get imgStorage():ImgStorage
-	   {
-	   return _imgStorage;
-	   }
-	 */
-	
+		
+		/**戦闘メッセージゲット*/
+		public function getRandamBattleMessage(keyName:String, state:String, attackUnit:BattleUnit, targetUnit:BattleUnit, weapon:MasterWeaponData, damage:int):Vector.<String>
+		{
+			var message:Vector.<String> = new Vector.<String>();
+			var list:Vector.<MessageCondition> = getBattleMessageList(keyName, state, attackUnit, targetUnit, weapon);
+			//ランダム取得
+			var randomNum:int = Math.random() * list.length;
+			var messageItem:MessageCondition = list[randomNum];
+			
+			message = messageItem.message;
+			for (var i:int = 0; i < message.length; i++)
+			{
+				message[i] = message[i].replace(/{unit}/g, attackUnit.name);
+				message[i] = message[i].replace(/{target}/g, targetUnit.name);
+				message[i] = message[i].replace(/{weapon}/g, weapon.name);
+				message[i] = message[i].replace(/{damage}/g, damage + "");
+			}
+			return message;
+		}
+		
+		/**戦闘メッセージリストゲット*/
+		public function getBattleMessageList(keyName:String, state:String, attackUnit:BattleUnit, targetUnit:BattleUnit, weapon:MasterWeaponData):Vector.<MessageCondition>
+		{
+			var list:Vector.<MessageCondition> = new Vector.<MessageCondition>();
+			var i:int = 0;
+			var j:int = 0;
+			//キャラメッセージを検索
+			for (i = 0; i < _masterBattleMessageData.length; i++)
+			{
+				if (_masterBattleMessageData[i].messageName == keyName)
+				{
+					for (j = 0; j < _masterBattleMessageData[i].message.length; j++)
+					{
+						if (_masterBattleMessageData[i].message[j].judge(state, attackUnit, targetUnit, weapon))
+						{
+							list.push(_masterBattleMessageData[i].message[j]);
+						}
+					}
+					break;
+				}
+			}
+			
+			//無い場合はデフォルトメッセージを検索
+			if (list.length <= 0)
+			{
+				for (i = 0; i < _masterBattleMessageData.length; i++)
+				{
+					if (_masterBattleMessageData[i].messageName == "default")
+					{
+						for (j = 0; j < _masterBattleMessageData[i].message.length; j++)
+						{
+							if (_masterBattleMessageData[i].message[j].judge(state, attackUnit, targetUnit, weapon))
+							{
+								list.push(_masterBattleMessageData[i].message[j]);
+							}
+						}
+						break;
+					}
+				}
+			}
+			
+			return list.concat();
+		}
 	}
-
 }

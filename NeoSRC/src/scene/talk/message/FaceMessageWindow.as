@@ -21,11 +21,12 @@ package scene.talk.message
 		public function FaceMessageWindow()
 		{
 			super();
-			
+			/*
 			_nameTxt.x = 160;
 			_nameTxt.y = 0;
 			_textArea.x = 160;
 			_textArea.y = 28;
+			*/
 			_faceImg = new ImageBoard();
 			addChild(_faceImg);
 		}

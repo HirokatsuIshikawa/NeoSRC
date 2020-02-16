@@ -29,6 +29,7 @@ package scene.map
 	import scene.map.tip.TerrainData;
 	import scene.unit.BattleUnit;
 	import viewitem.status.BaseStatusWindow;
+	import viewitem.status.BattleMapStatus;
 	import viewitem.status.ExpWindow;
 	import viewitem.status.list.OrganizeList;
 	import scene.talk.classdata.MapEventData;
@@ -70,7 +71,7 @@ package scene.map
 		private var _targetUnit:BattleUnit = null;
 		
 		/**ステータス表示*/
-		private var _statusWindow:BaseStatusWindow = null;
+		private var _statusWindow:BattleMapStatus = null;
 		
 		/**バトルマップコマンドパネル*/
 		private var _battleMapPanel:BattleMapPanel = null;
@@ -142,7 +143,7 @@ package scene.map
 			_rootImgList = new Vector.<CImage>;
 			//_battleUnit = new Vector.<Vector.<BattleUnit>>;
 			_sideState = new Vector.<SideState>;
-			_statusWindow = new BaseStatusWindow();
+			_statusWindow = new BattleMapStatus();
 			_battleResultManager = new BattleResultmanager();
 			_statusWindow.visible = false;
 			
@@ -701,8 +702,6 @@ package scene.map
 			}
 			addChild(_statusWindow);
 			_statusWindow.visible = true;
-			_statusWindow.x = 40;
-			_statusWindow.y = 10;
 			MainController.$.view.addChild(_statusWindow);
 		}
 		

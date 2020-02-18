@@ -7,6 +7,7 @@ package bgm
 	import flash.events.TimerEvent;
 	import flash.filesystem.File;
 	import flash.utils.Timer;
+	import scene.main.MainController;
 	
 	/**
 	 * ...
@@ -51,6 +52,7 @@ package bgm
 		
 		private static var _timer:Timer;
 		
+		
 		public static function playBGMData(data:Object):void
 		{
 			var file:File = null;
@@ -63,9 +65,19 @@ package bgm
 				{
 					return;
 				}
-				
 				url = CommonSystem.MAIN_LOAD_PATH + "sound/" + data.file;
 				file = new File(url);
+				
+				if (!file.exists)
+				{
+					url = CommonSystem.FILE_HEAD + CommonSystem.searchFile(CommonSystem.MAIN_LOAD_PATH + "sound/", data.file);
+					if (url == null)
+					{
+						MainController.$.view.alertMessage("ファイルが存在しません", data.file);
+						return;
+					}
+					file = new File(url);
+				}
 				
 				//ファイルの有無を確認
 				if (!file.exists)
@@ -75,6 +87,12 @@ package bgm
 						
 						url = CommonSystem.FILE_HEAD + CommonSystem.COMMON_BGM_PATH + "/" + data.file;
 						file = new File(url);
+						if (!file.exists)
+						{
+							url = CommonSystem.FILE_HEAD + CommonSystem.searchFile(CommonSystem.COMMON_BGM_PATH + "/", data.file);
+							file = new File(url);
+						}
+						
 						if (!file.exists)
 						{
 							url = null;
@@ -274,24 +292,32 @@ package bgm
 			endBGM(time);
 		}
 		
+		private static var _stopTween:Tween24;
+		
 		/**BGM演奏終了*/
 		public static function endBGM(outfade:Number):void
 		{
 			SET_BGM = "";
 			NOW_BGM = "";
 			/**BGM演奏切り替え*/
-			Tween24.serial( //
+			_stopTween = Tween24.serial( //
 			SoundManager.setVolumeBGM(0, outfade), //
 			Tween24.wait(outfade)).onComplete( //
 			function():void
 			{
 				SoundManager.stopBGM();
-			}).play();
+			});
+			_stopTween.play();
 		}
 		
 		/**BGM演奏*/
 		public static function stopBGM(vol:Number = 0, fade:Number = 1):void
 		{
+			if (_stopTween != null)
+			{
+				_stopTween.stop();
+			}
+			
 			SET_BGM = "";
 			NOW_BGM = "";
 			try
@@ -343,11 +369,24 @@ package bgm
 				url = CommonSystem.MAIN_LOAD_PATH + "sound/" + data.file;
 				file = new File(url);
 				
+				if (!file.exists)
+				{
+					url = CommonSystem.FILE_HEAD + CommonSystem.searchFile(CommonSystem.MAIN_LOAD_PATH + "sound/", data.file);
+					file = new File(url);
+				}
+				
 				//ファイルの有無を確認
 				if (!file.exists)
 				{
 					url = CommonSystem.FILE_HEAD + CommonSystem.COMMON_SE_PATH + "/" + data.file;
 					file = new File(url);
+					
+					if (!file.exists)
+					{
+						url = CommonSystem.FILE_HEAD + CommonSystem.searchFile(CommonSystem.COMMON_SE_PATH + "/", data.file);
+						file = new File(url);
+					}
+					
 					if (!file.exists)
 					{
 						url = null;

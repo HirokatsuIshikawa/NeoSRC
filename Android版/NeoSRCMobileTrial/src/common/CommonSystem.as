@@ -57,17 +57,17 @@ package common
 		{
 			
 			var dir:File = File.userDirectory;
-			var file:File = dir.resolvePath("NeoSRC//BGM");
+			var file:File = dir.resolvePath("シミュラマPになろう//BGM");
 			
 			COMMON_BGM_PATH = file.nativePath;
 			
-			file = dir.resolvePath("NeoSRC//SE");
+			file = dir.resolvePath("シミュラマPになろう//SE");
 			COMMON_SE_PATH = file.nativePath;
 		
-			//file = dir.resolvePath("NeoSRC//IMG");
+			//file = dir.resolvePath("シミュラマPになろう//IMG");
 			//COMMON_IMG_PATH = file.nativePath;
 		
-			//file = dir.resolvePath("NeoSRC//PEX");
+			//file = dir.resolvePath("シミュラマPになろう//PEX");
 			//COMMON_PEX_PATH = file.nativePath;
 		
 		}
@@ -143,6 +143,47 @@ package common
 			}
 			return flg;
 		}
-	
+		
+		
+		//ファイル検索（モバイルの場合はヘッダをつける）
+		public static function searchFile(url:String, fileName:String):String
+		{
+			var getUrl:String = null;
+			var dirfile:File = new File(url);
+			var getList:Array = dirfile.getDirectoryListing();
+			var i:int = 0;
+			//ファイルを検索
+			for each (var file:File in getList)
+			{
+				if (!file.isDirectory)
+				{
+					var numAll:int = file.nativePath.length - fileName.length;
+					var index:int = file.nativePath.lastIndexOf(fileName);
+					
+					if (file.nativePath.lastIndexOf(fileName + ".") == numAll - 4)
+					{
+						return file.nativePath;
+					}
+					else if (file.nativePath.lastIndexOf(fileName) == numAll)
+					{
+						return file.nativePath;
+					}
+				}
+			}
+			//ディレクトリ内検索
+			for each (var dir:File in getList)
+			{
+				if (dir.isDirectory)
+				{
+					var findUrl:String = searchFile(dir.nativePath, fileName);
+					if (findUrl != null)
+					{
+						return findUrl;
+					}
+				}
+			}
+			
+			return null;
+		}
 	}
 }

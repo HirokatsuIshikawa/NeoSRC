@@ -808,7 +808,7 @@ package scene.talk
 				var imgData:FaceData = MainController.$.model.getCharaImgDataFromName(name);
 				
 				//画像セット
-				img.setAdd(imgData.addPoint.x, imgData.addPoint.y);
+				img.setAdd(160, 160);
 				
 				for (i = 0; i < imgData.basicList.length; i++)
 				{

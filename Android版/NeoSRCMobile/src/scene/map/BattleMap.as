@@ -21,7 +21,7 @@ package scene.map
 	import starling.events.TouchPhase;
 	import starling.textures.Texture;
 	import starling.textures.TextureSmoothing;
-	import scene.map.battle.anime.BattleActionPanel;
+	import scene.battleanime.BattleActionPanel;
 	import scene.main.MainController;
 	import scene.map.battle.BattleResultmanager;
 	import scene.map.panel.BattleMapPanel;
@@ -29,6 +29,7 @@ package scene.map
 	import scene.map.tip.TerrainData;
 	import scene.unit.BattleUnit;
 	import viewitem.status.BaseStatusWindow;
+	import viewitem.status.BattleMapStatus;
 	import viewitem.status.ExpWindow;
 	import viewitem.status.list.OrganizeList;
 	import scene.talk.classdata.MapEventData;
@@ -70,7 +71,7 @@ package scene.map
 		private var _targetUnit:BattleUnit = null;
 		
 		/**ステータス表示*/
-		private var _statusWindow:BaseStatusWindow = null;
+		private var _statusWindow:BattleMapStatus = null;
 		
 		/**バトルマップコマンドパネル*/
 		private var _battleMapPanel:BattleMapPanel = null;
@@ -142,7 +143,7 @@ package scene.map
 			_rootImgList = new Vector.<CImage>;
 			//_battleUnit = new Vector.<Vector.<BattleUnit>>;
 			_sideState = new Vector.<SideState>;
-			_statusWindow = new BaseStatusWindow();
+			_statusWindow = new BattleMapStatus();
 			_battleResultManager = new BattleResultmanager();
 			_statusWindow.visible = false;
 			
@@ -693,16 +694,14 @@ package scene.map
 		}
 		
 		/**ステータス画面表示*/
-		private function showStatusWindow(unit:BattleUnit = null):void
+		private function showStatusWindow(unit:BattleUnit = null, customBgmFlg:Boolean = true):void
 		{
 			if (unit != null)
 			{
-				_statusWindow.setCharaData(unit);
+				_statusWindow.setCharaData(unit, customBgmFlg);
 			}
 			addChild(_statusWindow);
 			_statusWindow.visible = true;
-			_statusWindow.x = 40;
-			_statusWindow.y = 10;
 			MainController.$.view.addChild(_statusWindow);
 		}
 		
@@ -1097,7 +1096,14 @@ package scene.map
 						
 						var unit:BattleUnit = _sideState[i].battleUnit[j];
 						var list:Vector.<String> = new Vector.<String>;
-						showStatusWindow(unit);
+						if (i == 0)
+						{
+							showStatusWindow(unit, true);
+						}
+						else
+						{
+							showStatusWindow(unit, false);
+						}
 						_selectSide = i;
 						_selectUnit = j;
 						setCenterPos(posX, posY);
@@ -1713,7 +1719,7 @@ package scene.map
 		private function showLvUpWindow(unit:BattleUnit, lvUp:int):void
 		{
 			var img:CImage = null;
-			showStatusWindow(unit);
+			showStatusWindow(unit, false);
 			_statusWindow.visible = true;
 			
 			//ホワイトインアウト用
@@ -1729,7 +1735,7 @@ package scene.map
 			function lvUpUnit():void
 			{
 				unit.levelUp(lvUp);
-				_statusWindow.setCharaData(unit);
+				_statusWindow.setCharaData(unit, false);
 				//Tween24.wait(3.0).onComplete(lvUpEnd).play();
 			}
 			

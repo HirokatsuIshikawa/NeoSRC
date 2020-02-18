@@ -35,7 +35,6 @@ package scene.intermission.save
 		{
 			CommonDef.disposeList(_loadList);
 			
-			
 			removeChild(_newGameBtn);
 			_newGameBtn.removeEventListener(Event.TRIGGERED, MainController.$.view.pushNewGameBtn);
 			_newGameBtn.dispose();
@@ -67,9 +66,14 @@ package scene.intermission.save
 			}
 			
 			MAX_LIST_AREA = (DataListItem.LIST_HEIGHT + 20) * loadMax - 20;
+		
+		}
+		
+		protected function setInitialButton():void
+		{
 			
 			_newGameBtn = new CImgButton(MainController.$.imgAsset.getTexture("btn_newgame"));
-
+			
 			_newGameBtn.x = 820;
 			_newGameBtn.y = 360;
 			_newGameBtn.width = 96;
@@ -78,7 +82,7 @@ package scene.intermission.save
 			addChild(_newGameBtn);
 			
 			_continueBtn = new CImgButton(MainController.$.imgAsset.getTexture("btn_QuickLoad"));
-
+			
 			_continueBtn.x = 820;
 			_continueBtn.y = 460;
 			_continueBtn.width = 96;
@@ -86,14 +90,13 @@ package scene.intermission.save
 			_continueBtn.addEventListener(Event.TRIGGERED, MainController.$.view.pushContinueBtn);
 			
 			var continueName:String = CommonSystem.SAVE_NAME.replace("{0}", "中断データ");
-			var file:File =  File.desktopDirectory.resolvePath(CommonSystem.SCENARIO_PATH + "save/" + continueName + ".srcsav")
-
+			var file:File = File.desktopDirectory.resolvePath(CommonSystem.SCENARIO_PATH + "save/" + continueName + ".srcsav")
+			
 			if (file.exists)
 			{
 				_saveFileFlg = true;
 				addChild(_continueBtn);
 			}
-			
 		}
 		
 		protected function setListData(data:String, num:int):void
@@ -113,6 +116,8 @@ package scene.intermission.save
 			_loadCompCount++;
 			if (_loadCompCount >= CommonSystem.SAVE_NUM)
 			{
+				setInitialButton();
+				
 				_loadCompFunc(_saveFileFlg);
 			}
 		}

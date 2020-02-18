@@ -4,7 +4,7 @@ package scene.map.battle
 	import database.master.MasterSkillData;
 	import database.master.MasterWeaponData;
 	import database.user.buff.SkillBuffData;
-	import scene.map.battle.anime.data.BattleAnimeRecord;
+	import scene.battleanime.data.BattleAnimeRecord;
 	import scene.main.MainController;
 	import scene.map.tip.TerrainData;
 	import scene.unit.BattleUnit;
@@ -147,7 +147,7 @@ package scene.map.battle
 					animeSide = BattleAnimeRecord.SIDE_LEFT;
 				}
 				
-				addRecord(new BattleAnimeRecord(damage, animeSide, effect, BattleAnimeRecord.TYPE_NORMAL_ATTACK));
+				addRecord(new BattleAnimeRecord(attacker,deffender,attackItem.weapon, damage, animeSide, effect, BattleAnimeRecord.TYPE_NORMAL_ATTACK));
 				
 			}
 		}

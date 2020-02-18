@@ -33,7 +33,7 @@ package viewitem.parts.phone
 		{
 			CommonSystem.initPhoneInfo();
 			var dir:File = File.userDirectory;
-			var file:File = dir.resolvePath("NeoSRC//Scenario");
+			var file:File = dir.resolvePath("シミュラマPになろう//Scenario");
 			
 			file.addEventListener(PermissionEvent.PERMISSION_STATUS, checkPermissions);
 			
@@ -52,11 +52,10 @@ package viewitem.parts.phone
 				trace("Status is : " + e.status.toString());
 				
 				// does not reach to this point if user declined permission request
-				if (e.status == PermissionStatus.GRANTED)
+				if (e.status == PermissionStatus.GRANTED || e.status == PermissionStatus.ONLY_WHEN_IN_USE)
 				{
-					
 					// フォルダを作成する
-					if (file)
+					if (file == null)
 					{
 						file.createDirectory();
 					}
@@ -102,7 +101,7 @@ package viewitem.parts.phone
 			else
 			{
 				var alertText:TextArea = new TextArea();
-				alertText.text = "シナリオがありません\nNeoSRCのScenarioフォルダ内に、\nシナリオフォルダを入れてください。\n（ルートフォルダに、NeoSRCフォルダと、Scenarioフォルダを作成しました。）"
+				alertText.text = "シナリオがありません\nシミュラマPになろうのScenarioフォルダ内に、\nシナリオフォルダを入れてください。\n（ルートフォルダに、シミュラマPになろうフォルダと、Scenarioフォルダを作成しました。）"
 				alertText.width = 400;
 				alertText.height = 300;
 				alertText.x = (CommonDef.WINDOW_W - alertText.width) / 2

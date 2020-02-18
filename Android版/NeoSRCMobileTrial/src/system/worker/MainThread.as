@@ -34,7 +34,7 @@ package system.worker
 				
 				//_starling = new Starling(Viewer, spr.stage);
 				_starling = new Starling(MainViewer, stage);
-				_starling.antiAliasing = 1;
+				_starling.antiAliasing = 0;
 				//デバッグ情報表示
 				_starling.showStats = false;
 				_starling.stage.stageWidth = 960;

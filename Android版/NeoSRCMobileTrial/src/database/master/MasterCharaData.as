@@ -5,6 +5,7 @@ package database.master
 	import database.user.buff.CharaBuffData;
 	import database.user.FaceData;
 	import database.user.buff.UnitBuffData;
+	import starling.utils.MathUtil;
 	
 	/**
 	 * ...
@@ -119,7 +120,7 @@ package database.master
 			_id = data.id;
 			_name = data.name;
 			_nickName = data.nickName;
-			_MaxLv = Math.max(data.MaxLv, 1);
+			_MaxLv = MathUtil.max(data.MaxLv, 1);
 			_Cost = data.Cost;
 			
 			_passiveList = data.Passive;

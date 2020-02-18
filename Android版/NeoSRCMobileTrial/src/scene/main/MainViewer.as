@@ -366,6 +366,7 @@ package scene.main
 					
 					battleUnit = new BattleUnit(new UnitCharaData(unitData.id, CharaDataUtil.getMasterCharaDataName(unitData.name), unitData.lv), unitData.battleId, i);
 					battleUnit.setStrength(unitData.strengthPoint);
+					battleUnit.customBgmPath = unitData.customBgmPath;
 					
 					if (unitData.buffList != null)
 					{

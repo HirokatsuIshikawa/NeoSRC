@@ -188,6 +188,7 @@ package system.file
 					mapDateList[i].unitDate[j].commandType = MainController.$.map.sideState[i].battleUnit[j].commandType;
 					mapDateList[i].unitDate[j].onMap = MainController.$.map.sideState[i].battleUnit[j].onMap;
 					mapDateList[i].unitDate[j].buffList = MainController.$.map.sideState[i].battleUnit[j].buffList;
+					mapDateList[i].unitDate[j].customBgmPath = MainController.$.map.sideState[i].battleUnit[j].customBgmPath;
 				}
 			}
 			

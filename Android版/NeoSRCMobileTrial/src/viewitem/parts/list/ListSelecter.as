@@ -1,11 +1,12 @@
 package viewitem.parts.list
 {
 	import common.CommonDef;
+	import feathers.controls.Slider;
+	import feathers.layout.Direction;
 	import system.custom.customSprite.CButton;
 	import system.custom.customSprite.CImgButton;
 	import system.custom.customSprite.CSprite;
 	import feathers.controls.Button;
-	import feathers.controls.Slider;
 	import flash.display.BitmapData;
 	import flash.geom.Rectangle;
 	import starling.display.Image;
@@ -57,7 +58,7 @@ package viewitem.parts.list
 			//スライダー
 			_slider = new Slider();
 			//_slider.visible = false;
-			_slider.direction = Slider.DIRECTION_VERTICAL;
+			_slider.direction = Direction.VERTICAL;
 			_slider.x = 124;
 			_slider.y = 0;
 			_slider.height = MAX_SHOW * ITEM_HEIGHT;

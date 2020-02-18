@@ -4,9 +4,9 @@ package system
 	import common.CommonLanguage;
 	import common.CommonSystem;
 	import database.dataloader.CharaDataLoader;
-	import database.dataloader.SingleTxtLoader;
+	import database.dataloader.single.SingleTxtLoader;
 	import flash.filesystem.File;
-	import starling.utils.AssetManager;
+	import starling.assets.AssetManager;
 	import scene.main.MainController;
 	
 	/**
@@ -27,7 +27,7 @@ package system
 		{
 			return _manager;
 		}
-				
+		
 		/**コンストラクタ*/
 		public function InitialLoader()
 		{
@@ -85,9 +85,10 @@ package system
 			}
 			
 			MainController.$.imgAsset = new AssetManager();
-			MainController.$.mapTipAsset = new AssetManager();;
+			MainController.$.mapTipAsset = new AssetManager();
+			;
 			MainController.$.view.waitDark(true);
-			InitialLoader.$.loadAsset();			
+			InitialLoader.$.loadAsset();
 		}
 		
 		/**画像アセットロード*/
@@ -100,43 +101,44 @@ package system
 			MainController.$.imgAsset.enqueue(file.resolvePath("asset"));
 			MainController.$.imgAsset.enqueue();
 			//読み込み開始
-			MainController.$.imgAsset.loadQueue(function(ratio:Number):void
-			{
-				
-				MainController.$.view.darkField.setLoadingText("Asset:" + CommonDef.formatZero(int(ratio * 100), 3));
-				
-				if (ratio >= 1)
-				{
-					loadMapTipAsset();
-				}
-			});
+			MainController.$.imgAsset.loadQueue(compLoadAsset, null, progressLoadAsset);
 		}
 		
+		private function compLoadAsset():void
+		{
+			loadMapTipAsset();
+		}
 		
+		private function progressLoadAsset(ratio:Number):void
+		{
+			
+			MainController.$.view.darkField.setLoadingText("Asset:" + CommonDef.formatZero(int(ratio * 100), 3));
+		}
 		
 		/**画像アセットロード*/
 		public function loadMapTipAsset():void
 		{
 			MainController.$.mapTipAsset = new AssetManager();
-			var file:File = new File(CommonSystem.SCENARIO_PATH + "\\map");
+			var file:File = new File(CommonSystem.SCENARIO_PATH + "//map");
 			//tileAssetList[_assetLoadCount].keepAtlasXmls = true;
 			MainController.$.mapTipAsset.verbose = true;
 			MainController.$.mapTipAsset.enqueue(file.resolvePath("tipimg"));
 			MainController.$.mapTipAsset.enqueue();
 			//読み込み開始
-			MainController.$.mapTipAsset.loadQueue(function(ratio:Number):void
-			{
-				
-				MainController.$.view.darkField.setLoadingText("MapTip:" + CommonDef.formatZero(int(ratio * 100), 3));
-				
-				if (ratio >= 1)
-				{
-					MainController.$.view.darkField.initLoadingText();
-					loadListStart();
-				}
-			});
+			MainController.$.mapTipAsset.loadQueue(compMapAsset, null, progressMapAsset);
 		}
 		
+		private function compMapAsset():void
+		{
+			MainController.$.view.darkField.initLoadingText();
+			loadListStart();
+		}
+		
+		private function progressMapAsset(ratio:Number):void
+		{
+			
+			MainController.$.view.darkField.setLoadingText("MapTip:" + CommonDef.formatZero(int(ratio * 100), 3));
+		}
 		
 		private function loadListStart():void
 		{
@@ -146,6 +148,7 @@ package system
 			loadBuffData, //
 			unitLoadStart, //
 			loadTalkImgData, //
+			loadBattleMessageStart, //
 			//loadCommonParticle //
 			]);
 			//初期化
@@ -221,14 +224,27 @@ package system
 			}
 		}
 		
+		// バトルメッセージデータ読み込み開始
+		private function loadBattleMessageStart():void
+		{
+			if (_loadDataFolderName.length <= 0)
+			{
+				loadListNext();
+			}
+			else
+			{
+				_charaLoader.loadCharaData(_loadDataFolderName, CharaDataLoader.TYPE_MESSAGE, loadListNext);
+			}
+		}
+		
 		// コモンパーティクルPEX読み込み
 		/*
-		private function loadCommonParticle():void
-		{
-			CommonDef.LAUNCH_XML = MainController.$.imgAsset[CommonSystem.ASSET_IMG].getXml("launch");
-			loadListNext();
-		}
-		*/
+		   private function loadCommonParticle():void
+		   {
+		   CommonDef.LAUNCH_XML = MainController.$.imgAsset[CommonSystem.ASSET_IMG].getXml("launch");
+		   loadListNext();
+		   }
+		 */
 		
 		/**キャラデータ読み込み完了後*/
 		private function initLoadComp():void

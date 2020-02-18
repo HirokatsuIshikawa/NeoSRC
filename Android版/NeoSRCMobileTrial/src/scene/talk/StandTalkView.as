@@ -196,6 +196,14 @@ package scene.talk
 				resetLayer();
 				setLineCommand();
 				break;
+			case "br": 
+				setBreakLine();
+				setLineCommand();
+				break;
+			case "cn": 
+				setConnectLine();
+				setLineCommand();
+				break;
 			//-----------------------------------------------------メッセージウィンドウ---------------------------------------------------
 			case "showmsg": 
 			case "showmessage": 
@@ -227,26 +235,49 @@ package scene.talk
 		 */
 		override protected function setLineMsg(line:String):void
 		{
-			if (_messageWindow != null && _talkMode == TALK_MSG)
+			
+			if (!_connectLineFlg)
 			{
-				if (_messageWindow.textArea.text.length > 0)
+				if (_messageWindow != null && _talkMode == TALK_MSG)
 				{
-					_messageWindow.addText("<br>");
+					if (_messageWindow.textArea.text.length > 0)
+					{
+						_messageWindow.addText("<br>");
+					}
+				}
+				else if (_telop != null && _talkMode == TALK_TELOP)
+				{
+					if (_telop.textArea.text.length > 0)
+					{
+						_telop.addText("<br>");
+					}
 				}
 			}
-			else if (_telop != null && _talkMode == TALK_TELOP)
-			{
-				if (_telop.textArea.text.length > 0)
-				{
-					_telop.addText("<br>");
-				}
-				
-			}
+			_connectLineFlg = false;
 			super.setLineMsg(line);
 			//タイマー
 			_msgTimer = new Timer(CommonDef.waitTime(LINE_READ_TIME, _skipFlg));
 			_msgTimer.addEventListener(TimerEvent.TIMER, writeMessage);
 			_msgTimer.start();
+		}
+		
+		/**改行追加*/
+		protected function setBreakLine():void
+		{
+			if (_messageWindow != null && _talkMode == TALK_MSG)
+			{
+				_messageWindow.addText("<br>");
+			}
+			else if (_telop != null && _talkMode == TALK_TELOP)
+			{
+				_telop.addText("<br>");
+			}
+		}
+		
+		/**末尾改行削除*/
+		protected function setConnectLine():void
+		{
+			_connectLineFlg = true;
 		}
 		
 		//-----------------------------------------------------------------
@@ -871,7 +902,7 @@ package scene.talk
 					}
 				}
 				
-				var time:Number = 0.3;
+				var time:Number = 0;
 				var setAlpha:Number = 1;
 				if (param.hasOwnProperty("time"))
 				{

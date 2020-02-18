@@ -21,7 +21,7 @@ package scene.map
 	import starling.events.TouchPhase;
 	import starling.textures.Texture;
 	import starling.textures.TextureSmoothing;
-	import scene.map.battle.anime.BattleActionPanel;
+	import scene.battleanime.BattleActionPanel;
 	import scene.main.MainController;
 	import scene.map.battle.BattleResultmanager;
 	import scene.map.panel.BattleMapPanel;
@@ -29,6 +29,7 @@ package scene.map
 	import scene.map.tip.TerrainData;
 	import scene.unit.BattleUnit;
 	import viewitem.status.BaseStatusWindow;
+	import viewitem.status.BattleMapStatus;
 	import viewitem.status.ExpWindow;
 	import viewitem.status.list.OrganizeList;
 	import scene.talk.classdata.MapEventData;
@@ -70,7 +71,7 @@ package scene.map
 		private var _targetUnit:BattleUnit = null;
 		
 		/**ステータス表示*/
-		private var _statusWindow:BaseStatusWindow = null;
+		private var _statusWindow:BattleMapStatus = null;
 		
 		/**バトルマップコマンドパネル*/
 		private var _battleMapPanel:BattleMapPanel = null;
@@ -142,7 +143,7 @@ package scene.map
 			_rootImgList = new Vector.<CImage>;
 			//_battleUnit = new Vector.<Vector.<BattleUnit>>;
 			_sideState = new Vector.<SideState>;
-			_statusWindow = new BaseStatusWindow();
+			_statusWindow = new BattleMapStatus();
 			_battleResultManager = new BattleResultmanager();
 			_statusWindow.visible = false;
 			
@@ -317,33 +318,7 @@ package scene.map
 			}
 			
 			// マップ位置をセットをセット
-			//battleUnit.PosX = posX;
-			//battleUnit.PosY = posY;
-			setLaunchCheck(battleUnit, posX, posY);
-			posX = battleUnit.PosX;
-			posY = battleUnit.PosY;
-			// 画像とフレームの位置を追加
-			battleUnit.unitImg.x = (posX - 1) * MAP_SIZE;
-			battleUnit.unitImg.y = (posY - 1) * MAP_SIZE;
-			battleUnit.frameImg.x = (posX - 1) * MAP_SIZE;
-			battleUnit.frameImg.y = (posY - 1) * MAP_SIZE;
-			battleUnit.unitImg.alpha = 0;
-			battleUnit.frameImg.alpha = 0;
-			// 戦闘ユニットを勢力に追加
-			_sideState[sideNum].addUnit(battleUnit);
-			// ユニットエリアに画像追加
-			_unitArea.addChildAt(battleUnit.unitImg, _unitArea.numChildren);
-			// フレームエリアに沸く追加
-			_frameArea.addChildAt(battleUnit.frameImg, _frameArea.numChildren);
-			
-			// 一定時間かけて表示
-			var tweenAry:Array = new Array();
-			var tweenUnit:Tween24 = Tween24.tween(battleUnit.unitImg, 0.3).alpha(1);
-			var tweenFrame:Tween24 = Tween24.tween(battleUnit.frameImg, 0.3).alpha(1);
-			tweenAry.push(tweenUnit);
-			tweenAry.push(tweenFrame);
-			//tweenAry.push(launchParticle(posX, posY));
-			Tween24.parallel(tweenAry).onComplete(callBack).play();
+			unitSetMap(battleUnit, sideNum, posX, posY, callBack);
 		}
 		
 		/** 味方ユニット出撃 */
@@ -368,13 +343,16 @@ package scene.map
 			battleUnit = new BattleUnit(charaData, getNewBattleID(), 0);
 			battleUnit.frameImg = new CImage(MainController.$.imgAsset.getTexture("frame_b"));
 			// マップ位置をセットをセット
-			//battleUnit.PosX = posX;
-			//battleUnit.PosY = posY;
+			unitSetMap(battleUnit, sideNum, posX, posY, callBack);
+		}
+		
+		private function unitSetMap(battleUnit:BattleUnit, sideNum:int, posX:int, posY:int, callBack:Function):void
+		{
 			setLaunchCheck(battleUnit, posX, posY);
 			posX = battleUnit.PosX;
 			posY = battleUnit.PosY;
 			// 画像とフレームの位置を追加
-			battleUnit.unitImg.x = (posX - 1) * MAP_SIZE;
+			battleUnit.unitImg.x = (posX - 1) * MAP_SIZE + 32;
 			battleUnit.unitImg.y = (posY - 1) * MAP_SIZE;
 			battleUnit.unitImg.alpha = 0;
 			battleUnit.frameImg.x = (posX - 1) * MAP_SIZE;
@@ -389,11 +367,11 @@ package scene.map
 			
 			// 一定時間かけて表示
 			var tweenAry:Array = new Array();
-			var tweenUnit:Tween24 = Tween24.tween(battleUnit.unitImg, 0.3).alpha(1);
+			var tweenUnit:Tween24 = Tween24.tween(battleUnit.unitImg, 0.3).x((posX - 1) * MAP_SIZE).alpha(1);
 			var tweenFrame:Tween24 = Tween24.tween(battleUnit.frameImg, 0.3).alpha(1);
+			//tweenAry.push(launchParticle(posX, posY));
 			tweenAry.push(tweenUnit);
 			tweenAry.push(tweenFrame);
-			//tweenAry.push(launchParticle(posX, posY));
 			Tween24.parallel(tweenAry).onComplete(callBack).play();
 		}
 		
@@ -716,16 +694,14 @@ package scene.map
 		}
 		
 		/**ステータス画面表示*/
-		private function showStatusWindow(unit:BattleUnit = null):void
+		private function showStatusWindow(unit:BattleUnit = null, customBgmFlg:Boolean = true):void
 		{
 			if (unit != null)
 			{
-				_statusWindow.setCharaData(unit);
+				_statusWindow.setCharaData(unit, customBgmFlg);
 			}
 			addChild(_statusWindow);
 			_statusWindow.visible = true;
-			_statusWindow.x = 40;
-			_statusWindow.y = 10;
 			MainController.$.view.addChild(_statusWindow);
 		}
 		
@@ -1120,7 +1096,14 @@ package scene.map
 						
 						var unit:BattleUnit = _sideState[i].battleUnit[j];
 						var list:Vector.<String> = new Vector.<String>;
-						showStatusWindow(unit);
+						if (i == 0)
+						{
+							showStatusWindow(unit, true);
+						}
+						else
+						{
+							showStatusWindow(unit, false);
+						}
 						_selectSide = i;
 						_selectUnit = j;
 						setCenterPos(posX, posY);
@@ -1147,7 +1130,6 @@ package scene.map
 			var i:int = 0;
 			_nowMovePosX = posX;
 			_nowMovePosY = posY;
-			var unit:BattleUnit = _sideState[side].battleUnit[_selectUnit];
 			
 			//setCenterPos(posX, posY);
 			checkMoveArea(unit, posX + 1, posY, posX, posY, move, "right", cloneList(movelist), aiMove);
@@ -1479,7 +1461,11 @@ package scene.map
 							}
 							
 							_battleResultManager.addSkill(nowBattleUnit, _selectSide, _battleMapPanel.skillPanel.selectSkill, _targetUnit);
-							skillAction();
+							// 戦闘予測画面に切り替え
+							_battleMapPanel.showPanel(BattleMapPanel.PANEL_PREDICTION);
+							// 攻撃データをセット
+							_battleMapPanel.setPrediction(_battleResultManager.attackWeaponList);
+							MainController.$.view.addChild(_battleMapPanel);
 						}
 						
 						if (_selectSide == 0)
@@ -1527,7 +1513,7 @@ package scene.map
 			var weapon:MasterWeaponData = _battleMapPanel.weaponPanel.selectWeapon;
 			
 			// 戦闘計算開始
-			_battleResultManager.makeRecord(nowBattleUnit, _targetUnit);
+			_battleResultManager.makeRecord();
 			
 			if (_battleActionPanel == null)
 			{
@@ -1535,18 +1521,20 @@ package scene.map
 			}
 			deleteMoveImg();
 			_battleMapPanel.showPanel(BattleMapPanel.PANEL_NONE);
+			
 			_battleActionPanel.alpha = 0;
 			_battleActionPanel.visible = true;
 			_battleActionPanel.setUnit(nowBattleUnit, _targetUnit);
 			_battleActionPanel.startBattleAnime(_battleResultManager.attackRecord, endBattleAnime);
 			MainController.$.view.addChild(_battleActionPanel);
+		
 		}
 		
 		/**スキル使用*/
 		private function skillAction():void
 		{
 			//スキル使用
-			_battleResultManager.useSkill(skillParticleEff, endSkillAction);
+			//_battleResultManager.useSkill(skillParticleEff, endSkillAction);
 		}
 		
 		private function skillParticleEff(posX:int, posY:int):void
@@ -1731,7 +1719,7 @@ package scene.map
 		private function showLvUpWindow(unit:BattleUnit, lvUp:int):void
 		{
 			var img:CImage = null;
-			showStatusWindow(unit);
+			showStatusWindow(unit, false);
 			_statusWindow.visible = true;
 			
 			//ホワイトインアウト用
@@ -1747,7 +1735,7 @@ package scene.map
 			function lvUpUnit():void
 			{
 				unit.levelUp(lvUp);
-				_statusWindow.setCharaData(unit);
+				_statusWindow.setCharaData(unit, false);
 				//Tween24.wait(3.0).onComplete(lvUpEnd).play();
 			}
 			
@@ -2455,7 +2443,7 @@ package scene.map
 		public function enemyAttackStart():void
 		{
 			// 戦闘計算開始
-			_battleResultManager.makeRecord(nowBattleUnit, _targetUnit);
+			_battleResultManager.makeRecord();
 			deleteMoveImg();
 			if (_battleActionPanel == null)
 			{

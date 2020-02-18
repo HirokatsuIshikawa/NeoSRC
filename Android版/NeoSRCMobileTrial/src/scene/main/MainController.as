@@ -1,9 +1,9 @@
 package scene.main
 {
-	import starling.utils.AssetManager;
     import scene.main.MainViewer;
 	import scene.map.BaseMap;
 	import scene.map.BattleMap;
+	import starling.assets.AssetManager;
 
 	/**
 	 * ...

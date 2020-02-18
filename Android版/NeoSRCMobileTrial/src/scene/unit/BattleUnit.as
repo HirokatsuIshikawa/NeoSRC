@@ -1,22 +1,17 @@
 package scene.unit
 {
-	import common.CommonDef;
-	import common.CommonSystem;
-	import system.custom.customSprite.CImage;
-	import database.master.MasterCharaData;
 	import database.master.MasterWeaponData;
 	import database.master.base.BaseParam;
 	import database.master.base.LearnLevelData;
-	import database.user.buff.CharaBuffData;
 	import database.user.UnitCharaData;
 	import database.user.buff.SkillBuffData;
-	import starling.display.DisplayObject;
-	import starling.display.Image;
-	import starling.utils.Color;
 	import scene.main.MainController;
 	import scene.map.BaseMap;
-	import scene.map.battle.AttackListItem;
 	import scene.map.tip.TerrainData;
+	import starling.display.DisplayObject;
+	import starling.utils.Color;
+	import starling.utils.MathUtil;
+	import system.custom.customSprite.CImage;
 	
 	/**
 	 * ...
@@ -283,7 +278,7 @@ package scene.unit
 		public function refreshState():void
 		{
 			//FP回復
-			_nowFp += (int)(Math.min(1, param.CAP / 4.0));
+			_nowFp += (int)(MathUtil.min(1, param.CAP / 4.0));
 			
 			if (_nowFp > param.FP)
 			{

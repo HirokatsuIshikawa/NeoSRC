@@ -1,6 +1,6 @@
 package database.master
 {
-	import database.master.base.StateCondition;
+	import database.master.base.MessageCondition;
 	
 	/**
 	 * ...
@@ -19,19 +19,27 @@ package database.master
 		/**防御*/
 		public static const STATE_DEF:int = 4;
 		
-		
-		
-		/**メッセージ本体*/
-		public var message:String = null;
 		/**名前*/
-		public var name:String = null;
+		public var messageName:String = null;
 		/**台詞タイプ*/
 		public var type:int = 0;
-		public var condition:StateCondition = null;
+		/**メッセージとコンディション*/
+		public var message:Vector.<MessageCondition> = null;
 		
-		public function MasterBattleMessage(data:Object)
+		public function MasterBattleMessage()
 		{
+			message = new Vector.<MessageCondition>();
+		}
+		
+		public function setData(messageKey:String, data:Object):void
+		{
+			messageName = messageKey;
 			
+			for (var i:int = 0; i < data.length; i++)
+			{
+				message[i] = data[i].condition;
+			}
+		
 		}
 	
 	}

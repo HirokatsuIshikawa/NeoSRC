@@ -1,15 +1,17 @@
 ﻿default
 交戦開始
-	システム:{unit}、スタンバイ！！
+	{unit}、スタンバイ！！
 攻撃
-	システム:{unit}は{target}に{weapon}でアタック！！
+	{unit}は{target}に{weapon}でアタック！！
 回避
-	システム:{unit}は避けた！！
+	{target}は避けた！！
 ダメージ
-	システム:{unit}に{damage}のダメージ！！
+	{target}に{damage}のダメージ！！
 破壊
-	システム:{unit}、戦闘不能！！
+	{target}、戦闘不能！！
 撃破
-	システム:{target}を撃破した！！
+	{target}を撃破した！！
 射程外
-	システム:{unit}は反撃できない！！
+	{unit}は反撃できない！！
+スキル
+	{unit}は{weapon}を使用した！！

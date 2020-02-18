@@ -1,6 +1,6 @@
 package converter.parse
 {
-	import database.master.base.StateCondition;
+	import database.master.base.MessageCondition;
 	
 	/**
 	 * ...
@@ -11,11 +11,11 @@ package converter.parse
 		//処理ステータス
 		public static const STATE_NONE:int = 0;
 		
-		public static var STATE_LIST:Array = ["回避", "ダメージ", "攻撃", "撃破", "射程外"];
-		public static var STATE_LIST_E:Array = ["回避", "ダメージ", "攻撃", "撃破", "射程外"];
+		public static var STATE_LIST:Array = ["交戦開始", "回避", "ダメージ", "攻撃", "撃破", "射程外", "スキル"];
+		public static var STATE_LIST_E:Array = ["交戦開始", "回避", "ダメージ", "攻撃", "撃破", "射程外", "スキル"];
 		
-		public static var CONDITION_LIST:Array = ["hp", "敵", "武装", "スキル"];
-		public static var CONDITION_LIST_E:Array = ["hp", "enemy", "weapon", "skill"];
+		public static var CONDITION_LIST:Array = ["hp", "敵", "武装", "スキル", "命中率"];
+		public static var CONDITION_LIST_E:Array = ["hp", "enemy", "weapon", "skill", "hit"];
 		
 		public static function parseData(str:String):Array
 		{
@@ -35,13 +35,14 @@ package converter.parse
 			var ary:Array = str.split("\n");
 			
 			var setName:String = "";
-			var condition:StateCondition = null;
+			var condition:MessageCondition = null;
 			
 			var i:int = 0, j:int = 0, k:int = 0;
 			
 			//データ読み込み
 			for (i = 0; i < ary.length; i++)
 			{
+				var lineAry:Array;
 				//ライン読み込み
 				var line:String = ary[i];
 				if (line.length <= 0)
@@ -54,27 +55,36 @@ package converter.parse
 				}
 				
 				//nameでスタート
-				if (line.indexOf("name") > 0)
+				if (line.indexOf("name") >= 0)
 				{
-					count++;
-					data[count] = new Object();
 					
-					var ary:Array = line.split(":");
+					lineAry = line.split(":");
 					//キャラ名設定
-					setName = ary[1];
-					
+					setName = lineAry[1];
+					data[setName] = new Array();
 				}
+				//共用の場合
+				else if (line === "default")
+				{
+					lineAry = line.split(":");
+					//キャラ名設定
+					setName = line;
+					data[setName] = new Array();
+				}
+				//コンディション、メッセージの場合
 				else
 				{
-					var ary:Array = line.split(",");
+					lineAry = line.split(",");
 					var stateFlg:Boolean = false;
 					
 					for (j = 0; j < STATE_LIST.length; j++)
 					{
 						//コンディションがある場合はフラグを立てる
-						if (ary[0] === STATE_LIST || ary[0] === STATE_LIST_E)
+						if (lineAry[0] === STATE_LIST[j] || lineAry[0] === STATE_LIST_E[j])
 						{
-							condition = new StateCondition()
+							condition = new MessageCondition();
+							
+							condition.state = STATE_LIST[j];
 							stateFlg = true;
 							break;
 						}
@@ -83,9 +93,15 @@ package converter.parse
 					//コンディション設定
 					if (stateFlg)
 					{
-						for (k = 1; k < ary.length; k++ )
+						for (k = 1; k < lineAry.length; k++)
 						{
-							var conditionLine:String = ary[k];							
+							var conditionLine:String = lineAry[k];
+							
+							if (conditionLine == null)
+							{
+								continue;
+							}
+							
 							var conditionAry:Array = conditionLine.split(":")
 							var conditionState:String = conditionAry[0];
 							
@@ -93,32 +109,45 @@ package converter.parse
 							var conditionValue:String = conditionAry[1];
 							
 							//条件スイッチ
-							switch(conditionState.toLowerCase)
+							switch (conditionState.toLowerCase())
 							{
-								//HP
-								case CONDITION_LIST[0]:
-								case CONDITION_LIST_E[1]:
-									var hpValue:String = conditionValue[1];
-									//最大最小
-									var hpCondition:Array = hpValue.split("-");
-									condition.hpRateMax = parseInt(hpCondition[0]);
-									condition.hpRateMin = parseInt(hpCondition[1]);
-									break;
+							//HP
+							case CONDITION_LIST[0]: 
+							case CONDITION_LIST_E[0]: 
+								var hpValue:String = conditionValue;
+								//最大最小
+								var hpCondition:Array = hpValue.split("-");
+								condition.hpRateMin = parseInt(hpCondition[0]);
+								condition.hpRateMax = parseInt(hpCondition[1]);
+								break;
+							//武装
+							case CONDITION_LIST[2]:
+							case CONDITION_LIST_E[2]:
+								condition.weaponName = conditionValue;
+								break;
 							}
-							
 							
 						}
 					}
 					//メッセージ設定
 					else
 					{
+						var messageAry:Array = line.split(";");
 						
+						count++;
+						data[setName][count] = new Object();
+						data[setName][count].condition = condition;
+						data[setName][count].condition.message = new Vector.<String>();
+						
+						for (k = 0; k < messageAry.length; k++ )
+						{
+							data[setName][count].condition.message.push(messageAry[k]);						
+						}
 					}
-					
 				}
-				
 			}
-		
+			
+			return data;
 		}
 	
 	}

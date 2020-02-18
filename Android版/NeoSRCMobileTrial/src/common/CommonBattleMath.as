@@ -5,6 +5,7 @@ package common
 	import starling.events.Event;
 	import scene.map.battle.AttackListItem;
 	import scene.unit.BattleUnit;
+	import starling.utils.MathUtil;
 	
 	/**
 	 * ...
@@ -31,7 +32,7 @@ package common
 				baseAvo = attackItem.target.param.SPD;
 				hit = (baseHit - baseAvo) + attackItem.weapon.hitPlus;
 			}
-			hit = Math.max(Math.min(hit, 100), 0);
+			hit = MathUtil.clamp(hit,0, 100);
 			
 			return (int)(hit);
 		}
@@ -39,12 +40,6 @@ package common
 		/**ダメージ計算式*/
 		public static function battleDamage(data:AttackListItem):int
 		{
-			/**
-			   var baseAtk:int = data.unit.ATK * data.weapon.value;
-			   var baseDef:int = (int)(5 * data.target.DEF * data.counterWeapon.defRate / 100.0 + data.counterWeapon.defPlus);
-			   // ダメージ表示、最低１保障
-			   var baseDamage:int = Math.max(baseAtk - baseDef, 1);
-			 */
 			// 基礎攻撃力
 			var baseAtk:Number = data.unit.param.ATK + data.weapon.atkplus;
 			// 基礎防御力
@@ -65,7 +60,7 @@ package common
 			// 1/16のブレ
 			baseDamage = baseDamage + baseDamage / 16.0 * getRandom(100, -100) / 100.0;
 			
-			var damage:int = Math.max((int)(baseDamage), 1);
+			var damage:int = MathUtil.max((int)(baseDamage), 1);
 			return damage;
 		}
 		

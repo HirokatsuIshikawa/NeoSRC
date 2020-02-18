@@ -349,12 +349,37 @@ package scene.main
 		{
 			var message:Vector.<String> = new Vector.<String>();
 			var list:Vector.<MessageCondition> = getBattleMessageList(keyName, state, attackUnit, targetUnit, weapon);
+			var i:int = 0;
+			
+			var weaponSordFlg:Boolean = false;
+			//武器名がある場合、武器名が無いものを削除
+			for (i = 0; i < list.length; i++)
+			{
+				if (list[i].weaponName != null)
+				{
+					weaponSordFlg = true;
+					break;
+				}
+			}
+			//武器無しセリフ削除
+			if (weaponSordFlg)
+			{
+				for (i = 0; i < list.length; i++)
+				{
+					if (list[i].weaponName == null)
+					{
+						list.splice(i, 1);
+						i--;
+					}
+				}
+			}
+			
 			//ランダム取得
 			var randomNum:int = Math.random() * list.length;
 			var messageItem:MessageCondition = list[randomNum];
 			
 			message = messageItem.message;
-			for (var i:int = 0; i < message.length; i++)
+			for (i = 0; i < message.length; i++)
 			{
 				message[i] = message[i].replace(/{unit}/g, attackUnit.name);
 				message[i] = message[i].replace(/{target}/g, targetUnit.name);
@@ -363,6 +388,19 @@ package scene.main
 			}
 			return message;
 		}
+		
+		public function isEnableMessageName(name:String):Boolean
+		{
+			for (var i:int = 0; i < _masterBattleMessageData.length; i++ )
+			{
+				if (_masterBattleMessageData[i].messageName == name)
+				{
+					return true;
+				}
+			}			
+			return false;
+		}
+		
 		
 		/**戦闘メッセージリストゲット*/
 		public function getBattleMessageList(keyName:String, state:String, attackUnit:BattleUnit, targetUnit:BattleUnit, weapon:MasterWeaponData):Vector.<MessageCondition>
@@ -373,7 +411,7 @@ package scene.main
 			//キャラメッセージを検索
 			for (i = 0; i < _masterBattleMessageData.length; i++)
 			{
-				if (_masterBattleMessageData[i].messageName == keyName)
+				if (_masterBattleMessageData[i].messageName === keyName)
 				{
 					for (j = 0; j < _masterBattleMessageData[i].message.length; j++)
 					{

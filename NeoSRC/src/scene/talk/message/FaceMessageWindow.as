@@ -2,6 +2,7 @@ package scene.talk.message
 {
 	import common.CommonSystem;
 	import system.custom.customSprite.CImage;
+	import system.custom.customSprite.CSprite;
 	import system.custom.customSprite.ImageBoard;
 	import database.user.FaceData;
 	import starling.display.Quad;
@@ -17,38 +18,60 @@ package scene.talk.message
 		
 		/**表示顔画像*/
 		private var _faceImg:ImageBoard = null;
+		private var _faceBase:CSprite = null;
+		private var _faceMask:Quad;
 		
 		public function FaceMessageWindow()
 		{
 			super();
 			/*
-			_nameTxt.x = 160;
-			_nameTxt.y = 0;
-			_textArea.x = 160;
-			_textArea.y = 28;
-			*/
+			   _nameTxt.x = 160;
+			   _nameTxt.y = 0;
+			   _textArea.x = 160;
+			   _textArea.y = 28;
+			 */
+			_faceBase = new CSprite();
 			_faceImg = new ImageBoard();
-			addChild(_faceImg);
+			_faceBase.addChild(_faceImg);
+			_faceMask = new Quad(160, 160);
+			addChild(_faceBase);
 		}
 		
-		public function setImage(name:String, command:Array):void
+		public function setImage(name:String, command:Array = null):void
 		{
+			if (name == "システム")
+			{
+				_nameTxt.text = "";
+				_nameTxt.x = 16;
+				_textArea.x = 8;
+				_textArea.width = 560;
+				_faceImg.imgClear();
+				return;
+			}
+			
+			_nameTxt.x = 168;
+			_textArea.x = 160;
+			_textArea.width = 402;
 			var i:int = 0;
 			var j:int = 0;
 			var k:int = 0;
 			_charaName = name;
 			_faceImg.imgClear();
-			//var selectData:MasterCharaData = CharaDataUtil.getMasterCharaDataName(name);
 			var imgData:FaceData = MainController.$.model.getCharaImgDataFromName(name);
-			var mask:Quad = null;
-			
 			switch (imgData.defaultType)
 			{
 			case "stand": 
-				mask = new Quad(160, imgData.addPoint.y);
-				mask.x = 0;
-				mask.y = 160 - imgData.addPoint.y;
-				_faceImg.mask = mask;
+				
+				_faceMask.dispose();
+				_faceMask = null;
+				_faceMask = new Quad(160, imgData.addPoint.y + 80)
+				
+				//_faceMask.height = imgData.addPoint.y + 80;
+				_faceMask.x = 0;
+				_faceMask.y = -(imgData.addPoint.y - (140 - 80));
+				//_faceImg.x = (imgData.addPoint.x - 160) / 2;
+				//_faceImg.y = (imgData.addPoint.y - 140);
+				_faceBase.mask = _faceMask;
 				break;
 			case "icon": 
 				break;
@@ -64,19 +87,22 @@ package scene.talk.message
 				showList[i] = imgData.basicList[i];
 			}
 			
-			for (j = 2; j < command.length; j++)
+			if (command != null && command.length >= 2)
 			{
-				var str:String = command[j];
-				if (str.indexOf(":") >= 0)
+				for (j = 2; j < command.length; j++)
 				{
-					continue;
-				}
-				
-				for (k = 0; k < imgData.imgList.length; k++)
-				{
-					if (str === imgData.imgList[k].name)
+					var str:String = command[j];
+					if (str.indexOf(":") >= 0)
 					{
-						showList[imgData.imgList[k].layer] = imgData.imgList[k].name;
+						continue;
+					}
+					
+					for (k = 0; k < imgData.imgList.length; k++)
+					{
+						if (str === imgData.imgList[k].name)
+						{
+							showList[imgData.imgList[k].layer] = imgData.imgList[k].name;
+						}
 					}
 				}
 			}
@@ -84,7 +110,8 @@ package scene.talk.message
 			for (i = 0; i < showList.length; i++)
 			{
 				//var faceImg:CImage = new CImage(TextureManager.loadTexture(imgData.imgUrl, imgData.getFileName(showList[i]), TextureManager.TYPE_CHARA));
-				var faceImg:CImage = new CImage(MainController.$.imgAsset.getTexture(imgData.getFileName(imgData.getFileName(showList[i]))));
+				var imgFileName:String = imgData.getFileName(showList[i]);
+				var faceImg:CImage = new CImage(MainController.$.imgAsset.getTexture(imgFileName));
 				_faceImg.addImage(faceImg, imgData.defaultType);
 			}
 			
@@ -94,8 +121,25 @@ package scene.talk.message
 		
 		override public function dispose():void
 		{
+			if (_faceImg != null)
+			{
+				_faceImg.dispose();
+			}
+			if (_faceBase != null)
+			{
+				_faceBase.dispose();
+			}
+			_faceImg = null;
+			_faceBase = null;
 			//_textArea.textViewPort.textField.filters = null;
 			super.dispose();
 		}
+		
+		public function deleteImage():void
+		{			
+			_faceImg.imgClear();
+		}
+		
+		
 	}
 }

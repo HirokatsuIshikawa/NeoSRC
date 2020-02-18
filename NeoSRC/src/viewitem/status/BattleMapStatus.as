@@ -21,6 +21,7 @@ package viewitem.status
 		private var _customBGMBtn:CImgButton = null;
 		private var _statusWindow:BaseStatusWindow = null;
 		private var _unitId:int = 0;
+		private var _unit:BattleUnit = null;
 		
 		public function BattleMapStatus()
 		{
@@ -55,10 +56,12 @@ package viewitem.status
 			super.dispose();
 		}
 		
-		public function setCharaData(unit:BattleUnit):void
+		public function setCharaData(unit:BattleUnit, customBgmFlg:Boolean):void
 		{
 			_unitId = unit.id;
 			_statusWindow.setCharaData(unit);
+			_unit = unit;
+			_customBGMBtn.visible = customBgmFlg;
 		}
 		
 		/**カスタムBGMセット*/
@@ -75,7 +78,8 @@ package viewitem.status
 					if (MainController.$.model.PlayerUnitData[i].id == _unitId)
 					{
 						MainController.$.model.PlayerUnitData[i].customBgmPath = path;
-						SingleMusic.playBGM(MainController.$.model.PlayerUnitData[i].customBgmHeadPath, 1, 1);
+						_unit.customBgmPath = path;
+						//SingleMusic.playBGM(MainController.$.model.PlayerUnitData[i].customBgmHeadPath, 1, 1);
 						break;
 					}
 				}

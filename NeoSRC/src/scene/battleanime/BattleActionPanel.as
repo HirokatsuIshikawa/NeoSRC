@@ -54,6 +54,8 @@ package scene.battleanime
 		
 		private var _attackMessage:Vector.<String>;
 		private var _targetMessage:Vector.<String>;
+		private var _talkAttackChara:String;
+		private var _talkTargetChara:String;
 		public var messageCount:int = 0;
 		
 		/**コンストラクタ*/
@@ -180,7 +182,8 @@ package scene.battleanime
 			_endCallBack = callBack;
 			_recordAnime = data;
 			_animeCount = 0;
-			
+			_messageWindow.deleteImage();
+			_messageWindow.deleteText();
 			Tween24.tween(this, 0.4).fadeIn().onComplete(readyFunc).play();
 			function readyFunc():void
 			{
@@ -190,16 +193,32 @@ package scene.battleanime
 		}
 		
 		
-		private function playMessage(callBack:Function = null):void
+		/**メッセージセット*/
+		private function playMessage(charaName:String, message:Vector.<String>, callBack:Function = null):Tween24
 		{
+			_messageWindow.clearText();
 			messageCount = 0;
-			var strCount:int = _attackMessage[0].length
-			Tween24.tween(this, strCount * 0.02,null, {messageCount:strCount}).onUpdate(msgUpdate).onComplete(callBack).play();			
+			var strCount:int = message[0].length;
+			var tween:Tween24 = Tween24.tween(this, strCount * 0.02, null, {messageCount:strCount}).onPlay(initMessageWindow, charaName, message).onUpdate(msgUpdate, message);
+			
+			if (callBack != null)
+			{
+				tween.onComplete(callBack);
+			}
+			return tween;
 		}
 		
-		private function msgUpdate():void
+		/**メッセージアップデート*/
+		private function msgUpdate(message:Vector.<String>):void
 		{
-			_messageWindow.setText(_attackMessage[0].substr(0, messageCount));
+			_messageWindow.setText(message[0].substr(0, messageCount));
+		}
+		
+		private function initMessageWindow(name:String, message:Vector.<String>):void
+		{
+			_messageWindow.clearText();
+			_messageWindow.setImage(name, null);
+			messageCount = 0;
 		}
 		
 		
@@ -233,13 +252,9 @@ package scene.battleanime
 		
 		private function startAction(data:BattleAnimeRecord):void
 		{
-			// アクション作成
-			_tween = makeAction(data)
-			// 終了時アクション
-			_tween.onComplete(readyAction);
 			var attackState:String = MessageDataParse.STATE_LIST[3];
 			var targetState:String = MessageDataParse.STATE_LIST[1];
-			
+			_talkAttackChara = MainController.$.model.isEnableMessageName(data.attacker.name) ? data.attacker.name : "システム";
 			_attackMessage = MainController.$.model.getRandamBattleMessage(data.attacker.name, attackState, data.attacker, data.target, data.weapon, data.damage);
 			switch (data.effect)
 			{
@@ -259,12 +274,16 @@ package scene.battleanime
 				break;
 				
 			}
-			
+			_talkTargetChara = MainController.$.model.isEnableMessageName(data.target.name) ? data.target.name : "システム";
 			_targetMessage = MainController.$.model.getRandamBattleMessage(data.target.name, targetState, data.attacker, data.target, data.weapon, data.damage);
 			
 			
+			// アクション作成
+			_tween = makeAction(data)
+			// 終了時アクション
+			_tween.onComplete(readyAction);
 			//メッセージ開始
-			playMessage(_tween.play);
+			playMessage(_talkAttackChara, _attackMessage, _tween.play).play();	
 		}
 		
 		/** アクション作成 */
@@ -301,7 +320,6 @@ package scene.battleanime
 		/**アニメエフェクト設定*/
 		private function setAttackEffect(act:Array, data:BattleAnimeRecord, atkImg:CImage, defImg:CImage):void
 		{
-			
 			switch (data.effect)
 			{
 			case BattleAnimeRecord.EFFECT_DAMAGE: 
@@ -317,14 +335,25 @@ package scene.battleanime
 		private function normalAttack(act:Array, data:BattleAnimeRecord, atkImg:CImage, defImg:CImage):void
 		{
 			act.push(Tween24.tween(atkImg, 0.3).$x(100 * data.side));
-			act.push(Tween24.tween(defImg, 0.3).$x(20 * data.side).onPlay(showDamage, data.damage, 0xFF0000, data.side));
+			
+			act.push(
+				Tween24.parallel(
+					Tween24.tween(defImg, 0.3).$x(20 * data.side).onPlay(showDamage, data.damage, 0xFF0000, data.side),
+					playMessage(_talkTargetChara, _targetMessage)
+				)
+			);
 		}
 		
 		/** 回避アクション */
 		private function attackMiss(act:Array, data:BattleAnimeRecord, atkImg:CImage, defImg:CImage):void
 		{
 			act.push(Tween24.tween(atkImg, 0.3).$x(100 * data.side));
-			act.push(Tween24.tween(defImg, 0.3).$xy(20 * data.side, -60));
+			act.push(
+				Tween24.parallel(
+					Tween24.tween(defImg, 0.3).$xy(20 * data.side, -60),
+					playMessage(_talkTargetChara, _targetMessage)
+				)	
+			);
 		}
 		
 		/**ウェイト作成*/

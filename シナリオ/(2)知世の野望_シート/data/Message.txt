@@ -4,12 +4,14 @@
 攻撃
 	{unit}は{target}に{weapon}でアタック！！
 回避
-	{unit}は避けた！！
+	{target}は避けた！！
 ダメージ
-	{unit}に{damage}のダメージ！！
+	{target}に{damage}のダメージ！！
 破壊
-	{unit}、戦闘不能！！
+	{target}、戦闘不能！！
 撃破
 	{target}を撃破した！！
 射程外
 	{unit}は反撃できない！！
+スキル
+	{unit}は{weapon}を使用した！！

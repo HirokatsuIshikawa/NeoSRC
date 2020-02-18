@@ -694,11 +694,11 @@ package scene.map
 		}
 		
 		/**ステータス画面表示*/
-		private function showStatusWindow(unit:BattleUnit = null):void
+		private function showStatusWindow(unit:BattleUnit = null, customBgmFlg:Boolean = true):void
 		{
 			if (unit != null)
 			{
-				_statusWindow.setCharaData(unit);
+				_statusWindow.setCharaData(unit, customBgmFlg);
 			}
 			addChild(_statusWindow);
 			_statusWindow.visible = true;
@@ -1096,7 +1096,14 @@ package scene.map
 						
 						var unit:BattleUnit = _sideState[i].battleUnit[j];
 						var list:Vector.<String> = new Vector.<String>;
-						showStatusWindow(unit);
+						if (i == 0)
+						{
+							showStatusWindow(unit, true);
+						}
+						else
+						{
+							showStatusWindow(unit, false);
+						}
 						_selectSide = i;
 						_selectUnit = j;
 						setCenterPos(posX, posY);
@@ -1712,7 +1719,7 @@ package scene.map
 		private function showLvUpWindow(unit:BattleUnit, lvUp:int):void
 		{
 			var img:CImage = null;
-			showStatusWindow(unit);
+			showStatusWindow(unit, false);
 			_statusWindow.visible = true;
 			
 			//ホワイトインアウト用
@@ -1728,7 +1735,7 @@ package scene.map
 			function lvUpUnit():void
 			{
 				unit.levelUp(lvUp);
-				_statusWindow.setCharaData(unit);
+				_statusWindow.setCharaData(unit, false);
 				//Tween24.wait(3.0).onComplete(lvUpEnd).play();
 			}
 			

@@ -120,6 +120,11 @@ package converter.parse
 								condition.hpRateMin = parseInt(hpCondition[0]);
 								condition.hpRateMax = parseInt(hpCondition[1]);
 								break;
+							//武装
+							case CONDITION_LIST[2]:
+							case CONDITION_LIST_E[2]:
+								condition.weaponName = conditionValue;
+								break;
 							}
 							
 						}

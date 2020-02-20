@@ -1,0 +1,64 @@
+﻿スタート:
+PlayerSideName オボロ達
+//背景セット
+AddLayer name:背景 alpha:0
+AddLayer name:キャラクター alpha:0
+AddLayer name:インターフェース alpha:0
+CharaLayer name:キャラクター
+SetImg img:back/広間.jpg size:just name:広間 layer:背景
+SetChara name:オボロ x:480 alpha:1
+SetChara name:セシル x:240 alpha:1
+Wait 1
+ReadyMove
+SetMove layer:背景 fade:in time:0.5
+SetMove layer:キャラクター fade:in time:0.5
+StartMove type:連続 wait:on
+ShowMsg 0.3
+
+Talk オボロ
+このバカ娘！
+
+Talk セシル
+ひぃっ！？
+
+Talk オボロ
+まったく、まさか寝小便垂れられるとは
+おもってなかったぜ……
+
+布団には世界地図だし
+俺の服にもひっかけやがって……
+
+おかげで、服が乾くまでこの格好だよ
+
+この！
+
+Talk セシル
+わざとじゃないってば～！！
+
+生理現象なんだから仕方ないだろ～!!
+
+Talk オボロ
+いくらつるペタでも、とっくにおねしょは
+卒業してる時分だろうが！
+
+それに、わざとやってるんだったら
+この程度のお仕置きじゃすまさんわ！！
+
+Talk セシル
+うわぁ～ん！！
+
+Talk オボロ
+……ふぅ、尻が真っ赤になったぞ
+まるで猿の尻だな
+
+Talk 
+
+
+
+
+
+
+
+
+
+

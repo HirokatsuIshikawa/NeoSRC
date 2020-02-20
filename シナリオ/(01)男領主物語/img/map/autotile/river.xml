@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:9037ad7c0e61560f69ff89acdc148524:5387730f53a23ca4514f40227a9e196a:9afa30eee63d4f72f9bbe1ba98191088$ -->
+<TextureAtlas imagePath="river.png">
+    <SubTexture name="river_0000" x="2" y="2" width="32" height="32"/>
+    <SubTexture name="river_0001" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="river_0002" x="70" y="2" width="32" height="32"/>
+    <SubTexture name="river_0003" x="104" y="2" width="32" height="32"/>
+    <SubTexture name="river_0004" x="138" y="2" width="32" height="32"/>
+    <SubTexture name="river_0005" x="172" y="2" width="32" height="32"/>
+    <SubTexture name="river_0006" x="206" y="2" width="32" height="32"/>
+    <SubTexture name="river_0007" x="2" y="36" width="32" height="32"/>
+    <SubTexture name="river_0008" x="36" y="36" width="32" height="32"/>
+    <SubTexture name="river_0009" x="70" y="36" width="32" height="32"/>
+    <SubTexture name="river_0010" x="104" y="36" width="32" height="32"/>
+    <SubTexture name="river_0011" x="138" y="36" width="32" height="32"/>
+    <SubTexture name="river_0012" x="172" y="36" width="32" height="32"/>
+    <SubTexture name="river_0013" x="206" y="36" width="32" height="32"/>
+    <SubTexture name="river_0014" x="2" y="70" width="32" height="32"/>
+    <SubTexture name="river_0015" x="36" y="70" width="32" height="32"/>
+    <SubTexture name="river_0016" x="70" y="70" width="32" height="32"/>
+    <SubTexture name="river_0017" x="104" y="70" width="32" height="32"/>
+    <SubTexture name="river_0018" x="138" y="70" width="32" height="32"/>
+    <SubTexture name="river_0019" x="172" y="70" width="32" height="32"/>
+    <SubTexture name="river_0020" x="206" y="70" width="32" height="32"/>
+    <SubTexture name="river_0021" x="2" y="104" width="32" height="32"/>
+    <SubTexture name="river_0022" x="36" y="104" width="32" height="32"/>
+    <SubTexture name="river_0023" x="70" y="104" width="32" height="32"/>
+    <SubTexture name="river_0024" x="104" y="104" width="32" height="32"/>
+    <SubTexture name="river_0025" x="138" y="104" width="32" height="32"/>
+    <SubTexture name="river_0026" x="172" y="104" width="32" height="32"/>
+    <SubTexture name="river_0027" x="206" y="104" width="32" height="32"/>
+    <SubTexture name="river_0028" x="2" y="138" width="32" height="32"/>
+    <SubTexture name="river_0029" x="36" y="138" width="32" height="32"/>
+    <SubTexture name="river_0030" x="70" y="138" width="32" height="32"/>
+    <SubTexture name="river_0031" x="104" y="138" width="32" height="32"/>
+    <SubTexture name="river_0032" x="138" y="138" width="32" height="32"/>
+    <SubTexture name="river_0033" x="172" y="138" width="32" height="32"/>
+    <SubTexture name="river_0034" x="206" y="138" width="32" height="32"/>
+    <SubTexture name="river_0035" x="2" y="172" width="32" height="32"/>
+    <SubTexture name="river_0036" x="36" y="172" width="32" height="32"/>
+    <SubTexture name="river_0037" x="70" y="172" width="32" height="32"/>
+    <SubTexture name="river_0038" x="104" y="172" width="32" height="32"/>
+    <SubTexture name="river_0039" x="138" y="172" width="32" height="32"/>
+    <SubTexture name="river_0040" x="172" y="172" width="32" height="32"/>
+    <SubTexture name="river_0041" x="206" y="172" width="32" height="32"/>
+    <SubTexture name="river_0042" x="2" y="206" width="32" height="32"/>
+    <SubTexture name="river_0043" x="36" y="206" width="32" height="32"/>
+    <SubTexture name="river_0044" x="70" y="206" width="32" height="32"/>
+    <SubTexture name="river_0045" x="104" y="206" width="32" height="32"/>
+    <SubTexture name="river_0046" x="138" y="206" width="32" height="32"/>
+    <SubTexture name="river_0047" x="172" y="206" width="32" height="32"/>
+</TextureAtlas>

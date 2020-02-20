@@ -1,0 +1,118 @@
+﻿スタート:
+//背景セット
+AddLayer name:背景 alpha:0
+AddLayer name:キャラクター alpha:0
+AddLayer name:インターフェース alpha:0
+CharaLayer name:キャラクター
+Wait 1
+//プレイヤー名入力
+//主人公ジョブ選択
+ShowMsg time:0.3
+Talk システム
+世界のどこかにあると言われる
+不思議な領域、無限フィールド
+
+そこでは、無限とも思える戦場で
+様々な戦士達が戦いを続けていると言う
+
+君の目的は、この無限フィールドで
+様々な戦士達を仲間にし
+いくつもの戦場で勝ち続ける事
+
+強い戦士に勝つ、捕獲する、金で雇うなど
+仲間にする方法は様々だ
+
+最初の仲間は、こちらで用意しよう
+好きな物を選んでくれ
+
+hidemsg time:0.5
+MsgClear
+//SetText text:ユニット名 name:テキスト width:200 height:96 fontsize:24 fontcolor:0xFF0000 input:off backcolor:0x8800FFFF MultiLine:off alpha:0
+//SetInputText name:バリュー target:テキスト
+Set name:選択回数 value:3
+Set name:ユニット選択 list:選択
+//PushList target:ユニット選択 key:フュンサー
+//PushList target:ユニット選択 key:マジシャン
+//PushList target:ユニット選択 key:シーフ
+//Goto ユニット選択ベース
+SetImg unit:女戦士 name:フュンサー size:free width:128 height:128 x:300 y:240 layer:インターフェース alpha:1
+SetImg unit:魔女 name:マジシャン size:free width:128 height:128 x:480 y:240 layer:インターフェース alpha:1
+SetImg unit:僧侶 name:シーフ size:free width:128 height:128 x:660 y:240 layer:インターフェース alpha:1
+SetText text:フュンサー\n攻撃：Ａ\n射程：Ｃ name:テキスト１ x:300 y:320 width:160 height:120 fontsize:24 fontcolor:0x000000 input:off backcolor:0xFFFFFFFF MultiLine:off alpha:1 layer:インターフェース align:center objAlign:center
+SetText text:マジシャン\n攻撃：Ｂ\n射程：Ａ name:テキスト２ x:480 y:320 width:160 height:120 fontsize:24 fontcolor:0x000000 input:off backcolor:0xFFFFFFFF MultiLine:off alpha:1 layer:インターフェース align:center objAlign:center 
+SetText text:シーフ\n攻撃：Ｃ\n射程：Ｂ name:テキスト３ x:660 y:320 width:160 height:120 fontsize:24 fontcolor:0x000000 input:off backcolor:0xFFFFFFFF MultiLine:off alpha:1  layer:インターフェース align:center objAlign:center
+SetTouchEvent target:フュンサー touch:フュンサー選択
+SetTouchEvent target:マジシャン touch:マジシャン選択
+SetTouchEvent target:シーフ touch:シーフ選択
+ReadyMove
+SetMove layer:インターフェース time:0.5 fade:in
+StartMove type:同時 wait:on
+Exit
+
+
+フュンサー選択:
+showmsg time:0.3
+JoinUnit name:フュンサー level:1
+Talk システム
+フュンサーが仲間に入った
+
+Goto 残り回数
+Exit
+
+マジシャン選択:
+showmsg time:0.3
+JoinUnit name:マジシャン level:1
+Talk システム
+マジシャンが仲間に入った
+
+Goto 残り回数
+Exit
+
+シーフ選択:
+showmsg time:0.3
+JoinUnit name:シーフ level:1
+Talk システム
+シーフが仲間に入った
+
+Goto 残り回数
+Exit
+
+
+残り回数:
+Incr name:選択回数 value:-1
+If 選択回数 <= 0 Goto 選択終了
+hidemsg time:0.5
+MsgClear
+Exit
+
+
+ユニット選択ベース:
+Select uselist:ユニット選択 target:選択ユニット
+Goto 加入イベント
+Exit
+
+加入イベント:
+switch 選択ユニット
+	case フュンサー
+		JoinUnit name:フュンサー showname:新規ユニット
+		break
+	case マジシャン
+		JoinUnit name:マジシャン showname:新規ユニット
+		break
+	case シーフ
+		JoinUnit name:シーフ showname:新規ユニット
+		break
+EndIf
+Incr name:選択回数 value:-1
+Exit
+
+
+
+選択終了:
+MsgClear
+Talk システム
+それでは、仲間も加わった所で
+無限フィールドの物語を始めよう
+
+Continue セシルの遊び場.srceve
+Exit

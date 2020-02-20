@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:4262c0658335f8145292016c549a2d68:00a76a9e6f14d336dfc7794a5c7b9b1d:aa953c1ba167b4568d4087985de17a70$ -->
+<TextureAtlas imagePath="タマ.png" width="620" height="620">
+    <SubTexture name="なし" x="1" y="541" width="3" height="3" frameX="0" frameY="0" frameWidth="363" frameHeight="540"/>
+    <SubTexture name="パンツ" x="325" y="147" rotated="true" width="111" height="198" frameX="-79" frameY="-392" frameWidth="363" frameHeight="540"/>
+    <SubTexture name="ブラ" x="325" y="1" width="197" height="144" frameX="-105" frameY="-179" frameWidth="363" frameHeight="540"/>
+    <SubTexture name="ボディ" x="1" y="1" width="322" height="538" frameX="-41" frameY="-2" frameWidth="363" frameHeight="540"/>
+    <SubTexture name="伏し目" x="524" y="1" width="95" height="115" frameX="-159" frameY="-57" frameWidth="363" frameHeight="540"/>
+    <SubTexture name="号泣" x="524" y="118" width="95" height="115" frameX="-159" frameY="-57" frameWidth="363" frameHeight="540"/>
+    <SubTexture name="微笑み" x="325" y="347" width="95" height="115" frameX="-159" frameY="-57" frameWidth="363" frameHeight="540"/>
+    <SubTexture name="拒否" x="325" y="464" width="95" height="115" frameX="-159" frameY="-57" frameWidth="363" frameHeight="540"/>
+    <SubTexture name="泣き顔" x="422" y="347" width="95" height="115" frameX="-159" frameY="-57" frameWidth="363" frameHeight="540"/>
+    <SubTexture name="羞恥" x="422" y="464" width="95" height="115" frameX="-159" frameY="-57" frameWidth="363" frameHeight="540"/>
+    <SubTexture name="舌打ち" x="438" y="235" rotated="true" width="115" height="95" frameX="-159" frameY="-57" frameWidth="363" frameHeight="540"/>
+    <SubTexture name="苦しみ" x="519" y="332" width="95" height="115" frameX="-159" frameY="-57" frameWidth="363" frameHeight="540"/>
+    <SubTexture name="通常" x="519" y="449" width="95" height="115" frameX="-159" frameY="-57" frameWidth="363" frameHeight="540"/>
+</TextureAtlas>

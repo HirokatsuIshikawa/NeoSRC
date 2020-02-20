@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:5c51bcd76806a9b2edca83e8e1fe9d3f:af50907f6cf5be71fb1df00de0f1bc49:98e224c92fc62caed2bd13efb8744239$ -->
+<TextureAtlas imagePath="初期メンバー.png" width="826" height="934">
+    <SubTexture name="オボロ_エロ表情" x="645" y="715" width="96" height="72" frameX="-237" frameY="-169" frameWidth="600" frameHeight="600"/>
+    <SubTexture name="オボロ_スマイル表情" x="646" y="506" width="97" height="68" frameX="-236" frameY="-167" frameWidth="600" frameHeight="600"/>
+    <SubTexture name="オボロ_ボディ" x="1" y="323" rotated="true" width="528" height="242" frameX="-184" frameY="-72" frameWidth="600" frameHeight="600"/>
+    <SubTexture name="オボロ_不満表情" x="646" y="576" width="97" height="68" frameX="-239" frameY="-169" frameWidth="600" frameHeight="600"/>
+    <SubTexture name="オボロ_怒り表情" x="745" y="529" rotated="true" width="79" height="95" frameX="-235" frameY="-160" frameWidth="600" frameHeight="600"/>
+    <SubTexture name="オボロ_悲しみ表情" x="738" y="812" rotated="true" width="64" height="96" frameX="-237" frameY="-169" frameWidth="600" frameHeight="600"/>
+    <SubTexture name="オボロ_服" x="1" y="1" rotated="true" width="528" height="320" frameX="-131" frameY="-72" frameWidth="600" frameHeight="600"/>
+    <SubTexture name="オボロ_目" x="785" y="158" rotated="true" width="34" height="88" frameX="-246" frameY="-175" frameWidth="600" frameHeight="600"/>
+    <SubTexture name="オボロ_通常表情" x="646" y="646" width="97" height="67" frameX="-236" frameY="-167" frameWidth="600" frameHeight="600"/>
+    <SubTexture name="オボロ_閉じ目" x="531" y="341" rotated="true" width="32" height="87" frameX="-247" frameY="-177" frameWidth="600" frameHeight="600"/>
+    <SubTexture name="オボロ_驚き表情" x="570" y="560" rotated="true" width="74" height="96" frameX="-235" frameY="-163" frameWidth="600" frameHeight="600"/>
+    <SubTexture name="セシル_ボディ" x="224" y="567" width="185" height="357" frameX="-76" frameY="-43" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="セシル_服" x="531" y="173" rotated="true" width="252" height="166" frameX="-81" frameY="-148" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="セシル_目" x="531" y="517" width="81" height="30" frameX="-114" frameY="-108" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="ダイアナ_ボディ" x="1" y="567" width="221" height="366" frameX="-57" frameY="-34" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="ダイアナ_服" x="531" y="1" rotated="true" width="252" height="170" frameX="-76" frameY="-148" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="ダイアナ_目" x="785" y="248" rotated="true" width="29" height="88" frameX="-109" frameY="-109" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="ナタリア_ボディ" x="411" y="567" width="157" height="357" frameX="-89" frameY="-43" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="ナタリア_服" x="570" y="341" rotated="true" width="252" height="163" frameX="-83" frameY="-148" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="ナタリア_目" x="531" y="430" rotated="true" width="32" height="85" frameX="-111" frameY="-106" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="涙_流閉" x="785" y="1" rotated="true" width="37" height="82" frameX="-113" frameY="-124" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="涙_流開" x="785" y="85" rotated="true" width="37" height="71" frameX="-119" frameY="-130" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="涙_溜閉" x="816" y="248" rotated="true" width="9" height="81" frameX="-112" frameY="-125" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="涙_溜開" x="531" y="549" width="70" height="9" frameX="-120" frameY="-131" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="目_伏せ" x="565" y="506" width="79" height="9" frameX="-116" frameY="-131" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="目_閉じ" x="745" y="506" width="80" height="21" frameX="-116" frameY="-114" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="表情_困り" x="743" y="719" rotated="true" width="75" height="91" frameX="-107" frameY="-83" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="表情_怒り" x="570" y="754" rotated="true" width="73" height="92" frameX="-106" frameY="-87" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="表情_泣き" x="745" y="626" rotated="true" width="77" height="91" frameX="-107" frameY="-83" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="表情_笑い" x="570" y="658" rotated="true" width="73" height="94" frameX="-106" frameY="-86" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="表情_素" x="664" y="789" rotated="true" width="72" height="94" frameX="-106" frameY="-86" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="表情_驚き" x="570" y="848" width="92" height="75" frameX="-107" frameY="-84" frameWidth="300" frameHeight="400"/>
+</TextureAtlas>

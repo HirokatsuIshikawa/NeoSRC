@@ -1,0 +1,584 @@
+﻿スタート:
+PlayerSideName オボロ達
+
+
+
+エリスー、こっちこっち
+
+マーク、本当にこの奥で凄いもの見つけたの？
+
+ああ、見た事もないもんがいっぱいあったんだ
+アレを持ち出して売れば大儲けだよ
+
+……そんな事言って、またエッチな事する気じゃないでしょうね？
+
+本当だってば
+
+そりゃまぁ、あそこにはいいねどこもあるから
+それ使ってエッチな事はしたいけど……
+
+やっぱりー！！
+
+まぁまぁ、エリスだって興味あるだろ？
+いい寝床でのエッチ
+
+それはまぁ……
+
+//Goto エピローグへ
+//SetTelop backColor:0xFFFF00 fontColor:0xFFFFFF
+//Telop
+//ここはどこだ……
+//
+//俺はどうしてここに居る……
+//
+//ClearTelop
+//なにも思い出せない……
+//
+//俺はいったい
+//どこから来たのか……
+//
+//EndTelop
+//ClearTelop
+//背景セット
+AddLayer name:背景 alpha:0
+AddLayer name:キャラクター alpha:0
+AddLayer name:エフェクト alpha:0
+CharaLayer name:キャラクター
+SetImg img:back/廃村.jpg size:just name:部屋 layer:背景
+SetChara name:オボロ x:580 alpha:1 閉じ目 悲しみ顔
+Wait 1
+ReadyMove
+SetMove layer:キャラクター fade:in time:0.5
+StartMove type:同時 wait:on
+ShowMsg 0.3
+Talk オボロ 閉じ目 悲しみ顔
+うう……
+
+hidemsg time:0.3
+ReadyMove 
+SetMove layer:背景 fade:in time:0.5
+StartMove
+StartBGM file:bgm/まものとゆくこうや.mp3 vol:1 fade:0.5
+ShowMsg 0.3
+Talk オボロ 通常目
+ここは……廃村か……？
+
+人がいなくなってずいぶん経つようだな
+結構ボロボロだ
+
+Talk オボロ 怒り顔
+……だが、どうして俺はここに居る……？
+
+それよりも、俺はいったい誰なんだ……？
+
+Talk オボロ 閉じ目 悲しみ顔
+……何も思い出せない、記憶喪失ってやつか？
+
+………………
+
+手帳に名前が書いてある……
+
+オボロ……
+
+俺の名前なんだろうか……？
+
+Talk オボロ 通常目
+とりあえず、その辺を歩き回ってみるか
+
+なにか、思い出せるかもしれない
+
+hidemsg time:0.3
+clearmsg type:all
+SetImg xml:システム img:tex_black size:fill name:ブラック layer:エフェクト alpha:1
+ReadyMove
+SetMove layer:エフェクト time:1 fade:in
+//SetMove layer:キャラクター time:1 fade:out
+StartMove type:同時 wait:on
+DeleteLayer name:背景
+ClearLayer name:キャラクター
+Goto ステージ開始
+Exit
+
+ステージ開始:
+JoinUnit name:オボロ level:1
+JoinUnit name:セシル level:1
+LoadMap file:森の陣地.map
+SetChara name:オボロ x:640 悲しみ顔
+ReadyMove
+SetMove layer:キャラクター time:0 alpha:1
+SetMove layer:エフェクト time:0.5 fade:out
+StartMove type:同時 wait:on
+ShowMsg 0.3
+Talk オボロ 悲しみ顔
+見渡す限りの平原……
+
+全然覚えがない光景だ
+
+俺はいったい何者で、どこから来たんだろう……
+
+StopBGM
+……ん？
+
+HideMsg time:0.3
+clearmsg type:all
+ReadyMove
+SetMove chara:オボロ time:0.3 fade:out
+StartMove type:同時 wait:on
+Wait 1
+LaunchUnit name:セシル x:10 y:10
+CreateUnit name:トロリン x:10 y:8 side:モンスター
+SetChara name:セシル x:320 alpha:0 閉目 困り眉 困り口 涙溜閉
+ReadyMove
+SetMove chara:セシル time:0.3 fade:in
+StartMove type:同時 wait:on
+Wait 0.3
+StartBGM file:bgm/やせいのだいけっとう.mp3 vol:1 fade:0.5
+ShowMsg time:0.3
+Talk セシル 閉目 困り眉 困り口 涙溜閉
+うわーん！　こっちくるなー！
+
+Talk セシル 通常目 涙溜開
+あっちいけよ、バカー！！
+
+ReadyMove
+SetMove chara:セシル time:0.3 fade:out
+SetMove chara:オボロ time:0.3 fade:in
+StartMove type:同時 wait:on
+Talk オボロ 攻撃顔
+なんだ！？　誰かが変なものに襲われて……
+
+マズい、あのままじゃ捕まる！
+
+このおっ！！
+HideMsg time:0.3
+clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+LaunchUnit name:オボロ x:11 y:10
+Wait 1
+ReadyMove
+SetMove chara:セシル time:0 alpha:1
+SetMove chara:オボロ time:0 alpha:1
+SetMove layer:キャラクター time:0.3 fade:in
+StartMove type:同時 wait:on
+ShowMsg time:0.3
+Talk セシル 驚き眉 驚き口 涙溜なし
+え……？
+
+Talk オボロ
+大丈夫か！？
+
+Talk セシル 困り顔 困り口
+う、うん……
+
+Talk セシル 驚き眉 驚き口
+あっ！？
+
+HideMsg time:0.3
+clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+CreateUnit name:トロリン x:7 y:10 side:モンスター
+CreateUnit name:トロリン x:13 y:10 side:モンスター
+CreateUnit name:トロリン x:10 y:12 side:モンスター
+Wait 0.5
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:in
+StartMove type:同時 wait:on
+ShowMsg time:0.3
+Talk オボロ 怒り顔
+しまった！　囲まれた……！
+
+くそっ、このままじゃ……
+
+Talk オボロ 驚き顔
+えっ？
+
+Flash color:0xFFFFFF time:0.3
+Talk セシル 驚き眉 驚き口
+なんだ……？　お前、手が光って……
+
+Flash color:0xFFFFFF time:1
+Wait 1
+Talk オボロ
+なんだこれは……
+Wait 0.5
+剣が……ふたつ！？
+
+Talk オボロ 攻撃顔
+どうしてこんなものが……
+
+Talk セシル
+お前……クラフターなのか？
+
+Talk オボロ 驚き顔
+クラフター……？
+
+Talk オボロ 怒り顔
+……言葉の意味は分からないが
+とにかく、これならなんとかなりそうだ
+
+Talk セシル 怒り眉 怒り口
+なぁ……そっちのレイピアを
+俺に貸してくれないか？
+
+Talk オボロ 驚き顔
+え？　使えるのか？
+
+Talk セシル 通常口
+スライムを相手にするくらいなら
+なんとかなるぜ
+
+自分のは、さっき折れちゃったんだ……
+
+Talk オボロ 笑顔
+わかった、よろしく頼む
+でも無理するんじゃないぞ
+
+Talk セシル 得意げ口
+ありがとう、こっちこそよろしくな
+
+DeleteAllLayer
+hidemsg time:0.3
+clearmsg type:all
+SetEvent side:モンスター label:ステージクリア type:全滅
+Exit
+
+
+ステージクリア:
+AddLayer name:キャラクター alpha:0
+AddLayer name:エフェクト alpha:0
+CharaLayer name:キャラクター
+SetChara name:セシル x:320
+SetChara name:オボロ x:640
+ReadyMove
+SetMove layer:キャラクター time:0.5 fade:in
+StartMove type:同時 wait:on
+Talk オボロ
+ふぅ……
+なんとかなったか
+
+Talk セシル 困り口 困り眉
+あの……ありがとう
+
+Talk オボロ 笑顔
+なーに、気にするな
+
+困ったときはお互いさまってやつだ
+
+えーっと……
+
+Talk セシル 驚き眉
+あ、まだ名乗ってなかったな……
+
+Talk セシル 笑い眉 得意口
+俺の名はセシル、見習いフュンサーだ
+
+Talk オボロ デフォルト
+そうか、セシルっていうのか
+
+俺の名は……オボロだ
+
+Talk セシル デフォルト
+オボロ……
+
+Talk オボロ
+……ありゃ、お前そのズボン
+
+Talk セシル
+えっ？
+
+Talk セシル 困り眉 困り口 頬赤み
+わっ！？
+
+Talk オボロ 呆れ顔
+あーらら、漏らしちゃったのか……
+
+まぁ、あんな目にあったんじゃな
+
+早く、家に帰って洗わないとかぶれるぞ
+
+Talk セシル 困り眉 小口
+……帰るところなんてない
+
+Talk オボロ 
+ふぅむ……訳ありって感じか
+
+だが、放っておくわけにもいかないしな
+
+そうなると、あの村に
+洗えそうな所があるといいんだが
+
+Talk セシル デフォルト 驚き眉 驚き口
+え……？　村があるのか？
+
+Talk オボロ
+だれも住んでいないような廃村だがな
+
+ボロだから、雨風をしのぐ程度しか期待できない……
+
+……ん？
+
+Talk セシル
+ど、どうしたんだよ？
+
+Talk オボロ 笑顔
+……いや、もしかしたら何とかなるかもしれないぞ
+
+CharaLayer name:キャラクター
+SetImg xml:システム img:tex_black size:fill name:ブラック layer:エフェクト alpha:1
+ReadyMove
+SetMove layer:エフェクト time:1 fade:in
+StartMove type:同時 wait:on
+clearLayer name:キャラクター
+Goto エピローグ
+Exit
+
+エピローグへ:
+AddLayer name:キャラクター alpha:0
+AddLayer name:エフェクト alpha:0
+CharaLayer name:キャラクター
+Goto エピローグ
+Exit
+
+
+
+エピローグ:
+StopBGM
+AddLayer name:背景 alpha:1 level:0
+CharaLayer name:キャラクター
+SetImg img:back/温泉_夜_緑.jpg size:just name:部屋 layer:背景
+SetChara name:オボロ x:640 alpha:1
+SetChara name:セシル x:320 alpha:1
+ReadyMove
+SetMove layer:キャラクター time:0.1 fade:in
+SetMove layer:エフェクト time:0.5 fade:out
+StartMove type:連続 wait:on
+StartBGM file:bgm/うららかなひるさがり.mp3 vol:1 fade:0.5
+Talk オボロ スマイル顔
+……よし、イメージ通りだ
+
+Talk セシル 驚き眉 驚き口
+す、すげぇ……
+
+温泉を作っちゃった
+
+Talk オボロ 驚き顔
+なにかを作り出す能力……
+
+これが、クラフターの力ってことなのか？
+
+Talk セシル 困り眉 小口
+あんまり、詳しいわけじゃないけど
+そうだって、前に聞いたことがある……
+
+ただ、クラフターが温泉作ったって話は
+これまで聞いた事がないから
+お前、すごい力の持ち主なんだな
+
+Talk オボロ 悲しみ顔
+残念なことに、記憶が無い状態だから
+その辺がさっぱりわからないんだけどな……
+
+Talk オボロ スマイル
+とにかく、これでお前をちゃんと洗ってやれそうだ
+
+さ、洗ってやるから脱げよ
+
+Talk セシル 困り口 頬赤み
+い、いいよ！
+
+身体くらい、ひとりで洗えるって！！
+
+Talk オボロ 笑顔
+遠慮すんなって、そらそら……
+
+Talk セシル 怒り口
+わーっ！？　こら、脱がせるな！
+
+Talk セシル 全裸 閉じ目
+あーっ！？
+
+Talk オボロ 呆れ顔
+あら……
+
+Talk セシル 通常目 怒りマーク
+こ、このバカぁ……！！
+
+Talk オボロ 困りマーク
+ついてない……
+
+……お前、女だったのか
+
+Talk セシル
+じろじろ見るなよ！　恥ずかしいだろ
+
+Talk オボロ エロ顔 マーク無し
+いやぁ、恥ずかしがることないんじゃないかなぁ
+
+まだまだ初々しいとはいえ、これはこれで……
+
+Talk セシル
+スケベな顔で見るなー！！
+
+Talk オボロ 怒り顔
+……よし、こうなったら……
+
+Talk セシル マーク無し 驚き眉
+！？
+
+Talk オボロ 全裸 笑顔
+じゃーん！！
+
+Talk セシル 怒り口
+な……なんでお前まで脱いでるんだよ！？
+
+……って、なんだそれ！？
+
+お前、もしかして男……？
+
+Talk オボロ
+なんだ、男の裸見た事無かったのか？
+
+Talk セシル
+本物の……男……
+
+Talk オボロ スマイル顔
+まぁ、せっかく温泉がわいたんだ
+
+俺が入ってもいいだろ
+
+裸の付き合いってやつだ
+
+Talk セシル
+バカ！　やめろ！！
+前が丸見えだよ！！
+
+それに、女が男に裸で抱かれたら
+赤ちゃんができちゃうんだぞ！！
+
+Talk オボロ 笑顔
+ハハハ、セシルはちょっと勉強不足だな
+
+この程度じゃ、赤ちゃんはできないさ
+
+Talk オボロ エロ顔
+興味があるなら、あとで教えてもいいけど……
+
+Talk オボロ スマイル顔
+とにかく、今は風呂が先だ
+
+Talk オボロ 笑顔
+それいっ！！
+
+Talk セシル 閉目
+！！
+
+Talk オボロ 照れ スマイル顔
+ふぅ～……いい湯だぁ……
+
+Talk セシル 頬赤み 閉じ目 笑い眉 照れ口
+はぁ……気持ちいい……
+
+Talk オボロ 通常顔
+ところでセシル、帰る所が無いって言ってたけど
+いったい、何があったんだ？
+
+Talk セシル 困り眉 通常目 不機嫌口
+……別に、お前には関係ないだろ
+
+Talk オボロ 呆れ顔
+言いたくないってことか……
+
+まぁ、無理に聞き出す気もないが
+行く当てはあるのか？
+
+Talk セシル 困り口
+…………………
+
+Talk オボロ
+……なぁ、セシル
+
+クラフターの力って
+食い物とかも、どうにかする事が出来るのかな？
+
+Talk セシル 困り口
+え……？
+
+うん、食べづらい木の実や野草とかを使って
+作り出せるって事は、聞いた事があるけど
+
+Talk オボロ スマイル顔
+そうか、ならこの廃村を作り直せば
+それなりの生活は送っていけそうだな
+
+Talk セシル
+オボロ？
+
+Talk オボロ 通常顔
+俺も、記憶が全くないからな
+
+当然、行く当てもない
+
+幸い、クラフターの力を使えば
+生きていく分には何とかなりそうだが……
+
+独りぼっちじゃ、さすがに寂しいからな
+
+行く当てがないんなら、俺のことを
+手伝ってくれないか？
+
+Talk セシル
+……いいの？
+
+Talk オボロ
+あんまり多くは望まないけど
+剣の使い方、そこそこ出来てるみたいだし
+
+Talk オボロ スマイル顔
+いてくれると助かりそうだし……な
+
+Talk セシル 笑い眉 笑い口1 
+……わかった、俺でいいなら
+
+Talk オボロ 笑顔
+よし、話は決まりだ！
+
+それじゃあ、親睦を深めるために
+
+StartBGM file:bgm/まかいのあいどるしんえいたい.mp3 vol:1 fade:0.5
+Talk オボロ エロ顔
+お互い洗いっこをしようじゃないか！！
+
+Talk セシル 驚き眉 怒り口
+な……！？
+
+Talk オボロ
+まずは、お互い背中の洗いあいからだ！
+セシル、まずは俺が洗ってやるぜ
+
+Talk セシル 閉目 困り口 困り眉
+ふわっ！？　こらオボロ！　どこ洗ってんだ！！
+こっちは背中じゃないだろ！！
+
+Talk オボロ
+あ、悪い♪
+どっちも真っ平だから見分けつかなかったわ
+
+Talk セシル 怒りマーク 怒り口
+絶対ウソだー！！
+
+Talk オボロ
+はっはっは！
+
+ReadyMove
+SetMove layer:エフェクト time:1 fade:in
+StartMove type:連続 wait:on
+DeleteAllLayer
+clearmsg
+intermissionitem name:ふれあい show:1
+Set name:セシル好感度 value:1 type:global
+Continue クラフターストーリー_01.srceve
+Exit

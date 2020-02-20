@@ -1,0 +1,19 @@
+﻿スタート:
+PlayerSideName オボロ達
+//背景セット
+AddLayer name:背景 alpha:0
+AddLayer name:キャラクター alpha:0
+AddLayer name:インターフェース alpha:0
+CharaLayer name:キャラクター
+SetImg img:back/広間.jpg size:just name:広間 layer:背景
+SetChara name:オボロ x:480 alpha:1
+SetChara name:セシル x:240 alpha:1
+Wait 1
+ReadyMove
+SetMove layer:背景 fade:in time:0.5
+SetMove layer:キャラクター fade:in time:0.5
+StartMove type:連続 wait:on
+ShowMsg 0.3
+
+
+

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:856e9d1416f68bf8d1574170b027326f:f0f264252f3829335bbd99a395aa66aa:54804a255e765e401d61f16054d03d76$ -->
+<TextureAtlas imagePath="glass.png">
+    <SubTexture name="glass_0001" x="2" y="2" width="32" height="32"/>
+    <SubTexture name="glass_0002" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="glass_0003" x="70" y="2" width="32" height="32"/>
+    <SubTexture name="glass_0004" x="104" y="2" width="32" height="32"/>
+    <SubTexture name="glass_0005" x="138" y="2" width="32" height="32"/>
+    <SubTexture name="glass_0006" x="172" y="2" width="32" height="32"/>
+    <SubTexture name="glass_0007" x="206" y="2" width="32" height="32"/>
+    <SubTexture name="glass_0008" x="2" y="36" width="32" height="32"/>
+    <SubTexture name="glass_0009" x="36" y="36" width="32" height="32"/>
+    <SubTexture name="glass_0010" x="70" y="36" width="32" height="32"/>
+    <SubTexture name="glass_0011" x="104" y="36" width="32" height="32"/>
+    <SubTexture name="glass_0012" x="138" y="36" width="32" height="32"/>
+    <SubTexture name="glass_0013" x="172" y="36" width="32" height="32"/>
+    <SubTexture name="glass_0014" x="206" y="36" width="32" height="32"/>
+    <SubTexture name="glass_0015" x="2" y="70" width="32" height="32"/>
+    <SubTexture name="glass_0016" x="36" y="70" width="32" height="32"/>
+    <SubTexture name="glass_0017" x="70" y="70" width="32" height="32"/>
+    <SubTexture name="glass_0018" x="104" y="70" width="32" height="32"/>
+    <SubTexture name="glass_0019" x="138" y="70" width="32" height="32"/>
+    <SubTexture name="glass_0020" x="172" y="70" width="32" height="32"/>
+    <SubTexture name="glass_0021" x="206" y="70" width="32" height="32"/>
+    <SubTexture name="glass_0022" x="2" y="104" width="32" height="32"/>
+    <SubTexture name="glass_0023" x="36" y="104" width="32" height="32"/>
+    <SubTexture name="glass_0024" x="70" y="104" width="32" height="32"/>
+    <SubTexture name="glass_0025" x="104" y="104" width="32" height="32"/>
+    <SubTexture name="glass_0026" x="138" y="104" width="32" height="32"/>
+    <SubTexture name="glass_0027" x="172" y="104" width="32" height="32"/>
+    <SubTexture name="glass_0028" x="206" y="104" width="32" height="32"/>
+    <SubTexture name="glass_0029" x="2" y="138" width="32" height="32"/>
+    <SubTexture name="glass_0030" x="36" y="138" width="32" height="32"/>
+    <SubTexture name="glass_0031" x="70" y="138" width="32" height="32"/>
+    <SubTexture name="glass_0032" x="104" y="138" width="32" height="32"/>
+    <SubTexture name="glass_0033" x="138" y="138" width="32" height="32"/>
+    <SubTexture name="glass_0034" x="172" y="138" width="32" height="32"/>
+    <SubTexture name="glass_0035" x="206" y="138" width="32" height="32"/>
+    <SubTexture name="glass_0036" x="2" y="172" width="32" height="32"/>
+    <SubTexture name="glass_0037" x="36" y="172" width="32" height="32"/>
+    <SubTexture name="glass_0038" x="70" y="172" width="32" height="32"/>
+    <SubTexture name="glass_0039" x="104" y="172" width="32" height="32"/>
+    <SubTexture name="glass_0040" x="138" y="172" width="32" height="32"/>
+    <SubTexture name="glass_0041" x="172" y="172" width="32" height="32"/>
+    <SubTexture name="glass_0042" x="206" y="172" width="32" height="32"/>
+    <SubTexture name="glass_0043" x="2" y="206" width="32" height="32"/>
+    <SubTexture name="glass_0044" x="36" y="206" width="32" height="32"/>
+    <SubTexture name="glass_0045" x="70" y="206" width="32" height="32"/>
+    <SubTexture name="glass_0046" x="104" y="206" width="32" height="32"/>
+    <SubTexture name="glass_0047" x="138" y="206" width="32" height="32"/>
+    <SubTexture name="glass_0048" x="172" y="206" width="32" height="32"/>
+</TextureAtlas>

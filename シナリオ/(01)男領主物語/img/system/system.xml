@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:a9b26a38e3034d270c56de91fe98c1b0:5b96f8619c2346ef3df8089fa41a7025:75e730636da1f75148defc1997c875c7$ -->
+<TextureAtlas imagePath="system.png" width="472" height="472">
+    <SubTexture name="backimg" x="393" y="432" width="4" height="4"/>
+    <SubTexture name="btn_Act" x="1" y="109" width="96" height="64"/>
+    <SubTexture name="btn_Atk" x="179" y="1" width="96" height="64"/>
+    <SubTexture name="btn_base" x="179" y="67" width="96" height="64"/>
+    <SubTexture name="btn_base_b" x="99" y="403" width="64" height="64"/>
+    <SubTexture name="btn_base_w" x="277" y="67" width="96" height="64"/>
+    <SubTexture name="btn_bgm" x="263" y="195" width="64" height="64"/>
+    <SubTexture name="btn_close" x="1" y="439" width="96" height="32"/>
+    <SubTexture name="btn_End" x="1" y="175" width="96" height="64"/>
+    <SubTexture name="btn_list_main" x="258" y="265" rotated="true" width="24" height="6"/>
+    <SubTexture name="btn_list_sub" x="428" y="368" width="6" height="24"/>
+    <SubTexture name="btn_listload" x="375" y="67" width="96" height="64"/>
+    <SubTexture name="btn_listsave" x="165" y="133" width="96" height="64"/>
+    <SubTexture name="btn_Menu" x="99" y="109" rotated="true" width="64" height="96"/>
+    <SubTexture name="btn_Move" x="277" y="1" width="96" height="64"/>
+    <SubTexture name="btn_newgame" x="165" y="199" width="96" height="64"/>
+    <SubTexture name="btn_Pass" x="375" y="1" width="96" height="64"/>
+    <SubTexture name="btn_QuickLoad" x="1" y="241" width="96" height="64"/>
+    <SubTexture name="btn_Reset" x="99" y="207" rotated="true" width="64" height="96"/>
+    <SubTexture name="btn_Return" x="1" y="307" width="96" height="64"/>
+    <SubTexture name="btn_Skill" x="1" y="373" width="96" height="64"/>
+    <SubTexture name="btn_Strength" x="99" y="305" rotated="true" width="64" height="96"/>
+    <SubTexture name="btn_wide" x="356" y="133" width="96" height="32"/>
+    <SubTexture name="emptylistitem" x="265" y="439" width="32" height="32"/>
+    <SubTexture name="frame_b" x="343" y="361" width="32" height="32"/>
+    <SubTexture name="frame_r" x="343" y="395" width="32" height="32"/>
+    <SubTexture name="kake" x="429" y="420" width="16" height="16" frameX="0" frameY="-4" frameWidth="16" frameHeight="24"/>
+    <SubTexture name="listitem" x="416" y="273" width="32" height="32"/>
+    <SubTexture name="minus" x="454" y="159" width="14" height="6" frameX="-1" frameY="-9" frameWidth="16" frameHeight="24"/>
+    <SubTexture name="msg_window_b" x="263" y="133" width="91" height="60"/>
+    <SubTexture name="msg_window_r" x="165" y="265" width="91" height="60"/>
+    <SubTexture name="number_0" x="291" y="420" rotated="true" width="24" height="16"/>
+    <SubTexture name="number_1" x="369" y="456" rotated="true" width="24" height="14" frameX="-1" frameY="0" frameWidth="16" frameHeight="24"/>
+    <SubTexture name="number_2" x="299" y="438" width="16" height="24"/>
+    <SubTexture name="number_3" x="343" y="455" rotated="true" width="24" height="16"/>
+    <SubTexture name="number_4" x="454" y="133" width="16" height="24"/>
+    <SubTexture name="number_5" x="454" y="299" width="16" height="24"/>
+    <SubTexture name="number_6" x="403" y="420" rotated="true" width="24" height="16"/>
+    <SubTexture name="number_7" x="393" y="438" rotated="true" width="24" height="16"/>
+    <SubTexture name="number_8" x="436" y="367" width="16" height="24"/>
+    <SubTexture name="number_9" x="454" y="367" width="16" height="24"/>
+    <SubTexture name="parcent" x="419" y="438" width="16" height="16" frameX="0" frameY="-4" frameWidth="16" frameHeight="24"/>
+    <SubTexture name="pex_fire" x="387" y="309" width="31" height="31" frameX="0" frameY="0" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="plus" x="454" y="325" width="14" height="14" frameX="-1" frameY="-5" frameWidth="16" frameHeight="24"/>
+    <SubTexture name="point" x="377" y="361" width="6" height="5" frameX="-10" frameY="-19" frameWidth="16" frameHeight="24"/>
+    <SubTexture name="Skl_bullet" x="312" y="261" rotated="true" width="24" height="50" frameX="-11" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Skl_heal" x="422" y="167" width="49" height="24" frameX="-11" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Skl_spl" x="422" y="193" width="49" height="24" frameX="-12" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Skl_target" x="291" y="316" rotated="true" width="24" height="50" frameX="-11" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Skl_treatment" x="291" y="368" rotated="true" width="24" height="50" frameX="-10" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="slash" x="429" y="394" width="16" height="24"/>
+    <SubTexture name="Status_ATK" x="165" y="327" width="64" height="32"/>
+    <SubTexture name="Status_CAP" x="165" y="361" width="64" height="32"/>
+    <SubTexture name="Status_DEF" x="231" y="393" rotated="true" width="32" height="63" frameX="0" frameY="0" frameWidth="64" frameHeight="32"/>
+    <SubTexture name="Status_FP" x="413" y="219" width="53" height="26" frameX="-5" frameY="-3" frameWidth="64" frameHeight="32"/>
+    <SubTexture name="Status_HP" x="355" y="201" width="56" height="26" frameX="-4" frameY="-3" frameWidth="64" frameHeight="32"/>
+    <SubTexture name="Status_Lv" x="258" y="273" rotated="true" width="26" height="52" frameX="-6" frameY="-3" frameWidth="64" frameHeight="32"/>
+    <SubTexture name="Status_MND" x="165" y="395" width="64" height="32"/>
+    <SubTexture name="Status_MOV" x="165" y="429" width="64" height="32"/>
+    <SubTexture name="Status_SPD" x="356" y="167" width="64" height="32"/>
+    <SubTexture name="Status_TEC" x="231" y="327" rotated="true" width="32" height="64"/>
+    <SubTexture name="Status_TP" x="355" y="229" width="56" height="26" frameX="-4" frameY="-3" frameWidth="64" frameHeight="32"/>
+    <SubTexture name="Sys_LevelUp" x="1" y="1" width="176" height="106"/>
+    <SubTexture name="tex_black" x="165" y="109" width="4" height="4"/>
+    <SubTexture name="tex_blue" x="413" y="201" width="4" height="4"/>
+    <SubTexture name="tex_green" x="165" y="463" width="4" height="4"/>
+    <SubTexture name="tex_red" x="329" y="251" width="4" height="4"/>
+    <SubTexture name="tex_white" x="335" y="251" width="4" height="4"/>
+    <SubTexture name="Tgt_ally" x="317" y="313" rotated="true" width="24" height="49" frameX="-11" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Tgt_base" x="317" y="364" rotated="true" width="24" height="49" frameX="-12" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Tgt_enemy" x="388" y="283" width="26" height="24" frameX="-23" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="WeaponGrap" x="317" y="415" width="24" height="24"/>
+    <SubTexture name="WeaponGuard" x="317" y="441" width="24" height="24"/>
+    <SubTexture name="WeaponP" x="343" y="429" width="24" height="24"/>
+    <SubTexture name="WeaponShot" x="369" y="432" width="22" height="22" frameX="-1" frameY="-1" frameWidth="24" frameHeight="24"/>
+    <SubTexture name="windowitem" x="420" y="307" width="32" height="32"/>
+    <SubTexture name="Wpn_Atk" x="413" y="247" width="53" height="24" frameX="-9" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Wpn_CapA" x="386" y="342" width="24" height="24"/>
+    <SubTexture name="Wpn_CapB" x="388" y="257" width="23" height="24" frameX="0" frameY="0" frameWidth="24" frameHeight="24"/>
+    <SubTexture name="Wpn_CapC" x="403" y="368" width="23" height="24" frameX="0" frameY="0" frameWidth="24" frameHeight="24"/>
+    <SubTexture name="Wpn_CapD" x="412" y="342" width="22" height="24" frameX="-2" frameY="0" frameWidth="24" frameHeight="24"/>
+    <SubTexture name="Wpn_CapGround" x="377" y="368" width="24" height="24"/>
+    <SubTexture name="Wpn_CapNone" x="377" y="420" width="24" height="10" frameX="0" frameY="-6" frameWidth="24" frameHeight="24"/>
+    <SubTexture name="Wpn_CapOther" x="377" y="394" width="24" height="24"/>
+    <SubTexture name="Wpn_CapS" x="450" y="273" width="21" height="24" frameX="-1" frameY="0" frameWidth="24" frameHeight="24"/>
+    <SubTexture name="Wpn_CapSky" x="403" y="394" width="24" height="24"/>
+    <SubTexture name="Wpn_CapWater" x="436" y="341" width="24" height="24"/>
+    <SubTexture name="Wpn_Count" x="338" y="257" width="48" height="24" frameX="-13" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Wpn_CRT" x="329" y="195" rotated="true" width="24" height="54" frameX="-9" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Wpn_Eva" x="265" y="327" rotated="true" width="24" height="54" frameX="-9" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Wpn_Fp" x="343" y="335" width="41" height="24" frameX="-17" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Wpn_Grd" x="265" y="383" rotated="true" width="24" height="54" frameX="-8" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Wpn_Hit" x="286" y="261" rotated="true" width="24" height="53" frameX="-9" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Wpn_Rng" x="338" y="283" width="48" height="24" frameX="-11" frameY="0" frameWidth="72" frameHeight="24"/>
+    <SubTexture name="Wpn_Tp" x="343" y="309" width="42" height="24" frameX="-15" frameY="0" frameWidth="72" frameHeight="24"/>
+</TextureAtlas>

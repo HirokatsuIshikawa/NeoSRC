@@ -1,0 +1,35 @@
+﻿スタート:
+PlayerSideName オボロ達
+//背景セット
+AddLayer name:背景 alpha:0
+AddLayer name:キャラクター alpha:0
+AddLayer name:インターフェース alpha:0
+CharaLayer name:キャラクター
+SetImg img:back/廃村.jpg size:just name:部屋 layer:背景
+SetChara name:オボロ x:580 alpha:1 閉じ目 悲しみ顔
+Wait 1
+ReadyMove
+SetMove layer:背景 fade:in time:0.5
+SetMove layer:キャラクター fade:in time:0.5
+StartMove type:同時 wait:on
+showmsg time:0.5   
+Talk オボロ
+うーむ、村を発展させるのには
+もっともっと人数が居るな……
+
+さりとて、こんな所に来てくれる人は
+そうそう居ないだろうし……
+
+
+Talk セシル
+今は、貧しさで盗賊になるヤツ多いからなぁ
+
+そいつら捕まえて、奴隷にでもしたらどうだ？
+
+Talk オボロ
+お前、さらりと酷い事言うな……
+
+
+
+
+Exit

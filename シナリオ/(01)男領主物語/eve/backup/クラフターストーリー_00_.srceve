@@ -1,0 +1,470 @@
+﻿スタート:
+PlayerSideName オボロ軍
+AddLayer name:背景 alpha:0
+AddLayer name:キャラクター alpha:0
+AddLayer name:エフェクト alpha:0
+CharaLayer name:キャラクター
+SetImg img:back/廃村.jpg size:just name:部屋 layer:背景
+SetChara name:オボロ x:580 alpha:1 閉じ目 悲しみ顔
+Wait 1
+ReadyMove
+SetMove layer:キャラクター fade:in time:0.5
+StartMove type:同時 wait:on
+ShowMsg 0.3
+Talk ？？？
+オボロ、オボロってば
+
+Talk オボロ
+ん……
+
+//SetChara name:セシル x:320 alpha:0 閉目 困り眉 困り口 涙溜閉
+SetChara name:セシル x:320 alpha:0
+ReadyMove
+SetMove layer:背景 time:0.3 alpha:1
+SetMove chara:セシル time:0.3 fade:in
+StartMove type:連続 wait:on
+Talk セシル
+あー、やっと起きてくれた
+
+なんか、悪い夢見てたみたいだけど大丈夫？
+
+Talk オボロ デフォルト
+セシルか……
+
+いや、ちょっとな……
+
+Talk セシル
+そろそろ、村の連中が来る時間だよ
+
+依頼の品物、ちゃんとできてるの？
+
+Talk オボロ
+大丈夫だ、そっちはちゃんと出来てるさ
+
+……ところで、お前また村でなんか
+イタズラをしてきたんじゃないだろうな？
+
+Talk セシル
+や、やだな……
+
+そんな訳無いじゃん
+
+根拠もないのに疑わないでよ
+
+Talk オボロ
+……どうだか
+
+今まで何度同じセリフ聞いた事か
+
+またなんかやってたらキツイお仕置きだぞ
+
+Talk セシル
+だいじょーぶだってば
+
+SetChara name:メディナ x:840 alpha:0
+ReadyMove
+SetMove chara:メディナ time:0.3 fade:in
+StartMove type:同時 wait:on
+
+Talk メディナ
+こんにちわ、オボロ先生
+
+頼んでおいた薬と植物栄養剤
+もう出来てますか？
+
+Talk オボロ
+ああ、いつものように、そこに揃えてあるぜ
+
+Talk メディナ
+まぁ、ありがとうございます
+
+本当に、先生には足を向けて寝られませんね
+
+Talk オボロ
+いやいや、こちらも記憶喪失だった所を
+村の皆さんに救われたのですから
+お互い様と言う奴ですよ
+
+Talk メディナ 怒り
+……それにしてもセシルったら
+
+身寄りのないのを先生に引き取ってもらったのに
+いつもいつも、イタズラばかり
+
+Talk セシル
+げ……
+
+Talk オボロ
+ほぅ、それでは最近も何かイタズラを？
+
+Talk メディナ
+ええ、先ほど肥溜めに爆竹を投げて……
+
+Talk メディナ 悲しみ
+幸い、それほど被害は無かったんですが
+道が酷く汚れてしまって……
+
+Talk オボロ
+……セシル！
+
+Talk セシル
+あ、あはははは……
+
+怒るなよ、単なる茶目っ気じゃん
+
+Talk オボロ
+俺、爆竹渡すときに言ったよな！！
+
+あぶないから気を付けて使えって！！
+
+Talk セシル
+あぶない事はしてないよ！
+
+怪我した人は居なかったわけだし……
+
+Talk オボロ
+人様に迷惑をかけるなと言ってるんだ！！
+
+Talk オボロ
+全くもって申し訳ありません
+
+イタズラに関しては、この通り……
+
+Talk セシル
+お、オボロ……
+
+ぎゃーっ！？
+
+Talk オボロ
+きつく折檻しておきますので
+どうぞ穏便にお願いいたします
+
+Talk セシル
+痛い！　痛いってば！！
+
+もうしないから許して！！
+
+Talk メディナ
+あらあら……
+
+ところで先生、例の件ですが……
+
+Talk オボロ
+例の件？
+
+ああ……わかりました
+
+それでは、また後ほど……
+
+Talk セシル
+オボロ、また大人の付き合いってヤツか？
+
+Talk オボロ
+まぁな♪
+
+村には若い女しかいないんだ
+
+そう言うのを持て余すと病気になるから
+
+それを解消してやるのも俺の仕事さ
+
+Talk セシル
+……俺だって、女なのにさぁ
+
+Talk オボロ
+……お前は、相手するにはまだまだ青いよ
+
+年頃になったら相手してやるから待ってろ
+
+Talk セシル
+フーンだ
+
+Talk オボロ
+さてと、そろそろ時間だな
+
+セシル、みんなに出発するぞって
+伝えてきてくれ
+
+Talk セシル
+はーい
+
+
+
+hidemsg time:0.3
+clearmsg type:all
+SetImg xml:システム img:tex_black size:fill name:ブラック layer:エフェクト alpha:1
+ReadyMove
+SetMove layer:エフェクト time:1 fade:in
+//SetMove layer:キャラクター time:1 fade:out
+StartMove type:同時 wait:on
+DeleteLayer name:背景
+ClearLayer name:キャラクター
+Goto ステージ開始
+Exit
+
+ステージ開始:
+JoinUnit name:オボロ level:1
+JoinUnit name:セシル level:1
+LoadMap file:森の陣地.map
+
+Talk タマ
+あれが、例の村か……
+
+このような辺境の地に、本当にいるのか……？
+
+Talk メディナ
+あなた達、何者！？
+いったいこの村に何の用！？
+
+Talk タマ
+最近、この村に男がいるとの情報をうけてね
+
+そいつを連れてくるよう、領主さまから直々に命令を受けたのよ
+
+Talk メディナ
+！？
+
+Talk タマ
+その反応……
+
+どうやら本当みたいね
+
+大人しくここに連れて来るならば
+他の物には手出しせずこのまま引き上げるわ
+
+Talk メディナ
+拒否したら……？
+
+Talk タマ
+多少手荒な事をしてもかまわないと言われてるわ
+
+この規模の村、私達が本気を出せば
+すぐに落とせる……
+
+
+Talk ？？？
+さて、それはどうかな
+
+Talk タマ
+！！
+
+
+
+Talk オボロ
+なにが起こったのかと思えば
+村がどこかの兵士さん達に襲われていたなんてな
+
+Talk メディナ
+オボロさん！？
+
+Talk オボロ
+わざわざボーイハントの為に
+こんな所まで来てくれるとは……
+
+うれしいね
+
+Talk タマ
+貴方が話に聞いていた男ね
+
+大人しく、私達についてきなさい
+
+そうすれば、村の物には手出ししない
+
+Talk オボロ
+聞いたよ、領主さまの命令だってね
+
+Talk メディナ
+駄目！　オボロさん逃げて！！
+
+Talk オボロ
+生憎と、俺はひねくれものでね……
+
+こういう場面でそう言われると
+逆らってみたくなる性格なのさ
+
+……村のみんなの準備は？
+
+Talk メディナ
+一応、抵抗する用意はしておいたけど……
+
+兵士ならともかくドラゴンナイトが相手だと……
+
+Talk オボロ
+わかった、そっちの方は俺達でなんとかする
+
+セシル、お前の方はどうだ？
+
+Talk セシル
+大丈夫、あのくらいなら余裕だって
+
+Talk オボロ
+よし、それじゃあ始めるとするか
+
+村に手を出した事、思いっきり
+後悔させてやらないとな
+
+
+
+
+Exit
+
+
+
+ステージクリア:
+
+Talk オボロ
+さて、勝負あったな
+
+Talk タマ
+くっ……
+
+Talk セシル
+オボロ、こいつらどうするんだ？
+わざわざ生かして捕まえるって事は……
+
+Talk オボロ
+あわてるなセシル、エノリアはそれなりにデカいところなんだろう？
+
+コイツらが帰ってこなきゃ、もっと規模のデカい隊が
+襲ってくるはずだ
+
+それを防ぐためにも、まずは情報を聞き出さないとな
+
+Talk タマ
+私が、簡単に口を割るとでも……？
+
+Talk オボロ
+いいねぇ、簡単に口を割られたんじゃ
+却って信用できないからな
+
+みんな、悪いがこいつらを
+俺の家まで運んでくれ
+
+Talk メディナ
+わかりました
+
+
+CharaLayer name:キャラクター
+SetImg xml:システム img:tex_black size:fill name:ブラック layer:エフェクト alpha:1
+ReadyMove
+SetMove layer:エフェクト time:1 fade:in
+StartMove type:同時 wait:on
+clearLayer name:キャラクター
+Goto エピローグ
+Exit
+
+エピローグへ:
+AddLayer name:キャラクター alpha:0
+AddLayer name:エフェクト alpha:0
+CharaLayer name:キャラクター
+Goto エピローグ
+Exit
+
+
+
+エピローグ:
+StopBGM
+AddLayer name:背景 alpha:1 level:0
+CharaLayer name:キャラクター
+SetImg img:back/温泉_夜_緑.jpg size:just name:部屋 layer:背景
+SetChara name:オボロ x:640 alpha:1
+SetChara name:セシル x:320 alpha:1
+ReadyMove
+SetMove layer:キャラクター time:0.1 fade:in
+SetMove layer:エフェクト time:0.5 fade:out
+StartMove type:連続 wait:on
+StartBGM file:bgm/うららかなひるさがり.mp3 vol:1 fade:0.5
+
+
+Talk タマ
+ぐっ……
+
+Talk オボロ
+へへへっ、いい格好になったじゃないか隊長さん
+
+尻の穴の具合はどうかな？
+
+Talk タマ
+アナタ……いい加減にしなさいよ……
+
+Talk オボロ
+ほー、まだそんな口きけるとは……
+
+まだ、自分の状況が判ってないみたいだな
+
+部下共々、お前達の生殺与奪は
+俺の手の中にある
+
+ここで逆らったらどうなるか……
+
+そこまでわからないのかな？
+
+Talk タマ
+ぐっ……
+
+Talk オボロ
+よし、じゃあ手始めにこうしてやる
+
+セシル、やれ
+
+Talk セシル
+あいよー！
+
+Talk タマ
+やめ……あああああっ！？
+
+Talk オボロ
+おーおー、これまた腹がみっともない形になっちゃって
+
+やめて欲しかったら、お前さん達の目的を
+洗いざらい教えて貰おうか
+
+Talk タマ
+だ、だれが……ああっ！？
+
+Talk オボロ
+がんばるねぇ……
+
+だが、もう限界みたいだな
+
+このまま尻の栓を抜いたらどうなるか……
+
+そうだな、村の連中の前でやらせるのも面白そうだな
+
+Talk タマ
+や、やめて……それだけは……
+
+Talk オボロ
+……んじゃ、話してくれるかな？
+
+Talk タマ
+……わかった、わかったから……！
+
+Talk オボロ
+……いいだろう
+
+セシル、トイレまで連れて行ってやれ
+
+万が一にも逃げだしたら、お前もお仕置きだからな
+
+Talk セシル
+わかってるよ、ほらこっちだ
+
+Talk タマ
+うう……
+
+Talk オボロ
+さて、どこの誰だか知らないけれど
+愉快な真似をしてくれちゃって……
+
+この落とし前はしっかりとしてもらおうか
+
+ReadyMove
+SetMove layer:エフェクト time:1 fade:in
+StartMove type:連続 wait:on
+DeleteAllLayer
+clearmsg
+intermissionitem name:ふれあい show:1
+Set name:セシル好感度 value:1 type:global
+Continue クラフターストーリー_01.srceve
+Exit

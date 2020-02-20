@@ -1,0 +1,18 @@
+﻿マイユニット
+スタートファイル:クラフターストーリー_00.srceve
+資金:マギス
+強化資金:5000, 10000, 15000, 20000, 25000
+セーブ名:クラフターストーリー_{0}
+セーブ数:4
+参戦作品:クラフターストーリー
+会話タイプ:立ち絵
+インターミッション
+name:背景, type:img, img:back/温泉_夜_緑.jpg
+name:資金, type:label,key:資金, x:10, y:10, color:0xFF44FF, fontsize:36 ,back:0x55FFFF44, width:200, height:44, align:RIGHT
+name:捕虜, type:label,key:捕虜数, x:10, y:40
+name:次へ, type:btn,action:NextStage, x:20, y:100
+name:一覧, type:btn,action:UnitList, x:180, y:100
+name:セーブ, type:btn,action:DataSave, x:340, y:100
+name:強化イベント,type:btn, action:UnitStrength ,x:20, y:200,show:0
+name:ふれあい, type:btn, img:btn_event, file:event/セシルイベント.srceve, label:セシルスタート, x:180, y:200, show:0
+name:盗賊狩り, type:btn, img:btn_event, file:event/盗賊狩り.srceve, x:340, y:200, show:0

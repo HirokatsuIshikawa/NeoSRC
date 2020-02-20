@@ -1,0 +1,15 @@
+スタートファイル:イベントファイル_01.srceve
+資金:『資金にした名前を入れる』
+強化資金:3000, 8000, 15000, 25000, 50000, 100000
+セーブ名:『セーブファイル名』_{0}
+セーブ数:3
+参戦作品:参戦作品1,参戦作品2
+会話タイプ:立ち絵
+レベル:ユニット
+インターミッション
+name:背景, type:img, img:住宅地
+name:資金, type:label,key:資金, x:10, y:10
+name:次へ, type:btn,action:NextStage, x:20, y:100
+name:一覧, type:btn,action:UnitList, x:180, y:100
+name:セーブ, type:btn,action:DataSave, x:340, y:100
+name:強化イベント,type:btn, action:UnitStrength ,x:20, y:200

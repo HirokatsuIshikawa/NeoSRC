@@ -1,0 +1,8 @@
+﻿スタート:
+intermissionitem name:資金 show:1
+intermissionitem name:ふれあい show:1
+Set name:セシル好感度 value:1 type:global
+Set name:捕虜数 value:5 type:global
+IntermissionBack back/バザー街.jpg
+Continue 未設定
+Exit

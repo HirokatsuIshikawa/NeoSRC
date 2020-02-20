@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:04fbdb85379b20af8a8b540857ae5e69:e1d16883a0247c2e8d2459ec79062c77:c5547447a2fac150c202a39838468f5e$ -->
+<TextureAtlas imagePath="intermission.png" width="328" height="328">
+    <SubTexture name="btn_base_color" x="131" y="1" width="128" height="80"/>
+    <SubTexture name="btn_chara" x="1" y="83" rotated="true" width="80" height="128"/>
+    <SubTexture name="btn_event" x="1" y="213" width="128" height="80"/>
+    <SubTexture name="btn_intermission_base" x="83" y="83" rotated="true" width="80" height="128"/>
+    <SubTexture name="btn_next" x="131" y="213" width="128" height="80"/>
+    <SubTexture name="btn_save" x="165" y="83" rotated="true" width="80" height="128"/>
+    <SubTexture name="btn_shop" x="1" y="1" width="128" height="80"/>
+    <SubTexture name="btn_strength" x="247" y="83" rotated="true" width="80" height="128"/>
+</TextureAtlas>

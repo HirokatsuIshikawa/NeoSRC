@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:8e2137f5368f20e4a68b0f980ef0794f:c27e057a0ae1514a8a7a4123ba24802d:e4251e0747e5a9a222e330bc98c6a330$ -->
+<TextureAtlas imagePath="plane2.png">
+    <SubTexture name="plane2_0000" x="2" y="2" width="32" height="32"/>
+    <SubTexture name="plane2_0001" x="36" y="2" width="32" height="32"/>
+    <SubTexture name="plane2_0002" x="70" y="2" width="32" height="32"/>
+    <SubTexture name="plane2_0003" x="104" y="2" width="32" height="32"/>
+    <SubTexture name="plane2_0004" x="138" y="2" width="32" height="32"/>
+    <SubTexture name="plane2_0005" x="172" y="2" width="32" height="32"/>
+    <SubTexture name="plane2_0006" x="206" y="2" width="32" height="32"/>
+    <SubTexture name="plane2_0007" x="2" y="36" width="32" height="32"/>
+    <SubTexture name="plane2_0008" x="36" y="36" width="32" height="32"/>
+    <SubTexture name="plane2_0009" x="70" y="36" width="32" height="32"/>
+    <SubTexture name="plane2_0010" x="104" y="36" width="32" height="32"/>
+    <SubTexture name="plane2_0011" x="138" y="36" width="32" height="32"/>
+    <SubTexture name="plane2_0012" x="172" y="36" width="32" height="32"/>
+    <SubTexture name="plane2_0013" x="206" y="36" width="32" height="32"/>
+    <SubTexture name="plane2_0014" x="2" y="70" width="32" height="32"/>
+    <SubTexture name="plane2_0015" x="36" y="70" width="32" height="32"/>
+    <SubTexture name="plane2_0016" x="70" y="70" width="32" height="32"/>
+    <SubTexture name="plane2_0017" x="104" y="70" width="32" height="32"/>
+    <SubTexture name="plane2_0018" x="138" y="70" width="32" height="32"/>
+    <SubTexture name="plane2_0019" x="172" y="70" width="32" height="32"/>
+    <SubTexture name="plane2_0020" x="206" y="70" width="32" height="32"/>
+    <SubTexture name="plane2_0021" x="2" y="104" width="32" height="32"/>
+    <SubTexture name="plane2_0022" x="36" y="104" width="32" height="32"/>
+    <SubTexture name="plane2_0023" x="70" y="104" width="32" height="32"/>
+    <SubTexture name="plane2_0024" x="104" y="104" width="32" height="32"/>
+    <SubTexture name="plane2_0025" x="138" y="104" width="32" height="32"/>
+    <SubTexture name="plane2_0026" x="172" y="104" width="32" height="32"/>
+    <SubTexture name="plane2_0027" x="206" y="104" width="32" height="32"/>
+    <SubTexture name="plane2_0028" x="2" y="138" width="32" height="32"/>
+    <SubTexture name="plane2_0029" x="36" y="138" width="32" height="32"/>
+    <SubTexture name="plane2_0030" x="70" y="138" width="32" height="32"/>
+    <SubTexture name="plane2_0031" x="104" y="138" width="32" height="32"/>
+    <SubTexture name="plane2_0032" x="138" y="138" width="32" height="32"/>
+    <SubTexture name="plane2_0033" x="172" y="138" width="32" height="32"/>
+    <SubTexture name="plane2_0034" x="206" y="138" width="32" height="32"/>
+    <SubTexture name="plane2_0035" x="2" y="172" width="32" height="32"/>
+    <SubTexture name="plane2_0036" x="36" y="172" width="32" height="32"/>
+    <SubTexture name="plane2_0037" x="70" y="172" width="32" height="32"/>
+    <SubTexture name="plane2_0038" x="104" y="172" width="32" height="32"/>
+    <SubTexture name="plane2_0039" x="138" y="172" width="32" height="32"/>
+    <SubTexture name="plane2_0040" x="172" y="172" width="32" height="32"/>
+    <SubTexture name="plane2_0041" x="206" y="172" width="32" height="32"/>
+    <SubTexture name="plane2_0042" x="2" y="206" width="32" height="32"/>
+    <SubTexture name="plane2_0043" x="36" y="206" width="32" height="32"/>
+    <SubTexture name="plane2_0044" x="70" y="206" width="32" height="32"/>
+    <SubTexture name="plane2_0045" x="104" y="206" width="32" height="32"/>
+    <SubTexture name="plane2_0046" x="138" y="206" width="32" height="32"/>
+    <SubTexture name="plane2_0047" x="172" y="206" width="32" height="32"/>
+</TextureAtlas>

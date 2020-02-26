@@ -2,15 +2,20 @@ package
 {
 	import bgm.SingleMusic;
 	import common.SystemController;
+	import flash.desktop.NativeApplication;
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.InvokeEvent;
 	import flash.events.LocationChangeEvent;
-	import flash.geom.Rectangle;
+	import flash.filesystem.File;
 	import flash.media.StageWebView;
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
+	import flash.text.TextField;
 	import system.worker.MainThread;
-	import scene.main.MainController;
+	import viewitem.parts.pc.StartWindowPC;
 	
 	/**
 	 * ...
@@ -32,17 +37,40 @@ package
 		/**広告URL*/
 		private var _webView:StageWebView = null;
 		//private var _url:String = "http://www48.atpages.jp/syougun/newSRC/NewSRCAfi.html";
-		
+				
 		public function NeoSRC():void
 		{
-			_manager = new common.SystemController(this);
-			
-			addEventListener(Event.DEACTIVATE, pauseBGM);
-			addEventListener(Event.ACTIVATE, startBGM);
-			
-			
+            NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, onInvoke);
 			//広告
 			showWebView();
+		}
+		
+        public function onInvoke(invokeEvent:InvokeEvent):void 
+        {
+			
+            if (invokeEvent.arguments.length > 0) 
+            {
+				/*
+				var bitmap:Bitmap = new Bitmap(new BitmapData(600, 128, false, 0xFFFFFFFF));
+				addChild(bitmap);
+				var text:TextField = new TextField();
+				text.width = 540;
+				text.height = 128;
+				addChild(text);
+				*/
+				var file:File = new File(invokeEvent.arguments.toString());
+				//text.text = file.nativePath;
+				StartWindowPC.invokePath = file.nativePath;
+			}
+			else
+			{
+				StartWindowPC.invokePath = null;
+			}
+			_manager = new common.SystemController(this);			
+			addEventListener(Event.DEACTIVATE, pauseBGM);
+			addEventListener(Event.ACTIVATE, startBGM);
+			//var path:String = invokeEvent.currentDirectory.nativePath;
+			//DataLoad.loadInvokePath(path, InitialLoader.$.loadAssetStart);
 		}
 		
 		

@@ -102,7 +102,6 @@ package scene.main
 			Starling.current.nativeStage.quality = StageQuality.LOW;
 			CONFIG::pc
 			{
-				//PC用
 				var startWindow:StartWindowPC = new StartWindowPC(InitialLoader.$.loadAssetStart);
 			}
 			

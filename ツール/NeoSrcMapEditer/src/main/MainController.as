@@ -1,6 +1,5 @@
-package view
+package main
 {
-	
 	/**
 	 * ...
 	 * @author
@@ -42,7 +41,7 @@ package view
 			return _instance;
 		}
 		
-		public function get view():MainViewer 
+		public function get view():MainViewer
 		{
 			return _view;
 		}

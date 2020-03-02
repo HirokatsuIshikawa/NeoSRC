@@ -24,7 +24,7 @@ package map.pallet
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
 	import system.UserImage;
-	import view.MainController;
+	import main.MainController;
 	
 	/**
 	 * ...

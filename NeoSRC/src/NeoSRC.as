@@ -27,7 +27,7 @@ package
 	public class NeoSRC extends Sprite
 	{
 		
-		[Embed(source = "../asset/afistr.txt",mimeType="application/octet-stream")]
+		[Embed(source = "../asset/afistr.txt", mimeType = "application/octet-stream")]
 		public static const afiTxt:Class;
 		
 		/**コントローラー*/
@@ -36,43 +36,54 @@ package
 		private var _mainThread:MainThread;
 		/**広告URL*/
 		private var _webView:StageWebView = null;
+		
 		//private var _url:String = "http://www48.atpages.jp/syougun/newSRC/NewSRCAfi.html";
-				
+		
 		public function NeoSRC():void
 		{
-            NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, onInvoke);
+			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, onInvoke);
 			//広告
 			showWebView();
 		}
 		
-        public function onInvoke(invokeEvent:InvokeEvent):void 
-        {
+		public function onInvoke(invokeEvent:InvokeEvent):void
+		{
 			
-            if (invokeEvent.arguments.length > 0) 
-            {
+			if (invokeEvent.arguments.length > 0)
+			{
 				/*
-				var bitmap:Bitmap = new Bitmap(new BitmapData(600, 128, false, 0xFFFFFFFF));
-				addChild(bitmap);
-				var text:TextField = new TextField();
-				text.width = 540;
-				text.height = 128;
-				addChild(text);
-				*/
-				var file:File = new File(invokeEvent.arguments.toString());
+				   var bitmap:Bitmap = new Bitmap(new BitmapData(600, 128, false, 0xFFFFFFFF));
+				   addChild(bitmap);
+				   var text:TextField = new TextField();
+				   text.width = 540;
+				   text.height = 128;
+				   addChild(text);
+				 */
+				var file:File = new File(invokeEvent.arguments[0].toString());
 				//text.text = file.nativePath;
-				StartWindowPC.invokePath = file.nativePath;
+				
+				if (file.name.indexOf(".srctxt") >= 0 || file.name.indexOf(".srcsys") >= 0)
+				{
+					
+					StartWindowPC.invokePath = file.nativePath;
+				}
+				else
+				{
+					StartWindowPC.invokePath = null;
+					
+				}
+				
 			}
 			else
 			{
 				StartWindowPC.invokePath = null;
 			}
-			_manager = new common.SystemController(this);			
+			_manager = new common.SystemController(this);
 			addEventListener(Event.DEACTIVATE, pauseBGM);
 			addEventListener(Event.ACTIVATE, startBGM);
 			//var path:String = invokeEvent.currentDirectory.nativePath;
 			//DataLoad.loadInvokePath(path, InitialLoader.$.loadAssetStart);
 		}
-		
 		
 		protected function pauseBGM(e:Event):void
 		{
@@ -84,31 +95,29 @@ package
 			SingleMusic.restartBGM();
 		}
 		
-		
-		
 		public function showWebView():void
 		{
 			if (_webView != null)
 			{
 				removeWebView();
 			}
-			/*
-			if (url == null)
-			{
-				url = _url;
-			}
-			*/
-			/*
-			_webView = new StageWebView();
-			_webView.stage = this.stage;
-			//_webView.viewPort = new Rectangle(0, stage.stageHeight - 96, stage.stageWidth + 15, 96);
-			_webView.viewPort = new Rectangle(0, 0, stage.stageWidth + 15, 96);
-			//_webView.loadURL(url);
-			var str:String = new afiTxt();
-			
-			_webView.loadString(str);
-			//_webView.addEventListener(Event.COMPLETE, onComplete);
-			*/
+		/*
+		   if (url == null)
+		   {
+		   url = _url;
+		   }
+		 */
+		/*
+		   _webView = new StageWebView();
+		   _webView.stage = this.stage;
+		   //_webView.viewPort = new Rectangle(0, stage.stageHeight - 96, stage.stageWidth + 15, 96);
+		   _webView.viewPort = new Rectangle(0, 0, stage.stageWidth + 15, 96);
+		   //_webView.loadURL(url);
+		   var str:String = new afiTxt();
+		
+		   _webView.loadString(str);
+		   //_webView.addEventListener(Event.COMPLETE, onComplete);
+		 */
 		}
 		
 		public function start():void
@@ -122,8 +131,6 @@ package
 			//}
 		
 		}
-		
-		
 		
 		/**広告読み込み完了*/
 		protected function onComplete(event:Event):void

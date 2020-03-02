@@ -6,7 +6,7 @@ package system
 	import starling.textures.TextureAtlas;
 	import starling.utils.AssetManager;
 	import starling.utils.AssetManager;
-	import view.MainViewer;
+	import main.MainViewer;
 	
 	public class UserImage
 	{

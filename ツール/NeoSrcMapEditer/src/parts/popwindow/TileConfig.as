@@ -7,7 +7,7 @@ package parts.popwindow
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.textures.Texture;
-	import view.MainController;
+	import main.MainController;
 	/**
 	 * ...
 	 * @author ishikawa

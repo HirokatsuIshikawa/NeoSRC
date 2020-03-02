@@ -1,4 +1,4 @@
-package view
+package main
 {
 	import custom.CustomTheme;
 	import dataloader.MapLoader;
@@ -91,7 +91,6 @@ package view
 			this.theme = new CustomTheme();
 			UserImage.$.init();
 			super();
-			m_startWindow = new StartWindow();
 			m_darkField = new Image(Texture.fromBitmap(new Bitmap(new BitmapData(CommonDef.WINDOW_W, CommonDef.WINDOW_H, true, 0xAA444444))));
 			m_tipLoader = new TipLoader();
 			m_mapLoader = new MapLoader();
@@ -99,6 +98,7 @@ package view
 			
 			//マネージャー起動
 			m_manager = new MainController(this);
+			m_startWindow = new StartWindow();
 			//ツール初期化
 			TextTex.init();
 			

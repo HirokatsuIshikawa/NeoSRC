@@ -4,8 +4,8 @@ package dataloader
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
 	import system.UserImage;
-	import view.MainController;
-	import view.MainViewer;
+	import main.MainController;
+	import main.MainViewer;
 	
 	/**
 	 * ...

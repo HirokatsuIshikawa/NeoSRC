@@ -5,7 +5,7 @@ package map.canvas
 	import starling.display.Image;
 	import starling.textures.Texture;
 	import texttex.TextTex;
-	import view.MainController;
+	import main.MainController;
 	
 	/**
 	 * ...

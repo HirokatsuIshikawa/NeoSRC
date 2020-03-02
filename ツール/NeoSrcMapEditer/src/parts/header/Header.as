@@ -11,7 +11,7 @@ package parts.header
 	import system.CommonDef;
 	import system.Crypt;
 	import system.UserImage;
-	import view.MainController;
+	import main.MainController;
 	
 	/**
 	 * ...

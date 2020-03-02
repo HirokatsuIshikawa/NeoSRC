@@ -14,7 +14,7 @@ package parts.popwindow
 	import starling.textures.Texture;
 	import system.CommonSystem;
 	import system.file.DataLoad;
-	import view.MainController;
+	import main.MainController;
 	
 	/**
 	 * ...

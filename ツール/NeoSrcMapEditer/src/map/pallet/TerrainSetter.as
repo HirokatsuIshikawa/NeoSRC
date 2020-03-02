@@ -15,7 +15,7 @@ package map.pallet
 	import starling.events.Event;
 	import starling.textures.Texture;
 	import system.UserImage;
-	import view.MainController;
+	import main.MainController;
 	
 	/**
 	 * ...

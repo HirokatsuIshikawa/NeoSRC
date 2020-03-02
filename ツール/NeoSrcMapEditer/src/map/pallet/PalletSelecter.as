@@ -12,8 +12,8 @@ package map.pallet
 	import starling.textures.Texture;
 	import system.CommonDef;
 	import system.UserImage;
-	import view.MainController;
-	import view.MainViewer;
+	import main.MainController;
+	import main.MainViewer;
 	
 	/**
 	 * ...

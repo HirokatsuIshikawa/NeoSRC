@@ -9,7 +9,7 @@ package map.canvas
 	import starling.textures.Texture;
 	import starling.textures.TextureSmoothing;
 	import system.CommonDef;
-	import view.MainController;
+	import main.MainController;
 	
 	/**
 	 * ...

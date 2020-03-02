@@ -4,7 +4,7 @@ package system.worker
 	import flash.net.URLLoader;
 	import flash.utils.ByteArray;
 	import starling.core.Starling;
-	import view.MainViewer;
+	import main.MainViewer;
 	/**
 	 * ...
 	 * @author ishikawa

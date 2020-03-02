@@ -13,7 +13,7 @@ package map.canvas
 	import starling.events.TouchPhase;
 	import starling.textures.Texture;
 	import starling.textures.TextureSmoothing;
-	import view.MainController;
+	import main.MainController;
 	
 	/**
 	 * ...

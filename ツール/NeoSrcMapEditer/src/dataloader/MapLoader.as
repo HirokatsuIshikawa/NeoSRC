@@ -8,10 +8,11 @@ package dataloader
 	import flash.utils.ByteArray;
 	import starling.textures.Texture;
 	import system.CommonDef;
+	import system.CommonSystem;
 	import system.Crypt;
 	import system.UserImage;
-	import view.MainController;
-	import view.MainViewer;
+	import main.MainController;
+	import main.MainViewer;
 	
 	/**
 	 * ...
@@ -135,8 +136,10 @@ package dataloader
 		{
 			var fr:FileReference = null;
 			fr = e.target as FileReference;
+			fr.removeEventListener(flash.events.Event.SELECT, onFileReference_Select);
 			fr.addEventListener(flash.events.Event.COMPLETE, loadComplete);
 			fr.addEventListener(ProgressEvent.PROGRESS, loadProgress);
+			
 			function loadProgress(evt:ProgressEvent):void
 			{
 				trace("Loaded " + evt.bytesLoaded + " of " + evt.bytesTotal + " bytes.");
@@ -244,6 +247,47 @@ package dataloader
 			loadfile.browseForDirectory("シナリオフォルダ選択");
 		}
 	
+		
+		//ファイルからの直読み
+		public function loadInvokePath(mainPath:String):void
+		{
+			var loadfile:File = new File(mainPath);
+			
+			loadfile.addEventListener(Event.COMPLETE, loadComplete);
+			loadfile.addEventListener(ProgressEvent.PROGRESS, loadProgress);
+			function loadProgress(evt:ProgressEvent):void
+			{
+				trace("Loaded " + evt.bytesLoaded + " of " + evt.bytesTotal + " bytes.");
+			}
+			
+			//FileReference　ロード成功時の処理
+			function loadComplete(e:flash.events.Event):void
+			{
+				var barrDat:ByteArray = e.target.data;
+				//漢字コード変換（shift-jis　－＞　UTF8）
+				var strData:String = barrDat.readMultiByte(barrDat.length, "utf-8");
+				
+				if (strData.indexOf(Crypt.CODE) == 0)
+				{
+					strData = strData.replace(Crypt.CODE, "");
+					strData = Crypt.decrypt(strData);
+				}
+				
+				
+				UserImage.$.loadAssetStart(loadAssetComp);
+				
+				function loadAssetComp():void
+				{
+					//改行の変更
+					var obj:Object = JSON.parse(strData);
+					loadMap(obj);
+					MainController.$.view.endStartWindow();
+				}
+			}
+			
+			loadfile.load(); //ロード開始
+		}
+		
 	}
 
 }

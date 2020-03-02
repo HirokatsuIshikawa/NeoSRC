@@ -16,7 +16,7 @@ package parts.pulldown
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
 	import starling.textures.Texture;
-	import view.MainController;
+	import main.MainController;
 	
 	/*
 	 * @author ishikawa

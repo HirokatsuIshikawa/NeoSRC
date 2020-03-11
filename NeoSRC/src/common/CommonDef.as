@@ -158,7 +158,6 @@ package common
 			img.x = rect.x;
 			img.y = rect.y;
 			return img;
-		
 		}
 		
 		/** リストデータ一斉廃棄 */
@@ -173,9 +172,17 @@ package common
 					continue;
 				}
 				
-				if (object != null && object.hasOwnProperty("dispose"))
-				{
-					object.dispose();
+				if (object != null)
+                {
+                    if (object.hasOwnProperty("removeEventListeners"))
+                    {
+                        object.removeEventListeners();
+                    }
+                    if (object.hasOwnProperty("dispose"))
+                    {
+					    object.dispose();
+                    }
+                    object = null;
 				}
 			}
 		}

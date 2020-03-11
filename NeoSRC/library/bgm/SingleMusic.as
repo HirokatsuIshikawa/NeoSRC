@@ -57,7 +57,7 @@ package bgm
 		{
 			var file:File = null;
 			var url:String = null;
-			var vol:Number = 1;
+			var vol:Number = 0.5;
 			var fade:Number = 0;
 			if (data.hasOwnProperty("file"))
 			{
@@ -362,7 +362,7 @@ package bgm
 		{
 			var file:File = null;
 			var url:String = "";
-			var vol:Number = 1;
+			var vol:Number = 0.5;
 			
 			if (data.hasOwnProperty("file"))
 			{

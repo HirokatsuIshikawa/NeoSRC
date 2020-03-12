@@ -8,6 +8,7 @@ package scene.battleanime
     import scene.battleanime.battleback.BattleBack;
     import scene.talk.message.FaceMessageWindow;
     import scene.unit.BattleUnit;
+    import starling.animation.Tween;
     import system.custom.customSprite.CImage;
     import system.custom.customSprite.CSprite;
     import database.user.UnitCharaData;
@@ -130,32 +131,53 @@ package scene.battleanime
             _leftUnitImg = new Vector.<CImage>();
             _rightUnitImg = new Vector.<CImage>();
             
+            var leftBeforeUnitNum:int;
+            var rightBeforeUnitNum:int;
+            
             if (attakerUnitData.side <= targetUnitData.side)
             {
                 _leftUnitData = targetUnitData;
                 _rightUnitData = attakerUnitData;
+                leftBeforeUnitNum = targetUnitData.mathFormationNum(_recordAnime[_animeCount].tgtBeforeHP);
+                rightBeforeUnitNum = attakerUnitData.mathFormationNum(_recordAnime[_animeCount].atkBeforeHP);
+                
             }
             else
             {
                 _leftUnitData = attakerUnitData;
                 _rightUnitData = targetUnitData;
+                leftBeforeUnitNum = attakerUnitData.mathFormationNum(_recordAnime[_animeCount].atkBeforeHP);
+                rightBeforeUnitNum = targetUnitData.mathFormationNum(_recordAnime[_animeCount].tgtBeforeHP);
             }
             
             //_leftUnitImg = new CImage(TextureManager.loadTexture(_leftUnitData.masterData.unitImgUrl, _leftUnitData.masterData.unitImgName, TextureManager.TYPE_UNIT));
             //_rightUnitImg = new CImage(TextureManager.loadTexture(_rightUnitData.masterData.unitImgUrl, _rightUnitData.masterData.unitImgName, TextureManager.TYPE_UNIT));
             var i:int = 0;
             //左エネミーセット
-            for (i = 0; i < _leftUnitData.maxFormationNum; i++)
+            for (i = 0; i < leftBeforeUnitNum; i++)
             {
-                _leftUnitImg[i] = new CImage(MainController.$.imgAsset.getTexture(_leftUnitData.masterData.unitsImgName));
+                if (i > 0 && _leftUnitData.masterData.subUnitImgName != null)
+                {
+                    _leftUnitImg[i] = new CImage(MainController.$.imgAsset.getTexture(_leftUnitData.masterData.subUnitImgName));
+                }
+                else
+                {
+                    _leftUnitImg[i] = new CImage(MainController.$.imgAsset.getTexture(_leftUnitData.masterData.unitsImgName));
+                }
                 setUnitImage(_leftUnitImg[i], 0, i);
-                
             }
             
             //右ユニットセット
-            for (i = 0; i < _rightUnitData.maxFormationNum; i++)
+            for (i = 0; i < rightBeforeUnitNum; i++)
             {
-                _rightUnitImg[i] = new CImage(MainController.$.imgAsset.getTexture(_rightUnitData.masterData.unitsImgName));
+                if (i > 0 && _rightUnitData.masterData.subUnitImgName != null)
+                {
+                    _rightUnitImg[i] = new CImage(MainController.$.imgAsset.getTexture(_rightUnitData.masterData.subUnitImgName));
+                }
+                else
+                {
+                    _rightUnitImg[i] = new CImage(MainController.$.imgAsset.getTexture(_rightUnitData.masterData.unitsImgName));
+                }
                 setUnitImage(_rightUnitImg[i], 1, i);
             }
         }
@@ -193,6 +215,7 @@ package scene.battleanime
             _animeCount = 0;
             _messageWindow.deleteImage();
             _messageWindow.deleteText();
+            setUnit(data[_animeCount].attacker, data[_animeCount].target);
             Tween24.tween(this, 0.4).fadeIn().onComplete(readyFunc).play();
             function readyFunc():void
             {
@@ -256,6 +279,7 @@ package scene.battleanime
             }
         }
         
+        /**アクション開始*/
         private function startAction(data:BattleAnimeRecord):void
         {
             var attackState:String = MessageDataParse.STATE_LIST[3];
@@ -339,20 +363,74 @@ package scene.battleanime
         /** 通常攻撃アクション */
         private function normalAttack(act:Array, data:BattleAnimeRecord, atkImg:Vector.<CImage>, defImg:Vector.<CImage>):void
         {
+            var atkAry:Array = new Array();
+            var defAry:Array = new Array();
+            
             for (var i:int = 0; i < atkImg.length; i++)
             {
-                act.push(Tween24.tween(atkImg[i], 0.3).$x(100 * data.side));
+                atkAry.push(Tween24.tween(atkImg[i], 0.3).$x(100 * data.side));
             }
+            
+            var beforeNum:int = data.target.mathFormationNum(data.tgtBeforeHP);
+            var afterNum:int = data.target.formationNum;
             
             for (i = 0; i < defImg.length; i++)
             {
-                if (i == 0)
+                //複数ユニットの場合やられモーションを入れる
+                if ((beforeNum - afterNum) >= i)
                 {
-                    act.push(Tween24.parallel(Tween24.tween(defImg[i], 0.3).$x(20 * data.side).onPlay(showDamage, data.damage, 0xFF0000, data.side), playMessage(_talkTargetChara, _targetMessage)));
+                    if (i == 0)
+                    {
+                        defAry.push(Tween24.parallel(Tween24.tween(defImg[i], 0.3, Tween24.ease.BackIn).onComplete(endAttackAnime, atkImg, defImg).$x(120 * data.side).y(CommonDef.WINDOW_H + 128).onPlay(showDamage, data.damage, 0xFF0000, data.side), playMessage(_talkTargetChara, _targetMessage)));
+                    }
+                    else
+                    {
+                        defAry.push(Tween24.tween(defImg[i], 0.3, Tween24.ease.BackIn).$x(120 * data.side).y(CommonDef.WINDOW_H + 128));
+                    }
                 }
                 else
                 {
-                    act.push(Tween24.tween(defImg[i], 0.3).$x(20 * data.side));
+                    //ダメージモーション
+                    if (i == 0)
+                    {
+                        defAry.push(Tween24.parallel(Tween24.tween(defImg[i], 0.3).onComplete(endAttackAnime,atkImg, defImg).$x(20 * data.side).onPlay(showDamage, data.damage, 0xFF0000, data.side), playMessage(_talkTargetChara, _targetMessage)));
+                    }
+                    else
+                    {
+                        defAry.push(Tween24.tween(defImg[i], 0.3).$x(20 * data.side));
+                    }
+                }
+            }
+            var atkTween:Tween24 = Tween24.parallel(atkAry);
+            var defTween:Tween24 = Tween24.parallel(defAry);
+            act.push(atkTween);
+            act.push(defTween);
+        
+        }
+        
+        private function endAttackAnime(atkImg:Vector.<CImage>, defImg:Vector.<CImage>):void
+        {
+            var i:int = 0;
+            var atkNum:int = _recordAnime[_animeCount - 1].attacker.formationNum;
+            var defNum:int = _recordAnime[_animeCount - 1].target.formationNum;
+            for (i = 0; i < atkImg.length; i++)
+            {
+                if (atkNum <= i)
+                {
+                    atkImg[i].dispose();
+                    atkImg[i] = null;
+                    atkImg.splice(i, 1);
+                    i--;
+                }
+            }
+            for (i = 0; i < defImg.length; i++)
+            {
+                if (defNum <= i)
+                {
+                    defImg[i].dispose();
+                    defImg[i] = null;
+                    defImg.splice(i, 1);
+                    i--;
                 }
             }
         }
@@ -361,21 +439,27 @@ package scene.battleanime
         private function attackMiss(act:Array, data:BattleAnimeRecord, atkImg:Vector.<CImage>, defImg:Vector.<CImage>):void
         {
             
+            var atkAry:Array = new Array();
+            var defAry:Array = new Array();
             for (var i:int = 0; i < atkImg.length; i++)
             {
-                act.push(Tween24.tween(atkImg[i], 0.3).$x(100 * data.side));
+                atkAry.push(Tween24.tween(atkImg[i], 0.3).$x(100 * data.side));
             }
             for (i = 0; i < defImg.length; i++)
             {
                 if (i == 0)
                 {
-                    act.push(Tween24.parallel(Tween24.tween(defImg[i], 0.3).$xy(20 * data.side, -60), playMessage(_talkTargetChara, _targetMessage)));
+                    defAry.push(Tween24.parallel(Tween24.tween(defImg[i], 0.3).$xy(20 * data.side, -60), playMessage(_talkTargetChara, _targetMessage)));
                 }
                 else
                 {
-                    act.push(Tween24.tween(defImg[i], 0.3).$xy(20 * data.side, -60));
+                    defAry.push(Tween24.tween(defImg[i], 0.3).$xy(20 * data.side, -60));
                 }
             }
+            var atkTween:Tween24 = Tween24.parallel(atkAry);
+            var defTween:Tween24 = Tween24.parallel(defAry);
+            act.push(atkTween);
+            act.push(defTween);
         }
         
         /**ウェイト作成*/
@@ -389,11 +473,12 @@ package scene.battleanime
         {
             var ary:Array = new Array();
             var i:int = 0;
-            for (i = 0; i < atkImg.length; i++ )
+            
+            for (i = 0; i < atkImg.length; i++)
             {
                 ary.push(Tween24.tween(atkImg[i], time).$xy(0, 0));
             }
-            for (i = 0; i < defImg.length; i++ )
+            for (i = 0; i < defImg.length; i++)
             {
                 ary.push(Tween24.tween(defImg[i], time).$xy(0, 0));
             }

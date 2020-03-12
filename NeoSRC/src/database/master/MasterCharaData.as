@@ -56,6 +56,7 @@ package database.master
         
         private var _charaImgName:String = null;
         private var _unitsImgName:String = null;
+        private var _subUnitImgName:String = null;
         
         public function get charaImgName():String
         {
@@ -85,6 +86,11 @@ package database.master
         public function get skillDataList():Vector.<MasterSkillData>
         {
             return _skillDataList;
+        }
+        
+        public function get subUnitImgName():String 
+        {
+            return _subUnitImgName;
         }
         
         public function get maxFormationNum():int
@@ -132,6 +138,11 @@ package database.master
             
             _charaImgName = data.charaImg;
             _unitsImgName = data.unitImg;
+            //サブユニットイメージ
+            if (data.hasOwnProperty("subUnitImg"))
+            {
+                _subUnitImgName = data.subUnitImg;
+            }
             
             //各種ステータス
             for (i = 0; i < DATA_TYPE.length; i++)

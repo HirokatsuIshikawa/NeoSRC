@@ -1524,7 +1524,7 @@ package scene.map
 			
 			_battleActionPanel.alpha = 0;
 			_battleActionPanel.visible = true;
-			_battleActionPanel.setUnit(nowBattleUnit, _targetUnit);
+			//_battleActionPanel.setUnit(nowBattleUnit, _targetUnit);
 			_battleActionPanel.startBattleAnime(_battleResultManager.attackRecord, endBattleAnime);
 			MainController.$.view.addChild(_battleActionPanel);
 		
@@ -2450,7 +2450,7 @@ package scene.map
 				_battleActionPanel = new BattleActionPanel();
 			}
 			_battleMapPanel.showPanel(BattleMapPanel.PANEL_NONE);
-			_battleActionPanel.setUnit(nowBattleUnit, _targetUnit);
+			//_battleActionPanel.setUnit(nowBattleUnit, _targetUnit);
 			_battleActionPanel.startBattleAnime(_battleResultManager.attackRecord, endBattleAnime);
 			MainController.$.view.addChild(_battleActionPanel);
 		}

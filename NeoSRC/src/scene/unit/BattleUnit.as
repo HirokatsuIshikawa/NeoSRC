@@ -302,7 +302,22 @@ package scene.unit
         /**編成数*/
         public function get formationNum():int
         {
-            var num:int = Math.ceil(maxFormationNum * (_nowHp / HP));
+            return mathFormationNum(_nowHp);
+        }
+        
+        /**HPから編成数計算*/
+        public function mathFormationNum(value:int):int
+        {
+            var num:int = Math.ceil(maxFormationNum * (value / HP));
+            
+            if (num < 0)
+            {
+            num = 0;
+            }
+            if (num > maxFormationNum)
+            {
+            num = maxFormationNum;
+            }
             return num;
         }
         

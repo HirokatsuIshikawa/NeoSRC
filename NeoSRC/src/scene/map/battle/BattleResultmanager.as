@@ -86,6 +86,9 @@ package scene.map.battle
 		{
 			var attacker:BattleUnit = attackItem.unit;
 			var deffender:BattleUnit = attackItem.target;
+            var attackerBeforeHP:int = attacker.nowHp;
+            var deffenderBeforeHP:int = deffender.nowHp;
+            
 			var rand:int = CommonBattleMath.getRandom(100, 0);
 			var damage:int = 0;
 			var hitFlg:Boolean = false;
@@ -147,7 +150,7 @@ package scene.map.battle
 					animeSide = BattleAnimeRecord.SIDE_LEFT;
 				}
 				
-				addRecord(new BattleAnimeRecord(attacker,deffender,attackItem.weapon, damage, animeSide, effect, BattleAnimeRecord.TYPE_NORMAL_ATTACK));
+				addRecord(new BattleAnimeRecord(attacker,deffender,attackerBeforeHP,deffenderBeforeHP,attackItem.weapon, damage, animeSide, effect, BattleAnimeRecord.TYPE_NORMAL_ATTACK));
 				
 			}
 		}

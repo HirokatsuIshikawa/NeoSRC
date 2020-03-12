@@ -23,7 +23,9 @@ package scene.battleanime.data
 		
 		
 		private var _attacker:BattleUnit = null;
+        private var _atkBeforeHP:int;
 		private var _target:BattleUnit = null;
+        private var _tgtBeforeHP:int;
 		private var _weapon:MasterWeaponData = null;
 		private var _side:int = 0;
 		private var _damage:int = 0;
@@ -31,10 +33,12 @@ package scene.battleanime.data
 		private var _type:int = 0;
 		private var _enable:Boolean = false;
 		
-		public function BattleAnimeRecord(attacker:BattleUnit, target:BattleUnit, weapon:MasterWeaponData, dmg:int, side:int, effect:int, type:int):void
+		public function BattleAnimeRecord(attacker:BattleUnit, target:BattleUnit, atkBeforeHP:int, tgtBeforeHP:int ,weapon:MasterWeaponData, dmg:int, side:int, effect:int, type:int):void
 		{
 			_attacker = attacker;
+            _atkBeforeHP = atkBeforeHP;
 			_target = target;
+            _tgtBeforeHP = tgtBeforeHP;
 			_weapon = weapon;
 			_damage = dmg;
 			_side = side;
@@ -83,6 +87,16 @@ package scene.battleanime.data
 			return _weapon;
 		}
 		
+        public function get atkBeforeHP():int 
+        {
+            return _atkBeforeHP;
+        }
+        
+        public function get tgtBeforeHP():int 
+        {
+            return _tgtBeforeHP;
+        }
+        
 		public function set enable(value:Boolean):void 
 		{
 			_enable = value;

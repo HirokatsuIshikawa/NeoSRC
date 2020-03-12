@@ -255,6 +255,9 @@ package converter.parse
                 case "unitimg": 
                 case "ユニット画像": 
                     data.unitImg = param[1];
+                case "subunitimg":
+                case "サブユニット画像":
+                    data.subUnitImg = param[1];
                     break;
                 }
             }

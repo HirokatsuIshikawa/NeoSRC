@@ -3,6 +3,7 @@ package scene.battleanime
     import a24.tween.Tween24;
     import common.CommonDef;
     import common.CommonSystem;
+    import common.util.BattleAnimeUtil;
     import converter.parse.MessageDataParse;
     import flash.geom.Rectangle;
     import scene.battleanime.battleback.BattleBack;
@@ -368,7 +369,7 @@ package scene.battleanime
             
             for (var i:int = 0; i < atkImg.length; i++)
             {
-                atkAry.push(Tween24.tween(atkImg[i], 0.3).$x(100 * data.side));
+                atkAry.push(Tween24.serial(Tween24.wait(0.03 * i), BattleAnimeUtil.attackAnime(atkImg[i], 0.3, data.side)));
             }
             
             var beforeNum:int = data.target.mathFormationNum(data.tgtBeforeHP);
@@ -377,15 +378,15 @@ package scene.battleanime
             for (i = 0; i < defImg.length; i++)
             {
                 //複数ユニットの場合やられモーションを入れる
-                if ((beforeNum - afterNum) >= i)
+                if ((beforeNum - afterNum) >= (defImg.length - i))
                 {
                     if (i == 0)
                     {
-                        defAry.push(Tween24.parallel(Tween24.tween(defImg[i], 0.3, Tween24.ease.BackIn).onComplete(endAttackAnime, atkImg, defImg).$x(120 * data.side).y(CommonDef.WINDOW_H + 128).onPlay(showDamage, data.damage, 0xFF0000, data.side), playMessage(_talkTargetChara, _targetMessage)));
+                        defAry.push(Tween24.parallel(BattleAnimeUtil.defeatAnime(defImg[i], 0.3, data.side), showDamage(data.damage, 0xFF0000, data.side), playMessage(_talkTargetChara, _targetMessage)).onComplete(endAttackAnime, atkImg, defImg));
                     }
                     else
                     {
-                        defAry.push(Tween24.tween(defImg[i], 0.3, Tween24.ease.BackIn).$x(120 * data.side).y(CommonDef.WINDOW_H + 128));
+                        defAry.push(Tween24.serial(Tween24.wait(0.03 * i), BattleAnimeUtil.defeatAnime(defImg[i], 0.3, data.side)));
                     }
                 }
                 else
@@ -393,11 +394,11 @@ package scene.battleanime
                     //ダメージモーション
                     if (i == 0)
                     {
-                        defAry.push(Tween24.parallel(Tween24.tween(defImg[i], 0.3).onComplete(endAttackAnime,atkImg, defImg).$x(20 * data.side).onPlay(showDamage, data.damage, 0xFF0000, data.side), playMessage(_talkTargetChara, _targetMessage)));
+                        defAry.push(Tween24.parallel(BattleAnimeUtil.damageAnime(defImg[i], 0.3, data.side), showDamage(data.damage, 0xFF0000, data.side), playMessage(_talkTargetChara, _targetMessage)).onComplete(endAttackAnime, atkImg, defImg));
                     }
                     else
                     {
-                        defAry.push(Tween24.tween(defImg[i], 0.3).$x(20 * data.side));
+                        defAry.push(Tween24.serial(Tween24.wait(0.03 * i), BattleAnimeUtil.damageAnime(defImg[i], 0.3, data.side)));
                     }
                 }
             }
@@ -443,17 +444,17 @@ package scene.battleanime
             var defAry:Array = new Array();
             for (var i:int = 0; i < atkImg.length; i++)
             {
-                atkAry.push(Tween24.tween(atkImg[i], 0.3).$x(100 * data.side));
+                atkAry.push(Tween24.tween(atkImg[i], 0.2).$x(100 * data.side));
             }
             for (i = 0; i < defImg.length; i++)
             {
                 if (i == 0)
                 {
-                    defAry.push(Tween24.parallel(Tween24.tween(defImg[i], 0.3).$xy(20 * data.side, -60), playMessage(_talkTargetChara, _targetMessage)));
+                    defAry.push(Tween24.parallel(BattleAnimeUtil.avoidanceAnime(defImg[i], 0.3, data.side), playMessage(_talkTargetChara, _targetMessage)));
                 }
                 else
                 {
-                    defAry.push(Tween24.tween(defImg[i], 0.3).$xy(20 * data.side, -60));
+                    defAry.push(Tween24.serial(Tween24.wait(0.03 * i), BattleAnimeUtil.avoidanceAnime(defImg[i], 0.3, data.side)));
                 }
             }
             var atkTween:Tween24 = Tween24.parallel(atkAry);
@@ -489,7 +490,7 @@ package scene.battleanime
         }
         
         /** ダメージ表示 */
-        private function showDamage(value:int, color:uint, side:int):void
+        private function showDamage(value:int, color:uint, side:int):Tween24
         {
             _damageNum.setNumber(value, "", color);
             _damageNum.alpha = 0;
@@ -506,11 +507,12 @@ package scene.battleanime
                 _damageNum.y = _leftUnitImg[0].y;
             }
             
-            Tween24.serial(Tween24.tween(_damageNum, 0.3).fadeIn().$xy(0, -60), //
+            var tweenList:Tween24 = Tween24.serial(Tween24.tween(_damageNum, 0.3).fadeIn().$xy(0, -60), //
             Tween24.tween(_damageNum, 0.3).$xy(0, 0), //
             Tween24.tween(_damageNum, 0.3).fadeOut() //
-            ).play();
-        
+            );
+            
+            return tweenList;
         }
     }
 

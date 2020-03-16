@@ -61,6 +61,11 @@ package scene.unit
             {
                 _frameImg.dispose();
             }
+            if (_formationNumImg != null)
+            {
+                _formationNumImg.dispose();
+            }
+            _formationNumImg = null;
             _unitImg = null;
             _frameImg = null;
         }
@@ -91,6 +96,9 @@ package scene.unit
         private var _unitImg:DisplayObject = null;
         /** 枠画像 */
         private var _frameImg:CImage = null;
+        /**編成数画像*/
+        private var _formationNumImg:CImage = null;
+        
         /**空中*/
         private var _isFly:Boolean = false;
         /** 現在の命令タイプ */
@@ -232,6 +240,10 @@ package scene.unit
             {
                 _alive = false;
             }
+            else
+            {
+                setFormationNumImg();
+            }
         }
         
         //移動可能状態取得
@@ -300,6 +312,16 @@ package scene.unit
         }
         
         /**編成数*/
+        public function get formationNumImg():CImage 
+        {
+            return _formationNumImg;
+        }
+        
+        public function set formationNumImg(value:CImage):void 
+        {
+            _formationNumImg = value;
+        }
+        
         public function get formationNum():int
         {
             return mathFormationNum(_nowHp);
@@ -402,7 +424,7 @@ package scene.unit
             {
                 _nowHp = param.HP;
             }
-        
+            setFormationNumImg();
         }
         
         public function supplyFP(num:int):void
@@ -631,6 +653,20 @@ package scene.unit
             _nowHp = param.HP;
             _nowFp = param.FP;
         }
+        
+        /**編成数*/
+        public function setFormationNumImg():void
+        {
+            if (maxFormationNum <= 1) return;
+            var num:int = formationNum;
+            if (num <= 0) return;
+            var path:String = "unitnum_" + num;
+            if (_formationNumImg != null)
+            {
+                _formationNumImg.texture = MainController.$.imgAsset.getTexture(path);
+            }
+        }
+        
     }
 
 }

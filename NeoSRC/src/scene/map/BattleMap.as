@@ -51,7 +51,7 @@ package scene.map
         public static const ACT_TYPE_ATK:int = 1;
         public static const ACT_TYPE_SKILL:int = 2;
         
-        public static const FORMATION_NUM_POS:int = 26;
+        public static const FORMATION_NUM_POS:int = 24;
         //-------------------------------------------------------------
         //
         // component

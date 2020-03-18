@@ -37,19 +37,28 @@ package common.util
         /**やられアニメ*/
         public static function defeatAnime(target:DisplayObject, time:Number, side:int):Tween24
         {
+                       
+            var tween:Tween24 = Tween24.tween(target, time, Tween24.ease.QuadInOut);
+            
+            tween.$x(120 * side);
+            tween.y(CommonDef.WINDOW_H + 128);
+            tween.$bezier(60 * side, -180);
+            
+            /*
             var tween1:Tween24 = Tween24.tween(target, time / 2.0);
             var tween2:Tween24 = Tween24.tween(target, time / 2.0);
             
             
-            tween1.$x(60 * side);
+            tween1.$x(120 * side);
             tween1.$y(-120);
 
             tween2.$x(60 * side);
             tween2.y(CommonDef.WINDOW_H + 128);
+            */
             
             
-            var tweenList:Tween24 = Tween24.serial(tween1, tween2);
-            return tweenList;
+            //var tweenList:Tween24 = Tween24.serial(tween1, tween2);
+            return tween;
         }
         
         

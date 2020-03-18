@@ -377,30 +377,36 @@ package scene.battleanime
             
             for (i = 0; i < defImg.length; i++)
             {
+                var loopTween:Tween24;
+                var defZeroArray:Array;
                 //複数ユニットの場合やられモーションを入れる
                 if ((beforeNum - afterNum) >= (defImg.length - i))
                 {
-                    if (i == 0)
-                    {
-                        defAry.push(Tween24.parallel(BattleAnimeUtil.defeatAnime(defImg[i], 0.3, data.side), showDamage(data.damage, 0xFF0000, data.side), playMessage(_talkTargetChara, _targetMessage)).onComplete(endAttackAnime, atkImg, defImg));
-                    }
-                    else
-                    {
-                        defAry.push(Tween24.serial(Tween24.wait(0.03 * i), BattleAnimeUtil.defeatAnime(defImg[i], 0.3, data.side)));
-                    }
+                    //やられモーション
+                    loopTween = Tween24.serial(Tween24.wait(0.03 * i), BattleAnimeUtil.defeatAnime(defImg[i], 0.5, data.side));
                 }
                 else
                 {
                     //ダメージモーション
-                    if (i == 0)
-                    {
-                        defAry.push(Tween24.parallel(BattleAnimeUtil.damageAnime(defImg[i], 0.3, data.side), showDamage(data.damage, 0xFF0000, data.side), playMessage(_talkTargetChara, _targetMessage)).onComplete(endAttackAnime, atkImg, defImg));
-                    }
-                    else
-                    {
-                        defAry.push(Tween24.serial(Tween24.wait(0.03 * i), BattleAnimeUtil.damageAnime(defImg[i], 0.3, data.side)));
-                    }
+                    loopTween = Tween24.serial(Tween24.wait(0.03 * i), BattleAnimeUtil.damageAnime(defImg[i], 0.3, data.side));
                 }
+                
+                //メインかそれ以外
+                if (i == 0)
+                {
+                    defZeroArray = [ //
+                    loopTween, //
+                    showDamage(data.damage, 0xFF0000, data.side), //
+                    playMessage(_talkTargetChara, _targetMessage)];
+                    //リストに追加
+                    defAry.push(Tween24.parallel(defZeroArray).onComplete(endAttackAnime, atkImg, defImg));
+                }
+                else
+                {
+                    //リストに追加
+                    defAry.push(loopTween);
+                }
+                
             }
             var atkTween:Tween24 = Tween24.parallel(atkAry);
             var defTween:Tween24 = Tween24.parallel(defAry);

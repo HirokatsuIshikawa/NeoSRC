@@ -387,7 +387,10 @@ package scene.map
             _frameArea.addChildAt(battleUnit.frameImg, _frameArea.numChildren);
             
             // フレームエリアに数字追加
-            _frameArea.addChildAt(battleUnit.formationNumImg, _frameArea.numChildren);
+            if (battleUnit.formationNumImg != null)
+            {
+                _frameArea.addChildAt(battleUnit.formationNumImg, _frameArea.numChildren);
+            }
             // 一定時間かけて表示
             var tweenAry:Array = new Array();
             var tweenUnit:Tween24 = Tween24.tween(battleUnit.unitImg, 0.3).x((posX - 1) * MAP_SIZE).alpha(1);
@@ -958,7 +961,7 @@ package scene.map
                     
                     if (unit.formationNumImg != null)
                     {
-                        twnlist[2] = Tween24.tween(unit.frameImg, 0.1, Tween24.ease.QuadOut);
+                        twnlist[2] = Tween24.tween(unit.formationNumImg, 0.1, Tween24.ease.QuadOut);
                         twnlist[2].xy(_nowMovePosX * MAP_SIZE + FORMATION_NUM_POS, _nowMovePosY * MAP_SIZE + FORMATION_NUM_POS);
                     }
                     

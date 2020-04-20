@@ -12,6 +12,13 @@ x:160,	y:160
 ボディ, 	アリサ, 	0
 basic:ボディ
 
+name:月村すずか
+nickname:すずか
+type:立ち絵
+x:160,	y:160
+ボディ, 	すずか, 	0
+basic:ボディ
+
 name:ユーノ・スクライア
 nickname:ユーノ
 type:立ち絵

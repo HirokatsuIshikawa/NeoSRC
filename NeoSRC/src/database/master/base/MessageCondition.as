@@ -1,5 +1,6 @@
 package database.master.base
 {
+    import database.master.MasterSkillData;
 	import database.master.MasterWeaponData;
 	import scene.unit.BattleUnit;
 	
@@ -30,7 +31,7 @@ package database.master.base
 			message = new Vector.<String>();
 		}
 		
-		public function judge(callState:String, unit:BattleUnit, enemyUnit:BattleUnit, weapon:MasterWeaponData):Boolean
+		public function judge(callState:String, unit:BattleUnit, enemyUnit:BattleUnit, weapon:MasterWeaponData, skill:MasterSkillData):Boolean
 		{
 			var flg:Boolean = true;
 			

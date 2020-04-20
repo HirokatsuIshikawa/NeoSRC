@@ -286,7 +286,7 @@ package scene.battleanime
             var attackState:String = MessageDataParse.STATE_LIST[3];
             var targetState:String = MessageDataParse.STATE_LIST[1];
             _talkAttackChara = MainController.$.model.isEnableMessageName(data.attacker.name) ? data.attacker.name : "システム";
-            _attackMessage = MainController.$.model.getRandamBattleMessage(data.attacker.name, attackState, data.attacker, data.target, data.weapon, data.damage);
+            _attackMessage = MainController.$.model.getRandamBattleMessage(data.attacker.name, attackState, data.attacker, data.target, data.weapon, data.skill,data.damage);
             switch (data.effect)
             {
             
@@ -306,7 +306,7 @@ package scene.battleanime
                 
             }
             _talkTargetChara = MainController.$.model.isEnableMessageName(data.target.name) ? data.target.name : "システム";
-            _targetMessage = MainController.$.model.getRandamBattleMessage(data.target.name, targetState, data.attacker, data.target, data.weapon, data.damage);
+            _targetMessage = MainController.$.model.getRandamBattleMessage(data.target.name, targetState, data.attacker, data.target, data.weapon, data.skill,data.damage);
             
             // アクション作成
             _tween = makeAction(data)

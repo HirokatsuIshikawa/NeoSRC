@@ -3,6 +3,7 @@ package scene.main
 	import common.CommonSystem;
 	import common.util.CharaDataUtil;
 	import database.master.MasterBattleMessage;
+    import database.master.MasterSkillData;
 	import database.master.MasterWeaponData;
 	import database.master.base.MessageCondition;
 	import scene.unit.BattleUnit;
@@ -345,10 +346,10 @@ package scene.main
 		}
 		
 		/**戦闘メッセージゲット*/
-		public function getRandamBattleMessage(keyName:String, state:String, attackUnit:BattleUnit, targetUnit:BattleUnit, weapon:MasterWeaponData, damage:int):Vector.<String>
+		public function getRandamBattleMessage(keyName:String, state:String, attackUnit:BattleUnit, targetUnit:BattleUnit, weapon:MasterWeaponData, skill:MasterSkillData,damage:int):Vector.<String>
 		{
 			var message:Vector.<String> = new Vector.<String>();
-			var list:Vector.<MessageCondition> = getBattleMessageList(keyName, state, attackUnit, targetUnit, weapon);
+			var list:Vector.<MessageCondition> = getBattleMessageList(keyName, state, attackUnit, targetUnit, weapon,skill);
 			var i:int = 0;
 			
 			var weaponSordFlg:Boolean = false;
@@ -378,12 +379,19 @@ package scene.main
 			var randomNum:int = Math.random() * list.length;
 			var messageItem:MessageCondition = list[randomNum];
 			
-			message = messageItem.message;
+			message = messageItem.message.concat();
 			for (i = 0; i < message.length; i++)
 			{
 				message[i] = message[i].replace(/{unit}/g, attackUnit.name);
 				message[i] = message[i].replace(/{target}/g, targetUnit.name);
-				message[i] = message[i].replace(/{weapon}/g, weapon.name);
+                if (weapon != null)
+                {
+				    message[i] = message[i].replace(/{weapon}/g, weapon.name);
+                }
+                else if (skill != null)
+                {                
+    				message[i] = message[i].replace(/{weapon}/g, skill.name);
+                }
 				message[i] = message[i].replace(/{damage}/g, damage + "");
 			}
 			return message;
@@ -403,7 +411,7 @@ package scene.main
 		
 		
 		/**戦闘メッセージリストゲット*/
-		public function getBattleMessageList(keyName:String, state:String, attackUnit:BattleUnit, targetUnit:BattleUnit, weapon:MasterWeaponData):Vector.<MessageCondition>
+		public function getBattleMessageList(keyName:String, state:String, attackUnit:BattleUnit, targetUnit:BattleUnit, weapon:MasterWeaponData, skill:MasterSkillData):Vector.<MessageCondition>
 		{
 			var list:Vector.<MessageCondition> = new Vector.<MessageCondition>();
 			var i:int = 0;
@@ -415,7 +423,7 @@ package scene.main
 				{
 					for (j = 0; j < _masterBattleMessageData[i].message.length; j++)
 					{
-						if (_masterBattleMessageData[i].message[j].judge(state, attackUnit, targetUnit, weapon))
+						if (_masterBattleMessageData[i].message[j].judge(state, attackUnit, targetUnit, weapon, skill))
 						{
 							list.push(_masterBattleMessageData[i].message[j]);
 						}
@@ -433,7 +441,7 @@ package scene.main
 					{
 						for (j = 0; j < _masterBattleMessageData[i].message.length; j++)
 						{
-							if (_masterBattleMessageData[i].message[j].judge(state, attackUnit, targetUnit, weapon))
+							if (_masterBattleMessageData[i].message[j].judge(state, attackUnit, targetUnit, weapon, skill))
 							{
 								list.push(_masterBattleMessageData[i].message[j]);
 							}

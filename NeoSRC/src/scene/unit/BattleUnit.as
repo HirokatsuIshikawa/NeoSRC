@@ -71,6 +71,7 @@ package scene.unit
         }
         
         private var _battleId:int = 0;
+        public var nameId:String = null;
         private var _side:int = 0;
         private const MAX_TP:int = 999;
         private const LIMIT_TP:int = 300;
@@ -105,6 +106,8 @@ package scene.unit
         private var _commandType:int = 0;
         /**加入フラグ*/
         private var _joinFlg:Boolean = true;
+        /**会話ラベル*/
+		public var talkLabel:String = null;
         
         public function get unitImg():DisplayObject
         {

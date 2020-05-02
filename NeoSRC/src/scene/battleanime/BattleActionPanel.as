@@ -283,24 +283,25 @@ package scene.battleanime
         /**アクション開始*/
         private function startAction(data:BattleAnimeRecord):void
         {
-            var attackState:String = MessageDataParse.STATE_LIST[3];
-            var targetState:String = MessageDataParse.STATE_LIST[1];
+            var attackState:String = MessageDataParse.STATE_LIST[MessageDataParse.MSG_ATTACK];
+            var targetState:String = MessageDataParse.STATE_LIST[MessageDataParse.MSG_AVO];
+            //setUnit(data.attacker, data.target);
             _talkAttackChara = MainController.$.model.isEnableMessageName(data.attacker.name) ? data.attacker.name : "システム";
             _attackMessage = MainController.$.model.getRandamBattleMessage(data.attacker.name, attackState, data.attacker, data.target, data.weapon, data.skill,data.damage);
             switch (data.effect)
             {
             
             case BattleAnimeRecord.EFFECT_NO_HIT: 
-                targetState = MessageDataParse.STATE_LIST[1];
+                targetState = MessageDataParse.STATE_LIST[MessageDataParse.MSG_AVO];
                 break;
             case BattleAnimeRecord.EFFECT_DAMAGE: 
                 if (data.target.alive)
                 {
-                    targetState = MessageDataParse.STATE_LIST[2];
+                    targetState = MessageDataParse.STATE_LIST[MessageDataParse.MSG_DAMAGE];
                 }
                 else
                 {
-                    targetState = MessageDataParse.STATE_LIST[4];
+                    targetState = MessageDataParse.STATE_LIST[MessageDataParse.MSG_DESTROY];
                 }
                 break;
                 
@@ -418,8 +419,10 @@ package scene.battleanime
         private function endAttackAnime(atkImg:Vector.<CImage>, defImg:Vector.<CImage>):void
         {
             var i:int = 0;
-            var atkNum:int = _recordAnime[_animeCount - 1].attacker.formationNum;
-            var defNum:int = _recordAnime[_animeCount - 1].target.formationNum;
+            //開始時点のフォーメーション数を設定
+            var atkNum:int = _recordAnime[_animeCount - 1].attacker.mathFormationNum(_recordAnime[_animeCount - 1].atkEndHP);
+            var defNum:int = _recordAnime[_animeCount - 1].target.mathFormationNum(_recordAnime[_animeCount - 1].tgtEndHP);
+            //やられた攻撃側ユニット画像を消去
             for (i = 0; i < atkImg.length; i++)
             {
                 if (atkNum <= i)
@@ -430,6 +433,7 @@ package scene.battleanime
                     i--;
                 }
             }
+            //やられた防御側ユニット画像を消去
             for (i = 0; i < defImg.length; i++)
             {
                 if (defNum <= i)

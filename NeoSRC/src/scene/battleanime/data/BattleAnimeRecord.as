@@ -27,8 +27,10 @@ package scene.battleanime.data
 		
 		private var _attacker:BattleUnit = null;
         private var _atkBeforeHP:int;
+        private var _atkEndHP:int;
 		private var _target:BattleUnit = null;
         private var _tgtBeforeHP:int;
+        private var _tgtEndHP:int;
 		private var _weapon:MasterWeaponData = null;
 		private var _skill:MasterSkillData = null;
 		private var _side:int = 0;
@@ -41,8 +43,10 @@ package scene.battleanime.data
 		{
 			_attacker = attacker;
             _atkBeforeHP = atkBeforeHP;
+            _atkEndHP = attacker.nowHp;
 			_target = target;
             _tgtBeforeHP = tgtBeforeHP;
+            _tgtEndHP = target.nowHp;
             if (selectItem is MasterWeaponData)
             {
 			    _weapon = (selectItem as MasterWeaponData);
@@ -110,6 +114,16 @@ package scene.battleanime.data
         public function get tgtBeforeHP():int 
         {
             return _tgtBeforeHP;
+        }
+        
+        public function get atkEndHP():int 
+        {
+            return _atkEndHP;
+        }
+        
+        public function get tgtEndHP():int 
+        {
+            return _tgtEndHP;
         }
         
 		public function set enable(value:Boolean):void 

@@ -250,7 +250,7 @@ package scene.map
         }
         
         /** 戦闘ユニット作成 */
-        public function createUnit(name:String, side:String, posX:int, posY:int, level:int, strength:int, param:Object, callBack:Function, skip:Boolean):void
+        public function createUnit(name:String, side:String, posX:int, posY:int, level:int, strength:int, param:Object, callBack:Function, animeFlg:Boolean):void
         {
             var newSide:Boolean = true;
             var i:int = 0;
@@ -319,6 +319,17 @@ package scene.map
                 battleUnit.frameImg = new CImage(MainController.$.imgAsset.getTexture("frame_r"));
             }
             
+                            if (param.hasOwnProperty("id"))
+                {
+                    battleUnit.nameId = param.id;
+                }
+                
+                if (param.hasOwnProperty("label"))
+                {
+                    battleUnit.talkLabel = param.label;
+                }
+                
+            
             //ユニット数の設定
             if (battleUnit.maxFormationNum >= 2)
             {
@@ -326,11 +337,11 @@ package scene.map
             }
             
             // マップ位置をセットをセット
-            unitSetMap(battleUnit, sideNum, posX, posY, callBack);
+            unitSetMap(battleUnit, sideNum, posX, posY, animeFlg, callBack);
         }
         
         /** 味方ユニット出撃 */
-        public function launchUnit(name:String, posX:int, posY:int, param:Object, callBack:Function, skip:Boolean):void
+        public function launchUnit(name:String, posX:int, posY:int, param:Object, callBack:Function, animeFlg:Boolean):void
         {
             var newSide:Boolean = true;
             var i:int = 0;
@@ -350,6 +361,17 @@ package scene.map
             // 戦闘ユニットデータの設定
             battleUnit = new BattleUnit(charaData, getNewBattleID(), 0);
             battleUnit.frameImg = new CImage(MainController.$.imgAsset.getTexture("frame_b"));
+            
+            if (param.hasOwnProperty("id"))
+            {
+                battleUnit.nameId = param.id;
+            }
+            
+            if (param.hasOwnProperty("label"))
+            {
+                battleUnit.talkLabel = param.label;
+            }
+            
             //ユニット数の設定
             if (battleUnit.maxFormationNum >= 2)
             {
@@ -357,26 +379,66 @@ package scene.map
             }
             
             // マップ位置をセットをセット
-            unitSetMap(battleUnit, sideNum, posX, posY, callBack);
+            unitSetMap(battleUnit, sideNum, posX, posY, animeFlg, callBack);
         }
         
-        private function unitSetMap(battleUnit:BattleUnit, sideNum:int, posX:int, posY:int, callBack:Function):void
+        /**ユニット会話ラベル変更*/
+        public function setUnitTalkLabel(name:String, id:String, label:String):void
+        {
+            var i:int = 0;
+            var j:int = 0;
+            var endFlg:Boolean;
+            //IDで検索
+            for (i = 0; i < _sideState.length; i++)
+            {
+                for (j = 0; j < _sideState[i].battleUnit.length; j++)
+                {
+                    if (id != null)
+                    {
+                        
+                        if (_sideState[i].battleUnit[j].nameId === id)
+                        {
+                            _sideState[i].battleUnit[j].talkLabel = label;
+                            endFlg = true;
+                            break;
+                        }
+                    }
+                    else if (name != null)
+                    {
+                        if (_sideState[i].battleUnit[j].name === name)
+                        {
+                            _sideState[i].battleUnit[j].talkLabel = label;
+                            endFlg = true;
+                            break;
+                        }
+                    }
+                }
+                
+                if (endFlg)
+                {
+                    break;
+                }
+            }
+        }
+        
+        private function unitSetMap(battleUnit:BattleUnit, sideNum:int, posX:int, posY:int, anime:Boolean, callBack:Function):void
         {
             setLaunchCheck(battleUnit, posX, posY);
             posX = battleUnit.PosX;
             posY = battleUnit.PosY;
+            
             // 画像とフレームの位置を追加
-            battleUnit.unitImg.x = (posX - 1) * MAP_SIZE + 32;
+            battleUnit.unitImg.x = (posX - 1) * MAP_SIZE + (anime ? 32 : 0);
             battleUnit.unitImg.y = (posY - 1) * MAP_SIZE;
-            battleUnit.unitImg.alpha = 0;
+            battleUnit.unitImg.alpha = anime ? 0 : 1;
             battleUnit.frameImg.x = (posX - 1) * MAP_SIZE;
             battleUnit.frameImg.y = (posY - 1) * MAP_SIZE;
-            battleUnit.frameImg.alpha = 0;
+            battleUnit.frameImg.alpha = anime ? 0 : 1;
             if (battleUnit.formationNumImg != null)
             {
                 battleUnit.formationNumImg.x = (posX - 1) * MAP_SIZE + FORMATION_NUM_POS;
                 battleUnit.formationNumImg.y = (posY - 1) * MAP_SIZE + FORMATION_NUM_POS;
-                battleUnit.frameImg.alpha = 0;
+                battleUnit.frameImg.alpha = anime ? 0 : 1;
             }
             
             // 戦闘ユニットを勢力に追加
@@ -391,22 +453,31 @@ package scene.map
             {
                 _frameArea.addChildAt(battleUnit.formationNumImg, _frameArea.numChildren);
             }
-            // 一定時間かけて表示
-            var tweenAry:Array = new Array();
-            var tweenUnit:Tween24 = Tween24.tween(battleUnit.unitImg, 0.3).x((posX - 1) * MAP_SIZE).alpha(1);
-            var tweenFrame:Tween24 = Tween24.tween(battleUnit.frameImg, 0.3).alpha(1);
             
-            //tweenAry.push(launchParticle(posX, posY));
-            tweenAry.push(tweenUnit);
-            tweenAry.push(tweenFrame);
-            
-            if (battleUnit.formationNumImg != null)
+            if (anime)
             {
-                var tweenNum:Tween24 = Tween24.tween(battleUnit.formationNumImg, 0.3).alpha(1);
-                tweenAry.push(tweenNum);
+                // 一定時間かけて表示
+                var tweenAry:Array = new Array();
+                var tweenUnit:Tween24 = Tween24.tween(battleUnit.unitImg, 0.3).x((posX - 1) * MAP_SIZE).alpha(1);
+                var tweenFrame:Tween24 = Tween24.tween(battleUnit.frameImg, 0.3).alpha(1);
+                
+                //tweenAry.push(launchParticle(posX, posY));
+                tweenAry.push(tweenUnit);
+                tweenAry.push(tweenFrame);
+                
+                if (battleUnit.formationNumImg != null)
+                {
+                    var tweenNum:Tween24 = Tween24.tween(battleUnit.formationNumImg, 0.3).alpha(1);
+                    tweenAry.push(tweenNum);
+                }
+                
+                Tween24.parallel(tweenAry).onComplete(callBack).play();
             }
-            
-            Tween24.parallel(tweenAry).onComplete(callBack).play();
+            else
+            {
+                callBack();
+            }
+        
         }
         
         /**出撃位置調整*/
@@ -1894,15 +1965,27 @@ package scene.map
         //
         //-------------------------------------------------------------
         
-        /** タッチイベント設定 */
-        public function setTouchEvent(type:int):void
+        /**マップ会話シーンイベント*/
+        public function setMapTalkSceneTouchEvent():void
         {
-            
             removeEventListener(TouchEvent.TOUCH, mouseOperated);
             removeEventListener(TouchEvent.TOUCH, makeRootHandler);
             removeEventListener(TouchEvent.TOUCH, moveAreaHandler);
             removeEventListener(TouchEvent.TOUCH, startAttackHandler);
-            
+            removeEventListener(TouchEvent.TOUCH, startMapTalkHandler);
+            //イベントセット
+            addEventListener(TouchEvent.TOUCH, mouseOperated);
+            addEventListener(TouchEvent.TOUCH, startMapTalkHandler);
+        }
+        
+        /** パネル用タッチイベント設定 */
+        public function setTouchEvent(type:int):void
+        {
+            removeEventListener(TouchEvent.TOUCH, mouseOperated);
+            removeEventListener(TouchEvent.TOUCH, makeRootHandler);
+            removeEventListener(TouchEvent.TOUCH, moveAreaHandler);
+            removeEventListener(TouchEvent.TOUCH, startAttackHandler);
+            removeEventListener(TouchEvent.TOUCH, startMapTalkHandler);
             switch (type)
             {
             case BattleMapPanel.PANEL_SYSTEM: 
@@ -1931,13 +2014,12 @@ package scene.map
             }
         }
         
+        /**マップ位置表示*/
         override protected function mouseOperated(eventObject:TouchEvent):void
         {
-            
             var target:DisplayObject = eventObject.currentTarget as DisplayObject;
             var myTouch:Touch = eventObject.getTouch(target, TouchPhase.HOVER);
             if (myTouch)
-                
             {
                 var pos:Point = globalToLocal(new Point(myTouch.globalX, myTouch.globalY));
                 _battleMapPanel.setShowPos(Math.floor(pos.x / MAP_SIZE) + 1, Math.floor(pos.y / MAP_SIZE) + 1);
@@ -1986,6 +2068,21 @@ package scene.map
             {
                 pos = globalToLocal(new Point(myTouch.globalX, myTouch.globalY));
                 attackStart(pos);
+            }
+        }
+        
+        /** 会話ターゲット選択判定 */
+        private function startMapTalkHandler(e:TouchEvent):void
+        {
+            var i:int;
+            var target:BattleMap = e.currentTarget as BattleMap;
+            var pos:Point;
+            
+            var myTouch:Touch = e.getTouch(target, TouchPhase.BEGAN);
+            if (myTouch)
+            {
+                pos = globalToLocal(new Point(myTouch.globalX, myTouch.globalY));
+                mapTalkStart(pos);
             }
         }
         
@@ -2693,6 +2790,36 @@ package scene.map
             }
             return 0;
         }
-    
+        
+        /**マップ会話開始*/
+        private function mapTalkStart(pos:Point):void
+        {
+            var endFlg:Boolean = false;
+            var i:int = 0;
+            var j:int = 0;
+            var posX:int = pos.x / MAP_SIZE;
+            var posY:int = pos.y / MAP_SIZE;
+            
+            // マップ内から、対象ユニット位置を検索
+            for (i = 0; i < _sideState.length; i++)
+            {
+                for (j = 0; j < _sideState[i].battleUnit.length; j++)
+                {
+                    if (_sideState[i].battleUnit[j].PosX == posX + 1 && _sideState[i].battleUnit[j].PosY == posY + 1 && _sideState[i].battleUnit[j].onMap)
+                    {
+                        if (_sideState[i].battleUnit[j].talkLabel != null)
+                        {
+                            MainController.$.view.eveManager.talkEventStart(_sideState[i].battleUnit[j].talkLabel);
+                        }
+                        endFlg = true;
+                        break;
+                    }
+                }
+                if (endFlg)
+                {
+                    break;
+                }
+            }
+        }
     }
 }

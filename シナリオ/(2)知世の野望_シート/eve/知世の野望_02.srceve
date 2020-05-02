@@ -316,7 +316,8 @@ Talk ケイブガード
 ……いや、悪い悪い、驚かせちゃったかな？
 
 Talk ワイルドランナー
-どうみても、コクエン達の仲間じゃなさそうね
+どうみても、昨日の連中の
+仲間じゃなさそうね
 
 Talk さくら
 ほえ……？
@@ -330,11 +331,35 @@ ReadyMove
 SetMove layer:エフェクト time:0.5 fade:in
 SetMove layer:背景 time:0.3 fade:out
 StartMove type:連続 wait:on
+clearmsg type:all
+DeleteLayer name:背景
+ClearLayer name:キャラクター
+Goto タウンパート開始
 Exit
 
 
 タウンパート開始:
-
+StopBGM
+LoadMap file:ケイブヴィレッジ.map
+CreateUnit name:ケイブガード x:14 y:16 side:さくらチーム level:1 join:0 anime:0 label:マギロッド情報
+CreateUnit name:どんぐり目少女 x:9 y:12 side:さくらチーム level:1 join:0 anime:0 label:訪問どんぐり目
+CreateUnit name:パーカー少年 x:11 y:12 side:さくらチーム level:1 join:0 anime:0 label:訪問パーカー
+CreateUnit name:ワイルドランナー x:16 y:7 side:さくらチーム level:1 join:0 anime:0 label:リサイクル
+CreateUnit name:スライム x:4 y:11 side:さくらチーム level:1 join:0 anime:0 label:スライム情報
+ReadyMove
+SetMove layer:キャラクター alpha:0 x:0
+SetMove layer:エフェクト time:0.3 fade:out
+StartMove type:同時 wait:on
+SetChara name:ケルベロス x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 0) alpha:1
+SetChara name:知世 x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 1) alpha:1
+SetChara name:さくら x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 2) alpha:1
+SetChara name:なのは x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 3) alpha:1
+SetChara name:ユーノ x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 4) alpha:1
+SetChara name:ケイブガード x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 5) alpha:1
+SetChara name:ワイルドランナー x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 6) alpha:1
+ReadyMove
+SetMove layer:キャラクター time:0.1 fade:in
+StartMove type:同時 wait:on
 Talk さくら
 ほえー……すごい……
 
@@ -344,6 +369,9 @@ Talk 知世
 Talk なのは
 しかも、全員原始人みたいな恰好で……
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$式($変数(プレイヤー配置間隔) * -3)
+StartMove 
 Talk ケイブガード
 驚かせちゃってゴメン
 
@@ -355,11 +383,17 @@ Talk ワイルドランナー
 
 そうでなきゃ、あなた達が無事な訳もないし
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:0
+StartMove 
 Talk ユーノ
 あの……ここは一体……？
 
 それに、キミ達は……？
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$式($変数(プレイヤー配置間隔) * -3)
+StartMove 
 Talk ケイブガード
 ここは俺達の街、ケイブヴィレッジ！
 
@@ -375,9 +409,19 @@ Talk ケイブガード
 
 みんな、気のいいヤツらだからさ
 
+ReadyMove
+SetMove chara:ケイブガード time:0.1 fade:false
+StartMove 
+Wait 0.3
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:0
+StartMove 
 Talk ユーノ
 あ、ちょっと……！
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$式($変数(プレイヤー配置間隔) * -3)
+StartMove 
 Talk ワイルドランナー
 ごめん、ここまで案内しておいてなんだけど
 ちょっと、今は急がなきゃいけなくて……
@@ -387,6 +431,13 @@ Talk ワイルドランナー
 
 それじゃ！
 
+ReadyMove
+SetMove chara:ワイルドランナー time:0.1 fade:false
+StartMove
+Wait 0.3
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:0
+StartMove 
 Talk さくら
 いっちゃった……
 
@@ -409,11 +460,15 @@ Talk ケルベロス
 
 ほな、一通り話を聞いてみよか
 
-
-Exit
+hidemsg time:0.3
+clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+ClearLayer name:キャラクター
+MapTalk
 
 マギロッド情報:
-
 Talk ケイブガード
 ようこそ、ケイブヴィレッジへ
 
@@ -424,28 +479,30 @@ Talk ケイブガード
 初めて見る顔だね
 
 ここに来れたって事は、
-君達もマギロッドを貰ったんだろ？
+君達もマギクレストを貰ったんだろ？
 
 Talk なのは
-マギロッド……？
+マギクレスト……？
 
 Talk ケイブガード
 黄昏の魔法使い……
 
-フードを被った女の人から魔法の杖を貰わなかった？
+フードを被った女の人から魔法の紋章を貰わなかった？
 
 Talk なのは
 ……一応、それっぽいのは持ってますけど
 
+（でも、紋章ってのとはちょっと違うかな……？）
+
 Talk ケイブガード
 やっぱり
 
-……まぁ、マギロッドって呼び方は
+……まぁ、マギクレストって呼び方は
 いつの間にか広まってた名前だし
 来たばかりじゃ、知らなくてもおかしくないか
 
 Talk なのは
-ここの人達は、その人から魔法の杖を
+ここの人達は、その人から魔法の紋章を
 貰ったみたい……
 
 黄昏の魔法使いって、
@@ -456,18 +513,29 @@ Talk ユーノ
 
 僕は、あげたつもりはないからね
 
-Exit
+hidemsg time:0.3
+clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+ClearLayer name:キャラクター
+MapTalk
 
-訪問おっとり:
-
-Talk おっとり娘
+訪問どんぐり目:
+SetChara name:どんぐり目少女 x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 2) alpha:1
+SetChara name:ユーノ x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 3) alpha:1
+ReadyMove
+SetMove layer:キャラクター time:0.1 fade:in
+StartMove type:同時 wait:on
+showmsg
+Talk どんぐり目少女
 それにしても、原始人スタイルとは
 思い切ったこと考えたわよねぇ
 
 Talk ユーノ
 それは、確かに……
 
-Talk おっとり娘
+Talk どんぐり目少女
 ここに集まってる子は、某国民的アニメの
 劇場版アニメのファンでね
 
@@ -480,12 +548,17 @@ Talk ユーノ
 
 そんなに人気の作品なのかな……？
 
-Exit
+hidemsg time:0.3
+clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+ClearLayer name:キャラクター
+MapTalk
 
 
 
 訪問パーカー:
-
 Talk さくら
 あれ？　普通の恰好……？
 
@@ -512,7 +585,13 @@ Talk さくら
 Talk 知世
 わたくしの趣味ですから♪
 
-Exit
+hidemsg time:0.3
+clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+ClearLayer name:キャラクター
+MapTalk
 
 リサイクル:
 
@@ -543,7 +622,13 @@ Talk 知世
 なのはちゃん、気になさることは無いと思いますわ
 なのはちゃんは、まだ魔法少女になり立てですから
 
-Exit
+hidemsg time:0.3
+clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+ClearLayer name:キャラクター
+MapTalk
 
 スライム情報:
 
@@ -579,7 +664,18 @@ Talk ケイブガード
 
 生き物なら誰しも、必要な事だからね……
 
+hidemsg time:0.3
+clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+MapTalk
+
+
+会話一通り後:
+CreateUnit name:キャラ名 x:21 y:9 side:味方 level:1 
+CreateUnit name:キャラ名 x:22 y:9 side:味方 level:1 
+
+
+
 Exit
-
-
-

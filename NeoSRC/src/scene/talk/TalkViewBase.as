@@ -406,6 +406,7 @@ package scene.talk
 		{
 			var i:int = 0;
 			var eventData:MapEventData = null;
+            var animeFlg:Boolean = true;
 			//最初の文字列で分岐
 			switch (command[0].toLowerCase())
 			{
@@ -612,6 +613,24 @@ package scene.talk
 				break;
 			case "setbacktile": // マップ背景タイル設定
 				break;
+            case "maptalk"://マップ会話イベント
+                clearIf();
+				_skipTimer.stop();
+				_skipTimer.reset();
+				selectTouchEvent(TOUCH_MAP);
+				if (_eventCallBack != null)
+				{
+					_eventCallBack();
+					_eventCallBack = null;
+				}
+				else
+				{
+					if (MainController.$.view.battleMap != null && MainController.$.view.battleMap.mapPanel != null)
+					{
+						MainController.$.view.battleMap.mapPanel.showPanel(BattleMapPanel.PANEL_MAP_TALK);
+					}
+				}
+                break;
 			//-----------------------------------------------------マップイベント------------------------------------------------
 			case "setevent": 
 				setEvent(command, param);
@@ -641,12 +660,25 @@ package scene.talk
 					param.strength = 0;
 				}
 				
+                if (param.hasOwnProperty("anime"))
+                {
+                    if (param.anime > 0)
+                    {
+                        animeFlg = true;
+                    }
+                    else
+                    {
+                        animeFlg = false;
+                    }
+                }
+                
+                
 				_moveFlg = true;
 				if (MainController.$.view.battleMap == null)
 				{
 					MainController.$.view.errorMessageEve("マップが存在しません", _loadLine);
 				}
-				MainController.$.view.battleMap.createUnit(param.name, param.side, param.x, param.y, param.level, param.strength, param, mapMoveComp, _skipFlg);
+				MainController.$.view.battleMap.createUnit(param.name, param.side, param.x, param.y, param.level, param.strength, param, mapMoveComp, animeFlg);
 				//setLineCommand();
 				break;
 			case "launchunit": 
@@ -655,10 +687,36 @@ package scene.talk
 				{
 					MainController.$.view.errorMessageEve("マップが存在しません", _loadLine);
 				}
+                
+                if (param.hasOwnProperty("anime"))
+                {
+                    if (param.anime > 0)
+                    {
+                        animeFlg = true;
+                    }
+                    else
+                    {
+                        animeFlg = false;
+                    }
+                }
 				
-				MainController.$.view.battleMap.launchUnit(param.name, param.x, param.y, param, mapMoveComp, _skipFlg);
+				MainController.$.view.battleMap.launchUnit(param.name, param.x, param.y, param, mapMoveComp, animeFlg);
 				//setLineCommand();
 				break;
+            case "unittalklabel":
+                var setTalkName:String = null;
+                var setTalkId:String = null;
+                if (param.hasOwnProperty("name"))
+                {
+                    setTalkName = param.name;
+                }
+                if (param.hasOwnProperty("id"))
+                {
+                    setTalkId = param.id;
+                }
+                
+                MainController.$.view.battleMap.setUnitTalkLabel(setTalkName, setTalkId,param.label);
+                break;
 			case "setunitname": 
 				setUnitName(param);
 				setLineCommand();
@@ -829,11 +887,11 @@ package scene.talk
 		}
 		
 		/**ラベル検索*/
-		protected function searchLoadLine(lable:String):void
+		protected function searchLoadLine(label:String):void
 		{
-			if (_labelData[lable + ":"] != null)
+			if (_labelData[label + ":"] != null)
 			{
-				_loadLine = _labelData[lable + ":"];
+				_loadLine = _labelData[label + ":"];
 				setLineCommand();
 			}
 			else
@@ -2592,24 +2650,30 @@ package scene.talk
 				case TouchPhase.BEGAN: 
 					if (target._touchLabel != null)
 					{
-						
-						selectTouchEvent(TOUCH_TALK);
-						
-						_loadLine = _labelData[target._touchLabel];
-						setLineCommand();
+						talkEventStart(target._touchLabel);
 					}
 					break;
 				case TouchPhase.MOVED: 
 					if (target._moveLabel != null)
 					{
-						selectTouchEvent(TOUCH_TALK);
-						_loadLine = _labelData[target._moveLabel];
-						setLineCommand();
+						talkEventStart(target._moveLabel);
 					}
 					break;
 				}
 			}
 		}
+        
+        /**マップ会話、タッチ会話用イベント*/
+        public function talkEventStart(label:String):void
+        {
+			if (_labelData[label + ":"] != null)
+            {
+			    selectTouchEvent(TOUCH_TALK);
+			    _loadLine = _labelData[label + ":"];
+			    setLineCommand();
+            }
+        }
+        
 		
 		/**タッチイベントエリア選択*/
 		protected function selectTouchEvent(type:int):void

@@ -11,8 +11,17 @@ package converter.parse
 		//処理ステータス
 		public static const STATE_NONE:int = 0;
 		
-		public static var STATE_LIST:Array = ["交戦開始", "回避", "ダメージ", "攻撃", "撃破", "射程外", "スキル"];
-		public static var STATE_LIST_E:Array = ["交戦開始", "回避", "ダメージ", "攻撃", "撃破", "射程外", "スキル"];
+        public static const MSG_START:int = 0;
+        public static const MSG_AVO:int = 1; //回避
+        public static const MSG_DAMAGE:int = 2;
+        public static const MSG_ATTACK:int = 3;
+        public static const MSG_DESTROY:int = 4; //撃破
+        public static const MSG_OUTRANGE:int = 5;
+        public static const MSG_SKILL:int = 6;
+        
+        
+		public static var STATE_LIST:Array = ["交戦開始", "回避", "ダメージ", "攻撃", "破壊", "射程外", "スキル"];
+		public static var STATE_LIST_E:Array = ["交戦開始", "回避", "ダメージ", "攻撃", "破壊", "射程外", "スキル"];
 		
 		public static var CONDITION_LIST:Array = ["hp", "敵", "武装", "スキル", "命中率"];
 		public static var CONDITION_LIST_E:Array = ["hp", "enemy", "weapon", "skill", "hit"];
@@ -61,7 +70,10 @@ package converter.parse
 					lineAry = line.split(":");
 					//キャラ名設定
 					setName = lineAry[1];
-					data[setName] = new Array();
+                    if (data[setName] == null)
+                    {
+					    data[setName] = new Array();
+                    }
 				}
 				//共用の場合
 				else if (line === "default")
@@ -69,7 +81,10 @@ package converter.parse
 					lineAry = line.split(":");
 					//キャラ名設定
 					setName = line;
-					data[setName] = new Array();
+                    if (data[setName] == null)
+                    {
+					    data[setName] = new Array();
+                    }
 				}
 				//コンディション、メッセージの場合
 				else

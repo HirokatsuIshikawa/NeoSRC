@@ -120,7 +120,7 @@ package system.file
 		}
 		
 		//中断セーブデータ
-		public static function saveMapGameFile():void
+		public static function saveMapGameFile(saveNum:int):void
 		{
 			
 			MainController.$.view.waitDark(true);
@@ -131,9 +131,10 @@ package system.file
 			var mapDateList:Object = new Object();
 			var nowDate:Date = new Date();
 			var nowDateStr:String = "";
+			var saveCount:int = saveNum + 1;
 			
 			nowDateStr += nowDate.fullYear + "/" + CommonDef.formatZero(nowDate.month, 2) + "/" + CommonDef.formatZero(nowDate.date, 2) + " " + CommonDef.formatZero(nowDate.hours, 2) + ":" + CommonDef.formatZero(nowDate.minutes, 2) + ":" + CommonDef.formatZero(nowDate.seconds, 2);
-			
+			data.mapState = MainController.$.map.mapPanel.nowPanelType;
 			data.playerData = MainController.$.model.playerParam;
 			data.mapPath = MainController.$.model.mapPath;
 			
@@ -189,6 +190,9 @@ package system.file
 					mapDateList[i].unitDate[j].onMap = MainController.$.map.sideState[i].battleUnit[j].onMap;
 					mapDateList[i].unitDate[j].buffList = MainController.$.map.sideState[i].battleUnit[j].buffList;
 					mapDateList[i].unitDate[j].customBgmPath = MainController.$.map.sideState[i].battleUnit[j].customBgmPath;
+                    
+                    //ラベル
+					mapDateList[i].unitDate[j].talkLabel = MainController.$.map.sideState[i].battleUnit[j].talkLabel;
 				}
 			}
 			
@@ -205,7 +209,7 @@ package system.file
 			data.time = nowDateStr;
 			data.mapEventList = mapEventList;
 			
-			var saveName:String = CommonSystem.SAVE_NAME.replace("{0}", "中断データ");
+			var saveName:String = CommonSystem.SAVE_NAME.replace("{0}", CommonDef.formatZero(saveCount, 2) + "");
 			var json:String = JSON.stringify(data);
 			var path:File = File.desktopDirectory.resolvePath(CommonSystem.SCENARIO_PATH + "save/" + saveName + ".srcsav");
 			

@@ -30,6 +30,9 @@ package common
 		/**セーブデータ数*/
 		public static var SAVE_NUM:int = 3;
 		
+        /**最終中断セーブ番号*/
+        public static var LAST_SAVE_NUM:int = -1;
+        
 		/**ニューゲームEve*/
 		public static var START_EVE:String = "";
 		
@@ -48,6 +51,7 @@ package common
 			INFO = SharedObject.getLocal("NeoSrcInfo");
 			COMMON_BGM_PATH = INFO.data.CommonBgmPath;
 			COMMON_SE_PATH = INFO.data.CommonSePath;
+            LAST_SAVE_NUM = INFO.data.LastContinueNo;
 			//COMMON_IMG_PATH = INFO.data.CommonImgPath;
 			//COMMON_PEX_PATH = INFO.data.CommonPexPath;
 			var i:int = 0;
@@ -86,6 +90,13 @@ package common
 			COMMON_SE_PATH = path;
 		}
 		
+        public static function setContinueNo(num:int):void
+        {
+            INFO.data.LastContinueNo = num;
+            INFO.flush();
+            LAST_SAVE_NUM = num;
+        }
+        
 		/*
 		   public static function setCommonImgPath(path:String):void
 		   {

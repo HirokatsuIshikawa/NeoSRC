@@ -6,6 +6,9 @@ package scene.main
     import common.CommonSystem;
     import common.SystemController;
     import common.util.CharaDataUtil;
+    import scene.intermission.save.ConfirmPopup;
+    import scene.map.save.MapLoadList;
+    import scene.map.save.MapSaveList;
     import system.custom.customSprite.CButton;
     import system.custom.customSprite.CImage;
     import system.custom.customTheme.CustomTheme;
@@ -26,6 +29,7 @@ package scene.main
     import scene.map.panel.BattleMapPanel;
     import scene.map.customdata.SideState;
     import scene.unit.BattleUnit;
+    import system.file.DataSave;
     import viewitem.parts.loading.LoadingImg;
     import viewitem.parts.pc.StartWindowPC;
     import viewitem.parts.phone.StartWindowPhone;
@@ -41,6 +45,8 @@ package scene.main
      */
     public class MainViewer extends Sprite
     {
+        public static const START_LABEL:String = "スタート";
+        public static const INIT_LABEL:String = "初期化";
         
         /**カスタムテーマ*/
         protected var theme:CustomTheme;
@@ -264,7 +270,7 @@ package scene.main
                         _loadListWindow.dispose();
                     }
                     _loadListWindow = null;
-                    loadEve(CommonSystem.START_EVE, "スタート");
+                    loadEve(CommonSystem.START_EVE, START_LABEL);
                 }
             }
         }
@@ -283,19 +289,16 @@ package scene.main
             removeChild(_loadListWindow);
             _loadListWindow.dispose();
             _loadListWindow = null;
-            loadEve(CommonSystem.START_EVE, "スタート");
+            loadEve(CommonSystem.START_EVE, START_LABEL);
         }
         
         /**コンティニュー押し後*/
         public function pushContinueBtn(e:Event):void
         {
-            
             removeChild(_loadListWindow);
             _loadListWindow.dispose();
             _loadListWindow = null;
-            var continueName:String = CommonSystem.SAVE_NAME.replace("{0}", "中断データ");
-            DataLoad.loadMapSaveData();
-        
+            DataLoad.loadMapSaveData(CommonSystem.LAST_SAVE_NUM);
         }
         
         /**コンティニュー押し後*/
@@ -334,7 +337,7 @@ package scene.main
             }
             else
             {
-                loadEve(CommonSystem.START_EVE, "スタート");
+                loadEve(CommonSystem.START_EVE, START_LABEL);
             }
         }
         
@@ -388,6 +391,7 @@ package scene.main
                     battleUnit.moveState = unitData.moveState;
                     battleUnit.commandType = unitData.commandType;
                     battleUnit.moveCount = unitData.moveCount;
+                    battleUnit.talkLabel = unitData.talkLabel;
                     
                     battleUnit.setMoveColor();
                     
@@ -445,7 +449,7 @@ package scene.main
                         _battleMap.frameArea.addChildAt(battleUnit.frameImg, _battleMap.frameArea.numChildren);
                         if (battleUnit.formationNumImg != null)
                         {
-                            battleMap.frameArea.addChildAt(battleUnit.formationNumImg,_battleMap.frameArea.numChildren);
+                            battleMap.frameArea.addChildAt(battleUnit.formationNumImg, _battleMap.frameArea.numChildren);
                         }
                         
                     }
@@ -463,6 +467,12 @@ package scene.main
             addContent(_battleMap);
             addContent(_eveManager);
             _battleMap.setBattleMapPanel();
+            //マップ会話ロード時
+            if (data.mapState == BattleMapPanel.PANEL_MAP_TALK)
+            {
+                _battleMap.mapPanel.showPanel(BattleMapPanel.PANEL_MAP_TALK);
+            }
+            
             var bgmData:Object = new Object();
             bgmData.file = data.playerData.playingMapBGM;
             if (bgmData.file != "")
@@ -475,7 +485,7 @@ package scene.main
         /**ロードボタン押し後*/
         public function loadSaveData(data:Object):void
         {
-            
+            resetWindow();
             var i:int = 0;
             
             MainController.$.model.playerParam.loadObject(data.playerData);
@@ -487,9 +497,18 @@ package scene.main
                 MainController.$.model.addPlayerUnitFromName(data.unitList[i].name, data.unitList[i].lv, data.unitList[i].exp, data.unitList[i].strengthPoint, false, data.unitList[i].customBgmPath);
             }
             
-            removeChild(_loadListWindow);
-            _loadListWindow.dispose();
-            _loadListWindow = null;
+            if (_loadListWindow != null)
+            {
+                removeChild(_loadListWindow);
+                _loadListWindow.dispose();
+                _loadListWindow = null;
+            }
+            
+            if (_mapLoadList != null)
+            {
+                _mapLoadList.removeFromParent(true);
+                _mapLoadList = null;
+            }
             
             _interMission = new InterMission();
             addContent(_interMission);
@@ -683,6 +702,132 @@ package scene.main
         public function alertMessage(msg:String, key:String):void
         {
             trace(msg + ":" + key);
+        }
+        
+        //--
+        //
+        // セーブ
+        //
+        //--
+        
+        private var _saveList:MapSaveList = null;
+        
+        public function callMapSaveList():void
+        {
+            if (_saveList != null)
+            {
+                _saveList.dispose();
+                _saveList = null;
+            }
+            
+            _saveList = new MapSaveList();
+            addChild(_saveList);
+        
+        }
+        
+        
+        public function returnSaveFunc(num:int):Function
+        {
+            return function():void
+            {
+                saveEvent(num);
+            }
+        }
+        
+        public function closeSaveList(e:Event):void
+        {
+            removeChild(_saveList);
+            _saveList.dispose();
+            _saveList = null;
+        }
+        
+        private function saveEvent(saveNum:int):void
+        {
+            DataSave.saveMapGameFile(saveNum);
+            _saveList.removeFromParent();
+            _saveList.dispose();
+            _saveList = null;
+            CommonSystem.setContinueNo(saveNum);
+            var compPopup:ConfirmPopup = new ConfirmPopup("セーブ完了しました");
+            addChild(compPopup);
+        }
+        
+        //---
+        //
+        // ロード
+        //
+        //---
+        
+        private var _mapLoadList:MapLoadList = null;
+        
+        public function callMapLoadList():void
+        {
+            
+            if (_mapLoadList != null)
+            {
+                _mapLoadList.removeFromParent(true);
+                _mapLoadList = null;
+            }
+            
+            _mapLoadList = new MapLoadList(loadContinueListComp);
+        }
+        
+        public function returnLoadFunc(num:int):Function
+        {
+            return function():void
+            {
+                loadEvent(num);
+            }
+        }
+        
+        private function loadEvent(saveNum:int):void
+        {
+            if (_mapLoadList != null)
+            {
+                _mapLoadList.removeFromParent(true);
+                _mapLoadList = null;
+            }
+            if (_loadListWindow != null)
+            {
+                _loadListWindow.removeFromParent(true);
+                _loadListWindow = null;
+            }
+            
+            CommonSystem.setContinueNo(saveNum);
+            DataLoad.loadMapSaveData(saveNum);
+        }
+        
+        public function closeLoadList(e:Event):void
+        {
+            removeChild(_mapLoadList);
+            _mapLoadList.dispose();
+            _mapLoadList = null;
+        }
+        
+        /**中断用ロードリスト読み込み完了*/
+        private function loadContinueListComp(flg:Boolean):void
+        {
+            //waitDark(true);
+            Tween24.wait(0.3).onComplete(compWait).play();
+            
+            function compWait():void
+            {
+                MainController.$.view.waitDark(false);
+                if (flg)
+                {
+                    addChild(_mapLoadList);
+                }
+                else
+                {
+                    if (_mapLoadList != null)
+                    {
+                        _mapLoadList.dispose();
+                    }
+                    _mapLoadList = null;
+                    var compPopup:ConfirmPopup = new ConfirmPopup("データがありません。");
+                    addChild(compPopup);
+                }
+            }
         }
     }
 }

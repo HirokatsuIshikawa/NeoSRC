@@ -1,4 +1,11 @@
-﻿スタート:
+﻿初期化:
+#<追加インクル_01.srceve>
+#<追加インクル_02.srceve>
+#<LoadStart>
+Exit
+
+
+スタート:
 AddLayer name:背景 alpha:0
 AddLayer name:キャラクター alpha:0
 AddLayer name:エフェクト alpha:0
@@ -594,7 +601,6 @@ ClearLayer name:キャラクター
 MapTalk
 
 リサイクル:
-
 Talk ワイルドランナー
 捨てればゴミ、生かせば資源……
 

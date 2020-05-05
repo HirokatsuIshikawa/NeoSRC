@@ -19,7 +19,7 @@ package database.dataloader
 	{
 		
 		//テキストロード
-		public static function loadEveData(name:String, func:Function):void
+		public static function loadEveData(name:String, func:Function, resetLabelFlg:Boolean = true):void
 		{
 			var i:int = 0;
 			//読み込みインスタンスの生成
@@ -38,25 +38,29 @@ package database.dataloader
 				_textloader.removeEventListener(Event.COMPLETE, loadComplete);
 				var barrDat:ByteArray = e.target.data;
 				var strData:String = barrDat.readMultiByte(barrDat.length, DataLoad.DATA_CODE_UTF8);
-				/*
-				if (strData.indexOf("スタート:") < 0)
-				{
-					strData = Jcode.from_sjis(barrDat);
-				}
-				*/
 				
 				strData = strData.replace(/\r\n/g, "\n");
 				var ary:Array = strData.split("\n");
 				var labelAry:Array = new Array();
-				resetLabel(ary, labelAry);
+                //ラベルを付けなおすフラグ
+                if (resetLabelFlg)
+                {
+				    resetLabel(ary, labelAry);
+                }
 				func(ary, labelAry);
 			}
 			_textloader.load(_requrl);
 		}
 		
-		public static function resetLabel(ary:Array, labelAry:Array):void
+		public static function resetLabel(ary:Array, labelAry:Array):Array
 		{
 			var i:int = 0;
+            if (labelAry != null)
+            {
+                labelAry = null;
+                labelAry = new Array();
+            }
+            
 			//コメントアウト削除
 			for (i = 0; i < ary.length; i++)
 			{
@@ -76,12 +80,13 @@ package database.dataloader
 					ary[i] = CommonDef.sortCommandLine(ary[i]);
 					
 					// ラベルキーの追加
-					if (ary[i].lastIndexOf(":") == ary[i].length - 1)
+					if (ary[i].length > 0 && ary[i].lastIndexOf(":") == ary[i].length - 1)
 					{
 						labelAry[ary[i]] = [i];
 					}
 				}
 			}
+            return labelAry;
 		}
 	
 	}

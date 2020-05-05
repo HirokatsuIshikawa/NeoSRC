@@ -1,6 +1,7 @@
 package scene.map.panel
 {
     import common.CommonDef;
+    import scene.map.panel.subpanel.MapTalkPanel;
     import scene.unit.SkillListPanel;
     import scene.unit.WeaponListItem;
     import scene.unit.WeaponListPanel;
@@ -44,6 +45,8 @@ package scene.map.panel
         private var _counterAttackRange:int = 0;
         /**マップシステムパネル*/
         private var _systemPanel:SystemPanel;
+        /**マップ会話パネル*/
+        private var _mapTalkPanel:MapTalkPanel;
         /**キャラ選択後コマンドパネル*/
         private var _commandPanel:CommandPanel;
         /**移動時パネル*/
@@ -60,6 +63,7 @@ package scene.map.panel
         public function BattleMapPanel()
         {
             _systemPanel = new SystemPanel();
+            _mapTalkPanel = new MapTalkPanel();
             _commandPanel = new CommandPanel();
             _movePanel = new MovePanel();
             _selectTargetPanel = new SelectTargetPanel();
@@ -123,18 +127,14 @@ package scene.map.panel
                     MainController.$.view.battleMap.selectCounterWeapon(null);
                 }
                 break;
-            case PANEL_MAP_TALK:
+            //マップ会話
+            case PANEL_MAP_TALK: 
+                _mapTalkPanel.refresh();
+                addChild(_mapTalkPanel);
                 break;
             }
             
-            if (_nowPanelType == PANEL_MAP_TALK)
-            {
-                MainController.$.map.setMapTalkSceneTouchEvent();
-            }
-            else
-            {
-                MainController.$.view.battleMap.setTouchEvent(_nowPanelType);
-            }
+            MainController.$.view.battleMap.setTouchEvent(_nowPanelType);
         }
         
         /**戦闘予測セット*/
@@ -179,6 +179,16 @@ package scene.map.panel
             _counterAttackRange = value;
         }
         
+        public function get nowPanelType():int
+        {
+            return _nowPanelType;
+        }
+        
+        public function set nowPanelType(value:int):void
+        {
+            _nowPanelType = value;
+        }
+                
         public function get counterAttackRange():int
         {
             return _counterAttackRange;

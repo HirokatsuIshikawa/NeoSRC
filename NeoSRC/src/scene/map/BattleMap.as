@@ -180,6 +180,7 @@ package scene.map
             removeEventListener(TouchEvent.TOUCH, makeRootHandler);
             removeEventListener(TouchEvent.TOUCH, moveAreaHandler);
             removeEventListener(TouchEvent.TOUCH, startAttackHandler);
+            removeEventListener(TouchEvent.TOUCH, startMapTalkHandler);
             
             CommonDef.disposeList([_unitArea, _frameArea, _btnReset, _moveAreaImgList, _attackAreaImgList, _rootImgList, _sideState]);
             _btnReset = null;
@@ -1965,19 +1966,6 @@ package scene.map
         //
         //-------------------------------------------------------------
         
-        /**マップ会話シーンイベント*/
-        public function setMapTalkSceneTouchEvent():void
-        {
-            removeEventListener(TouchEvent.TOUCH, mouseOperated);
-            removeEventListener(TouchEvent.TOUCH, makeRootHandler);
-            removeEventListener(TouchEvent.TOUCH, moveAreaHandler);
-            removeEventListener(TouchEvent.TOUCH, startAttackHandler);
-            removeEventListener(TouchEvent.TOUCH, startMapTalkHandler);
-            //イベントセット
-            addEventListener(TouchEvent.TOUCH, mouseOperated);
-            addEventListener(TouchEvent.TOUCH, startMapTalkHandler);
-        }
-        
         /** パネル用タッチイベント設定 */
         public function setTouchEvent(type:int):void
         {
@@ -1988,29 +1976,41 @@ package scene.map
             removeEventListener(TouchEvent.TOUCH, startMapTalkHandler);
             switch (type)
             {
+                //システムパネル
             case BattleMapPanel.PANEL_SYSTEM: 
                 hideStatusWindow();
                 addEventListener(TouchEvent.TOUCH, mouseOperated);
                 addEventListener(TouchEvent.TOUCH, moveAreaHandler);
                 break;
+                //コマンドパネル
             case BattleMapPanel.PANEL_COMMAND: 
                 //addEventListener(TouchEvent.TOUCH, mouseOperated);
                 //addEventListener(TouchEvent.TOUCH, moveAreaHandler);
                 break;
+                //移動パネル
             case BattleMapPanel.PANEL_MOVE: 
                 hideStatusWindow();
                 _selectMoved = false;
                 addEventListener(TouchEvent.TOUCH, makeRootHandler);
                 break;
+                //攻撃対象選択
             case BattleMapPanel.PANEL_SELECT_TARGET: 
                 addEventListener(TouchEvent.TOUCH, mouseOperated);
                 addEventListener(TouchEvent.TOUCH, startAttackHandler);
                 break;
+                //スキル対象選択
             case BattleMapPanel.PANEL_SELECT_SKILL_TARGET:
                 
                 addEventListener(TouchEvent.TOUCH, mouseOperated);
                 addEventListener(TouchEvent.TOUCH, startAttackHandler);
                 break;
+            //マップ会話
+            case BattleMapPanel.PANEL_MAP_TALK:
+                
+                addEventListener(TouchEvent.TOUCH, mouseOperated);
+                addEventListener(TouchEvent.TOUCH, startMapTalkHandler);
+                break;
+                
             }
         }
         
@@ -2396,6 +2396,7 @@ package scene.map
                 _battleMapPanel = new BattleMapPanel();
             }
             addChild(_battleMapPanel);
+            
             _battleMapPanel.showPanel(BattleMapPanel.PANEL_SYSTEM);
             MainController.$.view.addChild(_battleMapPanel);
         }
@@ -2809,6 +2810,8 @@ package scene.map
                     {
                         if (_sideState[i].battleUnit[j].talkLabel != null)
                         {
+                            
+    						MainController.$.view.battleMap.mapPanel.showPanel(BattleMapPanel.PANEL_NONE);
                             MainController.$.view.eveManager.talkEventStart(_sideState[i].battleUnit[j].talkLabel);
                         }
                         endFlg = true;

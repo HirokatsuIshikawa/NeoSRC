@@ -1,6 +1,7 @@
 package system.file
 {
 	import code.org.coderepos.text.encoding.Jcode;
+    import common.CommonDef;
 	import common.CommonSystem;
 	import converter.parse.SystemParse;
 	import flash.events.Event;
@@ -285,10 +286,11 @@ package system.file
 		}
 		
 		//テキストロード
-		public static function loadMapSaveData():void
+		public static function loadMapSaveData(saveNum:int):void
 		{
 			
-			var saveName:String = CommonSystem.SAVE_NAME.replace("{0}", "中断データ");
+			var saveCount:int = saveNum + 1;
+			var saveName:String = CommonSystem.SAVE_NAME.replace("{0}", CommonDef.formatZero(saveCount, 2) + "");
 			//読み込みインスタンスの生成
 			var _textloader:URLLoader = new URLLoader();
 			var file:File = File.applicationDirectory.resolvePath(CommonSystem.SCENARIO_PATH + "save/" + saveName + ".srcsav");

@@ -16,8 +16,8 @@ package scene.intermission.save
 	public class SaveList extends DataList
 	{
 		
-		private var _saveList:Vector.<SaveListItem> = null;
-		private var _closeBtn:CImgButton = null;
+		protected var _saveList:Vector.<SaveListItem> = null;
+		protected var _closeBtn:CImgButton = null;
 		protected var _saveCompCount:int = 0;
 		
 		public function SaveList()
@@ -30,7 +30,7 @@ package scene.intermission.save
 		{
 			CommonDef.disposeList(_saveList);
 			
-			if (_closeBtn)
+			if (_closeBtn != null)
 			{
 				removeChild(_closeBtn);
 				_closeBtn.removeEventListener(Event.TRIGGERED, MainController.$.view.interMission.closeSaveList);

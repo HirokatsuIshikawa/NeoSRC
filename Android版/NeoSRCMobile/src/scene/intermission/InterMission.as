@@ -2,6 +2,7 @@ package scene.intermission
 {
 	import common.CommonDef;
 	import common.CommonSystem;
+    import scene.main.MainViewer;
 	import system.custom.customSprite.CImage;
 	import system.custom.customSprite.CImgButton;
 	import system.custom.customSprite.CSprite;
@@ -348,7 +349,7 @@ package scene.intermission
 		
 		private function gotoNextStage():void
 		{
-			MainController.$.view.loadEve(MainController.$.model.playerParam.nextEve, "スタート");
+			MainController.$.view.loadEve(MainController.$.model.playerParam.nextEve, MainViewer.START_LABEL);
 		}
 		
 		public function callStrengthList():void

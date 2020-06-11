@@ -1,6 +1,7 @@
 package system.file
 {
 	import code.org.coderepos.text.encoding.Jcode;
+    import common.CommonDef;
 	import common.CommonSystem;
 	import converter.parse.SystemParse;
 	import flash.events.Event;
@@ -31,8 +32,11 @@ package system.file
 		{
 			var loadfile:File = new File();
 			//終了後の処理
-			loadfile.addEventListener(Event.SELECT, function(evSel:Event):void
+			loadfile.addEventListener(Event.SELECT, fileLoadComp)
+			
+			function fileLoadComp(evSel:Event):void
 			{
+				loadfile.removeEventListener(Event.COMPLETE, fileLoadComp);
 				var fr:FileReference = null;
 				fr = evSel.target as FileReference;
 				fr.addEventListener(Event.COMPLETE, loadComplete);
@@ -44,6 +48,9 @@ package system.file
 				//FileReference　ロード成功時の処理
 				function loadComplete(e:Event):void
 				{
+					
+					fr.removeEventListener(Event.COMPLETE, loadComplete);
+					fr.removeEventListener(ProgressEvent.PROGRESS, loadProgress);
 					var fileType:String = e.currentTarget.extension;
 					var barrDat:ByteArray = e.target.data;
 					//漢字コード変換（shift-jis　－＞　UTF-8）
@@ -87,7 +94,7 @@ package system.file
 				}
 				
 				fr.load(); //ロード開始
-			});
+			}
 			//fr.addEventListener(ProgressEvent.PROGRESS, loadProgress);
 			//必要なら...
 			//fr.addEventListener(ProgressEvent.PROGRESS, onFileReference_Progress);
@@ -116,7 +123,6 @@ package system.file
 			//ファイル選択ダイアログ起動
 			loadfile.browseForOpen("open", [ff]);
 		}
-		
 		
 		public static function LoadFolderPath(compFunc:Function):void
 		{
@@ -278,12 +284,13 @@ package system.file
 				func(null, num);
 			}
 		}
-	
-			//テキストロード
-		public static function loadMapSaveData():void
+		
+		//テキストロード
+		public static function loadMapSaveData(saveNum:int):void
 		{
 			
-			var saveName:String = CommonSystem.SAVE_NAME.replace("{0}", "中断データ");
+			var saveCount:int = saveNum + 1;
+			var saveName:String = CommonSystem.SAVE_NAME.replace("{0}", CommonDef.formatZero(saveCount, 2) + "");
 			//読み込みインスタンスの生成
 			var _textloader:URLLoader = new URLLoader();
 			var file:File = File.applicationDirectory.resolvePath(CommonSystem.SCENARIO_PATH + "save/" + saveName + ".srcsav");
@@ -315,8 +322,73 @@ package system.file
 			}
 		}
 		
-		
-		
+		/**コマンドライン引数でのメインシステム読み込み*/
+		public static function loadInvokePath(mainPath:String, compFunc:Function):void
+		{
+			
+			var loadfile:File = new File(mainPath);
+			
+			loadfile.addEventListener(ProgressEvent.PROGRESS, loadProgress);
+			function loadProgress(evt:ProgressEvent):void
+			{
+				trace("Loaded " + evt.bytesLoaded + " of " + evt.bytesTotal + " bytes.");
+			}
+			
+			//終了後の処理
+			loadfile.addEventListener(Event.COMPLETE, loadComp);
+			
+			function loadComp(e:Event):void
+			{
+				
+				loadfile.removeEventListener(ProgressEvent.PROGRESS, loadProgress);
+				loadfile.removeEventListener(Event.COMPLETE, loadComp);
+				
+				var fileType:String = e.currentTarget.extension;
+				var barrDat:ByteArray = e.target.data;
+				//漢字コード変換（shift-jis　－＞　UTF-8）
+				
+				var strData:String = "";
+				
+				if (fileType === "srctxt")
+				{
+					strData = barrDat.readMultiByte(barrDat.length, DATA_CODE_UTF8);
+					if (strData.indexOf("スタートファイル") < 0)
+					{
+						strData = Jcode.from_sjis(barrDat);
+					}
+					
+					var txtData:Object = SystemParse.parseSystenData(strData);
+					var path:String = loadfile.parent.nativePath + "\\";
+					CommonSystem.SCENARIO_PATH = path;
+					MainController.$.view.debugText.addText(path);
+					compFunc(txtData);
+				}
+				else
+				{
+					strData = barrDat.readMultiByte(barrDat.length, DATA_CODE_UTF8);
+					convertJson(strData);
+				}
+				
+				function convertJson(strData:String):void
+				{
+					//改行の変更
+					var obj:Object = JSON.parse(strData);
+					var path:String = loadfile.parent.nativePath + "\\";
+					/*
+					   while(path.indexOf("\\") >= 0) {
+					   path = path.replace("\\", "//");
+					   }
+					 */
+					CommonSystem.SCENARIO_PATH = path;
+					MainController.$.view.debugText.addText(path);
+					compFunc(obj);
+				}
+			
+			}
+			
+			loadfile.load();
+		}
+	
 	}
 
 }

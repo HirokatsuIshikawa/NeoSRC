@@ -358,7 +358,7 @@ package scene.talk
         /**初期化ラベルロード*/
         private function initialLabelLoad(func:Function):void
         {
-            if (_labelData.indexOf(MainViewer.INIT_LABEL + ":"))
+            if (_labelData.indexOf(MainViewer.INIT_LABEL + ":") >= 0)
             {
                 _initialLabelFlg = true;
                 _initialLoadFunc = func;

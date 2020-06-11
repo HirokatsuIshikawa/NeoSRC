@@ -45,7 +45,7 @@ package database.dataloader
                 //ラベルを付けなおすフラグ
                 if (resetLabelFlg)
                 {
-				    resetLabel(ary, labelAry);
+				    labelAry = resetLabel(ary, labelAry);
                 }
 				func(ary, labelAry);
 			}

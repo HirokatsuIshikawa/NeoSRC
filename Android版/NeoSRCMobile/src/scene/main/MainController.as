@@ -11,7 +11,6 @@ package scene.main
 	 */
 	public class MainController
 	{
-		
 		/**インスタンス*/
 		private static var _instance:MainController;
 
@@ -25,7 +24,7 @@ package scene.main
 		/**アセットシステム*/
 		private var _imgAsset:AssetManager = null;
 		private var _mapTipAsset:AssetManager = null;
-		
+				
         /**コンストラクタ*/
 		public function MainController(_v:MainViewer)
 		{

@@ -2,6 +2,8 @@ package viewitem.parts.pc
 {
 	import common.CommonDef;
 	import common.CommonSystem;
+	import flash.filesystem.File;
+	import scene.main.MainController;
 	import system.custom.customSprite.CImage;
 	import system.custom.customSprite.CImgButton;
 	import system.custom.customSprite.CSprite;
@@ -16,6 +18,7 @@ package viewitem.parts.pc
 	 */
 	public class StartWindowPC extends CSprite
 	{
+		public static var invokePath:String;
 		private const BTN_POS_X:int = 120;
 		private const BTN_POS_Y_LIST:Array = [120, 200];
 		
@@ -48,89 +51,101 @@ package viewitem.parts.pc
 		public function StartWindowPC(func:Function)
 		{
 			CommonSystem.initInfo();
-			_backImg = new CImage(CommonDef.BACK_TEX);
-			_backImg.width = CommonDef.WINDOW_W;
-			_backImg.height = CommonDef.WINDOW_H;
-			addChild(_backImg);
-			_compFunc = func;
 			
-			_loadTex = Texture.fromBitmap(new CommonDef.StartBtnImg());
-			_loadBtn = new CImgButton(_loadTex);
-			_loadBtn.addEventListener(Event.TRIGGERED, readScenario);
-			_loadBtn.y = CommonDef.WINDOW_H - 96;
-			_loadBtn.x = (CommonDef.WINDOW_W - 96) / 2;
-			addChild(_loadBtn);
+			var file:File = new File(invokePath);
 			
-			_allTex = Texture.fromBitmap(new CommonDef.AllBtnImg());
-			_allBtn = new CImgButton(_allTex);
-			_allBtn.addEventListener(Event.TRIGGERED, setCommonAll);
-			_allBtn.y = 160;
-			_allBtn.x = 20;
-			addChild(_allBtn);
+			//var file:File = new File('C:\\Users\\syoug\\Desktop\\Git_NeoSRC\\シナリオ\\(2)知世の野望_シート\\知世の野望.srctxt');
 			
-			/*
-			   _imgTex = Texture.fromBitmap(new CommonDef.ImgBtnImg());
-			   _imgBtn = new CImgButton(_imgTex);
-			   _imgBtn.addEventListener(Event.TRIGGERED, setCommonImg);
-			   _imgBtn.y = 100;
-			   _imgBtn.x = 120;
-			   addChild(_imgBtn);
-			
-			
-			   _pexTex = Texture.fromBitmap(new CommonDef.PexBtnImg());
-			   _pexBtn = new CImgButton(_pexTex);
-			   _pexBtn.addEventListener(Event.TRIGGERED, setCommonPex);
-			   _pexBtn.y = 180;
-			   _pexBtn.x = 120;
-			   addChild(_pexBtn);
-			 */
-			
-			_bgmTex = Texture.fromBitmap(new CommonDef.BgmBtnImg());
-			_bgmBtn = new CImgButton(_bgmTex);
-			_bgmBtn.addEventListener(Event.TRIGGERED, setCommonBgm);
-			_bgmBtn.x = BTN_POS_X;
-			_bgmBtn.y = BTN_POS_Y_LIST[0];
-			addChild(_bgmBtn);
-			
-			_seTex = Texture.fromBitmap(new CommonDef.SeBtnImg());
-			_seBtn = new CImgButton(_seTex);
-			_seBtn.addEventListener(Event.TRIGGERED, setCommonSe);
-			_seBtn.x = BTN_POS_X;
-			_seBtn.y = BTN_POS_Y_LIST[1];
-			addChild(_seBtn);
-			/*
-			   _imgPathText = new CTextArea(12);
-			   _imgPathText.text = CommonSystem.COMMON_IMG_PATH;
-			   _imgPathText.x = 200;
-			   _imgPathText.y = 120;
-			   _imgPathText.width = 700;
-			   _imgPathText.height = 24;
-			   addChild(_imgPathText);
-			
-			   _pexPathText = new CTextArea(12);
-			   _pexPathText.text = CommonSystem.COMMON_PEX_PATH;
-			   _pexPathText.x = 200;
-			   _pexPathText.y = 200;
-			   _pexPathText.width = 700;
-			   _pexPathText.height = 24;
-			   addChild(_pexPathText);
-			 */
-			_bgmPathText = new CTextArea(12);
-			_bgmPathText.text = CommonSystem.COMMON_BGM_PATH;
-			_bgmPathText.x = _bgmBtn.x + 80;
-			_bgmPathText.y = _bgmBtn.y + 20;
-			_bgmPathText.width = 700;
-			_bgmPathText.height = 24;
-			addChild(_bgmPathText);
-			
-			_sePathText = new CTextArea(12);
-			_sePathText.text = CommonSystem.COMMON_SE_PATH;
-			_sePathText.x = _seBtn.x + 80;
-			_sePathText.y = _seBtn.y + 20;
-			_sePathText.width = 700;
-			_sePathText.height = 24;
-			addChild(_sePathText);
-		
+			if (invokePath != null && file.exists)
+			{
+				DataLoad.loadInvokePath(invokePath, func);
+				//DataLoad.loadInvokePath('C:\\Users\\syoug\\Desktop\\Git_NeoSRC\\シナリオ\\(2)知世の野望_シート\\知世の野望.srctxt', func);
+			}
+			else
+			{
+				_backImg = new CImage(CommonDef.BACK_TEX);
+				_backImg.width = CommonDef.WINDOW_W;
+				_backImg.height = CommonDef.WINDOW_H;
+				addChild(_backImg);
+				_compFunc = func;
+				
+				_loadTex = Texture.fromBitmap(new CommonDef.StartBtnImg());
+				_loadBtn = new CImgButton(_loadTex);
+				_loadBtn.addEventListener(Event.TRIGGERED, readScenario);
+				_loadBtn.y = CommonDef.WINDOW_H - 96;
+				_loadBtn.x = (CommonDef.WINDOW_W - 96) / 2;
+				addChild(_loadBtn);
+				
+				_allTex = Texture.fromBitmap(new CommonDef.AllBtnImg());
+				_allBtn = new CImgButton(_allTex);
+				_allBtn.addEventListener(Event.TRIGGERED, setCommonAll);
+				_allBtn.y = 160;
+				_allBtn.x = 20;
+				addChild(_allBtn);
+				
+				/*
+				   _imgTex = Texture.fromBitmap(new CommonDef.ImgBtnImg());
+				   _imgBtn = new CImgButton(_imgTex);
+				   _imgBtn.addEventListener(Event.TRIGGERED, setCommonImg);
+				   _imgBtn.y = 100;
+				   _imgBtn.x = 120;
+				   addChild(_imgBtn);
+				
+				
+				   _pexTex = Texture.fromBitmap(new CommonDef.PexBtnImg());
+				   _pexBtn = new CImgButton(_pexTex);
+				   _pexBtn.addEventListener(Event.TRIGGERED, setCommonPex);
+				   _pexBtn.y = 180;
+				   _pexBtn.x = 120;
+				   addChild(_pexBtn);
+				 */
+				
+				_bgmTex = Texture.fromBitmap(new CommonDef.BgmBtnImg());
+				_bgmBtn = new CImgButton(_bgmTex);
+				_bgmBtn.addEventListener(Event.TRIGGERED, setCommonBgm);
+				_bgmBtn.x = BTN_POS_X;
+				_bgmBtn.y = BTN_POS_Y_LIST[0];
+				addChild(_bgmBtn);
+				
+				_seTex = Texture.fromBitmap(new CommonDef.SeBtnImg());
+				_seBtn = new CImgButton(_seTex);
+				_seBtn.addEventListener(Event.TRIGGERED, setCommonSe);
+				_seBtn.x = BTN_POS_X;
+				_seBtn.y = BTN_POS_Y_LIST[1];
+				addChild(_seBtn);
+				/*
+				   _imgPathText = new CTextArea(12);
+				   _imgPathText.text = CommonSystem.COMMON_IMG_PATH;
+				   _imgPathText.x = 200;
+				   _imgPathText.y = 120;
+				   _imgPathText.width = 700;
+				   _imgPathText.height = 24;
+				   addChild(_imgPathText);
+				
+				   _pexPathText = new CTextArea(12);
+				   _pexPathText.text = CommonSystem.COMMON_PEX_PATH;
+				   _pexPathText.x = 200;
+				   _pexPathText.y = 200;
+				   _pexPathText.width = 700;
+				   _pexPathText.height = 24;
+				   addChild(_pexPathText);
+				 */
+				_bgmPathText = new CTextArea(12);
+				_bgmPathText.text = CommonSystem.COMMON_BGM_PATH;
+				_bgmPathText.x = _bgmBtn.x + 80;
+				_bgmPathText.y = _bgmBtn.y + 20;
+				_bgmPathText.width = 700;
+				_bgmPathText.height = 24;
+				addChild(_bgmPathText);
+				
+				_sePathText = new CTextArea(12);
+				_sePathText.text = CommonSystem.COMMON_SE_PATH;
+				_sePathText.x = _seBtn.x + 80;
+				_sePathText.y = _seBtn.y + 20;
+				_sePathText.width = 700;
+				_sePathText.height = 24;
+				addChild(_sePathText);
+			}
 		}
 		
 		/** 読み込み完了 */

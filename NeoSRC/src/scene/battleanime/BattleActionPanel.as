@@ -283,7 +283,17 @@ package scene.battleanime
         /**アクション開始*/
         private function startAction(data:BattleAnimeRecord):void
         {
-            var attackState:String = MessageDataParse.STATE_LIST[MessageDataParse.MSG_ATTACK];
+            var attackState:String;
+            
+            if (data.type == BattleAnimeRecord.TYPE_NORMAL_ATTACK)
+            {
+                attackState = MessageDataParse.STATE_LIST[MessageDataParse.MSG_ATTACK];
+            }
+            else if (data.type == BattleAnimeRecord.TYPE_NORMAL_SKILL)
+            {
+                attackState = MessageDataParse.STATE_LIST[MessageDataParse.MSG_SKILL];
+            }
+            
             var targetState:String = MessageDataParse.STATE_LIST[MessageDataParse.MSG_AVO];
             //setUnit(data.attacker, data.target);
             _talkAttackChara = MainController.$.model.isEnableMessageName(data.attacker.name) ? data.attacker.name : "システム";

@@ -14,7 +14,7 @@ package scene.map.customdata
 		
 		private var _name:String = null;
 		private var _state:int = 0;
-		
+        
 		/** 各勢力ユニットリスト */
 		private var _battleUnit:Vector.<BattleUnit> = null;
 		

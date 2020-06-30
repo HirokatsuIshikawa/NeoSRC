@@ -24,8 +24,8 @@ package converter.parse
 		public static var STATE_LIST:Array = ["交戦開始", "回避", "ダメージ", "攻撃", "破壊", "射程外", "スキル"];
 		public static var STATE_LIST_E:Array = ["交戦開始", "回避", "ダメージ", "攻撃", "破壊", "射程外", "スキル"];
 		
-		public static var CONDITION_LIST:Array = ["hp", "敵", "武装", "スキル", "命中率"];
-		public static var CONDITION_LIST_E:Array = ["hp", "enemy", "weapon", "skill", "hit"];
+		public static var CONDITION_LIST:Array = ["hp", "敵", "武装", "スキル名", "命中率"];
+		public static var CONDITION_LIST_E:Array = ["hp", "enemy", "weapon", "skillName", "hit"];
 		
 		public static function parseData(str:String):Array
 		{
@@ -142,6 +142,10 @@ package converter.parse
 							case CONDITION_LIST_E[2]:
 								condition.weaponName = conditionValue;
 								break;
+                            case CONDITION_LIST[3]:
+                            case CONDITION_LIST_E[3]:
+                                condition.skillName = conditionValue;
+                                break;
 							}
 							
 						}

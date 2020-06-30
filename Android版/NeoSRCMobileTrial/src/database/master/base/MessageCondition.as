@@ -1,5 +1,6 @@
 package database.master.base
 {
+    import database.master.MasterSkillData;
 	import database.master.MasterWeaponData;
 	import scene.unit.BattleUnit;
 	
@@ -20,6 +21,7 @@ package database.master.base
 		public var state:String = null;
 		
 		public var weaponName:String = null;
+		public var skillName:String = null;
 		
 		/**相手名*/
 		public var enemy:String = null;
@@ -30,7 +32,7 @@ package database.master.base
 			message = new Vector.<String>();
 		}
 		
-		public function judge(callState:String, unit:BattleUnit, enemyUnit:BattleUnit, weapon:MasterWeaponData):Boolean
+		public function judge(callState:String, unit:BattleUnit, enemyUnit:BattleUnit, weapon:MasterWeaponData, skill:MasterSkillData):Boolean
 		{
 			var flg:Boolean = true;
 			
@@ -41,13 +43,27 @@ package database.master.base
 			}
 			
 			//武器名
-			if (weaponName != null)
-			{
-				if (weaponName != weapon.name)
-				{
-					return false;
-				}
-			}
+            if (weapon != null)
+            {
+                if (weaponName != null)
+                {
+                    if (weaponName != weapon.name)
+                    {
+                        return false;
+                    }
+                }
+            }
+			//スキル名
+            if (skill != null)
+            {
+                if (skillName != null)
+                {
+                    if (skillName != skill.name)
+                    {
+                        return false;
+                    }
+                }
+            }
 			
 			//HP率
 			if (hpRateMax > 0)

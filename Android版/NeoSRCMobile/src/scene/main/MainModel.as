@@ -390,7 +390,7 @@ package scene.main
                 }
                 else if (skill != null)
                 {                
-    				message[i] = message[i].replace(/{weapon}/g, skill.name);
+    				message[i] = message[i].replace(/{skill}/g, skill.name);
                 }
 				message[i] = message[i].replace(/{damage}/g, damage + "");
 			}

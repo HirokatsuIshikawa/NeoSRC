@@ -15,7 +15,7 @@ package scene.map.battle
 	public class AttackListItem extends CData
 	{
 		private var _type:int = 0;
-		private var _side:int
+		private var _side:int;
 		private var _unit:BattleUnit;
 		private var _weapon:MasterWeaponData;
 		private var _counterWeapon:MasterWeaponData;

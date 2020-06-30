@@ -128,7 +128,7 @@ package scene.talk.message
 		/**メッセージ追加*/
 		public function setText(str:String):void
 		{
-			_textArea.text = str;
+			_textArea.text = str.replace("/", "\n");
 		}
 		
 		public function clearText():void

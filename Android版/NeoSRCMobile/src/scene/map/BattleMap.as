@@ -303,12 +303,15 @@ package scene.map
                 }
                 // 戦闘ユニットデータの設定
                 //battleUnit = new BattleUnit(CharaDataUtil.getPlayerCharaForName(name), getNewBattleID());
-                battleUnit = new BattleUnit(new UnitCharaData(_sideState[sideNum].battleUnit.length, CharaDataUtil.getMasterCharaDataName(name), level), getNewBattleID(), 0);
+                
+                var newUnitData:UnitCharaData = new UnitCharaData(_sideState[sideNum].battleUnit.length, CharaDataUtil.getMasterCharaDataName(name), level)
+                battleUnit = new BattleUnit(newUnitData, getNewBattleID(), 0);
                 battleUnit.setStrength(strength);
                 if (joinFlg == 0)
                 {
                     battleUnit.joinFlg = false;
                 }
+                newUnitData.launched = true;
                 battleUnit.frameImg = new CImage(MainController.$.imgAsset.getTexture("frame_b"));
             }
             else

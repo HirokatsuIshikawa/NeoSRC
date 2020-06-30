@@ -9,9 +9,7 @@
 	{target}に{damage}のダメージ！！
 破壊
 	{target}、戦闘不能！！
-撃破
-	{target}を撃破した！！
 射程外
 	{unit}は反撃できない！！
 スキル
-	{unit}は{weapon}を使用した！！
+	{unit}は{skill}を使用した！！

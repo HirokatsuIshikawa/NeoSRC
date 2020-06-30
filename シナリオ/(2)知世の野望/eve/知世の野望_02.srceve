@@ -1,1059 +1,687 @@
-﻿スタート:
-//
-//背景セット
-//
+﻿初期化:
+#<追加インクル_01.srceve>
+#<追加インクル_02.srceve>
+#<LoadStart>
+Exit
+
+
+スタート:
 AddLayer name:背景 alpha:0
 AddLayer name:キャラクター alpha:0
 AddLayer name:エフェクト alpha:0
 //
-//場面セット
+//場面転換
 //
-SetImg img:神社境内 size:fill name:境内 layer:背景 alpha:1
+SetImg img:住宅地 size:fill name:境内 layer:背景 alpha:1
 CharaLayer name:キャラクター
-SetChara name:ケロちゃん x:160 alpha:0
+//
+//配置位置変数
+//
+Set name:プレイヤー表示位置 value:0
+Set name:プレイヤー配置位置 value:200
+Set name:プレイヤー配置間隔 value:180
+//
+Set name:エネミー表示位置 value:-1080
+Set name:エネミー配置位置 value:1300
+Set name:エネミー配置間隔 value:200
+//
+SetChara name:アリサ x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 1) alpha:1
+SetChara name:すずか x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 2) alpha:1
 //
 //フェードイン
 //
 ReadyMove
 SetMove layer:背景 time:0.5 fade:in
 SetMove layer:キャラクター time:0.5 fade:in
-SetMove layer:エフェクト time:0.5 alpha:0.7
 StartMove type:同時 wait:on
 //
 //
 //
-Talk ケイブガード
-いやぁ、悪い悪い……
+StartBGM file:game_maoudamashii_7_event43 vol:1 fade:0.5
+Talk アリサ
+なのはのヤツ……
 
-あいつ等の後から出て来たから、
-てっきり奴等の仲間だと勘違いしちゃって……
+私達の目を盗んで、何時の間にこんな所で……
 
-Talk さくら
-あ、いえ、おかまいなく……
+Talk すずか
+ねぇ、アリサちゃん……
+やっぱり、やめた方がいいんじゃないかな……？
 
-Talk なのは
-……小学生が、崖のほらあなで生活してる
+Talk アリサ
+今更、なに言ってんのよ
 
-こんなアニメ映画、どっかで見た覚えが……
+ここまで来ちゃったんだし、
+なのはがここに来てるのは確かなんだから
 
-Talk ワイルドランナー
-あ、わかる？
+こうなりゃとことん、噂の真相を突き止めてやらなきゃ
 
-あれってなかなかいい作品だよねー
+Talk すずか
+……流石に、趣味が悪いと思うよ
 
-Talk ユーノ
-さっきの奴等と違って、悪い奴等ではなさそうだから
-案内されるままについてきたけれど
+なのはちゃんが付き合ってる
+現場を押さえて、問いつめるなんて……
 
-……キミたちは、いったい何者なの？
+Wait 0.4
+Talk アリサ
+なのはのヤツめ……
 
+最近付き合いが悪いと思ったら、
+まさか男が出来てたなんて……
 
+聞いた時は、まさかなのはがと思ったけど……
 
-StopBGM fade:0.5
-ReadyMove
-SetMove layer:エフェクト time:0.5 fade:out
-SetMove chara:ケロちゃん time:0.5 alpha:1
-StartMove type:連続 wait:on
-Talk ケルベロス
-なんや、物騒なニュースやなぁ……
+Talk すずか
+相手の子が、ここ友枝町に住んでいて……
 
-SetChara name:知世 x:320 alpha:0
-ReadyMove
-SetMove chara:知世 fade:in time:0.3
-StartMove wait:on
-StartBGM file:mati vol:1 fade:0.5
-Talk 知世
-おつかれさまですわ、ケロちゃん
+金髪のショートカットで、緑色の目をして
+友枝町でも有名なスポーツ万能の明るい子で……
 
-Talk ケルベロス
-おお、知世
+去年やった劇の眠れる森の美女でやってた
+王子様の役がとっても人気だったとか……
 
-そっちの方は終わったんか？
+Talk アリサ
+すずかだって、気になってんじゃないの！
 
-Talk 知世
-おかげさまで、ばっちり撮影出来ましたわ
+それにしても、少女漫画の恋人感満々で……
 
-Talk ケルベロス
-最近、またやる気が増しとるなぁ、知世
+なのはのヤツめ……許せん
 
-Talk 知世
-もちろん！
+Talk すずか
+なにも、なのはちゃんに先を越された嫉妬で
+ここまで追いかけなくても……
 
-クロウカード集めから始まった
-さくらちゃんのビデオ撮影
+Talk アリサ
+怒ってるのはそこじゃないわよ！！
 
-エリオル君の事件が終わってからは
-自演の事件を演じる事しかできませんでしたが……
+こんな面白……
 
-また、本物の事件を解決する為に活躍する
-さくらちゃんを撮影できるなんて……
+いや、大事な事を私達に相談もせず
+一人で悩むなんて、あんまりだと思わない？
 
-おまけに、今回はこれまでになかった
-新しいさくらちゃんの一面を撮影できそうですし！！
+Talk すずか
+まぁ、それは……
 
-Talk ケルベロス
-まぁ、アイツらは小僧と小娘よりずっと素直やから
-そう言う所はワイも好印象や
+Talk アリサ
+男が出来たら、親友なんて
+もう過去のもんなのかっての……
 
-なにより、初めての後輩やから、
-さくらも、最近は妙に張り切っとる気がするで
+Talk すずか
+アリサちゃん、顔がすごい事になってる……
 
-……妹分と弟分が出来たのがうれしいんかなぁ
+それに、そんな事したらますますこじれるんじゃ……
 
-Talk 知世
-そうかもしれませんわね
+アリサちゃんが同じことされたら、
+烈火のごとく怒るだろうし
+
+Talk アリサ
+う……いや、私が同じ立場だったら
+こじれる前には、ちゃんと話すわよ
+
+……たぶん
+
+Talk すずか
+（そうかなぁ……？）
+
+Talk アリサ
+……さて、そんな事より今はなのはを探すわよ
+
+あの時、どこで会ってたのかも
+聞いときゃよかったわね……
 
 //
-//キャラ表示・移動
-//
-SetChara name:木之本桜 x:480 alpha:0
-ReadyMove
-Setmove chara:木之本桜 fade:in time:0.3
-StartMove type:連続
-Talk さくら
-おまたせ、ちょっと後片付けに手間取っちゃって……
-
-知世ちゃん、ケロちゃん
-何を話してたの？
-
-Talk 知世
-最近、さくらちゃんが
-とてもがんばられている事ですわ
-
-Talk ケルベロス
-お姉さん役、ちゃんとやれてるみたいやないか
-
-Talk さくら
-はう……お姉さんだなんてて
-ちょっと照れちゃうかな
-
-でも、がんばってるのは私じゃなくて……
-
-Talk なのは
-さくらさーん、知世さーん
-wait 0.3
-SetChara name:なのは x:640 alpha:0
-SetChara name:ユーノ x:800 alpha:0
-ReadyMove
-Setmove chara:なのは fade:in time:0.3
-Setmove chara:ユーノ fade:in time:0.3
-StartMove type:連続
-Talk 知世
-お疲れ様ですわ、なのはちゃん、ユーノ君
-いかがですか、調子の方は？
-
-Talk ユーノ
-おかげさまで……
-
-さくらさんが特訓に付き合ってくれるから
-僕が教えるよりも、なのはの魔法の腕が
-大きく上達してますし……
-
-Talk ケルベロス
-謙遜しぃな、ワイから見て
-ユーノの方も、ちゃんと上達しとるで
-
-Talk ユーノ
-あ、ありがとう……
-
-Talk なのは
-けど、やっぱりさくらさんの魔法はすごいから
-比較しちゃうと、なんか上達してるように思えないかな……
-
-今回の特訓だって、『迷』のカード
-出口までたどり着けませんでしたし……
-
-Talk さくら
-あはは……それでも、ちゃんとできてたと思うよ
-
-『迷』のカードは、私も観月先生のおかげで
-攻略する事が出来たから……
-
-Talk なのは
-観月先生って？
-
-Talk さくら
-４年生の２学期から、５年生の１学期まで
-私のクラスの担任だった先生でね
-
-すっごい美人で優しい先生で……
-
-そうそう、この神社も観月先生のご実家なんだ
-
-Talk なのは
-そうだったんですか……
-
-Talk ユーノ
-カードの話題が出て来たって事は、
-もしかして、その先生も魔法を？
-
-Talk 知世
-ええ、クロウさんとも色々と縁のある方でしたし
-
-Talk ケルベロス
-今のさくら程やないけど、あのねーちゃんも
-かなりの力の持ち主やったで
-
-Talk なのは
-ところで、その観月先生は
-どういう方法で、あの迷路を抜け出したんですか？
-
-Talk ユーノ
-形が変わったり、飛ぼうとしても妨害されたり
-
-ある意味で、手間のかかった拘束魔法みたいな感じでしたけど……
-
-Talk 知世
-……そう言えば、観月先生が
-『迷』のカードから抜け出した時の方法って……
-
-Talk さくら
-月の鈴……
-
-クロウさんの造った魔法の道具を使って、
-壁を壊して出口まで行ったんだよね……
-
-Talk なのは
-壁を……壊して……？
-
-Talk さくら
-うん……
-
-壁に向かって、月の鈴をコツンってぶつけたら
-『迷』の壁が、あっと言う間にガラガラと崩れて……
-
-Talk ユーノ
-あの迷路、そうやって抜けてもいいんですか？
-
-Talk なのは
-私も、何をやってもいいって言われたから
-穴をあけて迷路を抜けようとしましたけど……
-
-開いたと思ったら、すぐに再生されちゃっって
-とても抜けられそうになかったのに……
-
-Talk さくら
-そうそう、私もあの時は壁を『剣』で切ったんだけど
-でもやっぱり、すぐ元通りになっちゃって……
-
-Talk ケルベロス
-『迷』も、結構偏屈なカードやさかいな
-
-壁を壊すのに、ちょっとしたコツがあんねん
-
-ちなみに、今のさくらなら『剣』で
-壁を破れるはずやけど……
-
-なのはは、もちっと腕を上げんと難しいし……
-
-Talk なのは
-あう……
-
-Talk ケルベロス
-ユーノは……
-
-そもそも破れる威力の魔法、あらへんしなぁ
-
-Talk ユーノ
-……昔から、攻撃魔法は使えなくって
-
-Talk ケルベロス
-……それでよう、ジュエルシードを一人で
-集めようと思ったもんや……
-
-前に話を聞いた時も思ったけど
-ユーノ、大人しそうな見た目のわりに
-相当な無鉄砲やな
-
-Talk ユーノ
-あう……
-
-Talk なのは
-でも、やっぱりユーノ君が来てくれてよかったよ
-
-ユーノ君が来てくれたおかげで、大事になる前に
-いくつかのジュエルシードを回収できたし……
-
-……それに、色々な切っ掛けのおかげで
-さくらさん達とも出会えたから
-
-Talk さくら
-うん、そうだね
-
-Talk ユーノ
-あ、ありがとうございます……
-
-StopBGM
-ReadyMove
-SetMove layer:エフェクト time:1 alpha:0.8
-StartMove type:同時 wait:on
-Talk ケルベロス
-ん？　なんや、この気配……
-ここら一帯、なんや変な気配がしてきよったで
-
-Talk ユーノ
-この気配……結界？
-
-Talk なのは
-結界って、いつもあの子が使ってる……？
-
-Talk ケルベロス
-いや、この気配は結界とちゃう……
-
-せやけど、コレと似た感覚は最近どこかで……
-
-Talk 知世
-あら……？　なんだか足元が光って……
-
-Talk ケルベロス
-なんや……
-この引っ張られてるような感覚……！？
-
-Talk ユーノ
-うわっ！？
-
-Talk さくら
-目の前の景色が……歪んで……！？
-
-//
-//
-//
-hidemsg time:0.3
-DeleteItem name:ブラック
-SetImg img:tex_white size:fill name:ホワイト layer:エフェクト alpha:1
-//
-//
-//
-ReadyMove
-SetMove layer:エフェクト time:1 fade:in
-StartMove type:同時 wait:on
-//
-//
+//場面転換
 //
 SetImg img:tex_black size:fill name:ブラック layer:エフェクト alpha:1
 ReadyMove
-SetMove layer:ブラック time:1 fade:in
-StartMove type:同時 wait:on
-//
-//
-//
-clearmsg type:all
-DeleteLayer name:背景
+SetMove layer:エフェクト time:0.5 fade:in
+SetMove layer:背景 time:0.3 fade:out
+StartMove type:連続 wait:on
+ClearLayer name:背景
 ClearLayer name:キャラクター
-Goto ステージ開始
-Exit
-
-ステージ開始:
-StopBGM
-LoadMap file:ゲンシ平原.map
-ReadyMove
-SetMove layer:キャラクター alpha:0
-SetMove layer:エフェクト time:0.3 fade:out
-StartMove type:同時 wait:on
-Wait 1
-JoinUnit name:木之本桜 level:5
-LaunchUnit name:さくら x:3 y:11
-CreateUnit name:なのは x:4 y:12 side:さくらチーム level:2
-CreateUnit name:ユーノ x:3 y:13 side:さくらチーム level:3 
-Wait 1
-SetChara name:さくら x:160 alpha:1
-SetChara name:知世 x:320 alpha:1
-SetChara name:なのは x:480 alpha:1
-SetChara name:ユーノ x:640 alpha:1
-SetChara name:ケルベロス x:800 alpha:1
+//
+//場面転換
+//
+SetImg img:草地 size:fill name:境内 layer:背景 alpha:1
+SetChara name:ケルベロス x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 0) alpha:1
+SetChara name:知世 x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 1) alpha:1
+SetChara name:さくら x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 2) alpha:1
+SetChara name:なのは x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 3) alpha:1
+SetChara name:ユーノ x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 4) alpha:1
 ReadyMove
 SetMove layer:キャラクター time:0.1 fade:in
-StartMove type:同時 wait:on
-Talk さくら
-収まった……
-
-なんだったの、今のは……
-Wait 0.3
-って……、ほえ～っ！？
-
-StartBGM file:BGM/game_maoudamashii_1_battle24.mp3 vol:1 fade:0.5
-Talk 知世
-これは……周囲の景色が……！？
+SetMove layer:背景 time:0.1 fade:in
+SetMove layer:エフェクト time:0.5 fade:out
+StartMove type:連続 wait:on
+showmsg time:0.3
+Talk なのは
+……クシュン！
 
 Talk ケルベロス
-妙な崖に、建物が一切ない原っぱ……
+なんやなのは、さっきからくしゃみばっかり……
 
-これ、ワイらどこかに飛ばされたんとちゃうか？
+風邪でも引いたんか？
 
 Talk なのは
-飛ばされたって……どういうこと？
+うーん、違うと思うけど……
 
-Talk ケルベロス
-どういう事も何も、言葉の通りや
+だれか、ウワサしてるのかな……
 
-なにがきっかけか知らんけど、ワイら月峰神社から
-この変な場所へ飛ばされてもうたみたいやな
+Talk 知世
+おほほほほ……
+
+それにしても、本当にすごいところですわね
+
+昨日は、あの子達が襲ってきたので、
+周囲の景色を眺める余裕はありませんでしたが……
+
+Talk さくら
+月峰神社の御神木から、こんな所に通じてるなんて……
 
 Talk ユーノ
-転移魔法……なのか？
+……どうやら、近くに
+この間の奴等は、いないようですけど
 
-でも、僕の知っているものとは……
+この空間は、いったいなんなんでしょうか……？
+
+Talk ケルベロス
+今、流行りの異世界……
+
+cn
+とはちゃうみたいやな
+
+この雰囲気から察するところ、
+ここらはワイらの世界から、そう離れてはおらん
+
+Talk さくら
+あんまり離れてないって……？
+
+Talk ケルベロス
+香港旅行の事は覚えとるやろ
+
+要は、あの時の異空間みたいなもんや
+
+Talk なのは
+香港？
+
+Talk さくら
+うん、一昨年の冬休みに
+福引が当たって、香港に旅行に行ったんだけど
+
+その時にも、こんな感じの空間を通った事があったんだ
 
 Talk 知世
-でも、なんだか懐かしい感覚ですわね
+懐かしいですわ
 
-Talk なのは
-懐かしいって……
+あの時はお店の古本や、バードストリートの古井戸が
+通じてたんでしたっけ？
 
-Wait 1
-Talk システム
-きゃーーーーーーーっ！！
-Wait 0.5
-Talk さくら
-えっ！？　女の子の悲鳴！？
+Talk ユーノ
+古本に古井戸……？
 
-Talk なのは
-さくらさん！　あれ！！
+Talk ケルベロス
+せや
 
-HideMessage time:0.3
-clearmsg type:all
+ただ、それなりに力のある魔術師やったら、
+そこそこの広さの世界を一時的に作れんことは無いんやけど……
+
+こら、流石に桁がちゃう……
+
+出入口と言い、この広さと言い
+誰かが意図して作ったとは思えんわ
+
+Talk ユーノ
+じゃあ、昨日の奴等が造り出したわけじゃ……
+
+Talk ケルベロス
+当然ありえへん
+
+アイツら見た目からしてアホそうやったし
+
+きっと、どっかの別の出入り口から
+入ってきよったんやろな
+
+Talk 知世
+と言う事は、この世界への出入り口は
+神社の御神木以外にも……？
+
+Talk ケルベロス
+そういうこっちゃ
+
+……ん？
+
+//表示位置変更
 ReadyMove
-SetMove layer:キャラクター time:0.5 fade:out
+SetMove layer:キャラクター time:0.5 x:$式($変数(プレイヤー配置間隔) * -1)
 StartMove type:連続
-//
-//
-//
-CreateUnit name:アタッカー x:11 y:10 side:コクエン隊 level:3
-CreateUnit name:アタッカー x:10 y:11 side:コクエン隊 level:3
-CreateUnit name:アタッカー x:11 y:12 side:コクエン隊 level:3
-//
-CreateUnit name:メカニック x:10 y:15 side:コクエン隊 level:3
-CreateUnit name:メカニック x:9 y:16 side:コクエン隊 level:3
-CreateUnit name:メカニック x:10 y:17 side:コクエン隊 level:3
-//
-CreateUnit name:シューター x:15 y:13 side:コクエン隊 level:3
-CreateUnit name:シューター x:14 y:14 side:コクエン隊 level:3
-CreateUnit name:シューター x:15 y:15 side:コクエン隊 level:3
-Wait 1
-SetChara name:アタッカー x:1100 alpha:0
-SetChara name:シューター x:1400 alpha:0
-SetChara name:メカニック x:1600 alpha:0
-ReadyMove
-SetMove layer:キャラクター time:0.5 fade:in
-SetMove layer:キャラクター time:0.5 x:-800
-SetMove chara:アタッカー fade:in time:0.2
-SetMove chara:シューター fade:in time:0.2
-SetMove chara:メカニック fade:in time:0.2
-StartMove type:連続
 Wait 0.3
-Talk アタッカー
-へへへ……
-
-うまくいったみたいだな
-
-Talk シューター
-ああ、早い所はもう仕事を始めたみたいだ
-
-しかし、コクエンの奴も
-よくこんなとんでもないこと考えたもんだな……
-
-こんな事で、人をこき使いやがって……
-
-Talk メカニック
-しゃーねーよ、俺達じゃあいつに勝てねーんだから
-
-……後は、かかった子を捕まえて
-連れて行けば、任務終了だけど……
-
-……お？
-
+//スライム表示
+SetChara name:スライム x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 5) alpha:0
 ReadyMove
-SetMove layer:キャラクター time:0.5 x:0
-StartMove type:同時 wait:on
-Talk ケルベロス
-なんやアイツら！？
-小学生みたいやけど、なんや数多いし
-みんな、えらいガラ悪いなぁ……
-
-Talk ユーノ
-ん……？　彼等から魔力を感じる……
-
-もしかして、この変な世界には
-アイツらが関わってるのか！？
-
-ReadyMove
-SetMove layer:キャラクター time:0.5 x:-800
-StartMove type:同時 wait:on
-Talk メカニック
-……さっそく見つかったな
-
-Talk シューター
-うぉ……こりゃすげぇ
-
-さすが友枝町！
-こんな極上美少女が、いきなりかかるとは！！
-
-Talk アタッカー
-全員連れて帰れば、幹部の座は堅いぜ！
-
-ReadyMove
-SetMove layer:キャラクター time:0.5 x:0
-StartMove type:同時 wait:on
-Talk ユーノ
-連れて帰るって……
-こいつら、なのは達の事を狙ってるのか！？
-
-Talk ケルベロス
-まさか、さっきラジオでやってた
-行方不明事件はこいつらが……？
-
-Talk さくら
-じゃあ、さっき聞こえた悲鳴は
-他に巻き込まれた子の……！？
-
-ReadyMove
-SetMove layer:キャラクター time:0.5 x:-800
-StartMove type:同時 wait:on
-Talk アタッカー
-他の連中に横取りされるわけにはいかねぇ
-
-極上美少女４人、一人も逃さず捕まえるぞ！
-
-Talk さくら
-……ほえ？　なんだかおかしくない？
-
-Talk 知世
-美少女４人って……
-
-Talk なのは
-さくらさんと、知世さんと……
-
-Talk 知世
-なのはちゃんに、あとは……
-
-Talk ユーノ
-まさか……？
-
-ReadyMove
-SetMove layer:キャラクター time:0.5 x:-800
-StartMove type:同時 wait:on
-Talk シューター
-黒髪ロングが一人！　ツインテが一人！！
-そしてショートの茶髪と金髪が一人ずつ！！
-
-うぉーっ！　かわええ！！
-
-ReadyMove
-SetMove layer:キャラクター time:0.5 x:0
-StartMove type:同時 wait:on
-Talk 知世
-ショートの……
-
-Talk なのは
-金髪って……
-
-Talk ユーノ
+SetMove chara:スライム fade:in time:0.5
+StartMove
+Wait 0.4
+Talk スライム
 ………………
 
-Talk ケルベロス
-どうやら、ユーノも女の子に見られてる様やな
-
-Talk ユーノ
-ちょっと待て！　僕はオト……
-
 ReadyMove
-SetMove layer:キャラクター time:0.5 x:0
-StartMove type:同時 wait:on
-Talk シューター
-行くぜ！　出世の為にも……
-
-Talk アタッカー
-あの子達は、必ず連れて帰る！！
-
-Talk メカニック
-あいよー
-
-ReadyMove
-SetMove layer:キャラクター time:0.5 x:0
-StartMove type:同時 wait:on
-Talk ユーノ
-聞けよ！　人の話をッ！！
-
-Talk なのは
-ゆ、ユーノ君落ち着いて……
-
-Talk ケルベロス
-とにかく、あの悪ガキどもの
-好きにさせるわけにはいかんな
-
-あの連中からそこそこ強い
-魔力の気配がしとるちゅう事は
-
-こっちも魔法で対抗せなアカン！
-
-Talk 知世
-……と、いう事は
-
-Talk ケルベロス
-いくで、さくら！
-
-カードキャプターの出動や！！
-
-Talk さくら
-ほえぇ……
-
-でも、人に攻撃魔法を使うのは……
-
-Talk ケルベロス
-傷つけないようにすればええがな
-
-今のさくらなら、できるはずやろ
-
-知世の他に、なのはとユーノも守らなあかん
-
-あの悪ガキどもを、いつかの妖精みたいに
-ガツンとしかりつけたれや！
-
-Talk さくら
-……わかった、何とかやってみる
-
-Talk なのは
-私も、お手伝いします
-
-さくらさんほど、うまくは
-できないかもしれないけど……
-
-
-Talk ユーノ
-もちろん、僕も手伝います
-
-あんまり、攻撃魔法は得意じゃないけど
-ちょっとしたダメージなら、回復できますから
-
-Talk ケルベロス
-ワイは知世の事を守るから、前の方には出れへん
-せやから、悪いけど前の方は頼んだで
-
-Talk 知世
-お手数をおかけしますが
-よろしくお願いいたしますわ
-
-Talk さくら
-よーし！！
-
-ReadyMove
-SetMove layer:キャラクター time:0.3 fade:out
-StartMove type:同時 wait:on
-SetEvent side:コクエン隊 label:第二陣報告 type:撃破
-SetEvent side:さくらチーム label:ゲームオーバー type:全滅
-DeleteAllLayer
-hidemsg time:0.3
-clearmsg type:all
-Exit
-
-
-第二陣報告:
-If $陣営数(コクエン隊) < 3 Goto アリサ登場
-Exit
-
-アリサ登場:
-ClearEvent 第二陣報告
-AddLayer name:エフェクト alpha:0
-AddLayer name:キャラクター alpha:0
-CharaLayer name:キャラクター
-SetChara name:コクエン親衛隊 x:660
-ReadyMove
-SetMove layer:キャラクター time:0.1 fade:in
-StartMove type:同時 wait:on
-Talk シューター id:１号
-なんだこの子達……強すぎる！！
-
-Talk アタッカー 
-こんなバカな！
-
-相手はたった３人なんだぞ！！
-
-Talk シューター id:２号
-特に、あの一番派手なコスプレしてる子……
-なんて動きだ、まるで特撮ヒーローじゃねーか！？
-
-Talk メカニック
-すげぇー……
-
-//
-//
-//
-SetChara name:さくら x:440 alpha:0
-SetChara name:なのは x:160 alpha:0
-SetChara name:ユーノ x:20 alpha:0
-ReadyMove
-SetMove chara:さくら fade:in time:0.2
-SetMove chara:なのは fade:in time:0.2
-SetMove chara:ユーノ fade:in time:0.2
-SetMove layer:キャラクター time:0.5 x:200
+SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
 StartMove type:連続
+Talk ユーノ
+な、なんだこいつ！？
+
 Talk さくら
-二人とも、大丈夫！？
+……スライム？
 
 Talk なのは
-はい、私は大丈夫です
+ホントだ……
 
-それにしても、あの子達の使ってるあの武器……
+しかも、ゲームに出て来そうなの……
 
-レイジングハートや、星の杖と同じ様に
-あれからも魔力を感じる……
+Talk ケルベロス
+ホンマは、もっと厄介なモンスターなんやけどな
+
+敵意は無いみたいやけど、この世界の生き物なんかな？
 
 Talk ユーノ
-アレは……ストレージデバイス……？
+……そもそも、これ生き物なのかな……
 
-いや、似ている気はするけれど
-設計思想が違いすぎるし……
+……！
 
-あいつらみたいな、こっち側の子供が
-手に入れられる代物じゃないはず……
+Talk なのは
+これは……
 
-けど、そうしたらあれは……？
-
-Talk 知世
-！
-
-気を付けてください！
-
-たくさんの足音が近づいてきますわ！！
-
-Talk さくら
-えっ！？
-
+//表示位置変更
+SetChara name:ケイブガード x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 6) alpha:0
+SetChara name:ワイルドランナー x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 7) alpha:0
 ReadyMove
-SetMove layer:キャラクター time:0.1 fade:out
-StartMove type:同時 wait:on
-ClearLayer name:キャラクター
-center x:24 y:17
-UnitMove unit:ユーノ x:24 y:17
-wait 0.3
-CreateUnit name:シューター x:20 y:11 side:コクエン隊 level:4 
-CreateUnit name:アタッカー x:19 y:12 side:コクエン隊 level:4 
-CreateUnit name:アタッカー x:19 y:14 side:コクエン隊 level:4 
-CreateUnit name:シューター x:20 y:15 side:コクエン隊 level:4
-CreateUnit name:レイダー x:21 y:13 side:コクエン隊 level:5
-Wait 0.5
+SetMove layer:キャラクター time:0.5 x:$式($変数(プレイヤー配置間隔) * -3)
+SetMove chara:ケイブガード fade:in time:0.5
+SetMove chara:ワイルドランナー fade:in time:0.5
+StartMove type:連続
+Talk ケイブガード
+………………
 
-Talk レイダー
-てめぇら！　なにやってやがんだ！？
+Talk ワイルドランナー
+………………
 
-Talk シューター
-げっ！？　隊長！！
-
-Talk ユーノ
-増援……！？
+Talk さくら
+ほえっ！？
 
 Talk なのは
-隊長って事は、あの子がこの事件を……！？
+今度は原始人！？
 
-Talk レイダー
-戦果報告が遅いと思ったら、
-こんな所でノロノロとしやがって！！
-
-今まで、いったいなにやってたんだ！？
-
-Talk アタッカー
-勘弁してくれよー
-
-友枝町には、ロッドマイスターが
-居ないって聞いてたのに……
-
-Talk シューター
-メチャクチャかわいくて強いマイスターが
-３人も出て来たんだぞ
-
-Talk メカニック
-俺達だけじゃ、厳しいんだな
-
-Talk レイダー
-めちゃ可愛くて強いマイスターだぁ……？
+歳は私達に近いみたいだけど……
 
 Talk ユーノ
-！？
+こいつらからも魔力を感じる……！
+
+まさか、昨日の奴等の仲間……！？
+
+Talk ケイブガード
+………………
+
+……いや、悪い悪い、驚かせちゃったかな？
+
+Talk ワイルドランナー
+どうみても、昨日の連中の
+仲間じゃなさそうね
 
 Talk さくら
 ほえ……？
 
-Talk レイダー
-………………
+//
+//
+//
+hidemsg time:0.3
+SetImg img:tex_black size:fill name:ブラック layer:エフェクト alpha:1
+ReadyMove
+SetMove layer:エフェクト time:0.5 fade:in
+SetMove layer:背景 time:0.3 fade:out
+StartMove type:連続 wait:on
+clearmsg type:all
+DeleteLayer name:背景
+ClearLayer name:キャラクター
+Goto タウンパート開始
+Exit
 
-Talk アタッカー
-……隊長？
 
-Talk レイダー
-……ハッ！？
-
-いや、なんでもない……なんでもないぞ！！
-
-……とにかく、美少女ならば
-当初の目的通りに連れて行くだけ！！
-
-どれだけ強いか知らないが、この人数なら多勢に無勢だ！
-
-全員、傷つけないように
-気を付けながら包囲しろ！！
-
-Talk なのは
-どうやら、あの子達も来るみたいですね
-
+タウンパート開始:
+StopBGM
+LoadMap file:ケイブヴィレッジ.map
+CreateUnit name:ケイブガード x:14 y:16 side:さくらチーム level:1 join:0 anime:0 label:マギロッド情報
+CreateUnit name:どんぐり目少女 x:9 y:12 side:さくらチーム level:1 join:0 anime:0 label:訪問どんぐり目
+CreateUnit name:パーカー少年 x:11 y:12 side:さくらチーム level:1 join:0 anime:0 label:訪問パーカー
+CreateUnit name:ワイルドランナー x:16 y:7 side:さくらチーム level:1 join:0 anime:0 label:リサイクル
+CreateUnit name:スライム x:4 y:11 side:さくらチーム level:1 join:0 anime:0 label:スライム情報
+ReadyMove
+SetMove layer:キャラクター alpha:0 x:0
+SetMove layer:エフェクト time:0.3 fade:out
+StartMove type:同時 wait:on
+SetChara name:ケルベロス x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 0) alpha:1
+SetChara name:知世 x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 1) alpha:1
+SetChara name:さくら x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 2) alpha:1
+SetChara name:なのは x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 3) alpha:1
+SetChara name:ユーノ x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 4) alpha:1
+SetChara name:ケイブガード x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 5) alpha:1
+SetChara name:ワイルドランナー x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 6) alpha:1
+ReadyMove
+SetMove layer:キャラクター time:0.1 fade:in
+StartMove type:同時 wait:on
 Talk さくら
-ほえ……なんとか、戦わないで
-あきらめてくれないかな
-
-Talk ユーノ
-……あの様子じゃ、ちょっと無理そうかと
-
-でも、アイツが隊長って事は
-あいつを倒せば総崩れになるはず……！
-
-Talk ケルベロス
-気ぃつけや、あの傾いた髪型のヤツ
-他の連中と比べると、魔力が一回り強いで
-
-迂闊に射程に入ると、思わんダメージを喰らいそうや
-気ぃ付けて接近せぇや
+ほえー……すごい……
 
 Talk 知世
-あと一息ですわ、がんばってください
+たくさんの子達が集まっていますわね
 
-//
-//
-//
+Talk なのは
+しかも、全員原始人みたいな恰好で……
+
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$式($変数(プレイヤー配置間隔) * -3)
+StartMove 
+Talk ケイブガード
+驚かせちゃってゴメン
+
+昨日、キミたちが居たエリアに
+厄介な奴等が入り込んでたから、偵察してたんだけど……
+
+Talk ワイルドランナー
+どうやら、何もせずに帰ったみたいね
+
+そうでなきゃ、あなた達が無事な訳もないし
+
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:0
+StartMove 
+Talk ユーノ
+あの……ここは一体……？
+
+それに、キミ達は……？
+
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$式($変数(プレイヤー配置間隔) * -3)
+StartMove 
+Talk ケイブガード
+ここは俺達の街、ケイブヴィレッジ！
+
+でもって、俺達は……
+
+Talk ？？？
+おーい、城門ー！　弥生ー！！
+
+Talk ケイブガード
+おっと、いけね！　早く報告に行かなきゃ……
+
+詳しい話は、そこら辺に居る皆に聞いてくれ
+
+みんな、気のいいヤツらだからさ
+
+ReadyMove
+SetMove chara:ケイブガード time:0.1 fade:false
+StartMove 
+Wait 0.3
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:0
+StartMove 
+Talk ユーノ
+あ、ちょっと……！
+
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$式($変数(プレイヤー配置間隔) * -3)
+StartMove 
+Talk ワイルドランナー
+ごめん、ここまで案内しておいてなんだけど
+ちょっと、今は急がなきゃいけなくて……
+
+一段落したら、広場のとこにいるから
+それまでは、村の中を適当に回ってて
+
+それじゃ！
+
+ReadyMove
+SetMove chara:ワイルドランナー time:0.1 fade:false
+StartMove
+Wait 0.3
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:0
+StartMove 
+Talk さくら
+いっちゃった……
+
+Talk ケルベロス
+忙しないやっちゃなぁ……
+
+まぁええ、他の子供達についても気になるし
+この村も、ちょっと調べてみたいしな
+
+……なんや、おかしなもんが徘徊してるし
+全員から、そこそこ程度の魔力も感じるし……
+
+Talk なのは
+この子達も、私達と同じで魔法を……？
+
+Talk ケルベロス
+それにしては、妙すぎる格好やけどな
+
+まぁ、そこも調べればわかるやろ
+
+ほな、一通り話を聞いてみよか
+
+hidemsg time:0.3
+clearmsg type:all
 ReadyMove
 SetMove layer:キャラクター time:0.3 fade:out
 StartMove type:同時 wait:on
-ClearEvent 
-SetEvent side:コクエン隊 label:ステージクリア type:全滅
-DeleteAllLayer
-hidemsg time:0.3
-clearmsg type:all
-Exit
+ClearLayer name:キャラクター
+MapTalk
 
-ステージクリア:
-AddLayer name:キャラクター alpha:0
-AddLayer name:エフェクト alpha:0
-CharaLayer name:キャラクター
-SetChara name:レイダー x:660
-ReadyMove
-SetMove layer:キャラクター time:0.1 fade:in
-StartMove type:同時 wait:on
-Talk レイダー
-くっ……強い……
-
-まさか、こんな強いロッドマイスターが
-友枝町に居たなんて……
-
-Talk さくら
-ロッドマイスター……？
-
-Talk レイダー
-しかたない、少々口惜しいが
-すでに、やるべき任務は果たした！
+マギロッド情報:
+Talk ケイブガード
+ようこそ、ケイブヴィレッジへ
 
 Talk なのは
-任務って……
+ど、どうも……
 
-Talk ユーノ
-なのは！　あれ！！
+Talk ケイブガード
+初めて見る顔だね
 
-Talk アリサ
-この！　この変なの解きなさいよ
-この変態！
+ここに来れたって事は、
+君達もマギクレストを貰ったんだろ？
 
 Talk なのは
-あ、アリサちゃん……！？
+マギクレスト……？
 
-Talk アリサ
-え……！？　なのは……
+Talk ケイブガード
+黄昏の魔法使い……
 
-Talk レイダー
-たった３人だけだが、これだけのかわい子ちゃんなら
-コクエン様も、きっと許してくれるはず……
+フードを被った女の人から魔法の紋章を貰わなかった？
 
-長居は無用！
-最後は、ややお約束風に……
-
-おぼえてろー！！
-
-ReadyMove
-SetMove chara:コクエン親衛隊 time:0.1 fade:out
-StartMove type:同時 wait:on
-Wait 0.3
-SetChara name:さくら x:440 alpha:0
-SetChara name:なのは x:300 alpha:0
-SetChara name:ユーノ x:160 alpha:0
-ReadyMove
-SetMove chara:さくら fade:in time:0.2
-SetMove chara:なのは fade:in time:0.2
-SetMove chara:ユーノ fade:in time:0.2
-SetMove layer:キャラクター time:0.1 x:200
-StartMove 連続
 Talk なのは
-あっ！？　アリサちゃん！！
+……一応、それっぽいのは持ってますけど
 
-待てーっ！！
+（でも、紋章ってのとはちょっと違うかな……？）
 
-Talk ユーノ
-待って！　なのは！！
+Talk ケイブガード
+やっぱり
 
-Talk さくら
-なのはちゃん！　ユーノ君！！
+……まぁ、マギクレストって呼び方は
+いつの間にか広まってた名前だし
+来たばかりじゃ、知らなくてもおかしくないか
 
-ケロちゃん！　私達も！！
+Talk なのは
+ここの人達は、その人から魔法の紋章を
+貰ったみたい……
 
-Talk ケルベロス
-おう、わかっとる！！
-
-……しかし、なんやったんや
-あの悪ガキどもは……？
-
-Talk 知世
-見た所、さくらちゃんやなのはちゃんのように
-魔法の杖をもった小学生みたいでしたが……
+黄昏の魔法使いって、
+ユーノ君みたいな人なのかな……？
 
 Talk ユーノ
-杖には見えない様なのも混じってましたけど……
-（でも……似てる……？）
+なのは……
 
-Talk 知世
-最近、流行っているのでしょうか？
-魔法を使う小学生……
-
-Talk ケルベロス
-そう簡単に流行るとは思えんが……
-……まさかな
-
-Talk 知世
-ケロちゃん？
-
-Talk ケルベロス
-……いや、考えるのは後や
-
-元の姿に戻るさかい、知世は背中に乗り
-全力でおいかけるさかい
-
-Talk 知世
-おねがいします、ケロちゃん
+僕は、あげたつもりはないからね
 
 hidemsg time:0.3
 clearmsg type:all
-SetImg img:tex_black size:fill name:ブラック layer:エフェクト alpha:1
 ReadyMove
-SetMove layer:エフェクト time:1 fade:in
+SetMove layer:キャラクター time:0.3 fade:out
 StartMove type:同時 wait:on
 ClearLayer name:キャラクター
-Goto エピローグ
-Exit
+MapTalk
 
-
-
-
-
-
-
-
-エピローグ:
-StopBGM
-AddLayer name:背景 alpha:1 level:0
-CharaLayer name:キャラクター
-SetImg img:住宅地 size:just name:住宅地 layer:背景
-SetChara name:ケルベロス x:160 alpha:1
-SetChara name:知世 x:300 alpha:1
-SetChara name:アリサ x:440 alpha:1
+訪問どんぐり目:
+SetChara name:どんぐり目少女 x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 2) alpha:1
+SetChara name:ユーノ x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 3) alpha:1
 ReadyMove
 SetMove layer:キャラクター time:0.1 fade:in
-SetMove layer:エフェクト time:0.5 fade:out
-StartMove type:連続 wait:on
-StartBGM file:bgm/月峰神社.mp3 vol:1 fade:0.5
-Wait 0.5
-StartBGM file:BGM/月峰神社.mp3 vol:1 fade:0.5
-showmsg time:0.3
-
-Talk なのは
-アリサちゃーん！！
-Wait 1
-………………
-
-見失っちゃった……
-
-確かに、こっちの方に来たはずなのに……
+StartMove type:同時 wait:on
+showmsg
+Talk どんぐり目少女
+それにしても、原始人スタイルとは
+思い切ったこと考えたわよねぇ
 
 Talk ユーノ
-なのは、気を付けて……
+それは、確かに……
 
-この辺、魔力が充満してるせいで
-周囲の気配を察知しにくい……
+Talk どんぐり目少女
+ここに集まってる子は、某国民的アニメの
+劇場版アニメのファンでね
 
-こんな見通しの悪い場所だと
-どこかに潜んでるかも……
-
-Talk なのは
-うん、わかってる……
-
-ユーノ君、さっきのって
-アリサちゃんだったよね？
+特に勉強尽くしの毎日に、家業の手伝い、お稽古とかで
+いっぱいの日々がイヤになるとこが
+共感できるんだって
 
 Talk ユーノ
-うん……僕にもそう見えたよ
+国民的アニメ……
 
-……確か、あの時の一件が原因で
-なのはとは、今……
+そんなに人気の作品なのかな……？
 
-Talk なのは
-……アリサちゃん、どうしてこんな所に
-
-Talk さくら
-よかった、やっと追いついた……
-
-Talk なのは
-さくらさん……！
-
-Talk さくら
-二人とも、急いで先に行っちゃうんだもん
-探すの、大変だったんだよ
-
-Talk ユーノ
-すいません……
-
-Talk さくら
-……なにかあったの？
-二人とも、あの子達に連れてかれた子を見て
-凄く驚いてたみたいだけど……
-
-……もしかして、知り合い？
-
-Talk なのは
-はい、実は……
-Wait 2
-Talk さくら
-……！？　待って！
-
-周囲から魔力の気配がする！！
-
-Talk なのは
-えっ！？
-
-Talk ユーノ
-！？　囲まれてる……！
-（……こんな僅かな気配を感じ取ったのか……！？）
-
-Talk ？？？
-………………
-
-Talk ユーノ
-な、なんだ！？
-
-Talk さくら
-げ、原始人……！？
-
-Talk なのは
-この子達、もしかして
-さっきの子達の仲間……！？
-
-
+hidemsg time:0.3
+clearmsg type:all
 ReadyMove
-SetMove layer:エフェクト time:1 fade:in
-StartMove type:連続 wait:on
-DeleteAllLayer
-clearmsg
-Continue 知世の野望_02.srceve
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+ClearLayer name:キャラクター
+MapTalk
+
+
+
+訪問パーカー:
+Talk さくら
+あれ？　普通の恰好……？
+
+Talk パーカー少年
+なんだよ、ここにいる奴等はみんな
+原始人ルックしてると思ってたのか？
+
+まぁ、そこの所は間違っちゃないぜ
+俺は別のエリアから来たからな
+
+Talk さくら
+ご、ゴメンナサイ……
+
+Talk パーカー少年
+他にも、好きな格好をした集まりの造った村や町は
+こっち側にはあちこちにあるんだ
+
+……よくよく考えたら、お前も人の事は
+言えない格好だけどな
+
+Talk さくら
+これは、私の趣味じゃなくて……
+
+Talk 知世
+わたくしの趣味ですから♪
+
+hidemsg time:0.3
+clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+ClearLayer name:キャラクター
+MapTalk
+
+リサイクル:
+Talk ワイルドランナー
+捨てればゴミ、生かせば資源……
+
+なんて言葉があるみたいだけど、
+最近それが実感できてるわぁ……
+
+私達のこの衣装、元の素材は
+ペットボトルとかだったんだよね
+
+それにちょちょいっと魔法をかけたら
+フェイクファーみたいになっちゃって……
+
+Talk 知世
+まぁ……
+
+Talk ワイルドランナー
+他にも色々なものを作る事も出来るし
+
+やっぱり、魔法少女はこういう事も出来なくちゃ
+
+Talk なのは
+……あの、出来ない場合は……？
+
+Talk 知世
+なのはちゃん、気になさることは無いと思いますわ
+なのはちゃんは、まだ魔法少女になり立てですから
+
+hidemsg time:0.3
+clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+ClearLayer name:キャラクター
+MapTalk
+
+スライム情報:
+
+Talk さくら
+ほえっ！？　これってスライム……！？
+
+Talk ケイブガード
+ああ、たまに草むらとかから出てくるモンスターで
+危害を加えなければ、襲ってきたりはしないから安心してよ
+
+Talk さくら
+なんだか、RPGみたいだね……
+
+Talk ケイブガード
+こいつら、見た目と違って結構役立つ奴等でさ
+
+あげたものを取り込んで、色んなエネルギーにして
+色々なことが出来たりするんだ
+
+Talk さくら
+色んな事って？
+
+Talk ケイブガード
+冷暖房みたいな事や、電源、工作とか……
+
+あと、口にしづらいけど、とっても重要な事とか……
+
+Talk さくら
+……？
+
+Talk ケイブガード
+まぁ、いずれ判ると思うよ
+
+生き物なら誰しも、必要な事だからね……
+
+hidemsg time:0.3
+clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+MapTalk
+
+
+会話一通り後:
+CreateUnit name:キャラ名 x:21 y:9 side:味方 level:1 
+CreateUnit name:キャラ名 x:22 y:9 side:味方 level:1 
+
+
+
 Exit

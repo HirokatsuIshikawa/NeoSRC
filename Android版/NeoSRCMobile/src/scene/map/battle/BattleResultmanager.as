@@ -150,7 +150,7 @@ package scene.map.battle
                     animeSide = BattleAnimeRecord.SIDE_LEFT;
                 }
                 
-                addRecord(new BattleAnimeRecord(attacker, deffender, attackerBeforeHP, deffenderBeforeHP, attackItem.weapon, damage, animeSide, effect, BattleAnimeRecord.TYPE_NORMAL_SKILL));
+                addRecord(new BattleAnimeRecord(attacker, deffender, attackerBeforeHP, deffenderBeforeHP, attackItem.weapon, damage, animeSide, effect, BattleAnimeRecord.TYPE_NORMAL_ATTACK));
                 
             }
         }
@@ -200,7 +200,7 @@ package scene.map.battle
             }
             
             getExp += 10;
-            addRecord(new BattleAnimeRecord(attackWeaponItem.unit, attackWeaponItem.target, attackWeaponItem.unit.nowHp, attackWeaponItem.target.nowHp, attackWeaponItem.skill, value, attackWeaponItem.unit.side, 0, BattleAnimeRecord.TYPE_NORMAL_ATTACK));
+            addRecord(new BattleAnimeRecord(attackWeaponItem.unit, attackWeaponItem.target, attackWeaponItem.unit.nowHp, attackWeaponItem.target.nowHp, attackWeaponItem.skill, value, attackWeaponItem.unit.side, 0, BattleAnimeRecord.TYPE_NORMAL_SKILL));
             //particleCallback(_attackWeaponList[i].target.PosX, _attackWeaponList[i].target.PosY);
         
             //endCallBack();

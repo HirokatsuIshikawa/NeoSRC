@@ -951,7 +951,8 @@ package scene.talk
             }
             else
             {
-                
+                //ラベルが見つからなかったらエラー
+                MainController.$.view.errorMessageEve("『" + label + ":』が存在しません", _loadLine);
             }
         }
         
@@ -2253,6 +2254,19 @@ package scene.talk
                 variable.setGlobal(true);
             }
             
+            
+            for (var i:int = 0; i < playerVariable.length; i++ )
+            {
+                
+                if (playerVariable[i].name === variable.name)
+                {
+                    playerVariable.splice(i, 1);
+                    break;
+                }
+            }
+            
+            
+            
             playerVariable.push(variable);
         }
         
@@ -2314,6 +2328,7 @@ package scene.talk
             //var key:Object = null;
             var i:int = 0;
             var j:int = 0;
+            
             for (i = 0; i < command.length; i++)
             {
                 command[i] = command[i].toLowerCase();
@@ -2322,7 +2337,18 @@ package scene.talk
                     nextStr = command[i];
                     break;
                 }
-                else if (command[i] == "goto")
+                else if (command[i] === "goto")
+                {
+                    nextStr = command[i];
+                    labelStr = command[i + 1];
+                    break;
+                }
+                else if (command[i] === "return")
+                {
+                    nextStr = command[i];
+                    break;
+                }
+                else if (command[i] === "call")
                 {
                     nextStr = command[i];
                     labelStr = command[i + 1];
@@ -2345,10 +2371,11 @@ package scene.talk
                 {
                     if (playerVariable[j].name === command[i])
                     {
-                        command[i] = playerVariable[j];
+                        command[i] = playerVariable[j].value;
                         break;
                     }
                 }
+
                 mathString += command[i];
             }
             
@@ -2381,6 +2408,27 @@ package scene.talk
                     // 一致しなかったら次へ
                     setLineCommand();
                 }
+                break;
+            case "call":
+                if (answer > 0)
+                {
+                    //一致したらコールラベル検索
+                    _callBaseLine.unshift(_loadLine);
+                    searchLoadLine(labelStr);
+                }
+                else
+                {
+                    // 一致しなかったら次へ
+                    setLineCommand();
+                }
+                
+                break;
+            case "return":
+                if (answer > 0)
+                {
+                    _loadLine = _callBaseLine.shift();
+                }
+                setLineCommand();
                 break;
             }
         

@@ -38,7 +38,7 @@ package scene.intermission.save
 			_text = new CTextArea(32, 0xFFFFFF, 0x0, TextFormatAlign.CENTER);
 			_text.styleName = "custom_text";
 			_text.width = 480;
-			_text.height = 64;
+			_text.height = 160;
 			_text.text = msg;
 			_text.x = (CommonDef.WINDOW_W - _text.width) / 2;
 			_text.y = (CommonDef.WINDOW_H - _text.height) / 2 - 80;

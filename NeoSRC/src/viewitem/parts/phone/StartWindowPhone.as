@@ -74,34 +74,48 @@ package viewitem.parts.phone
 			addChild(_backImg);
 			_compFunc = func;
 			
-			CommonSystem.FILE_HEAD = "file://";
-			//_scenalioListData = DataLoad.loadPhoneList([".srcsys", ".srctxt"]);
-			_scenalioListData = DataLoad.loadPhoneList([".srcsys", ".srctxt"]);
-			_scenalioList = new ListSelecter(false);
-			var ary:Array = new Array();
-			var str:String;
+            
+            
+			var dir:File = File.userDirectory;
+			var homefile:File = dir.resolvePath("シミュラマPになろう//Scenario");
+            
+            if(homefile.exists)
+            {
+                
+                CommonSystem.FILE_HEAD = "file://";
+                //_scenalioListData = DataLoad.loadPhoneList([".srcsys", ".srctxt"]);
+                _scenalioListData = DataLoad.loadPhoneList([".srcsys", ".srctxt"]);
+                _scenalioList = new ListSelecter(false);
+                var ary:Array = new Array();
+                var str:String;
+                var findFlg:Boolean = false;
+                    
+                if (_scenalioListData.name.length > 0)
+                {
+                    for (var i:int = 0; i < _scenalioListData.count; i++)
+                    {
+                        if (_scenalioListData.name[i].indexOf(".srcsys") >= 0)
+                        {
+                            ary.push(_scenalioListData.name[i].replace(".srcsys", ""));
+                        }
+                        else if (_scenalioListData.name[i].indexOf(".srctxt") >= 0)
+                        {
+                            ary.push(_scenalioListData.name[i].replace(".srctxt", ""));
+                        }
+                    }
+                    _scenalioList.setList(ary, loadStart);
+                    _scenalioList.scale = 3;
+                    addChild(_scenalioList);
+                    findFlg = true;
+                }
+            }
 			
-			if (_scenalioListData.name.length > 0)
+            //ファイルが無い場合
+            if(!findFlg)
 			{
-				for (var i:int = 0; i < _scenalioListData.count; i++)
-				{
-					if (_scenalioListData.name[i].indexOf(".srcsys") >= 0)
-					{
-						ary.push(_scenalioListData.name[i].replace(".srcsys", ""));
-					}
-					else if (_scenalioListData.name[i].indexOf(".srctxt") >= 0)
-					{
-						ary.push(_scenalioListData.name[i].replace(".srctxt", ""));
-					}
-				}
-				_scenalioList.setList(ary, loadStart);
-				_scenalioList.scale = 3;
-				addChild(_scenalioList);
-			}
-			else
-			{
+                homefile.createDirectory();
 				var alertText:TextArea = new TextArea();
-				alertText.text = "シナリオがありません\nシミュラマPになろうのScenarioフォルダ内に、\nシナリオフォルダを入れてください。\n（ルートフォルダに、シミュラマPになろうフォルダと、Scenarioフォルダを作成しました。）"
+				alertText.text = "シナリオがありません\nシミュラマPになろうのScenarioフォルダ内に、\nシナリオフォルダを入れてください。\n（ルートフォルダに、シミュラマPになろうフォルダと、Scenarioフォルダを作成しました。）";
 				alertText.width = 400;
 				alertText.height = 300;
 				alertText.x = (CommonDef.WINDOW_W - alertText.width) / 2

@@ -6,38 +6,38 @@ package scene.main
     import common.CommonSystem;
     import common.SystemController;
     import common.util.CharaDataUtil;
-    import scene.intermission.save.ConfirmPopup;
-    import scene.map.save.MapLoadList;
-    import scene.map.save.MapSaveList;
-    import system.custom.customSprite.CButton;
-    import system.custom.customSprite.CImage;
-    import system.custom.customTheme.CustomTheme;
     import database.user.UnitCharaData;
     import database.user.buff.SkillBuffData;
     import flash.display.StageQuality;
-    import starling.core.Starling;
-    import starling.display.DisplayObject;
-    import starling.display.Sprite;
-    import starling.events.Event;
-    import system.InitialLoader;
-    import system.file.DataLoad;
     import scene.commandbattle.CommandBattleView;
     import scene.intermission.InterMission;
+    import scene.intermission.save.ConfirmPopup;
     import scene.intermission.save.LoadList;
     import scene.map.BaseMap;
     import scene.map.BattleMap;
-    import scene.map.panel.BattleMapPanel;
     import scene.map.customdata.SideState;
-    import scene.unit.BattleUnit;
-    import system.file.DataSave;
-    import viewitem.parts.loading.LoadingImg;
-    import viewitem.parts.pc.StartWindowPC;
-    import viewitem.parts.phone.StartWindowPhone;
+    import scene.map.panel.BattleMapPanel;
+    import scene.map.save.MapLoadList;
+    import scene.map.save.MapSaveList;
     import scene.talk.IconTalkView;
     import scene.talk.StandTalkView;
     import scene.talk.TalkViewBase;
     import scene.talk.classdata.MapEventData;
     import scene.talk.message.SystemWindow;
+    import scene.unit.BattleUnit;
+    import starling.core.Starling;
+    import starling.display.DisplayObject;
+    import starling.display.Sprite;
+    import starling.events.Event;
+    import system.InitialLoader;
+    import system.custom.customSprite.CButton;
+    import system.custom.customSprite.CImage;
+    import system.custom.customTheme.CustomTheme;
+    import system.file.DataLoad;
+    import system.file.DataSave;
+    import viewitem.parts.loading.LoadingImg;
+    import viewitem.parts.pc.StartWindowPC;
+    import viewitem.parts.phone.StartWindowPhone;
     
     /**
      * ...
@@ -696,12 +696,16 @@ package scene.main
         public function errorMessageEve(msg:String, line:int):void
         {
             trace(line + "行目:" + msg);
+            var textField:ConfirmPopup = new ConfirmPopup(line + "行目:" + msg);
+            addChild(textField);
         }
         
         /**警告メッセージ*/
         public function alertMessage(msg:String, key:String):void
         {
             trace(msg + ":" + key);
+            var textField:ConfirmPopup = new ConfirmPopup(msg + ":" + key);
+            addChild(textField);
         }
         
         //--

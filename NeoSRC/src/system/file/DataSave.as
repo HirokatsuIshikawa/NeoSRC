@@ -128,6 +128,7 @@ package system.file
 			var j:int = 0;
 			var data:Object = new Object();
 			var unitList:Object = new Object();
+            var mapPictureList:Object = new Object();
 			var mapDateList:Object = new Object();
 			var nowDate:Date = new Date();
 			var nowDateStr:String = "";
@@ -149,6 +150,19 @@ package system.file
 				unitList[i].customBgmPath = MainController.$.model.PlayerUnitData[i].customBgmPath;
 			}
 			data.unitList = unitList;
+            
+            /**マップ画像データ*/
+            for (i = 0; i < MainController.$.map.mapPictureList.length; i++ )
+            {
+                mapPictureList[i] = new Object();
+                mapPictureList[i].pictName = MainController.$.map.mapPictureList[i].pictName;
+                mapPictureList[i].eventLabel = MainController.$.map.mapPictureList[i].eventLabel;
+                mapPictureList[i].x = MainController.$.map.mapPictureList[i].x;
+                mapPictureList[i].y = MainController.$.map.mapPictureList[i].y;
+                mapPictureList[i].imgName = MainController.$.map.mapPictureList[i].imgName;
+            }
+            data.mapPictureList = mapPictureList;
+            
 			
 			/**セーブ用マップユニットデータ*/
 			for (i = 0; i < MainController.$.map.sideState.length; i++)

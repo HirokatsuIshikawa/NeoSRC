@@ -1,6 +1,7 @@
 package scene.map
 {
     import a24.tween.Tween24;
+    import scene.map.basepoint.MapPicture;
     import scene.map.customdata.EnemyMoveData;
     import bgm.SingleMusic;
     import common.CommonDef;
@@ -64,6 +65,10 @@ package scene.map
         private var _attackAreaImgList:Vector.<CImage> = null;
         /** 移動ルート画像リスト */
         private var _rootImgList:Vector.<CImage>;
+        
+        /**マップ絵*/
+        private var _mapPictureList:Vector.<MapPicture>;
+        
         /** 各勢力ユニットリスト */
         //private var _battleUnit:Vector.<Vector.<BattleUnit>> = null;
         
@@ -143,6 +148,7 @@ package scene.map
             _attackAreaImgList = new Vector.<CImage>;
             _terrainDataList = new Vector.<TerrainData>();
             _rootImgList = new Vector.<CImage>;
+            _mapPictureList = new Vector.<MapPicture>;
             //_battleUnit = new Vector.<Vector.<BattleUnit>>;
             _sideState = new Vector.<SideState>;
             _statusWindow = new BattleMapStatus();
@@ -182,13 +188,13 @@ package scene.map
             removeEventListener(TouchEvent.TOUCH, startAttackHandler);
             removeEventListener(TouchEvent.TOUCH, startMapTalkHandler);
             
-            CommonDef.disposeList([_unitArea, _frameArea, _btnReset, _moveAreaImgList, _attackAreaImgList, _rootImgList, _sideState]);
+            CommonDef.disposeList([_unitArea, _frameArea, _btnReset, _moveAreaImgList, _attackAreaImgList, _rootImgList, _sideState, _mapPictureList]);
             _btnReset = null;
             _attackAreaImgList = null;
             _terrainDataList = null;
             _moveAreaImgList = null;
             _rootImgList = null;
-            
+            _mapPictureList = null;
             super.dispose();
         }
         
@@ -323,16 +329,15 @@ package scene.map
                 battleUnit.frameImg = new CImage(MainController.$.imgAsset.getTexture("frame_r"));
             }
             
-                            if (param.hasOwnProperty("id"))
-                {
-                    battleUnit.nameId = param.id;
-                }
-                
-                if (param.hasOwnProperty("label"))
-                {
-                    battleUnit.talkLabel = param.label;
-                }
-                
+            if (param.hasOwnProperty("id"))
+            {
+                battleUnit.nameId = param.id;
+            }
+            
+            if (param.hasOwnProperty("label"))
+            {
+                battleUnit.talkLabel = param.label;
+            }
             
             //ユニット数の設定
             if (battleUnit.maxFormationNum >= 2)
@@ -1979,29 +1984,29 @@ package scene.map
             removeEventListener(TouchEvent.TOUCH, startMapTalkHandler);
             switch (type)
             {
-                //システムパネル
+            //システムパネル
             case BattleMapPanel.PANEL_SYSTEM: 
                 hideStatusWindow();
                 addEventListener(TouchEvent.TOUCH, mouseOperated);
                 addEventListener(TouchEvent.TOUCH, moveAreaHandler);
                 break;
-                //コマンドパネル
+            //コマンドパネル
             case BattleMapPanel.PANEL_COMMAND: 
                 //addEventListener(TouchEvent.TOUCH, mouseOperated);
                 //addEventListener(TouchEvent.TOUCH, moveAreaHandler);
                 break;
-                //移動パネル
+            //移動パネル
             case BattleMapPanel.PANEL_MOVE: 
                 hideStatusWindow();
                 _selectMoved = false;
                 addEventListener(TouchEvent.TOUCH, makeRootHandler);
                 break;
-                //攻撃対象選択
+            //攻撃対象選択
             case BattleMapPanel.PANEL_SELECT_TARGET: 
                 addEventListener(TouchEvent.TOUCH, mouseOperated);
                 addEventListener(TouchEvent.TOUCH, startAttackHandler);
                 break;
-                //スキル対象選択
+            //スキル対象選択
             case BattleMapPanel.PANEL_SELECT_SKILL_TARGET:
                 
                 addEventListener(TouchEvent.TOUCH, mouseOperated);
@@ -2708,6 +2713,16 @@ package scene.map
             return _selectMoved;
         }
         
+        public function get mapPictureList():Vector.<MapPicture> 
+        {
+            return _mapPictureList;
+        }
+        
+        public function set mapPictureList(value:Vector.<MapPicture>):void 
+        {
+            _mapPictureList = value;
+        }
+        
         public function get battleMapPanel():BattleMapPanel
         {
             return _battleMapPanel;
@@ -2795,6 +2810,90 @@ package scene.map
             return 0;
         }
         
+        /**マップ上にイベント画像追加*/
+        public function setMapPicture(textureName:String, name:String, param:Object):void
+        {
+            var label:String = null;
+            
+            if (param.hasOwnProperty("label"))
+            {
+                label = param.label;
+            }
+            
+            var mapPict:MapPicture = new MapPicture(textureName, name, label);
+            
+            if (param.hasOwnProperty("posx"))
+            {
+                mapPict.x = (param.posx - 1) * 32;
+            }
+            else if (param.hasOwnProperty("x"))
+            {
+                mapPict.x = param.x;
+            }
+            
+            if (param.hasOwnProperty("posy"))
+            {
+                mapPict.y = (param.posy - 1) * 32;
+            }
+            else if (param.hasOwnProperty("y"))
+            {
+                mapPict.y = param.y;
+            }
+            
+            if (param.hasOwnProperty("width"))
+            {
+                mapPict.width = width;
+            }
+            if (param.hasOwnProperty("height"))
+            {
+                mapPict.width = height;
+            }
+
+            _mapPictureList.push(mapPict);
+            _unitArea.addChild(mapPict);
+        }
+        
+        /**マップ上のイベント画像削除*/
+        public function setMapPictureLabel(name:String, label:String):void
+        {
+            for (var i:int = 0; i < _mapPictureList.length; i++)
+            {
+                if (_mapPictureList[i].pictName === name)
+                {
+                    _mapPictureList[i].eventLabel = label;
+                    break;
+                }
+            }
+        }
+        
+        /**マップ上のイベント画像削除*/
+        public function deleteMapPicture(name:String):void
+        {
+            for (var i:int = 0; i < _mapPictureList.length; i++)
+            {
+                if (_mapPictureList[i].pictName === name)
+                {
+                    _mapPictureList[i].removeFromParent();
+                    _mapPictureList[i].dispose();
+                    _mapPictureList[i] = null;
+                    _mapPictureList.splice(i, 1);
+                    break;
+                }
+            }
+        }
+        
+        /**マップ上イベントの全削除*/
+        public function deleteAllMapPicture():void
+        {
+            for (var i:int = 0; 0 < _mapPictureList.length; )
+            {
+                _mapPictureList[i].removeFromParent();
+                _mapPictureList[i].dispose();
+                _mapPictureList[i] = null;
+                _mapPictureList.splice(i, 1);
+            }
+        }
+        
         /**マップ会話開始*/
         private function mapTalkStart(pos:Point):void
         {
@@ -2814,16 +2913,28 @@ package scene.map
                         if (_sideState[i].battleUnit[j].talkLabel != null)
                         {
                             
-    						MainController.$.view.battleMap.mapPanel.showPanel(BattleMapPanel.PANEL_NONE);
+                            MainController.$.view.battleMap.mapPanel.showPanel(BattleMapPanel.PANEL_NONE);
                             MainController.$.view.eveManager.talkEventStart(_sideState[i].battleUnit[j].talkLabel);
                         }
-                        endFlg = true;
-                        break;
+                        return;
                     }
                 }
-                if (endFlg)
+            }
+            
+            /**マップピクチャ上でイベント検索*/
+            for (i = 0; i < _mapPictureList.length; i++)
+            {
+                //ラベルが無い場合は飛ばす
+                if (_mapPictureList[i].eventLabel == null || _mapPictureList[i].eventLabel.length <= 0)
                 {
-                    break;
+                    continue;
+                }
+                
+                if (pos.x >= _mapPictureList[i].x && pos.x <= _mapPictureList[i].x + _mapPictureList[i].width && pos.y >= _mapPictureList[i].y && pos.y <= _mapPictureList[i].y + _mapPictureList[i].height)
+                {
+                    MainController.$.view.battleMap.mapPanel.showPanel(BattleMapPanel.PANEL_NONE);
+                    MainController.$.view.eveManager.talkEventStart(_mapPictureList[i].eventLabel);
+                    return;
                 }
             }
         }

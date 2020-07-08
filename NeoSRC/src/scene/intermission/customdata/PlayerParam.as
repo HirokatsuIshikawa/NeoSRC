@@ -71,11 +71,6 @@ package scene.intermission.customdata
 		{
 			var i:int = 0;
 			super.loadObject(data);
-			
-			for (i = 0; i < playerVariable.length; i++)
-			{
-				playerVariable[i].setGlobal(true);
-			}
 			var j:int = 0;
 		}
 	}

@@ -348,11 +348,16 @@ Exit
 タウンパート開始:
 StopBGM
 LoadMap file:ケイブヴィレッジ.map
-CreateUnit name:ケイブガード x:14 y:16 side:さくらチーム level:1 join:0 anime:0 label:マギロッド情報
-CreateUnit name:どんぐり目少女 x:9 y:12 side:さくらチーム level:1 join:0 anime:0 label:訪問どんぐり目
-CreateUnit name:パーカー少年 x:11 y:12 side:さくらチーム level:1 join:0 anime:0 label:訪問パーカー
-CreateUnit name:ワイルドランナー x:16 y:7 side:さくらチーム level:1 join:0 anime:0 label:リサイクル
-CreateUnit name:スライム x:4 y:11 side:さくらチーム level:1 join:0 anime:0 label:スライム情報
+//CreateUnit name:ケイブガード x:14 y:16 side:さくらチーム level:1 join:0 anime:0 label:マギロッド情報
+//CreateUnit name:どんぐり目少女 x:9 y:12 side:さくらチーム level:1 join:0 anime:0 label:訪問どんぐり目
+//CreateUnit name:パーカー少年 x:11 y:12 side:さくらチーム level:1 join:0 anime:0 label:訪問パーカー
+//CreateUnit name:ワイルドランナー x:16 y:7 side:さくらチーム level:1 join:0 anime:0 label:リサイクル
+//CreateUnit name:スライム x:4 y:11 side:さくらチーム level:1 join:0 anime:0 label:スライム情報
+SetMapPicture name:ケイブガード posX:14 posY:16 label:マギロッド情報 img:ケイブガードU
+SetMapPicture name:どんぐり目少女 posX:9 posY:12 label:訪問どんぐり目 img:どんぐり目U_0001
+SetMapPicture name:パーカー少年 posX:11 posY:12 label:訪問パーカー img:パーカー少年U_0001
+SetMapPicture name:ワイルドランナー posX:16 posY:7 label:リサイクル img:ワイルドランナーU
+SetMapPicture name:スライム posX:4 posY:11 label:スライム情報 img:スライムB_U
 ReadyMove
 SetMove layer:キャラクター alpha:0 x:0
 SetMove layer:エフェクト time:0.3 fade:out
@@ -720,6 +725,10 @@ Return
 
 会話一通り後:
 Set name:ネクストユニット登場フラグ value:1
-CreateUnit name:ケイブガード x:21 y:9 side:味方 level:1 
-CreateUnit name:ワイルドランナー x:22 y:9 side:味方 level:1
+CreateUnit name:ケイブガード x:21 y:9 side:さくらチーム level:1 label:マップ会話エンド
+CreateUnit name:ワイルドランナー x:22 y:9 side:さくらチーム level:1 label:マップ会話エンド
 Return
+
+マップ会話エンド:
+
+Exit

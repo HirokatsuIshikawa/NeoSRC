@@ -11,10 +11,12 @@ package scene.main
     import flash.display.StageQuality;
     import scene.commandbattle.CommandBattleView;
     import scene.intermission.InterMission;
+    import scene.intermission.customdata.PlayerVariable;
     import scene.intermission.save.ConfirmPopup;
     import scene.intermission.save.LoadList;
     import scene.map.BaseMap;
     import scene.map.BattleMap;
+    import scene.map.basepoint.MapPicture;
     import scene.map.customdata.SideState;
     import scene.map.panel.BattleMapPanel;
     import scene.map.save.MapLoadList;
@@ -307,11 +309,17 @@ package scene.main
             if (dataStr != null)
             {
                 var data:Object = JSON.parse(dataStr);
-                
                 var i:int = 0;
-                //基本データ読み込み
+                //変数情報読み込み
+                if (MainController.$.model.playerParam != null)
+                {
+                    MainController.$.model.playerParam.playerVariable = null;
+                    MainController.$.model.playerParam.playerVariable = new Vector.<PlayerVariable>;
+                }
                 MainController.$.model.playerParam.loadObject(data.playerData);
                 var count:int = CommonDef.objectLength(data.unitList);
+                
+                //基本データ読み込み
                 //今のデータ削除
                 resetWindow();
                 MainController.$.model.resetUnitDate();
@@ -353,6 +361,18 @@ package scene.main
         {
             var i:int = 0;
             var j:int = 0;
+            
+            //マップ配置画像読み込み
+            for (i = 0; i < CommonDef.objectLength(data.mapPictureList); i++ )
+            {
+                var mapPictData:Object = data.mapPictureList[i];
+                var mapPict:MapPicture = new MapPicture (mapPictData.imgName, mapPictData.pictName, mapPictData.eventLabel);
+                mapPict.x = mapPictData.x;
+                mapPict.y = mapPictData.y;
+                battleMap.unitArea.addChild(mapPict);
+                battleMap.mapPictureList.push(mapPict);
+            }
+            
             //マップユニット読み込み
             for (i = 0; i < CommonDef.objectLength(data.mapDateList); i++)
             {

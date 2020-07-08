@@ -796,6 +796,23 @@ package scene.talk
                 MainController.$.view.battleMap.moveMapUnit(param.unit, param.x, param.y, setLineCommand);
                 
                 break;
+            //-----------------------------------------------------マップピクチャ＆イベント設置-----------------------------------------------------
+            case "setmappicture": //マップピクチャをセット
+                MainController.$.view.battleMap.setMapPicture(param.img, param.name, param);
+                setLineCommand();
+                break;
+            case "setmappicturelabel": //マップピクチャにラベルをセット
+                MainController.$.view.battleMap.setMapPictureLabel(param.name, param.label);
+                setLineCommand();
+                break;
+            case "deletemappicture": //マップピクチャを名前を指定して削除
+                MainController.$.view.battleMap.deleteMapPicture(param.name);
+                setLineCommand();
+                break;
+            case "deleteallmappicture": //全マップピクチャ削除
+                MainController.$.view.battleMap.deleteAllMapPicture();
+                setLineCommand();
+                break;
             //-----------------------------------------------------コマンドバトル-----------------------------------------------------
             case "partyinunit": // パーティ加入
                 MainController.$.model.partyIn(param.name);
@@ -2251,9 +2268,8 @@ package scene.talk
             
             if (param.hasOwnProperty("type") && param.type === "global")
             {
-                variable.setGlobal(true);
+                variable.global = true;
             }
-            
             
             for (var i:int = 0; i < playerVariable.length; i++ )
             {
@@ -2264,8 +2280,6 @@ package scene.talk
                     break;
                 }
             }
-            
-            
             
             playerVariable.push(variable);
         }

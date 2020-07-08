@@ -126,16 +126,6 @@ package scene.intermission.customdata
 			return null;
 		}
 		
-		public function setGlobal(flg:Boolean):void
-		{
-			_global = flg;
-		}
-		
-		public function getGlobal():Boolean
-		{
-			return _global;
-		}
-		
 		public function set value(val:Object):void
 		{
 			switch (_type)
@@ -171,6 +161,16 @@ package scene.intermission.customdata
 			_type = value;
 		}
 		
+        public function get global():Boolean 
+        {
+            return _global;
+        }
+        
+        public function set global(value:Boolean):void 
+        {
+            _global = value;
+        }
+        
 		public function set name(value:String):void
 		{
 			_name = value;

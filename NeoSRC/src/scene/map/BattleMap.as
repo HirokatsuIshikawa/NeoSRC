@@ -208,7 +208,7 @@ package scene.map
         private function checkMoveEnable(unit:BattleUnit, terrain:TerrainData):Boolean
         {
             var flg:Boolean = true;
-            var properCost:int = unit.terrain[terrain.Type];
+            
             //侵入不可地形
             if (terrain.Type == TerrainData.TYPE_NUM[TerrainData.TERRAIN_TYPE_NONE])
             {
@@ -219,10 +219,15 @@ package scene.map
             {
                 flg = false;
             }
-            //適応不可
-            else if (properCost == -1)
+            else
             {
-                flg = false;
+                //移動コスト取得
+                var properCost:int = unit.terrain[terrain.Type];
+                //適応不可
+                if (properCost == -1)
+                {
+                    flg = false;
+                }
             }
             
             return flg;
@@ -2713,12 +2718,12 @@ package scene.map
             return _selectMoved;
         }
         
-        public function get mapPictureList():Vector.<MapPicture> 
+        public function get mapPictureList():Vector.<MapPicture>
         {
             return _mapPictureList;
         }
         
-        public function set mapPictureList(value:Vector.<MapPicture>):void 
+        public function set mapPictureList(value:Vector.<MapPicture>):void
         {
             _mapPictureList = value;
         }
@@ -2848,7 +2853,7 @@ package scene.map
             {
                 mapPict.width = height;
             }
-
+            
             _mapPictureList.push(mapPict);
             _unitArea.addChild(mapPict);
         }

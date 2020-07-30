@@ -322,12 +322,20 @@ package scene.main
                 //基本データ読み込み
                 //今のデータ削除
                 resetWindow();
-                MainController.$.model.resetUnitDate();
+                MainController.$.model.resetUnitData();
+                MainController.$.model.resetCommanderData();
                 
                 //所持ユニットデータ
                 for (i = 0; i < count; i++)
                 {
                     MainController.$.model.addPlayerUnitFromName(data.unitList[i].name, data.unitList[i].lv, data.unitList[i].exp, data.unitList[i].strengthPoint, false, data.unitList[i].customBgmPath);
+                }
+                
+                count = CommonDef.objectLength(data.commanderList);
+                //所持軍師データ
+                for (i = 0; i < count; i++)
+                {
+                    MainController.$.model.addPlayerCommanderFromName(data.unitList[i].name, data.unitList[i].lv);
                 }
                 
                 //会話・マップデータ読み込み
@@ -363,10 +371,10 @@ package scene.main
             var j:int = 0;
             
             //マップ配置画像読み込み
-            for (i = 0; i < CommonDef.objectLength(data.mapPictureList); i++ )
+            for (i = 0; i < CommonDef.objectLength(data.mapPictureList); i++)
             {
                 var mapPictData:Object = data.mapPictureList[i];
-                var mapPict:MapPicture = new MapPicture (mapPictData.imgName, mapPictData.pictName, mapPictData.eventLabel);
+                var mapPict:MapPicture = new MapPicture(mapPictData.imgName, mapPictData.pictName, mapPictData.eventLabel);
                 mapPict.x = mapPictData.x;
                 mapPict.y = mapPictData.y;
                 battleMap.unitArea.addChild(mapPict);
@@ -508,6 +516,9 @@ package scene.main
             resetWindow();
             var i:int = 0;
             
+            MainController.$.model.resetUnitData();
+            MainController.$.model.resetCommanderData();
+            
             MainController.$.model.playerParam.loadObject(data.playerData);
             
             var count:int = CommonDef.objectLength(data.unitList);
@@ -515,6 +526,13 @@ package scene.main
             for (i = 0; i < count; i++)
             {
                 MainController.$.model.addPlayerUnitFromName(data.unitList[i].name, data.unitList[i].lv, data.unitList[i].exp, data.unitList[i].strengthPoint, false, data.unitList[i].customBgmPath);
+            }
+            
+            count = CommonDef.objectLength(data.commanderList);
+            //所持軍師データ
+            for (i = 0; i < count; i++)
+            {
+                MainController.$.model.addPlayerCommanderFromName(data.unitList[i].name, data.unitList[i].lv);
             }
             
             if (_loadListWindow != null)
@@ -748,7 +766,6 @@ package scene.main
             addChild(_saveList);
         
         }
-        
         
         public function returnSaveFunc(num:int):Function
         {

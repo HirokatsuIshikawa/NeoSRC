@@ -3,9 +3,11 @@ package scene.main
 	import common.CommonSystem;
 	import common.util.CharaDataUtil;
 	import database.master.MasterBattleMessage;
+    import database.master.MasterCommanderData;
     import database.master.MasterSkillData;
 	import database.master.MasterWeaponData;
 	import database.master.base.MessageCondition;
+    import database.user.CommanderData;
 	import scene.unit.BattleUnit;
 	import system.custom.customSprite.CImage;
 	import system.custom.customSprite.ImageBoard;
@@ -37,11 +39,15 @@ package scene.main
 		private var _masterCharaData:Vector.<MasterCharaData> = null;
 		/**プレイヤーデータ*/
 		private var _playerUnitData:Vector.<UnitCharaData> = null;
+		/**プレイヤー軍師データ*/
+		private var _playerCommanderData:Vector.<CommanderData> = null;
 		/**バフデータ*/
 		private var _masterBuffData:Vector.<MasterBuffData> = null;
 		/**バトルメッセージデータ*/
 		private var _masterBattleMessageData:Vector.<MasterBattleMessage> = null;
 		
+        /**軍師データ*/
+        private var _masterCommanderData:Vector.<MasterCommanderData> = null;
 		/** プレイヤーパーティIDリスト */
 		private var _playerPartyList:Vector.<String> = null;
 		
@@ -63,9 +69,11 @@ package scene.main
 			_masterUnitImageData = new MasterUnitImageData();
 			_masterCharaData = new Vector.<MasterCharaData>;
 			_playerUnitData = new Vector.<UnitCharaData>;
+            _playerCommanderData = new Vector.<CommanderData>;
 			_playerPartyList = new Vector.<String>;
 			_enemyPartyList = new Vector.<String>;
 			_masterBattleMessageData = new Vector.<database.master.MasterBattleMessage>;
+            _masterCommanderData = new Vector.<database.master.MasterCommanderData>;
 			
 			_masterBuffData = new Vector.<MasterBuffData>();
 			//_imgStorage = new ImgStorage();
@@ -109,10 +117,7 @@ package scene.main
 			base.name = name;
 			for (i = 0; i < imgData.basicList.length; i++)
 			{
-				//var faceImg:Image = new Image(imgStorage.getImage(selectData.imgData.imgUrl, selectData.imgData.getFileName(selectData.imgData.basicList[i])));
-				//var faceImg:CImage = new CImage(TextureManager.loadTexture(imgData.imgUrl, imgData.getFileName(imgData.basicList[i]), TextureManager.TYPE_CHARA));
 				var faceImg:CImage = new CImage(MainController.$.imgAsset.getTexture(imgData.getFileName(imgData.basicList[i])));
-				
 				base.addImage(faceImg, imgType);
 			}
 			return base;
@@ -126,16 +131,7 @@ package scene.main
 			MapLoader.loadMapData(str, callBack);
 		}
 		
-		/**プレイヤーユニットデータ追加*/
-		/*
-		   public function addPlayerUnit(num:int):void
-		   {
-		   var length:int = _playerUnitData.length;
-		   _playerUnitData[length] = new UnitCharaData(length, _masterCharaData[num]);
-		   }
-		 */
-		
-		public function resetUnitDate():void
+		public function resetUnitData():void
 		{
 			var i:int = 0;
 			for (i = 0; i < _playerUnitData.length; )
@@ -143,8 +139,18 @@ package scene.main
 				_playerUnitData[i] = null;
 				_playerUnitData.splice(i, 1);
 			}
-		
 		}
+        
+        public function resetCommanderData():void
+        {
+            var i:int = 0;
+            for (i = 0; i < _playerCommanderData.length; )
+            {
+                _playerCommanderData[i] = null;
+                _playerCommanderData.splice(i, 1);
+            }
+        }
+        
 		
 		public function addPlayerUnitFromName(name:String, lv:int = 0, exp:int = 0, strength:int = 0, launch:Boolean = false, customBgm:String = null):void
 		{
@@ -179,6 +185,37 @@ package scene.main
 			_playerUnitData[setId].addStrength(strength);
 		
 		}
+        /**コマンダー追加*/
+        public function addPlayerCommanderFromName(name:String, lv:int = 0 ):void
+        {
+			var i:int = 0;
+			var length:int = _masterCommanderData.length;
+			var setId:int = _playerCommanderData.length;
+			var data:MasterCommanderData = null;
+			for (i = 0; i < length; i++)
+			{
+				if (_masterCommanderData[i].nickName === name)
+				{
+					data = _masterCommanderData[i];
+					break;
+				}
+			}
+			if (data == null)
+			{
+				for (i = 0; i < length; i++)
+				{
+					if (_masterCommanderData[i].name === name)
+					{
+						data = _masterCommanderData[i];
+						break;
+					}
+				}
+				
+			}
+			
+			_playerUnitData[setId] = new CommanderData(setId, data, lv);
+        }
+        
 		
 		/**プレイヤーユニットデータ*/
 		public function get PlayerUnitData():Vector.<UnitCharaData>
@@ -344,6 +381,26 @@ package scene.main
 		{
 			_masterBattleMessageData = value;
 		}
+        
+        public function get masterCommanderData():Vector.<MasterCommanderData> 
+        {
+            return _masterCommanderData;
+        }
+        
+        public function set masterCommanderData(value:Vector.<MasterCommanderData>):void 
+        {
+            _masterCommanderData = value;
+        }
+        
+        public function get playerCommanderData():Vector.<CommanderData> 
+        {
+            return _playerCommanderData;
+        }
+        
+        public function set playerCommanderData(value:Vector.<CommanderData>):void 
+        {
+            _playerCommanderData = value;
+        }
 		
 		/**戦闘メッセージゲット*/
 		public function getRandamBattleMessage(keyName:String, state:String, attackUnit:BattleUnit, targetUnit:BattleUnit, weapon:MasterWeaponData, skill:MasterSkillData,damage:int):Vector.<String>

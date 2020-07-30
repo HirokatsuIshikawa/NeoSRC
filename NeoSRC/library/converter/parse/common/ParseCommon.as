@@ -42,11 +42,16 @@ package converter.parse.common
         "効果", "ターン", "レベル"//
         ];
         
+        //軍師パラメーター
+        public static const COMMANDER_PARAM_LIST:Array = ["name", "nickName", "exp", "MaxLv", "HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV", "terrain", "hit", "eva"];
+        public static const COMMANDER_PARAM_P_LIST:Array = ["名前", "愛称", "経験値", "最大レベル", "ＨＰ", "ＦＰ", "攻撃", "潜在", "技術", "防御", "精神", "敏捷", "移動", "地形", "命中", "回避"];
+        
+        
         public static const CRITICAL_TYPE:Array = ["rate", "nodef"];
         public static const CRITICAL_P_TYPE:Array = ["倍率", "防御無視"];
         
         // 基本データパース
-        public static function parseData(data:Object, line:String):void
+        public static function parseData(data:Object, line:String, commanderFlg:Boolean = false):void
         {
             var i:int = 0;
             var j:int = 0;
@@ -68,23 +73,50 @@ package converter.parse.common
                     growthType = growthTypeAry[1];
                 }
                 
-                // セットパラメータ設定
-                for (j = 0; j < PARAM_LIST.length; j++)
+                //軍師パラメーターの場合
+                if (commanderFlg)
                 {
-                    if (command.toLocaleLowerCase() === PARAM_LIST[j].toLocaleLowerCase() || command === PARAM_P_LIST[j])
+                    // セットパラメータ設定
+                    for (j = 0; j < COMMANDER_PARAM_LIST.length; j++)
                     {
-                        setKey = PARAM_LIST[j];
-                        break;
+                        if (command.toLocaleLowerCase() === COMMANDER_PARAM_LIST[j].toLocaleLowerCase() || command === COMMANDER_PARAM_P_LIST[j])
+                        {
+                            setKey = COMMANDER_PARAM_LIST[j];
+                            break;
+                        }
+                    }
+                    
+                    // 最大値が指定できるパラメータか判別
+                    for (j = 0; j < MAX_PARAM.length; j++)
+                    {
+                        if (setKey === MAX_PARAM[j])
+                        {
+                            maxFlg = true;
+                            break;
+                        }
                     }
                 }
-                
-                // 最大値が指定できるパラメータか判別
-                for (j = 0; j < MAX_PARAM.length; j++)
+                //通常キャラパラメーターの場合
+                else
                 {
-                    if (setKey === MAX_PARAM[j])
+                    // セットパラメータ設定
+                    for (j = 0; j < PARAM_LIST.length; j++)
                     {
-                        maxFlg = true;
-                        break;
+                        if (command.toLocaleLowerCase() === PARAM_LIST[j].toLocaleLowerCase() || command === PARAM_P_LIST[j])
+                        {
+                            setKey = PARAM_LIST[j];
+                            break;
+                        }
+                    }
+                    
+                    // 最大値が指定できるパラメータか判別
+                    for (j = 0; j < MAX_PARAM.length; j++)
+                    {
+                        if (setKey === MAX_PARAM[j])
+                        {
+                            maxFlg = true;
+                            break;
+                        }
                     }
                 }
                 
@@ -95,7 +127,6 @@ package converter.parse.common
         //パラメータセット
         public static function setParam(data:Object, setKey:String, maxFlg:Boolean, paramNum:Array, growthType:String):void
         {
-            
             // 成長タイプ設定
             if (growthType != null && maxFlg)
             {

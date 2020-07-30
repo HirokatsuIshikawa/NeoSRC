@@ -77,6 +77,7 @@ package system.file
 			var i:int = 0;
 			var data:Object = new Object();
 			var unitList:Object = new Object();
+            var commanderList:Object = new Object();
 			var nowDate:Date = new Date();
 			var nowDateStr:String = "";
 			
@@ -96,8 +97,18 @@ package system.file
 				unitList[i].customBgmPath = MainController.$.model.PlayerUnitData[i].customBgmPath;
 					//unitList[i].name = MainController.$.model.PlayerUnitData[i].name;
 			}
-			//data.unitList = MainController.$.model.PlayerUnitData;
 			data.unitList = unitList;
+            /**セーブ用コマンダーデータ*/
+			for (i = 0; i < MainController.$.model.PlayerUnitData.length; i++)
+			{
+                commanderList[i] = new Object();
+				commanderList[i].name = MainController.$.model.playerCommanderData[i].name;
+				commanderList[i].lv = MainController.$.model.playerCommanderData[i].nowLv;
+				commanderList[i].exp = MainController.$.model.playerCommanderData[i].exp;
+            }
+			data.commanderList = commanderList;
+            
+			//data.unitList = MainController.$.model.PlayerUnitData;
 			data.time = nowDateStr;
 			
 			var saveCount:int = saveNum + 1;
@@ -128,6 +139,7 @@ package system.file
 			var j:int = 0;
 			var data:Object = new Object();
 			var unitList:Object = new Object();
+            var commanderList:Object = new Object();
             var mapPictureList:Object = new Object();
 			var mapDateList:Object = new Object();
 			var nowDate:Date = new Date();
@@ -150,6 +162,17 @@ package system.file
 				unitList[i].customBgmPath = MainController.$.model.PlayerUnitData[i].customBgmPath;
 			}
 			data.unitList = unitList;
+            
+            /**セーブ用コマンダーデータ*/
+			for (i = 0; i < MainController.$.model.PlayerUnitData.length; i++)
+			{
+                commanderList[i] = new Object();
+				commanderList[i].name = MainController.$.model.playerCommanderData[i].name;
+				commanderList[i].lv = MainController.$.model.playerCommanderData[i].nowLv;
+				commanderList[i].exp = MainController.$.model.playerCommanderData[i].exp;
+            }
+            
+			data.commanderList = commanderList;
             
             /**マップ画像データ*/
             for (i = 0; i < MainController.$.map.mapPictureList.length; i++ )

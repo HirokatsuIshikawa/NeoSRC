@@ -254,7 +254,7 @@ package system.file
 			fr.browse([ff]);
 		}
 		
-		//テキストロード
+		//通常セーブロード(実際の読み込みはMainViewerのloadSaveData)
 		public static function loadSaveData(name:String, num:int, func:Function):void
 		{
 			//読み込みインスタンスの生成
@@ -285,7 +285,7 @@ package system.file
 			}
 		}
 		
-		//テキストロード
+		//マップセーブロード(実際の読み込みはMainViewerのloadContinueComp)
 		public static function loadMapSaveData(saveNum:int):void
 		{
 			

@@ -20,6 +20,9 @@ package scene.intermission.customdata
 		
 		public var intermissonData:Vector.<ShowInterMissionData> = null;
 		public var intermissionBackURL:String = null;
+        
+        /**選択軍師名*/
+        public var selectCommanderName:String;
 		
 		/** ローカル変数 */
 		public var playerVariable:Vector.<PlayerVariable> = null;

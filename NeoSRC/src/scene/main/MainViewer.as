@@ -335,7 +335,7 @@ package scene.main
                 //所持軍師データ
                 for (i = 0; i < count; i++)
                 {
-                    MainController.$.model.addPlayerCommanderFromName(data.unitList[i].name, data.unitList[i].lv);
+                    MainController.$.model.addPlayerCommanderFromName(data.commanderList[i].name, data.commanderList[i].lv);
                 }
                 
                 //会話・マップデータ読み込み
@@ -532,7 +532,7 @@ package scene.main
             //所持軍師データ
             for (i = 0; i < count; i++)
             {
-                MainController.$.model.addPlayerCommanderFromName(data.unitList[i].name, data.unitList[i].lv);
+                MainController.$.model.addPlayerCommanderFromName(data.commanderList[i].name, data.commanderList[i].lv);
             }
             
             if (_loadListWindow != null)

@@ -3,6 +3,7 @@ package scene.unit
     import database.master.MasterWeaponData;
     import database.master.base.BaseParam;
     import database.master.base.LearnLevelData;
+    import database.user.CommanderData;
     import database.user.UnitCharaData;
     import database.user.buff.SkillBuffData;
     import scene.main.MainController;
@@ -498,6 +499,13 @@ package scene.unit
             levelSet(_nowLv);
         }
         
+        public function levelStatusReset():void
+        {
+            levelSet(_nowLv);
+        }
+        
+        
+        
         /**ターン開始時*/
         public function buffTurnCount():void
         {
@@ -640,6 +648,22 @@ package scene.unit
                 }
             }
         }
+        
+        /**軍師ステータスセット*/
+        public function commanderStatusSet(commander:CommanderData):void
+        {
+            /**軍師なしの場合戻る*/
+            if (commander == null)
+            {
+                return;
+            }
+            var i:int = 0;
+            for (i = 0; i < BaseParam.STATUS_STR.length; i++)
+            {
+                this.param[BaseParam.STATUS_STR[i]] += commander.param[BaseParam.STATUS_STR[i]];
+            }            
+        }
+        
         
         //強化ポイント追加
         override public function addStrength(num:int = 1):void

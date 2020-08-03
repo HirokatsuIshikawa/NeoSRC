@@ -1,6 +1,7 @@
 package scene.map
 {
     import a24.tween.Tween24;
+    import database.user.CommanderData;
     import scene.map.basepoint.MapPicture;
     import scene.map.customdata.EnemyMoveData;
     import bgm.SingleMusic;
@@ -149,7 +150,6 @@ package scene.map
             _terrainDataList = new Vector.<TerrainData>();
             _rootImgList = new Vector.<CImage>;
             _mapPictureList = new Vector.<MapPicture>;
-            //_battleUnit = new Vector.<Vector.<BattleUnit>>;
             _sideState = new Vector.<SideState>;
             _statusWindow = new BattleMapStatus();
             _battleResultManager = new BattleResultmanager();
@@ -196,6 +196,37 @@ package scene.map
             _rootImgList = null;
             _mapPictureList = null;
             super.dispose();
+        }
+        
+        //-------------------------------------------------------------
+        //
+        // 軍師関連
+        //
+        //-------------------------------------------------------------
+        public function setCommander(sideName:String, commander:CommanderData):void
+        {
+            var i:int = 0;
+            for (i = 0; i < _sideState.length; i++)
+            {
+                if (sideName === _sideState[i].name)
+                {
+                    _sideState[i].setCommander(commander);
+                    break;
+                }
+            }
+        }
+        
+        public function clearCommander(sideName:String):void
+        {
+            var i:int = 0;
+            for (i = 0; i < _sideState.length; i++)
+            {
+                if (sideName === _sideState[i].name)
+                {
+                    _sideState[i].clearCommander();
+                    break;
+                }
+            }
         }
         
         //-------------------------------------------------------------
@@ -350,6 +381,7 @@ package scene.map
                 battleUnit.formationNumImg = new CImage(MainController.$.imgAsset.getTexture("unitnum_" + battleUnit.maxFormationNum));
             }
             
+            battleUnit.commanderStatusSet(_sideState[sideNum].commander);
             // マップ位置をセットをセット
             unitSetMap(battleUnit, sideNum, posX, posY, animeFlg, callBack);
         }
@@ -392,6 +424,7 @@ package scene.map
                 battleUnit.formationNumImg = new CImage(MainController.$.imgAsset.getTexture("unitnum_" + battleUnit.maxFormationNum));
             }
             
+            battleUnit.commanderStatusSet(_sideState[sideNum].commander);
             // マップ位置をセットをセット
             unitSetMap(battleUnit, sideNum, posX, posY, animeFlg, callBack);
         }
@@ -409,7 +442,6 @@ package scene.map
                 {
                     if (id != null)
                     {
-                        
                         if (_sideState[i].battleUnit[j].nameId === id)
                         {
                             _sideState[i].battleUnit[j].talkLabel = label;
@@ -1875,7 +1907,7 @@ package scene.map
         }
         
         /**レベルアップウィンドウ表示*/
-        private function showLvUpWindow(unit:BattleUnit, lvUp:int):void
+        private function showLvUpWindow(unit:BattleUnit, lvUp:int, sideNum:int = 0):void
         {
             var img:CImage = null;
             showStatusWindow(unit, false);
@@ -1894,6 +1926,7 @@ package scene.map
             function lvUpUnit():void
             {
                 unit.levelUp(lvUp);
+                unit.commanderStatusSet(_sideState[sideNum].commander);
                 _statusWindow.setCharaData(unit, false);
                 //Tween24.wait(3.0).onComplete(lvUpEnd).play();
             }
@@ -2738,25 +2771,6 @@ package scene.map
         // その他
         //
         //-------------------------------------------------------------
-        
-        /** 余り排除 */
-        private function floorPos():void
-        {
-            this.x = Math.floor(this.x);
-            this.y = Math.floor(this.y);
-        }
-        
-        /**リスト複製*/
-        private function cloneList(list:Vector.<String>):Vector.<String>
-        {
-            var i:int = 0;
-            var newList:Vector.<String> = new Vector.<String>;
-            for (i = 0; i < list.length; i++)
-            {
-                newList.push(list[i]);
-            }
-            return newList;
-        }
         
         /** ユニット配置エリアソート（軽量化用） */
         public function sortUnitArea(obj1:DisplayObject, obj2:DisplayObject):Number

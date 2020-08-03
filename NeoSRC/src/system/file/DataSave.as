@@ -99,7 +99,7 @@ package system.file
 			}
 			data.unitList = unitList;
             /**セーブ用コマンダーデータ*/
-			for (i = 0; i < MainController.$.model.PlayerUnitData.length; i++)
+			for (i = 0; i < MainController.$.model.playerCommanderData.length; i++)
 			{
                 commanderList[i] = new Object();
 				commanderList[i].name = MainController.$.model.playerCommanderData[i].name;
@@ -164,7 +164,7 @@ package system.file
 			data.unitList = unitList;
             
             /**セーブ用コマンダーデータ*/
-			for (i = 0; i < MainController.$.model.PlayerUnitData.length; i++)
+			for (i = 0; i < MainController.$.model.playerCommanderData.length; i++)
 			{
                 commanderList[i] = new Object();
 				commanderList[i].name = MainController.$.model.playerCommanderData[i].name;

@@ -213,7 +213,7 @@ package scene.main
 				
 			}
 			
-			_playerUnitData[setId] = new CommanderData(setId, data, lv);
+			_playerCommanderData[_playerCommanderData.length] = new CommanderData(data, lv);
         }
         
 		

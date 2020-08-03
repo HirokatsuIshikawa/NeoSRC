@@ -293,6 +293,25 @@ package scene.map
 		{
 			_mapHeight = value;
 		}
+        
+        /** 余り排除 */
+        protected function floorPos():void
+        {
+            this.x = Math.floor(this.x);
+            this.y = Math.floor(this.y);
+        }
+        
+                /**リスト複製*/
+        protected function cloneList(list:Vector.<String>):Vector.<String>
+        {
+            var i:int = 0;
+            var newList:Vector.<String> = new Vector.<String>;
+            for (i = 0; i < list.length; i++)
+            {
+                newList.push(list[i]);
+            }
+            return newList;
+        }
 		
 		/** チップをURL順に並び替え、改装を合わせる */
 		public function refreshTip(layer:int):void

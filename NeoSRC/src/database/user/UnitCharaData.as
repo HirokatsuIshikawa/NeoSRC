@@ -180,25 +180,17 @@ package database.user
             var i:int = 0;
             _id = id;
             _name = data.name;
-            //_imgNameList = new Vector.<String>;
             _masterData = data;
             _terrain = new Vector.<int>;
             _param = new BaseParam();
             _passiveList = new Vector.<CharaBuffData>();
             
-            /*
-               for (var i:int = 0; i < data.imgData.imgList.length; i++)
-               {
-               _imgNameList[i] = data.imgData.imgList[i].name;
-               }
-             */
-            
+
             //パッシブスキル
             if (data.passiveList != null)
             {
                 for (i = 0; i < data.passiveList.length; i++)
                 {
-                    
                     var buff:CharaBuffData = data.passiveList[i];
                     _passiveList.push(buff);
                 }

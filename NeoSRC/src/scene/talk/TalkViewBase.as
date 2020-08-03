@@ -5,6 +5,7 @@ package scene.talk
     import common.CalcInfix;
     import common.CommonDef;
     import common.CommonSystem;
+    import database.user.CommanderData;
     import scene.main.MainViewer;
     import system.custom.customSprite.CImage;
     import system.custom.customSprite.CSprite;
@@ -687,6 +688,102 @@ package scene.talk
                 break;
             case "clearevent": 
                 clearEvent(command, param);
+                setLineCommand();
+                break;
+            //-----------------------------------------------------軍師------------------------------------------------------
+            case "setcommander": 
+                var commanderData:CommanderData = null;
+                if (param.sideName === MainController.$.model.playerParam.sideName)
+                {
+                    for (i = 0; i < MainController.$.model.playerCommanderData.length; i++)
+                    {
+                        if (param.name === MainController.$.model.playerCommanderData[i].name || param.name === MainController.$.model.playerCommanderData[i].nickName)
+                        {
+                            MainController.$.model.playerParam.selectCommanderName = MainController.$.model.playerCommanderData[i].name;
+                            commanderData = MainController.$.model.playerCommanderData[i];
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    for (i = 0; i < MainController.$.model.masterCommanderData.length; i++)
+                    {
+                        commanderData = new CommanderData(MainController.$.model.masterCommanderData[i], param.lv);
+                        break;
+                    }
+                }
+                if (commanderData != null)
+                {
+                    MainController.$.map.setCommander(param.sideName, commanderData);
+                }
+                setLineCommand();
+                break;
+            case "clearcommander": 
+                if (param.sideName === MainController.$.model.playerParam.sideName)
+                {
+                    MainController.$.model.playerParam.selectCommanderName = null;
+                }
+                MainController.$.map.clearCommander(param.sidename);
+                setLineCommand();
+                break;
+            case "joincommander": 
+                MainController.$.model.addPlayerCommanderFromName(param.name, param.lv);
+                setLineCommand();
+                break;
+            case "leavecommander": 
+                for (i = 0; i < MainController.$.model.masterCommanderData.length; i++)
+                {
+                    if (param.name === MainController.$.model.masterCommanderData[i].name || param.name === MainController.$.model.masterCommanderData[i].nickName)
+                    {
+                        var leaveCommanderData:CommanderData = MainController.$.model.playerCommanderData.splice(i, 1)[0];
+                        //選択中だった場合マップ軍師を削除
+                        if (MainController.$.map != null && //
+                        MainController.$.model.playerParam.selectCommanderName === MainController.$.model.playerCommanderData[i].name || //
+                        MainController.$.model.playerParam.selectCommanderName === MainController.$.model.playerCommanderData[i].nickName)
+                        {
+                            MainController.$.map.clearCommander(MainController.$.model.playerParam.sideName);
+                        }
+                        leaveCommanderData = null;
+                        break;
+                    }
+                }
+                setLineCommand();
+                break;
+            case "addcommanderlv": 
+                for (i = 0; i < MainController.$.model.playerCommanderData.length; i++)
+                {
+                    if (param.name === MainController.$.model.playerCommanderData[i].name || param.name === MainController.$.model.playerCommanderData[i].nickName)
+                    {
+                        MainController.$.model.playerCommanderData[i].addLevel(param.value);
+                        //選択中だった場合マップ軍師に反映
+                        if (MainController.$.map != null && //
+                        MainController.$.model.playerParam.selectCommanderName === MainController.$.model.playerCommanderData[i].name || //
+                        MainController.$.model.playerParam.selectCommanderName === MainController.$.model.playerCommanderData[i].nickName)
+                        {
+                            MainController.$.map.setCommander(MainController.$.model.playerParam.sideName, MainController.$.model.playerCommanderData[i]);
+                        }
+                        break;
+                    }
+                }
+                setLineCommand();
+                break;
+            case "setcommanderlv": 
+                for (i = 0; i < MainController.$.model.playerCommanderData.length; i++)
+                {
+                    if (param.name === MainController.$.model.playerCommanderData[i].name || param.name === MainController.$.model.playerCommanderData[i].nickName)
+                    {
+                        MainController.$.model.playerCommanderData[i].setLevel(param.value);
+                        //選択中だった場合マップ軍師に反映
+                        if (MainController.$.map != null && //
+                        MainController.$.model.playerParam.selectCommanderName === MainController.$.model.playerCommanderData[i].name || //
+                        MainController.$.model.playerParam.selectCommanderName === MainController.$.model.playerCommanderData[i].nickName)
+                        {
+                            MainController.$.map.setCommander(MainController.$.model.playerParam.sideName, MainController.$.model.playerCommanderData[i]);
+                        }
+                        break;
+                    }
+                }
                 setLineCommand();
                 break;
             //-----------------------------------------------------ユニット-----------------------------------------------------
@@ -2271,7 +2368,7 @@ package scene.talk
                 variable.global = true;
             }
             
-            for (var i:int = 0; i < playerVariable.length; i++ )
+            for (var i:int = 0; i < playerVariable.length; i++)
             {
                 
                 if (playerVariable[i].name === variable.name)
@@ -2389,7 +2486,7 @@ package scene.talk
                         break;
                     }
                 }
-
+                
                 mathString += command[i];
             }
             
@@ -2423,7 +2520,7 @@ package scene.talk
                     setLineCommand();
                 }
                 break;
-            case "call":
+            case "call": 
                 if (answer > 0)
                 {
                     //一致したらコールラベル検索
@@ -2437,7 +2534,7 @@ package scene.talk
                 }
                 
                 break;
-            case "return":
+            case "return": 
                 if (answer > 0)
                 {
                     _loadLine = _callBaseLine.shift();

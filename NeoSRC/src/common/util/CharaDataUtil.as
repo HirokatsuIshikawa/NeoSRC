@@ -1,6 +1,7 @@
 package common.util
 {
     import database.master.MasterCharaData;
+    import database.master.MasterCommanderData;
     import database.user.UnitCharaData;
     import scene.main.MainController;
     
@@ -32,6 +33,38 @@ package common.util
             var i:int = 0;
             var selectData:MasterCharaData = null;
             var masterChara:Vector.<MasterCharaData> = MainController.$.model.masterCharaData;
+            
+            for (i = 0; i < masterChara.length; i++)
+            {
+                if (name == masterChara[i].nickName)
+                {
+                    selectData = masterChara[i];
+                    break;
+                }
+            }
+            if (selectData == null)
+            {
+                for (i = 0; i < masterChara.length; i++)
+                {
+                    if (name == masterChara[i].name)
+                    {
+                        selectData = masterChara[i];
+                        break;
+                    }
+                }
+            }
+            
+            return selectData;
+        }
+        
+        /**
+         * 名前から、マスターキャラデータを取得
+         * */
+        public static function getMasterCommanderDataName(name:String):MasterCommanderData
+        {
+            var i:int = 0;
+            var selectData:MasterCommanderData = null;
+            var masterChara:Vector.<MasterCommanderData> = MainController.$.model.masterCommanderData;
             
             for (i = 0; i < masterChara.length; i++)
             {

@@ -244,7 +244,6 @@ package database.user
                 var point:int = _masterData.minParam[str] + addPoint;
                 this.param[BaseParam.STATUS_STR[i]] = point;
             }
-            var fff:int = 0;
         }
         
         public function addStrength(num:int = 1):void

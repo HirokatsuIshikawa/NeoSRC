@@ -29,6 +29,7 @@ package scene.map.panel.subpanel
         protected var _passBtn:CImgButton = null;
         protected var _saveBtn:CImgButton = null;
         protected var _loadBtn:CImgButton = null;
+        protected var _commanderBtn:CImgButton = null;
         protected var _returnBtn:CImgButton = null;
         
         private var _posText:CTextArea = null;
@@ -72,6 +73,13 @@ package scene.map.panel.subpanel
             _loadBtn.y = 0;
             _loadBtn.addEventListener(Event.TRIGGERED, loadBtnHandler);
             _listSprite.addChild(_loadBtn);
+            
+            _commanderBtn = new CImgButton(MainController.$.imgAsset.getTexture("btn_commander"));
+            _commanderBtn.alpha = 1;
+            _commanderBtn.x = BattleMapPanel.BTN_INTERBAL * 3;
+            _commanderBtn.y = 0;
+            _commanderBtn.addEventListener(Event.TRIGGERED, commanderBtnHandler);
+            _listSprite.addChild(_commanderBtn);
             
             _returnBtn = new CImgButton(MainController.$.imgAsset.getTexture("btn_Return"));
             _returnBtn.alpha = 1;
@@ -126,6 +134,13 @@ package scene.map.panel.subpanel
                 _loadBtn.dispose();
                 _loadBtn = null;
             }
+            
+            if (_commanderBtn != null)
+            {
+                _commanderBtn.removeEventListener(Event.TRIGGERED, commanderBtnHandler);
+                _commanderBtn.dispose();
+                _commanderBtn = null;
+            }
             if (_returnBtn != null)
             {
                 _returnBtn.removeEventListener(Event.TRIGGERED, returnBtnHandler);
@@ -138,9 +153,6 @@ package scene.map.panel.subpanel
                 _listSprite = null;
             }
             
-
-            
-            
             super.dispose();
         }
         
@@ -150,6 +162,14 @@ package scene.map.panel.subpanel
             _listSprite.visible = false;
             _menuBtn.y = CommonDef.WINDOW_H - 64;
             _listSprite.y = CommonDef.WINDOW_H;
+            if (MainController.$.map.sideState != null && MainController.$.map.sideState.length > 0 && MainController.$.map.sideState[0].commander != null)
+            {
+                _commanderBtn.visible = true;
+            }
+            else
+            {
+                _commanderBtn.visible = false;
+            }
         }
         
         public function showMenuBtn():void
@@ -222,7 +242,7 @@ package scene.map.panel.subpanel
             if (_moving) return;
             MainController.$.view.waitDark(true);
             MainController.$.view.callMapSaveList();
-
+        
         /*
            DataSave.saveMapGameFile();
            var compPopup:ConfirmPopup = new ConfirmPopup("セーブ完了しました");
@@ -237,9 +257,16 @@ package scene.map.panel.subpanel
             if (_moving) return;
             MainController.$.view.waitDark(true);
             MainController.$.view.callMapLoadList();
-
+        
             //DataLoad.loadMapSaveData();
         }
+        
+        protected function commanderBtnHandler(event:Event):void
+        {
+            if (_moving) return;
+            MainController.$.map.showCommanderStatusWindow(0);            
+        }
+        
         
         /**クリック時*/
         protected function returnBtnHandler(event:Event):void
@@ -247,7 +274,6 @@ package scene.map.panel.subpanel
             if (_moving) return;
             showMenuBtn();
         }
-        
-
+    
     }
 }

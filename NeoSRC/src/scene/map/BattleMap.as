@@ -130,6 +130,8 @@ package scene.map
         private var _nowMovePosY:int = 0;
         
         private var _selectMoved:Boolean = false;
+        //マップ会話フラグ
+        private var _mapTalkFlg:Boolean = false;
         //-------------------------------------------------------------
         //
         // オプション
@@ -882,6 +884,25 @@ package scene.map
             MainController.$.view.addChild(_statusWindow);
         }
         
+        
+        /**ステータス画面表示*/
+        public function showCommanderStatusWindow(sideNumber:int):void
+        {
+            _statusWindow.setCommanderData(_sideState[sideNumber].commander);
+            addChild(_statusWindow);
+            _statusWindow.visible = true;
+            MainController.$.view.addChild(_statusWindow);
+            
+            if (_mapTalkFlg)
+            {
+                _battleMapPanel.showPanel(BattleMapPanel.PANEL_COMMAND_ENEMY);
+            }
+            else
+            {
+                _battleMapPanel.showPanel(BattleMapPanel.PANEL_COMMAND);
+            }
+        }
+        
         /**ステータス画面非表示*/
         private function hideStatusWindow():void
         {
@@ -923,7 +944,14 @@ package scene.map
             _nowMovePosX = 0;
             _nowMovePosY = 0;
             terrainDataReset();
-            _battleMapPanel.showPanel(BattleMapPanel.PANEL_SYSTEM);
+            if (_mapTalkFlg)
+            {
+                _battleMapPanel.showPanel(BattleMapPanel.PANEL_MAP_TALK);
+            }
+            else
+            {
+                _battleMapPanel.showPanel(BattleMapPanel.PANEL_SYSTEM);
+            }
             MainController.$.view.addChild(_battleMapPanel);
         }
         
@@ -2052,7 +2080,7 @@ package scene.map
                 break;
             //マップ会話
             case BattleMapPanel.PANEL_MAP_TALK:
-                
+                hideStatusWindow();
                 addEventListener(TouchEvent.TOUCH, mouseOperated);
                 addEventListener(TouchEvent.TOUCH, startMapTalkHandler);
                 break;
@@ -2764,6 +2792,16 @@ package scene.map
         public function get battleMapPanel():BattleMapPanel
         {
             return _battleMapPanel;
+        }
+        
+        public function get mapTalkFlg():Boolean 
+        {
+            return _mapTalkFlg;
+        }
+        
+        public function set mapTalkFlg(value:Boolean):void 
+        {
+            _mapTalkFlg = value;
         }
         
         //-------------------------------------------------------------

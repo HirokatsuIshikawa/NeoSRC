@@ -43,8 +43,8 @@ package converter.parse.common
         ];
         
         //軍師パラメーター
-        public static const COMMANDER_PARAM_LIST:Array = ["name", "nickName", "exp", "MaxLv", "HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV", "terrain", "hit", "eva"];
-        public static const COMMANDER_PARAM_P_LIST:Array = ["名前", "愛称", "経験値", "最大レベル", "ＨＰ", "ＦＰ", "攻撃", "潜在", "技術", "防御", "精神", "敏捷", "移動", "地形", "命中", "回避"];
+        public static const COMMANDER_PARAM_LIST:Array = ["name", "nickName", "Point", "MaxLv", "HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV", "terrain", "hit", "eva"];
+        public static const COMMANDER_PARAM_P_LIST:Array = ["名前", "愛称", "策略", "最大レベル", "ＨＰ", "ＦＰ", "攻撃", "潜在", "技術", "防御", "精神", "敏捷", "移動", "地形", "命中", "回避"];
         
         
         public static const CRITICAL_TYPE:Array = ["rate", "nodef"];

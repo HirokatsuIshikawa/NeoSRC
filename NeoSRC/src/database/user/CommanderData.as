@@ -1,5 +1,6 @@
 package database.user
 {
+    import database.master.MasterCharaData;
     import database.master.MasterCommanderData;
     import database.master.base.BaseParam;
     
@@ -29,7 +30,7 @@ package database.user
         /**回避*/
         private var _EVA:int = 0;
         /**レベル*/
-        public var lv:int = 0;
+        private var _nowLv:int = 0;
         
         public function get masterData():MasterCommanderData
         {
@@ -43,8 +44,10 @@ package database.user
         
         public function CommanderData(masterData:MasterCommanderData, setLv:int)
         {
+            _param = new BaseParam();
             _masterData = masterData;
-            lv = setLv;
+            _nowLv = setLv;
+            levelSet(_nowLv);
         }
         
         public function get name():String
@@ -57,15 +60,78 @@ package database.user
             return _masterData.nickName;
         }
         
+        public function get nowLv():int 
+        {
+            return _nowLv;
+        }
+        
+        public function get Point():int 
+        {
+            return _Point;
+        }
+        
+        public function set nowLv(value:int):void 
+        {
+            _nowLv = value;
+        }
+        
         public function addLevel(num:int):void
         {
-            lv += num;
+            _nowLv += num;
+            levelSet(_nowLv);
         }
         
         public function setLevel(num:int):void
         {
-            lv = num;
+            _nowLv = num;
+            levelSet(_nowLv);
         }
+        
+        public function resetLevelStatus():void
+        {
+            levelSet(_nowLv);
+        }
+        
+        /**レベルアップ*/
+        public function levelUp(lv:int):void
+        {
+            levelSet(_nowLv + lv);
+        }
+        
+        /**レベルセット*/
+        public function levelSet(lv:int):void
+        {
+            var i:int = 0;
+            var setLv:int = lv;
+            if (setLv > _masterData.MaxLv)
+            {
+                setLv = _masterData.MaxLv;
+            }
+            
+            lv = setLv;
+            
+            // ステータスレシオ
+            var ratio:Number;
+            if (_masterData.MaxLv == 0)
+            {
+                ratio = 1;
+            }
+            else
+            {
+                ratio = (setLv - 1.0) / (_masterData.MaxLv - 1.0);
+            }
+            
+            for (i = 0; i < MasterCharaData.DATA_TYPE.length; i++)
+            {
+                var str:String = MasterCharaData.DATA_TYPE[i];
+                var addPoint:int = Math.floor((_masterData.maxParam[str] - _masterData.minParam[str]) * ratio);
+                
+                var point:int = _masterData.minParam[str] + addPoint;
+                this.param[BaseParam.STATUS_STR[i]] = point;
+            }
+        }
+        
+        
     
     }
 

@@ -677,6 +677,7 @@ package scene.talk
                 {
                     if (MainController.$.view.battleMap != null && MainController.$.view.battleMap.mapPanel != null)
                     {
+                        MainController.$.view.battleMap.mapTalkFlg = true;
                         MainController.$.view.battleMap.mapPanel.showPanel(BattleMapPanel.PANEL_MAP_TALK);
                     }
                 }
@@ -693,7 +694,13 @@ package scene.talk
             //-----------------------------------------------------軍師------------------------------------------------------
             case "setcommander": 
                 var commanderData:CommanderData = null;
-                if (param.sideName === MainController.$.model.playerParam.sideName)
+                //省略した場合はプレイヤーチーム名に
+                if (param.hasOwnProperty("sidename") == false)
+                {
+                    param.sidename = MainController.$.model.playerParam.sideName;
+                }
+                
+                if (param.sidename === MainController.$.model.playerParam.sideName)
                 {
                     for (i = 0; i < MainController.$.model.playerCommanderData.length; i++)
                     {
@@ -715,11 +722,17 @@ package scene.talk
                 }
                 if (commanderData != null)
                 {
-                    MainController.$.map.setCommander(param.sideName, commanderData);
+                    MainController.$.map.setCommander(param.sidename, commanderData);
                 }
                 setLineCommand();
                 break;
             case "clearcommander": 
+                //省略した場合はプレイヤーチーム名に
+                if (param.hasOwnProperty("sidename") == false)
+                {
+                    param.sidename = MainController.$.model.playerParam.sideName;
+                }
+                
                 if (param.sideName === MainController.$.model.playerParam.sideName)
                 {
                     MainController.$.model.playerParam.selectCommanderName = null;
@@ -1010,6 +1023,7 @@ package scene.talk
                 {
                     if (MainController.$.view.battleMap != null && MainController.$.view.battleMap.mapPanel != null)
                     {
+                        MainController.$.view.battleMap.mapTalkFlg = false;
                         MainController.$.view.battleMap.mapPanel.showPanel(BattleMapPanel.PANEL_SYSTEM);
                     }
                 }

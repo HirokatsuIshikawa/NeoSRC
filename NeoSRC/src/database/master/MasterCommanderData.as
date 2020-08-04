@@ -1,6 +1,7 @@
 package database.master
 {
     import database.master.base.MasterParamData;
+    import starling.utils.MathUtil;
     
     /**
      * ...
@@ -19,7 +20,10 @@ package database.master
         private var _id:int = 0;
         
         public function get id():int  { return _id; }
+        /**Lv*/
+        private var _MaxLv:int = 0;
         
+        public function get MaxLv():int  { return _MaxLv; }
         /**キャラ名*/
         private var _name:String = null;
         
@@ -61,6 +65,7 @@ package database.master
             _name = data.name;
             _nickName = data.nickName;
             _charaImgName = data.charaImg;
+            _MaxLv = MathUtil.max(data.MaxLv, 1);
             
             //各種ステータス
             for (i = 0; i < DATA_TYPE.length; i++)

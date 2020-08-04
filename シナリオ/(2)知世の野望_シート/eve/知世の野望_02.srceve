@@ -699,6 +699,8 @@ Call 会話終了チェック
 MapTalk
 
 スライム情報:
+JoinCommander name:大道寺知世 Lv:1 
+SetCommander name:大道寺知世 sidename:さくらチーム
 AddLayer name:キャラクター alpha:0
 CharaLayer name:キャラクター
 Set name:スライム情報フラグ value:1
@@ -981,7 +983,7 @@ Exit
 
 マップスタート:
 LoadMap file:ポテト平原.map
-
+SetCommander name:大道寺知世 Lv:1 side:さくらちゃんチーム
 Talk ロッドアタッカー
 これでよし……と
 

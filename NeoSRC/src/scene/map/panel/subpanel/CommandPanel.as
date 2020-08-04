@@ -46,8 +46,6 @@ package scene.map.panel.subpanel
 		
 		override public function dispose():void
 		{
-			
-			
 			_btnMove.removeEventListener(Event.TRIGGERED, MainController.$.view.battleMap.moveAreaSet);
 			_btnMove.dispose();
 			_btnMove = null;

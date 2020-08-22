@@ -13,8 +13,8 @@ package database.master
         public static const INPUT_TYPE:Array = ["HP", "FP", "攻撃", "防御", "技術", "敏捷", "潜在", "精神", "移動"];
         public static const DATA_TYPE:Array = ["HP", "FP", "ATK", "DEF", "TEC", "SPD", "CAP", "MND", "MOV"];
         
-        public static const ADD_INPUT_TYPE:Array = ["命中", "回避", "策略", "回復"];
-        public static const ADD_DATA_TYPE:Array = ["HIT", "EVA", "Point", "Heal"];
+        public static const ADD_INPUT_TYPE:Array = ["命中", "回避", "策略", "回復", "補給"];
+        public static const ADD_DATA_TYPE:Array = ["HIT", "EVA", "Point", "Heal", "Supply"];
         
         /**識別用ID*/
         private var _id:int = 0;
@@ -35,19 +35,19 @@ package database.master
         public function get nickName():String  { return _nickName; }
         
         /**策略ポイント*/
-        private var _Point_Max:int = 0;
-        private var _Point_Min:int = 0;
-        private var _Heal_Max:int = 0;
-        private var _Heal_Min:int = 0;
-        private var _Supply_Max:int = 0;
-        private var _Supply_Min:int = 0;
+        public var Point_Max:int = 0;
+        public var Point_Min:int = 0;
+        public var Heal_Max:int = 0;
+        public var Heal_Min:int = 0;
+        public var Supply_Max:int = 0;
+        public var Supply_Min:int = 0;
         
         /**命中*/
-        private var _HIT_Max:int = 0;
-        private var _HIT_Min:int = 0;
+        public var HIT_Max:int = 0;
+        public var HIT_Min:int = 0;
         /**回避*/
-        private var _EVA_Max:int = 0;
-        private var _EVA_Min:int = 0;
+        public var EVA_Max:int = 0;
+        public var EVA_Min:int = 0;
         
         /**スキルデータ*/
         private var _skillDataList:Vector.<MasterSkillData> = null;
@@ -95,20 +95,20 @@ package database.master
                 // 最小値、値がない場合はデフォルト値
                 if (data.hasOwnProperty(ADD_DATA_TYPE[i]))
                 {
-                    this["_" + ADD_DATA_TYPE[i] + "_Min"] = data[ADD_DATA_TYPE[i]];
+                    this[ADD_DATA_TYPE[i] + "_Min"] = data[ADD_DATA_TYPE[i]];
                 }
                 else
                 {
-                    this["_" + ADD_DATA_TYPE[i] + "_Min"] = 0;
+                    this[ADD_DATA_TYPE[i] + "_Min"] = 0;
                 }
                 // 最大値、値がない場合は最低値と同値
                 if (data.hasOwnProperty(ADD_DATA_TYPE[i] + "_Max"))
                 {
-                    this["_" + ADD_DATA_TYPE[i] + "_Max"] = data[ADD_DATA_TYPE[i] + "_Max"];
+                    this[ADD_DATA_TYPE[i] + "_Max"] = data[ADD_DATA_TYPE[i] + "_Max"];
                 }
                 else
                 {
-                    this["_" + ADD_DATA_TYPE[i] + "_Max"] = this["_" + ADD_DATA_TYPE[i] + "_Min"];
+                    this[ADD_DATA_TYPE[i] + "_Max"] = this[ADD_DATA_TYPE[i] + "_Min"];
                 }
             }
             

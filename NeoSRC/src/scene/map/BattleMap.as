@@ -891,7 +891,7 @@ package scene.map
             _statusWindow.setCommanderData(_sideState[sideNumber].commander);
             addChild(_statusWindow);
             _statusWindow.visible = true;
-            MainController.$.view.addChild(_statusWindow);
+            //MainController.$.view.addChild(_statusWindow);
             
             if (_mapTalkFlg)
             {

@@ -29,6 +29,7 @@ package viewitem.status
      */
     public class BaseStatusWindow extends WindowItemBase
     {
+        public static const COMMAND_IMG_LIST:Array = ["_atkImg","_defImg","_tecImg","_spdImg","_mndImg","_capImg","_movImg","_hitImg","_evaImg","_healImg", "_supplyImg"];
         private var _data:UnitCharaData = null;
         /**画像板*/
         private var _faceImgBoard:ImageBoard = null;
@@ -48,6 +49,11 @@ package viewitem.status
         private var _mndImg:ImgNumber = null;
         private var _capImg:ImgNumber = null;
         private var _movImg:ImgNumber = null;
+        private var _hitImg:ImgNumber = null;
+        private var _evaImg:ImgNumber = null;
+        private var _spImg:ImgNumber = null;
+        private var _healImg:ImgNumber = null;
+        private var _supplyImg:ImgNumber = null;
         
         private const ST_LEFT_X:int = 8;
         private const ST_RIGHT_X:int = 156;
@@ -73,48 +79,21 @@ package viewitem.status
             _nameTxt.width = 304;
             
             _lvImg = new ImgNumber();
-            _lvImg.x = 8;
-            _lvImg.y = 32;
-            
             _hpImg = new ImgNumber();
-            _hpImg.x = 8;
-            _hpImg.y = 64;
-            
             _fpImg = new ImgNumber();
-            _fpImg.x = 8;
-            _fpImg.y = 96;
-            
             _tpImg = new ImgNumber();
-            _tpImg.x = 8;
-            _tpImg.y = 128;
-            
             _atkImg = new ImgNumber();
-            _atkImg.x = ST_LEFT_X;
-            _atkImg.y = ST_BASE_Y + ST_BETWEEN_Y * 0;
-            
             _defImg = new ImgNumber();
-            _defImg.x = ST_RIGHT_X;
-            _defImg.y = ST_BASE_Y + ST_BETWEEN_Y * 0;
-            
             _tecImg = new ImgNumber();
-            _tecImg.x = ST_LEFT_X;
-            _tecImg.y = ST_BASE_Y + ST_BETWEEN_Y * 1;
-            
             _spdImg = new ImgNumber();
-            _spdImg.x = ST_RIGHT_X;
-            _spdImg.y = ST_BASE_Y + ST_BETWEEN_Y * 1;
-            
             _mndImg = new ImgNumber();
-            _mndImg.x = ST_LEFT_X;
-            _mndImg.y = ST_BASE_Y + ST_BETWEEN_Y * 2;
-            
             _capImg = new ImgNumber();
-            _capImg.x = ST_RIGHT_X;
-            _capImg.y = ST_BASE_Y + ST_BETWEEN_Y * 2;
-            
             _movImg = new ImgNumber();
-            _movImg.x = ST_LEFT_X;
-            _movImg.y = ST_BASE_Y + ST_BETWEEN_Y * 3;
+            _spImg = new ImgNumber();
+            _healImg = new ImgNumber();
+            _supplyImg = new ImgNumber();
+            _hitImg = new ImgNumber();
+            _evaImg = new ImgNumber();
         }
         
         override public function dispose():void
@@ -144,6 +123,11 @@ package viewitem.status
             _mndImg.dispose();
             _capImg.dispose();
             _movImg.dispose();
+            _hitImg.dispose();
+            _evaImg.dispose();
+            _spImg.dispose();
+            _healImg.dispose();
+            _supplyImg.dispose();
             
             _lvImg = null;
             _hpImg = null;
@@ -156,6 +140,11 @@ package viewitem.status
             _mndImg = null;
             _capImg = null;
             _movImg = null;
+            _hitImg = null;
+            _evaImg = null;
+            _spImg = null;
+            _healImg = null;
+            _supplyImg = null;
             super.dispose();
         }
         
@@ -165,7 +154,7 @@ package viewitem.status
             //マスターキャラデータ取得
             _data = data;
             var charaData:MasterCharaData = CharaDataUtil.getMasterCharaDataName(data.masterData.name);
-            
+            setPosCharaParam();
             imgSet(charaData.charaImgName);
             
             _nameTxt.text = charaData.nickName;
@@ -262,7 +251,7 @@ package viewitem.status
         public function setCommanderData(data:CommanderData):void
         {
             var charaData:MasterCommanderData = CharaDataUtil.getMasterCommanderDataName(data.masterData.name);
-            
+            setPosCommanderParam(data);
             imgSet(charaData.charaImgName);
             
             _nameTxt.text = charaData.nickName;
@@ -274,7 +263,6 @@ package viewitem.status
             var i:int = 0;
             var j:int = 0;
             
-            var paramColor:Vector.<uint> = new Vector.<uint>();
             var addParam:BaseParam = new BaseParam();
             
             // ステータスレシオ
@@ -289,9 +277,9 @@ package viewitem.status
             }
             
             //基本ステータスゲット
-            for (i = 0; i < MasterCharaData.DATA_TYPE.length; i++)
+            for (i = 0; i < MasterCommanderData.DATA_TYPE.length; i++)
             {
-                var str:String = MasterCharaData.DATA_TYPE[i];
+                var str:String = MasterCommanderData.DATA_TYPE[i];
                 var addPoint:int = Math.floor((data.masterData.maxParam[str] - data.masterData.minParam[str]) * ratio);
                 
                 var point:int = data.masterData.minParam[str] + addPoint;
@@ -300,12 +288,9 @@ package viewitem.status
             
             _lvImg.setNumber(data.nowLv, ImgNumber.TYPE_STATE_Lv);
             addChild(_lvImg);
-            _hpImg.setNumber(data.param.HP, ImgNumber.TYPE_STATE_HP);
-            addChild(_hpImg);
-            _fpImg.setNumber(data.param.FP, ImgNumber.TYPE_STATE_FP);
-            addChild(_fpImg);
-            _tpImg.setNumber(data.Point, ImgNumber.TYPE_STATE_TP);
-            addChild(_tpImg);
+            
+            _spImg.setMaxNumber(data.nowPoint, data.Point, ImgNumber.TYPE_STATE_SP);
+            addChild(_spImg);
             _atkImg.setNumber(data.param.ATK, ImgNumber.TYPE_STATE_ATK);
             addChild(_atkImg);
             _defImg.setNumber(data.param.DEF, ImgNumber.TYPE_STATE_DEF);
@@ -320,6 +305,14 @@ package viewitem.status
             addChild(_capImg);
             _movImg.setNumber(data.param.MOV, ImgNumber.TYPE_STATE_MOV);
             addChild(_movImg);
+            _hitImg.setNumber(data.param.HIT, ImgNumber.TYPE_STATE_HIT);
+            addChild(_hitImg);
+            _evaImg.setNumber(data.param.EVA, ImgNumber.TYPE_STATE_EVA);
+            addChild(_evaImg);
+            _healImg.setNumber(data.Heal, ImgNumber.TYPE_STATE_HEAL);
+            addChild(_healImg);
+            _supplyImg.setNumber(data.Supply, ImgNumber.TYPE_STATE_SUPPLY);
+            addChild(_supplyImg);
         
             //this.addEventListener(TouchEvent.TOUCH, clickHandler);
         }
@@ -334,7 +327,6 @@ package viewitem.status
             
             for (i = 0; i < imgData.basicList.length; i++)
             {
-                //var faceImg:CImage = new CImage(TextureManager.loadTexture(imgData.imgUrl, imgData.getFileName(imgData.basicList[i]), TextureManager.TYPE_CHARA));
                 var faceImg:CImage = new CImage(MainController.$.imgAsset.getTexture(imgData.getFileName(imgData.basicList[i])));
                 _faceImgBoard.addImage(faceImg, imgData.defaultType);
             }
@@ -394,6 +386,89 @@ package viewitem.status
                 _windowImg.color = 0xFFFFFF;
             }
         }
+        
+        /**ステータス位置セット*/
+        private function setPosCommanderParam(data:CommanderData):void
+        {
+            _lvImg.visible = true;
+            _spImg.visible = true;
+            _hpImg.visible = false;
+            _fpImg.visible = false;
+            _tpImg.visible = false;
+            _atkImg.visible = data.param.ATK > 0 ? true : false;
+            _defImg.visible = data.param.DEF > 0 ? true : false;
+            _tecImg.visible = data.param.TEC > 0 ? true : false;
+            _spdImg.visible = data.param.SPD > 0 ? true : false;
+            _mndImg.visible = data.param.MND > 0 ? true : false;
+            _capImg.visible = data.param.CAP > 0 ? true : false;
+            _movImg.visible = data.param.MOV > 0 ? true : false;
+            _hitImg.visible = data.HIT > 0 ? true : false;
+            _evaImg.visible = data.EVA > 0 ? true : false;
+            _supplyImg.visible = data.Supply > 0 ? true : false;
+            _healImg.visible = data.Heal > 0 ? true : false;
+            
+            _lvImg.x = 8;
+            _lvImg.y = 32;
+            
+            _spImg.x = 8;
+            _spImg.y = 64;
+            
+            var posYCount:int = 0;
+            
+            for (var i:int = 0; i < COMMAND_IMG_LIST.length; i++  )
+            {
+                if (this[COMMAND_IMG_LIST[i]].visible == true)
+                {
+                    this[COMMAND_IMG_LIST[i]].x = ST_LEFT_X;
+                    this[COMMAND_IMG_LIST[i]].y = 104 + ST_BETWEEN_Y * posYCount;
+                    posYCount++;
+                }
+            }
+        }
+        
+        /**ステータス位置セット*/
+        private function setPosCharaParam():void
+        {
+            _lvImg.visible = true;
+            _hpImg.visible = true;
+            _fpImg.visible = true;
+            _tpImg.visible = true;
+            _atkImg.visible = true;
+            _defImg.visible = true;
+            _tecImg.visible = true;
+            _spdImg.visible = true;
+            _mndImg.visible = true;
+            _capImg.visible = true;
+            _movImg.visible = true;
+            _hitImg.visible = false;
+            _evaImg.visible = false;
+            _spImg.visible = false;
+            _healImg.visible = false;
+            _supplyImg.visible = false;
+            _lvImg.x = 8;
+            _lvImg.y = 32;
+            _hpImg.x = 8;
+            _hpImg.y = 64;
+            _fpImg.x = 8;
+            _fpImg.y = 96;
+            _tpImg.x = 8;
+            _tpImg.y = 128;
+            _atkImg.x = ST_LEFT_X;
+            _atkImg.y = ST_BASE_Y + ST_BETWEEN_Y * 0;
+            _defImg.x = ST_RIGHT_X;
+            _defImg.y = ST_BASE_Y + ST_BETWEEN_Y * 0;
+            _tecImg.x = ST_LEFT_X;
+            _tecImg.y = ST_BASE_Y + ST_BETWEEN_Y * 1;
+            _spdImg.x = ST_RIGHT_X;
+            _spdImg.y = ST_BASE_Y + ST_BETWEEN_Y * 1;
+            _mndImg.x = ST_LEFT_X;
+            _mndImg.y = ST_BASE_Y + ST_BETWEEN_Y * 2;
+            _capImg.x = ST_RIGHT_X;
+            _capImg.y = ST_BASE_Y + ST_BETWEEN_Y * 2;
+            _movImg.x = ST_LEFT_X;
+            _movImg.y = ST_BASE_Y + ST_BETWEEN_Y * 3;
+        }
+    
     }
 
 }

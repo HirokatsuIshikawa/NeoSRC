@@ -15,12 +15,10 @@ package database.user
         
         /**パラメーター*/
         private var _param:BaseParam = null;
-        /**HP*/
-        private var _HP:int = 0;
-        /**FP*/
-        private var _FP:int = 0;
         /**策略ポイント*/
         private var _Point:int = 0;
+        /**策略ポイント*/
+        private var _nowPoint:int = 0;
         /**ターン回復*/
         private var _Heal:int = 0;
         /**ターン補給*/
@@ -68,6 +66,31 @@ package database.user
         public function get Point():int 
         {
             return _Point;
+        }
+        
+        public function get nowPoint():int 
+        {
+            return _nowPoint;
+        }
+        
+        public function get HIT():int 
+        {
+            return _HIT;
+        }
+        
+        public function get EVA():int 
+        {
+            return _EVA;
+        }
+        
+        public function get Supply():int 
+        {
+            return _Supply;
+        }
+        
+        public function get Heal():int 
+        {
+            return _Heal;
         }
         
         public function set nowLv(value:int):void 
@@ -121,14 +144,25 @@ package database.user
                 ratio = (setLv - 1.0) / (_masterData.MaxLv - 1.0);
             }
             
-            for (i = 0; i < MasterCharaData.DATA_TYPE.length; i++)
+            for (i = 0; i < MasterCommanderData.DATA_TYPE.length; i++)
             {
-                var str:String = MasterCharaData.DATA_TYPE[i];
+                var str:String = MasterCommanderData.DATA_TYPE[i];
                 var addPoint:int = Math.floor((_masterData.maxParam[str] - _masterData.minParam[str]) * ratio);
                 
                 var point:int = _masterData.minParam[str] + addPoint;
                 this.param[BaseParam.STATUS_STR[i]] = point;
             }
+            
+            for (i = 0; i < MasterCommanderData.ADD_DATA_TYPE.length; i++)
+            {
+                var maxStr:String = MasterCommanderData.ADD_DATA_TYPE[i] + "_Max";
+                var minStr:String = MasterCommanderData.ADD_DATA_TYPE[i] + "_Min";
+                addPoint = Math.floor((_masterData[maxStr] - _masterData[minStr]) * ratio);
+                point = _masterData[minStr] + addPoint;
+                this["_" + MasterCommanderData.ADD_DATA_TYPE[i]] = point;
+            }
+            
+            _nowPoint = _Point;
         }
         
         

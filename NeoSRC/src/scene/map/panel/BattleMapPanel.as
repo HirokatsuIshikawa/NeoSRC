@@ -90,7 +90,7 @@ package scene.map.panel
                 _commandPanel.showPlayer(false);
                 addChild(_commandPanel);
                 break;
-            
+            //移動
             case PANEL_MOVE: 
                 addChild(_movePanel);
                 break;

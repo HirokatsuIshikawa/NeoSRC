@@ -82,7 +82,7 @@ package converter.parse
                     switch (state)
                     {
                     case STATE_DATA: 
-                        ParseCommon.parseData(data[count], line);
+                        ParseCommon.parseData(data[count], line, true);
                         break;
                     case STATE_IMG: 
                         ParseCommon.parseImg(data[count], line);

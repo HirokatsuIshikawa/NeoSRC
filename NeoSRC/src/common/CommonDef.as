@@ -165,6 +165,11 @@ package common
 		{
 			for each (var object:Object in array)
 			{
+                if (object == null)
+                {
+                    continue;
+                }
+                
 				if (object is Array || (object.hasOwnProperty("length") && object.length > 0 && object[0].hasOwnProperty("dispose")))
 				{
 					//再帰的に実行

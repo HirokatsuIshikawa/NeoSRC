@@ -12,55 +12,41 @@ package scene.map.panel.subpanel
 	 * ...
 	 * @author ishikawa
 	 */
-	public class CommandPanel extends CSprite
+	public class CommanderPanel extends CSprite
 	{
-		
-		
-		private var _btnMove:CImgButton = null;
 		private var _btnSp:CImgButton = null;
 		private var _btnBack:CImgButton = null;
 		
-		public function CommandPanel() 
+		public function CommanderPanel() 
 		{
 			super();
-			_btnMove = new CImgButton(MainController.$.imgAsset.getTexture("btn_Act"));
-			_btnSp = new CImgButton(MainController.$.imgAsset.getTexture("btn_Act"));
+			_btnSp = new CImgButton(MainController.$.imgAsset.getTexture("btn_Skill"));
 			_btnBack = new CImgButton(MainController.$.imgAsset.getTexture("btn_Return"));
 			
-			_btnMove.x = BattleMapPanel.BTN_INTERBAL * 0;
 			_btnSp.x = BattleMapPanel.BTN_INTERBAL * 1;
 			_btnBack.x = BattleMapPanel.BTN_INTERBAL * 2;
 			
-			_btnMove.y = BattleMapPanel.UNDER_LINE;
 			_btnSp.y = BattleMapPanel.UNDER_LINE;
 			_btnBack.y = BattleMapPanel.UNDER_LINE;
 			
 			
-			_btnMove.addEventListener(Event.TRIGGERED, MainController.$.view.battleMap.moveAreaSet);
+			_btnSp.addEventListener(Event.TRIGGERED, MainController.$.view.battleMap.showCommanderSkillList);
 			_btnBack.addEventListener(Event.TRIGGERED, MainController.$.view.battleMap.backMove);
 			
-			addChild(_btnMove);
+			addChild(_btnSp);
 			addChild(_btnBack);
 			
 		}
 		
 		override public function dispose():void
 		{
-			_btnMove.removeEventListener(Event.TRIGGERED, MainController.$.view.battleMap.moveAreaSet);
-			_btnMove.dispose();
-			_btnMove = null;
-			
-			_btnBack.removeEventListener(Event.TRIGGERED, MainController.$.view.battleMap.backMove);
-			_btnBack.dispose();
-			_btnBack = null;
+            CommonDef.disposeList([_btnSp, _btnBack]);
 			super.dispose();
 		}
 		
 		/**味方の時に表示*/
 		public function showPlayer(flg:Boolean):void
 		{
-			
-			_btnMove.visible = flg;
 			_btnSp.visible = flg;
 			_btnBack.visible = true;
 		}

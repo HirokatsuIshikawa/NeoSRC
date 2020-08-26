@@ -1,6 +1,7 @@
 package scene.map
 {
     import a24.tween.Tween24;
+    import database.master.MasterCommanderSkillData;
     import database.user.CommanderData;
     import scene.map.basepoint.MapPicture;
     import scene.map.customdata.EnemyMoveData;
@@ -69,11 +70,6 @@ package scene.map
         
         /**マップ絵*/
         private var _mapPictureList:Vector.<MapPicture>;
-        
-        /** 各勢力ユニットリスト */
-        //private var _battleUnit:Vector.<Vector.<BattleUnit>> = null;
-        
-        //現在戦闘中ユニットはnowBattleUnitで取得
         
         /**ターゲットユニット*/
         private var _targetUnit:BattleUnit = null;
@@ -831,30 +827,6 @@ package scene.map
         
         }
         
-        // 出撃パーティクル
-        /*
-           public function launchParticle(posX:int, posY:int):Tween24
-           {
-           var tex:Texture = MainController.$.imgAsset.getTexture("pex_fire");
-           var particles:ParticleSystem;
-           particles = new PDParticleSystem(CommonDef.LAUNCH_XML, tex);
-           particles.start();
-           particles.emitterX = posX * MAP_SIZE - MAP_SIZE / 2;
-           particles.emitterY = posY * MAP_SIZE - MAP_SIZE / 2;
-           Starling.juggler.add(particles);
-           particles.visible = true;
-           particles.alpha = 1;
-           _frameArea.addChild(particles);
-           return Tween24.tween(particles, 0.3, Tween24.ease.CubicOut).fadeOut().onComplete(endParticle);
-        
-           function endParticle():void
-           {
-           _frameArea.removeChild(particles);
-           Starling.juggler.remove(particles);
-           }
-           }
-         */
-        
         // 新規戦闘ユニットID取得
         public function getNewBattleID():int
         {
@@ -884,8 +856,7 @@ package scene.map
             MainController.$.view.addChild(_statusWindow);
         }
         
-        
-        /**ステータス画面表示*/
+        /**軍師ステータス画面表示*/
         public function showCommanderStatusWindow(sideNumber:int):void
         {
             _statusWindow.setCommanderData(_sideState[sideNumber].commander);
@@ -895,11 +866,11 @@ package scene.map
             
             if (_mapTalkFlg)
             {
-                _battleMapPanel.showPanel(BattleMapPanel.PANEL_COMMAND_ENEMY);
+                _battleMapPanel.showPanel(BattleMapPanel.PANEL_COMMANDER);
             }
             else
             {
-                _battleMapPanel.showPanel(BattleMapPanel.PANEL_COMMAND);
+                _battleMapPanel.showPanel(BattleMapPanel.PANEL_COMMANDER);
             }
         }
         
@@ -1152,6 +1123,13 @@ package scene.map
             MainController.$.view.addChild(_battleMapPanel);
         }
         
+        /**軍師スキルリスト表示*/
+        public function showCommanderSkillList():void
+        {
+            _battleMapPanel.showPanel(BattleMapPanel.PANEL_COMMANDER_SKILL);
+            MainController.$.view.addChild(_battleMapPanel);
+        }
+        
         /**武器リスト戻る*/
         public function removeWeaponList():void
         {
@@ -1161,12 +1139,19 @@ package scene.map
             MainController.$.view.addChild(_battleMapPanel);
         }
         
-        /**武器リスト戻る*/
+        /**スキルリスト戻る*/
         public function removeSkillList():void
         {
             visibleMoveAreaImg(true);
             visibleRootAreaImg(true);
             _battleMapPanel.showPanel(BattleMapPanel.PANEL_MOVE);
+            MainController.$.view.addChild(_battleMapPanel);
+        }
+        
+        /**軍師スキルリスト戻る*/
+        public function removeCommanderSkillList():void
+        {
+            _battleMapPanel.showPanel(BattleMapPanel.PANEL_COMMANDER);
             MainController.$.view.addChild(_battleMapPanel);
         }
         
@@ -1444,7 +1429,7 @@ package scene.map
             MainController.$.view.addChild(_battleMapPanel);
         }
         
-        /**攻撃範囲作成*/
+        /**スキル範囲作成*/
         public function makeSkillArea(data:MasterSkillData, target:int = MasterSkillData.SKILL_TARGET_ALL):void
         {
             _selectActType = ACT_TYPE_SKILL;
@@ -1464,6 +1449,49 @@ package scene.map
             checkAttackArea(_nowMovePosX - 1, _nowMovePosY, _nowMovePosX, _nowMovePosY, data.minRange, data.maxRange);
             checkAttackArea(_nowMovePosX, _nowMovePosY + 1, _nowMovePosX, _nowMovePosY, data.minRange, data.maxRange);
             checkAttackArea(_nowMovePosX, _nowMovePosY - 1, _nowMovePosX, _nowMovePosY, data.minRange, data.maxRange);
+            /** 攻撃範囲パネルセット */
+            attackAreaPanelSet();
+            _battleMapPanel.showPanel(BattleMapPanel.PANEL_SELECT_SKILL_TARGET);
+            MainController.$.view.addChild(_battleMapPanel);
+        }
+        
+        /**軍師スキル範囲作成*/
+        public function makeCommanderSkillArea(data:MasterCommanderSkillData, target:int = MasterSkillData.SKILL_TARGET_ALL):void
+        {
+            _selectActType = ACT_TYPE_SKILL;
+            _selectActTargetType = target;
+            visibleMoveAreaImg(false);
+            visibleRootAreaImg(false);
+            
+            for (var i:int = 0; i < _sideState.length; i++)
+            {
+                //味方は飛ばす
+                if (i == 0 && data.target === MasterCommanderSkillData.SKILL_TARGET_ENEMY)
+                {
+                    continue;
+                }
+                
+                for (var j:int = 0; j < _sideState[i].battleUnit.length; j++)
+                {
+                    var unit:BattleUnit = _sideState[i].battleUnit[j];
+                    var pos:int = unit.PosY * _mapWidth + unit.PosX;
+                    var terrain:TerrainData = _terrainDataList[pos];
+                    
+                    //マップ上に居れば対象にする
+                    if (unit.onMap)
+                    {
+                        terrain.isAttackSelect = true;
+                    }
+                }
+                
+                //味方以外は飛ばす
+                if (i == 0 && data.target === MasterCommanderSkillData.SKILL_TARGET_ALLY)
+                {
+                    break;
+                }
+                
+            }
+            
             /** 攻撃範囲パネルセット */
             attackAreaPanelSet();
             _battleMapPanel.showPanel(BattleMapPanel.PANEL_SELECT_SKILL_TARGET);
@@ -1870,7 +1898,6 @@ package scene.map
             {
                 checkExtinction();
             }
-        
         }
         
         /**経験値取得*/
@@ -1956,7 +1983,6 @@ package scene.map
                 unit.levelUp(lvUp);
                 unit.commanderStatusSet(_sideState[sideNum].commander);
                 _statusWindow.setCharaData(unit, false);
-                //Tween24.wait(3.0).onComplete(lvUpEnd).play();
             }
             
             function lvUpEnd():void
@@ -1965,7 +1991,6 @@ package scene.map
                 img.dispose();
                 img = null;
                 hideStatusWindow();
-                //checkExtinction();
                 searchDefeatEvent();
             }
         
@@ -2017,10 +2042,6 @@ package scene.map
         {
             terrainDataReset();
             _battleResultManager.attackFlg = false;
-            //_battleMapPanel.showPanel(BattleMapPanel.PANEL_SYSTEM);
-            //MainController.$.view.addChild(_battleMapPanel);
-            //var unit:BattleUnit = _battleUnit[_selectSide][_selectUnit];
-            //unit.moveEnd();
             MainController.$.view.eveManager.searchMapMoveEvent(nowBattleUnit, _selectSide, ActionAllEnd, MapEventData.TYPE_MATH_IN);
         }
         
@@ -2079,7 +2100,7 @@ package scene.map
                 addEventListener(TouchEvent.TOUCH, startAttackHandler);
                 break;
             //マップ会話
-            case BattleMapPanel.PANEL_MAP_TALK:
+            case BattleMapPanel.PANEL_MAP_TALK: 
                 hideStatusWindow();
                 addEventListener(TouchEvent.TOUCH, mouseOperated);
                 addEventListener(TouchEvent.TOUCH, startMapTalkHandler);
@@ -2703,7 +2724,6 @@ package scene.map
                 _battleActionPanel = new BattleActionPanel();
             }
             _battleMapPanel.showPanel(BattleMapPanel.PANEL_NONE);
-            //_battleActionPanel.setUnit(nowBattleUnit, _targetUnit);
             _battleActionPanel.startBattleAnime(_battleResultManager.attackRecord, endBattleAnime);
             MainController.$.view.addChild(_battleActionPanel);
         }
@@ -2794,12 +2814,17 @@ package scene.map
             return _battleMapPanel;
         }
         
-        public function get mapTalkFlg():Boolean 
+        public function get mapTalkFlg():Boolean
         {
             return _mapTalkFlg;
         }
         
-        public function set mapTalkFlg(value:Boolean):void 
+        public function get statusWindow():BattleMapStatus
+        {
+            return _statusWindow;
+        }
+        
+        public function set mapTalkFlg(value:Boolean):void
         {
             _mapTalkFlg = value;
         }
@@ -2809,63 +2834,6 @@ package scene.map
         // その他
         //
         //-------------------------------------------------------------
-        
-        /** ユニット配置エリアソート（軽量化用） */
-        public function sortUnitArea(obj1:DisplayObject, obj2:DisplayObject):Number
-        {
-            var objUrl1:String = "";
-            var objUrl2:String = "";
-            var adv1:int = 0;
-            var adv2:int = 0;
-            var unit1Url:String = MainController.$.model.masterUnitImageData.getUnitImgName((obj1.parent as BattleUnit).masterData.unitsImgName);
-            var unit1Ur2:String = MainController.$.model.masterUnitImageData.getUnitImgName((obj2.parent as BattleUnit).masterData.unitsImgName);
-            
-            if (obj1.parent is BattleUnit)
-            {
-                objUrl1 = unit1Url;
-                adv1 = 100;
-            }
-            else
-            {
-                objUrl1 = "";
-            }
-            
-            if (obj2.parent is BattleUnit)
-            {
-                objUrl2 = unit1Ur2;
-                adv2 = 100;
-            }
-            else
-            {
-                objUrl2 = "";
-            }
-            
-            if (adv1 == 0 && adv2 == 0)
-            {
-                return 0;
-            }
-            else if (adv1 != adv2)
-            {
-                return adv2 - adv1;
-            }
-            else
-            {
-                var i:uint = 0;
-                while (true)
-                {
-                    var p:Number = objUrl1.charCodeAt(i) || 0;
-                    var n:Number = objUrl2.charCodeAt(i) || 0;
-                    p += adv1;
-                    n += adv2;
-                    
-                    var s:Number = p - n;
-                    if (s) return s;
-                    if (!p) break;
-                    i++;
-                }
-            }
-            return 0;
-        }
         
         /**マップ上にイベント画像追加*/
         public function setMapPicture(textureName:String, name:String, param:Object):void

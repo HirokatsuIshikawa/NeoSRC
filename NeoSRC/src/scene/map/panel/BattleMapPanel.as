@@ -1,14 +1,17 @@
 package scene.map.panel
 {
     import common.CommonDef;
+    import converter.parse.CommanderDataParse;
+    import scene.map.panel.subpanel.CommanderPanel;
     import scene.map.panel.subpanel.MapTalkPanel;
+    import scene.unit.CommanderSkillListPanel;
     import scene.unit.SkillListPanel;
     import scene.unit.WeaponListItem;
     import scene.unit.WeaponListPanel;
     import system.custom.customSprite.CSprite;
     import scene.main.MainController;
     import scene.map.battle.AttackListItem;
-    import scene.map.panel.subpanel.CommandPanel;
+    import scene.map.panel.subpanel.CharaCommandPanel;
     import scene.map.panel.subpanel.MovePanel;
     import scene.map.panel.subpanel.PredictionPanel;
     import scene.map.panel.subpanel.SelectTargetPanel;
@@ -35,6 +38,8 @@ package scene.map.panel
         public static const PANEL_ENEMY_TURN:int = 11;
         public static const PANEL_COUNTER_WEAPON:int = 12;
         public static const PANEL_MAP_TALK:int = 13;
+        public static const PANEL_COMMANDER:int = 14;
+        public static const PANEL_COMMANDER_SKILL:int = 15;
         
         public static const UNDER_LINE:int = CommonDef.WINDOW_H - 64;
         public static const BTN_INTERBAL:int = 96 + 18;
@@ -48,7 +53,9 @@ package scene.map.panel
         /**マップ会話パネル*/
         private var _mapTalkPanel:MapTalkPanel;
         /**キャラ選択後コマンドパネル*/
-        private var _commandPanel:CommandPanel;
+        private var _charaCommandPanel:CharaCommandPanel;
+        /**軍師コマンドパネル*/
+        private var _commanderPanel:CommanderPanel;
         /**移動時パネル*/
         private var _movePanel:MovePanel;
         /**ターゲット選択時パネル*/
@@ -57,19 +64,24 @@ package scene.map.panel
         private var _predictionPanel:PredictionPanel;
         /** 武器表示リストパネル*/
         private var _weaponPanel:WeaponListPanel = null;
-        /** 武器表示リストパネル*/
+        /** スキル表示リストパネル*/
         private var _skillPanel:SkillListPanel = null;
+        
+        /** 軍師スキル表示リストパネル*/
+        private var _commandSkillPanel:CommanderSkillListPanel = null;
         
         public function BattleMapPanel()
         {
             _systemPanel = new SystemPanel();
             _mapTalkPanel = new MapTalkPanel();
-            _commandPanel = new CommandPanel();
+            _charaCommandPanel = new CharaCommandPanel();
             _movePanel = new MovePanel();
             _selectTargetPanel = new SelectTargetPanel();
             _predictionPanel = new PredictionPanel();
             _weaponPanel = new WeaponListPanel();
             _skillPanel = new SkillListPanel();
+            _commanderPanel = new CommanderPanel();
+            _commandSkillPanel = new CommanderSkillListPanel();
         }
         
         public function showPanel(type:int):void
@@ -83,12 +95,12 @@ package scene.map.panel
                 addChild(_systemPanel);
                 break;
             case PANEL_COMMAND: 
-                _commandPanel.showPlayer(true);
-                addChild(_commandPanel);
+                _charaCommandPanel.showPlayer(true);
+                addChild(_charaCommandPanel);
                 break;
             case PANEL_COMMAND_ENEMY: 
-                _commandPanel.showPlayer(false);
-                addChild(_commandPanel);
+                _charaCommandPanel.showPlayer(false);
+                addChild(_charaCommandPanel);
                 break;
             //移動
             case PANEL_MOVE: 
@@ -132,8 +144,18 @@ package scene.map.panel
                 _mapTalkPanel.refresh();
                 addChild(_mapTalkPanel);
                 break;
+            //軍師コマンド
+            case PANEL_COMMANDER: 
+                _commanderPanel.showPlayer(true);
+                addChild(_commanderPanel);
+                break;
+            //軍師スキル
+            case PANEL_COMMANDER_SKILL: 
+                //選択中
+                _commandSkillPanel.setSkill(MainController.$.map.sideState[0].commander);
+                addChild(_commandSkillPanel);
+                break;
             }
-            
             MainController.$.view.battleMap.setTouchEvent(_nowPanelType);
         }
         
@@ -145,18 +167,13 @@ package scene.map.panel
         
         override public function dispose():void
         {
-            _systemPanel.dispose();
-            _commandPanel.dispose();
-            _movePanel.dispose();
-            _selectTargetPanel.dispose();
-            _predictionPanel.dispose();
-            _weaponPanel.dispose();
+            CommonDef.disposeList([_systemPanel, _charaCommandPanel, _movePanel, _selectTargetPanel, _predictionPanel, _weaponPanel, _skillPanel, _commandSkillPanel, _commanderPanel,]);
             super.dispose();
         }
         
-        public function get commandPanel():CommandPanel
+        public function get commandPanel():CharaCommandPanel
         {
-            return _commandPanel;
+            return _charaCommandPanel;
         }
         
         public function get movePanel():MovePanel
@@ -188,7 +205,12 @@ package scene.map.panel
         {
             _nowPanelType = value;
         }
-                
+        
+        public function get commandSkillPanel():CommanderSkillListPanel
+        {
+            return _commandSkillPanel;
+        }
+        
         public function get counterAttackRange():int
         {
             return _counterAttackRange;
@@ -199,7 +221,5 @@ package scene.map.panel
             _systemPanel.setPosText(x, y);
         
         }
-    
     }
-
 }

@@ -1,26 +1,24 @@
 package scene.unit
 {
     import common.CommonDef;
-    import common.CommonSystem;
+    import database.master.MasterCommanderSkillData;
     import database.user.CommanderData;
-    import scene.commander.CommanderSkillListItem;
-    import system.custom.customSprite.CImgButton;
-    import system.custom.customSprite.CSprite;
-    import database.master.MasterSkillData;
     import flash.geom.Point;
+    import scene.commander.CommanderSkillListItem;
+    import scene.main.MainController;
+    import scene.map.panel.BattleMapPanel;
     import starling.events.Event;
     import starling.events.Touch;
     import starling.events.TouchEvent;
     import starling.events.TouchPhase;
-    import scene.main.MainController;
-    import scene.map.BattleMap;
-    import scene.map.panel.BattleMapPanel;
+    import system.custom.customSprite.CImgButton;
+    import system.custom.customSprite.CSprite;
     
     /**
      * ...
      * @author ...
      */
-    public class SkillListPanel extends CSprite
+    public class CommanderSkillListPanel extends CSprite
     {
         
         public static const BTN_WIDTH:int = 160;
@@ -32,7 +30,7 @@ package scene.unit
         // construction
         //
         //-------------------------------------------------------------
-        public function SkillListPanel()
+        public function CommanderSkillListPanel()
         {
             var i:int = 0;
             _btnBack = new CImgButton(MainController.$.imgAsset.getTexture("btn_Return"));
@@ -42,10 +40,11 @@ package scene.unit
             super();
         }
         
-        // スキル一覧セット
-        public function setSkill(unit:BattleUnit):void
+        
+        // 軍師スキル一覧セット
+        public function setSkill(commander:CommanderData):void
         {
-            var datalist:Vector.<MasterSkillData> = unit.masterData.skillDataList;
+            var datalist:Vector.<MasterCommanderSkillData> = commander.masterData.skillDataList;
             _counterEnable = false;
             var i:int = 0;
             var count:int = 0;
@@ -59,10 +58,10 @@ package scene.unit
             _baseSpr.addEventListener(TouchEvent.TOUCH, touchSpr);
             
             addChild(_baseSpr);
-            _itemList = new Vector.<SkillListItem>;
+            _itemList = new Vector.<CommanderSkillListItem>;
             for (i = 0; i < datalist.length; i++)
             {
-                var skillItem:SkillListItem = new SkillListItem(datalist[i], unit);
+                var skillItem:CommanderSkillListItem = new CommanderSkillListItem(datalist[i], commander);
                 
                 skillItem.x = (CommonDef.WINDOW_W - skillItem.width) / 2;
                 skillItem.y = count * 140;
@@ -80,29 +79,9 @@ package scene.unit
                 }
                 
                 //消費エネルギー
-                if (datalist[i].useFp > 0)
+                if (datalist[i].useSp > 0)
                 {
-                    if (unit.nowFp < datalist[i].useFp)
-                    {
-                        skillItem.touchable = false;
-                        skillItem.alpha = 0.5;
-                    }
-                }
-                
-                //必要TP
-                if (datalist[i].enableTp > 0)
-                {
-                    if (unit.nowTp < datalist[i].enableTp)
-                    {
-                        skillItem.touchable = false;
-                        skillItem.alpha = 0.5;
-                    }
-                }
-                
-                //消費TP
-                if (datalist[i].useTp > 0)
-                {
-                    if (unit.nowTp < datalist[i].useTp)
+                    if (commander.nowPoint < datalist[i].useSp)
                     {
                         skillItem.touchable = false;
                         skillItem.alpha = 0.5;
@@ -125,7 +104,6 @@ package scene.unit
             }
         }
         
-        
         //-------------------------------------------------------------
         //
         // override
@@ -133,19 +111,8 @@ package scene.unit
         //-------------------------------------------------------------
         override public function dispose():void
         {
-            
             removeItemList();
-            
             CommonDef.disposeList([_itemList, _btnBack, _baseSpr]);
-            /*
-            _btnBack.removeEventListener(Event.TRIGGERED, pushBackBtn);
-            _btnBack.dispose()
-            _btnBack = null;
-            _selectSkill = null;
-            _baseSpr.removeEventListener(TouchEvent.TOUCH, touchSpr);
-            _baseSpr.dispose();
-            _baseSpr = null;
-            */
             _selectSkill = null;
             super.dispose();
         }
@@ -162,8 +129,6 @@ package scene.unit
                     _itemList[i] = null;
                 }
             }
-
-        
         }
         
         //-------------------------------------------------------------
@@ -171,10 +136,10 @@ package scene.unit
         // component
         //
         //-------------------------------------------------------------
-        private var _itemList:Vector.<SkillListItem> = null;
+        private var _itemList:Vector.<CommanderSkillListItem> = null;
         private var _baseSpr:CSprite = null;
         private var _btnBack:CImgButton = null;
-        private var _selectSkill:MasterSkillData = null;
+        private var _selectSkill:MasterCommanderSkillData = null;
         private var _counterEnable:Boolean = false;
         
         //-------------------------------------------------------------
@@ -190,7 +155,7 @@ package scene.unit
         /**タッチイベント*/
         public function touchFunc(e:TouchEvent):void
         {
-            var target:SkillListItem = e.currentTarget as SkillListItem;
+            var target:CommanderSkillListItem = e.currentTarget as CommanderSkillListItem;
             var touch:Touch = e.getTouch(target, TouchPhase.ENDED);
             _selectSkill = target.data;
             if (touch != null)
@@ -206,7 +171,7 @@ package scene.unit
                         if (touch.globalX > target.x && touch.globalX < target.x + target.width && touch.globalY > target.y && touch.globalY < target.y + target.height)
                         {
                             _selectSkill = target.data;
-                            MainController.$.view.battleMap.makeSkillArea(target.data, _selectSkill.target);
+                            MainController.$.view.battleMap.makeCommanderSkillArea(target.data, _selectSkill.target);
                         }
                     }
                     _pushFlg = false;
@@ -293,10 +258,10 @@ package scene.unit
         /**武器リスト戻る*/
         public function pushBackBtn(e:Event):void
         {
-            MainController.$.view.battleMap.removeSkillList();
+            MainController.$.view.battleMap.removeCommanderSkillList();
         }
         
-        public function get selectSkill():MasterSkillData
+        public function get selectSkill():MasterCommanderSkillData
         {
             return _selectSkill;
         }

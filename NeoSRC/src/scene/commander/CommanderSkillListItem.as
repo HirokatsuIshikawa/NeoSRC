@@ -1,8 +1,10 @@
-package scene.unit
+package scene.commander
 {
     import common.CommonDef;
+    import database.master.MasterCommanderSkillData;
     import database.master.MasterSkillData;
     import database.master.MasterWeaponData;
+    import database.user.CommanderData;
     import scene.main.MainController;
     import starling.textures.Texture;
     import system.custom.customSprite.CImage;
@@ -14,7 +16,7 @@ package scene.unit
      * ...
      * @author ...
      */
-    public class SkillListItem extends ListItemBase
+    public class CommanderSkillListItem extends ListItemBase
     {
         // 名前
         private var _name:CTextArea = null;
@@ -38,8 +40,8 @@ package scene.unit
         private var _targetValue:CImage = null;
         
         //消費FP
-        private var _useFpMark:CImage = null;
-        private var _useFp:ImgNumber = null;
+        private var _useSpMark:CImage = null;
+        private var _useSp:ImgNumber = null;
         
         //使用回数
         private var _useCountMark:CImage = null;
@@ -55,14 +57,14 @@ package scene.unit
         private var _capImg:Vector.<CImage> = null;
         private var _capState:Vector.<CImage> = null;
         
-        private var _data:MasterSkillData = null;
+        private var _data:MasterCommanderSkillData = null;
         
         //-------------------------------------------------------------
         //
         // construction
         //
         //-------------------------------------------------------------
-        public function SkillListItem(data:MasterSkillData, unit:BattleUnit)
+        public function CommanderSkillListItem(data:MasterCommanderSkillData, commander:CommanderData)
         {
             super(640, 140);
             var i:int = 0;
@@ -87,7 +89,7 @@ package scene.unit
             //回復
             if (data.heal > 0)
             {
-                var heal:int = (int)(data.heal * unit.param.MND / 10.0);
+                var heal:int = (int)(data.heal);
                 _healImg = new CImage(MainController.$.imgAsset.getTexture("Skl_heal"));
                 _healImg.x = 8;
                 _healImg.y = nextPosY;
@@ -112,7 +114,7 @@ package scene.unit
             //補給
             if (data.supply > 0)
             {
-                var supply:int = (int)(data.supply * unit.param.MND / 10.0);
+                var supply:int = (int)(data.supply);
                 _supplyImg = new CImage(MainController.$.imgAsset.getTexture("Skl_spl"));
                 _supplyImg.x = nextPosX;
                 _supplyImg.y = nextPosY;
@@ -166,59 +168,26 @@ package scene.unit
                 nextPosX += 32;
             }
             
-            //射程
-            
-            _RangeImg = new CImage(MainController.$.imgAsset.getTexture("Wpn_Rng"));
-            _RangeImg.x = nextPosX;
-            _RangeImg.y = nextPosY;
-            addChild(_RangeImg);
-            nextPosX = _RangeImg.x + _RangeImg.width;
-            
-            _RangeMinValue = new ImgNumber();
-            _RangeMinValue.setNumber(data.minRange);
-            _RangeMinValue.x = nextPosX;
-            _RangeMinValue.y = nextPosY;
-            addChild(_RangeMinValue);
-            nextPosX = _RangeMinValue.x + _RangeMinValue.width;
-            
-            //最大射程と最少射程が異なる場合
-            if (data.minRange < data.maxRange)
-            {
-                _RangeBetween = new CImage(MainController.$.imgAsset.getTexture("minus"));
-                _RangeBetween.x = nextPosX + 8;
-                _RangeBetween.y = nextPosY;
-                addChild(_RangeBetween);
-                nextPosX = _RangeBetween.x + _RangeBetween.width;
-                
-                _RangeMaxValue = new ImgNumber();
-                _RangeMaxValue.setNumber(data.maxRange);
-                _RangeMaxValue.x = nextPosX + 8;
-                _RangeMaxValue.y = nextPosY;
-                addChild(_RangeMaxValue);
-                nextPosX = _RangeMaxValue.x + _RangeMaxValue.width;
-            }
-            
-            nextPosX += 32;
             
             ///////////////////////////////////////////////2段目//////////////////////////////////////////
             nextPosX = 8;
             nextPosY = 80;
             
             //FP表示
-            if (data.useFp > 0)
+            if (data.useSp > 0)
             {
-                _useFpMark = new CImage(MainController.$.imgAsset.getTexture("Wpn_Fp"));
-                _useFpMark.x = nextPosX;
-                _useFpMark.y = nextPosY;
-                addChild(_useFpMark);
-                nextPosX = _useFpMark.x + _useFpMark.width;
+                _useSpMark = new CImage(MainController.$.imgAsset.getTexture("Wpn_Sp"));
+                _useSpMark.x = nextPosX;
+                _useSpMark.y = nextPosY;
+                addChild(_useSpMark);
+                nextPosX = _useSpMark.x + _useSpMark.width;
                 
-                _useFp = new ImgNumber();
-                _useFp.x = nextPosX;
-                _useFp.y = nextPosY;
-                _useFp.setNumber(data.useFp);
-                addChild(_useFp);
-                nextPosX = _useFp.x + _useFp.width;
+                _useSp = new ImgNumber();
+                _useSp.x = nextPosX;
+                _useSp.y = nextPosY;
+                _useSp.setNumber(data.useSp);
+                addChild(_useSp);
+                nextPosX = _useSp.x + _useSp.width;
             }
             
             //回数表示
@@ -251,22 +220,6 @@ package scene.unit
                 nextPosX = _maxCount.x + _maxCount.width;
             }
             
-            //TP表示
-            if (data.enableTp > 0)
-            {
-                _useTpMark = new CImage(MainController.$.imgAsset.getTexture("Wpn_Tp"));
-                _useTpMark.x = nextPosX;
-                _useTpMark.y = nextPosY;
-                addChild(_useTpMark);
-                nextPosX = _useTpMark.x + _useTpMark.width;
-                
-                _useTp = new ImgNumber();
-                _useTp.x = nextPosX;
-                _useTp.y = nextPosY;
-                _useFp.setNumber(data.enableTp);
-                addChild(_useTp);
-                nextPosX = _useTp.x + _useTp.width;
-            }
             
             ///////////////////////////////////////////////3段目//////////////////////////////////////////
             nextPosX = 8;
@@ -317,7 +270,7 @@ package scene.unit
             
             CommonDef.disposeList([_RangeMinValue, _RangeImg, _RangeMaxValue, _RangeBetween, //
             _targetImg, _targetValue, _healImg, _healValue, _supplyImg, _supplyValue, //
-            _useCount, _maxCount, _useCountMark, _CountSlashMark, _useFp, _useFpMark, _useTp, _useTpMark, _useCountMark, _CountSlashMark,]);
+            _useCount, _maxCount, _useCountMark, _CountSlashMark, _useSp, _useSpMark, _useTp, _useTpMark, _useCountMark, _CountSlashMark,]);
             /*
                if (_RangeMinValue != null)
                {
@@ -409,7 +362,7 @@ package scene.unit
             super.dispose();
         }
         
-        public function get data():MasterSkillData
+        public function get data():MasterCommanderSkillData
         {
             return _data;
         }

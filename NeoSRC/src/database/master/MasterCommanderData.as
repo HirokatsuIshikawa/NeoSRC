@@ -50,9 +50,14 @@ package database.master
         public var EVA_Min:int = 0;
         
         /**スキルデータ*/
-        private var _skillDataList:Vector.<MasterSkillData> = null;
+        private var _skillDataList:Vector.<MasterCommanderSkillData> = null;
         
         private var _charaImgName:String = null;
+        
+        public function get skillDataList():Vector.<MasterCommanderSkillData> 
+        {
+            return _skillDataList;
+        }
         
         public function get charaImgName():String
         {
@@ -112,14 +117,14 @@ package database.master
                 }
             }
             
-            _skillDataList = new Vector.<database.master.MasterSkillData>();
+            _skillDataList = new Vector.<MasterCommanderSkillData>();
             
             // スキルデータセット
             if (data.hasOwnProperty("Skill"))
             {
                 for (i = 0; i < data.Skill.length; i++)
                 {
-                    var skillData:MasterSkillData = new MasterSkillData(data.Skill[i]);
+                    var skillData:MasterCommanderSkillData = new MasterCommanderSkillData(data.Skill[i]);
                     _skillDataList.push(skillData);
                 }
             }

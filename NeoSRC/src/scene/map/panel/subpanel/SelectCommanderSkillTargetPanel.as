@@ -13,14 +13,14 @@ package scene.map.panel.subpanel
 	 * ...
 	 * @author ishikawa
 	 */
-	public class SelectTargetPanel extends CSprite
+	public class SelectCommanderSkillTargetPanel extends CSprite
 	{
 		
 		public static const BTN_WIDTH:int = 160;
 		
 		private var _btnBack:CImgButton = null;
 		
-		public function SelectTargetPanel()
+		public function SelectCommanderSkillTargetPanel()
 		{
 			super();
 			
@@ -29,7 +29,7 @@ package scene.map.panel.subpanel
 			_btnBack.x = BattleMapPanel.RIGHT_SIDE;
 			_btnBack.y = BattleMapPanel.UNDER_LINE;
 			
-			_btnBack.addEventListener(Event.TRIGGERED, MainController.$.view.battleMap.backCommanderTarget);
+			_btnBack.addEventListener(Event.TRIGGERED, MainController.$.view.battleMap.backAttackArea);
 			
 			addChild(_btnBack);
 		
@@ -38,7 +38,7 @@ package scene.map.panel.subpanel
 		override public function dispose():void
 		{
 			
-			_btnBack.removeEventListener(Event.TRIGGERED, MainController.$.view.battleMap.backCommanderTarget);
+			_btnBack.removeEventListener(Event.TRIGGERED, MainController.$.view.battleMap.backAttackArea);
 			_btnBack.dispose();
 			_btnBack = null;
 			super.dispose();

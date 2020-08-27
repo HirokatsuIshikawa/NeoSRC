@@ -1,5 +1,6 @@
 package database.user
 {
+    import common.CommonSystem;
     import database.master.MasterCharaData;
     import database.master.MasterCommanderData;
     import database.master.base.BaseParam;
@@ -29,6 +30,8 @@ package database.user
         private var _EVA:int = 0;
         /**レベル*/
         private var _nowLv:int = 0;
+        /**カスタムBGMパス*/
+        protected var _customBgmPath:String = null;
         
         public function get masterData():MasterCommanderData
         {
@@ -58,42 +61,47 @@ package database.user
             return _masterData.nickName;
         }
         
-        public function get nowLv():int 
+        public function get nowLv():int
         {
             return _nowLv;
         }
         
-        public function get Point():int 
+        public function get Point():int
         {
             return _Point;
         }
         
-        public function get nowPoint():int 
+        public function get nowPoint():int
         {
             return _nowPoint;
         }
         
-        public function get HIT():int 
+        public function set nowPoint(value:int):void 
+        {
+            _nowPoint = value;
+        }
+        
+        public function get HIT():int
         {
             return _HIT;
         }
         
-        public function get EVA():int 
+        public function get EVA():int
         {
             return _EVA;
         }
         
-        public function get Supply():int 
+        public function get Supply():int
         {
             return _Supply;
         }
         
-        public function get Heal():int 
+        public function get Heal():int
         {
             return _Heal;
         }
         
-        public function set nowLv(value:int):void 
+        public function set nowLv(value:int):void
         {
             _nowLv = value;
         }
@@ -119,6 +127,28 @@ package database.user
         public function levelUp(lv:int):void
         {
             levelSet(_nowLv + lv);
+        }
+        
+        public function get customBgmHeadPath():String
+        {
+            if (_customBgmPath == null)
+            {
+                return null;
+            }
+            else
+            {
+                return CommonSystem.FILE_HEAD + _customBgmPath;
+            }
+        }
+        
+        public function get customBgmPath():String 
+        {
+            return _customBgmPath;
+        }
+        
+        public function set customBgmPath(value:String):void 
+        {
+            _customBgmPath = value;
         }
         
         /**レベルセット*/
@@ -164,8 +194,6 @@ package database.user
             
             _nowPoint = _Point;
         }
-        
-        
     
     }
 

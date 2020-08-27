@@ -365,6 +365,7 @@ package scene.main
             }
         }
         
+        /**マップ読み込み後、マップ上アイテムセット*/
         public function loadMapComp(data:Object):void
         {
             var i:int = 0;
@@ -387,6 +388,10 @@ package scene.main
                 
                 MainController.$.map.sideState[i] = new SideState(data.mapDateList[i].name);
                 MainController.$.map.sideState[i].state = data.mapDateList[i].state;
+                if (data.mapDateList[i].commander != null)
+                {
+                    MainController.$.map.sideState[i].loadSaveCommander(data.mapDateList[i].commander);
+                }
                 
                 for (j = 0; j < CommonDef.objectLength(data.mapDateList[i].unitDate); j++)
                 {
@@ -479,7 +484,6 @@ package scene.main
                         {
                             battleMap.frameArea.addChildAt(battleUnit.formationNumImg, _battleMap.frameArea.numChildren);
                         }
-                        
                     }
                 }
             }

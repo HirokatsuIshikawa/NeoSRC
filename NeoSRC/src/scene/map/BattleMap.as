@@ -185,6 +185,7 @@ package scene.map
             removeEventListener(TouchEvent.TOUCH, moveAreaHandler);
             removeEventListener(TouchEvent.TOUCH, startAttackHandler);
             removeEventListener(TouchEvent.TOUCH, startMapTalkHandler);
+            removeEventListener(TouchEvent.TOUCH, startCommandSkillHandler);
             
             CommonDef.disposeList([_unitArea, _frameArea, _btnReset, _moveAreaImgList, _attackAreaImgList, _rootImgList, _sideState, _mapPictureList]);
             _btnReset = null;
@@ -866,7 +867,7 @@ package scene.map
             
             if (_mapTalkFlg)
             {
-                _battleMapPanel.showPanel(BattleMapPanel.PANEL_COMMANDER);
+                _battleMapPanel.showPanel(BattleMapPanel.PANEL_COMMANDER_DETAIL);
             }
             else
             {
@@ -891,7 +892,6 @@ package scene.map
         public function moveAreaSet():void
         {
             addChild(_btnReset);
-            var unit:BattleUnit = _sideState[0].battleUnit[_selectUnit];
             var list:Vector.<String> = new Vector.<String>;
             setDrag(false);
             _battleMapPanel.showPanel(BattleMapPanel.PANEL_MOVE);
@@ -1123,13 +1123,6 @@ package scene.map
             MainController.$.view.addChild(_battleMapPanel);
         }
         
-        /**軍師スキルリスト表示*/
-        public function showCommanderSkillList():void
-        {
-            _battleMapPanel.showPanel(BattleMapPanel.PANEL_COMMANDER_SKILL);
-            MainController.$.view.addChild(_battleMapPanel);
-        }
-        
         /**武器リスト戻る*/
         public function removeWeaponList():void
         {
@@ -1148,13 +1141,175 @@ package scene.map
             MainController.$.view.addChild(_battleMapPanel);
         }
         
+        //-------------------------------------------------------------
+        //
+        // 軍師リスト
+        //
+        //-------------------------------------------------------------
+        
+        /**軍師スキルリスト表示*/
+        public function showCommanderSkillList():void
+        {
+            _battleMapPanel.showPanel(BattleMapPanel.PANEL_COMMANDER_SKILL);
+            MainController.$.view.addChild(_battleMapPanel);
+        }
+        
         /**軍師スキルリスト戻る*/
         public function removeCommanderSkillList():void
         {
+            showCommanderStatusWindow(0);
             _battleMapPanel.showPanel(BattleMapPanel.PANEL_COMMANDER);
             MainController.$.view.addChild(_battleMapPanel);
         }
         
+        /** 軍師パネル・戻る */
+        public function backCommander():void
+        {
+            _selectMoved = false;
+            removeChild(_btnReset);
+            
+            deleteMoveImg();
+            
+            var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
+            unit.resetImgPos();
+            
+            var i:int = 0;
+            _nowMovePosX = 0;
+            _nowMovePosY = 0;
+            terrainDataReset();
+            if (_mapTalkFlg)
+            {
+                _battleMapPanel.showPanel(BattleMapPanel.PANEL_MAP_TALK);
+            }
+            else
+            {
+                _battleMapPanel.showPanel(BattleMapPanel.PANEL_SYSTEM);
+            }
+            MainController.$.view.addChild(_battleMapPanel);
+        }
+        
+        /**軍師スキルターゲット選択戻る*/
+        public function backCommanderTarget():void
+        {
+            removeAttackAreaImg();
+            _battleMapPanel.showPanel(BattleMapPanel.PANEL_COMMANDER_SKILL);
+            MainController.$.view.addChild(_battleMapPanel);
+        }
+        
+        /**軍師スキル範囲作成*/
+        public function makeCommanderSkillArea(data:MasterCommanderSkillData, target:int = MasterSkillData.SKILL_TARGET_ALL):void
+        {
+            _selectActType = ACT_TYPE_SKILL;
+            _selectActTargetType = target;
+            visibleMoveAreaImg(false);
+            visibleRootAreaImg(false);
+            
+            for (var i:int = 0; i < _sideState.length; i++)
+            {
+                //味方は飛ばす
+                if (i == 0 && data.target === MasterCommanderSkillData.SKILL_TARGET_ENEMY)
+                {
+                    continue;
+                }
+                
+                for (var j:int = 0; j < _sideState[i].battleUnit.length; j++)
+                {
+                    var unit:BattleUnit = _sideState[i].battleUnit[j];
+                    var pos:int = unit.mathPosY * _mapWidth + unit.mathPosX;
+                    var terrain:TerrainData = _terrainDataList[pos];
+                    
+                    //マップ上に居れば対象にする
+                    if (unit.onMap)
+                    {
+                        terrain.isAttackSelect = true;
+                    }
+                }
+                
+                //味方以外は飛ばす
+                if (i == 0 && data.target === MasterCommanderSkillData.SKILL_TARGET_ALLY)
+                {
+                    break;
+                }
+            }
+            
+            /** 攻撃範囲パネルセット */
+            attackAreaPanelSet();
+            _battleMapPanel.showPanel(BattleMapPanel.PANEL_COMMANDER_SKILL_TARGET);
+            MainController.$.view.addChild(_battleMapPanel);
+        }
+        
+        /** 軍師スキルターゲット選択判定 */
+        private function startCommandSkillHandler(e:TouchEvent):void
+        {
+            var i:int;
+            var target:BattleMap = e.currentTarget as BattleMap;
+            var pos:Point;
+            
+            var myTouch:Touch = e.getTouch(target, TouchPhase.BEGAN);
+            if (myTouch)
+            {
+                pos = globalToLocal(new Point(myTouch.globalX, myTouch.globalY));
+                commanderSkillStart(pos);
+            }
+        }
+        
+        /**攻撃開始*/
+        private function commanderSkillStart(pos:Point):void
+        {
+            var endFlg:Boolean = false;
+            var i:int = 0;
+            var j:int = 0;
+            var posX:int = pos.x / MAP_SIZE;
+            var posY:int = pos.y / MAP_SIZE;
+            
+            // 攻撃選択可能位置でなければ選べない
+            if (!_terrainDataList[posY * _mapWidth + posX].isAttackSelect)
+            {
+                return;
+            }
+            
+            // マップ内から、対象ユニット位置を検索
+            for (i = 0; i < _sideState.length; i++)
+            {
+                for (j = 0; j < _sideState[i].battleUnit.length; j++)
+                {
+                    if (_sideState[i].battleUnit[j].PosX == posX + 1 && _sideState[i].battleUnit[j].PosY == posY + 1 && _sideState[i].battleUnit[j].onMap)
+                    {
+                        // ターゲット陣営設定
+                        _targetSide = i;
+                        // ターゲット設定
+                        _targetUnit = sideState[i].battleUnit[j];
+                        SingleMusic.playBGM(_sideState[_selectSide].commander.customBgmHeadPath, 1, 1);
+                        
+                        endFlg = true;
+                        break;
+                    }
+                }
+                if (endFlg)
+                {
+                    break;
+                }
+            }
+            //軍師スキル実行
+            endCommanderSkill();
+        }
+        
+        /**軍師スキル終了*/
+        private function endCommanderSkill():void
+        {
+            terrainDataReset(); 
+            removeAttackAreaImg();
+            if (_mapTalkFlg)
+            {
+                _battleMapPanel.showPanel(BattleMapPanel.PANEL_MAP_TALK);
+            }
+            else
+            {
+                _battleMapPanel.showPanel(BattleMapPanel.PANEL_SYSTEM);
+            }
+            MainController.$.view.addChild(_battleMapPanel);
+        }
+                
         //-------------------------------------------------------------
         //
         // 範囲パネル関連
@@ -1449,49 +1604,6 @@ package scene.map
             checkAttackArea(_nowMovePosX - 1, _nowMovePosY, _nowMovePosX, _nowMovePosY, data.minRange, data.maxRange);
             checkAttackArea(_nowMovePosX, _nowMovePosY + 1, _nowMovePosX, _nowMovePosY, data.minRange, data.maxRange);
             checkAttackArea(_nowMovePosX, _nowMovePosY - 1, _nowMovePosX, _nowMovePosY, data.minRange, data.maxRange);
-            /** 攻撃範囲パネルセット */
-            attackAreaPanelSet();
-            _battleMapPanel.showPanel(BattleMapPanel.PANEL_SELECT_SKILL_TARGET);
-            MainController.$.view.addChild(_battleMapPanel);
-        }
-        
-        /**軍師スキル範囲作成*/
-        public function makeCommanderSkillArea(data:MasterCommanderSkillData, target:int = MasterSkillData.SKILL_TARGET_ALL):void
-        {
-            _selectActType = ACT_TYPE_SKILL;
-            _selectActTargetType = target;
-            visibleMoveAreaImg(false);
-            visibleRootAreaImg(false);
-            
-            for (var i:int = 0; i < _sideState.length; i++)
-            {
-                //味方は飛ばす
-                if (i == 0 && data.target === MasterCommanderSkillData.SKILL_TARGET_ENEMY)
-                {
-                    continue;
-                }
-                
-                for (var j:int = 0; j < _sideState[i].battleUnit.length; j++)
-                {
-                    var unit:BattleUnit = _sideState[i].battleUnit[j];
-                    var pos:int = unit.PosY * _mapWidth + unit.PosX;
-                    var terrain:TerrainData = _terrainDataList[pos];
-                    
-                    //マップ上に居れば対象にする
-                    if (unit.onMap)
-                    {
-                        terrain.isAttackSelect = true;
-                    }
-                }
-                
-                //味方以外は飛ばす
-                if (i == 0 && data.target === MasterCommanderSkillData.SKILL_TARGET_ALLY)
-                {
-                    break;
-                }
-                
-            }
-            
             /** 攻撃範囲パネルセット */
             attackAreaPanelSet();
             _battleMapPanel.showPanel(BattleMapPanel.PANEL_SELECT_SKILL_TARGET);
@@ -1832,9 +1944,7 @@ package scene.map
                 //相手側の単発バフ消し
                 _targetUnit.buffActionEnd();
                 removeDeadChara();
-            
             }
-        
         }
         
         /** 撃破キャラ削除 */
@@ -2069,6 +2179,7 @@ package scene.map
             removeEventListener(TouchEvent.TOUCH, moveAreaHandler);
             removeEventListener(TouchEvent.TOUCH, startAttackHandler);
             removeEventListener(TouchEvent.TOUCH, startMapTalkHandler);
+            removeEventListener(TouchEvent.TOUCH, startCommandSkillHandler);
             switch (type)
             {
             //システムパネル
@@ -2094,8 +2205,7 @@ package scene.map
                 addEventListener(TouchEvent.TOUCH, startAttackHandler);
                 break;
             //スキル対象選択
-            case BattleMapPanel.PANEL_SELECT_SKILL_TARGET:
-                
+            case BattleMapPanel.PANEL_SELECT_SKILL_TARGET: 
                 addEventListener(TouchEvent.TOUCH, mouseOperated);
                 addEventListener(TouchEvent.TOUCH, startAttackHandler);
                 break;
@@ -2105,7 +2215,17 @@ package scene.map
                 addEventListener(TouchEvent.TOUCH, mouseOperated);
                 addEventListener(TouchEvent.TOUCH, startMapTalkHandler);
                 break;
+            //軍師スキルリスト
+            case BattleMapPanel.PANEL_COMMANDER:
                 
+                break;
+            case BattleMapPanel.PANEL_COMMANDER_SKILL:
+                
+                hideStatusWindow();
+                break;
+            case BattleMapPanel.PANEL_COMMANDER_SKILL_TARGET: 
+                addEventListener(TouchEvent.TOUCH, startCommandSkillHandler);
+                break;
             }
         }
         
@@ -2243,7 +2363,7 @@ package scene.map
             }
         }
         
-        /** 画面上から移動範囲を消去*/
+        /** 画面上から攻撃範囲を消去*/
         private function removeAttackAreaImg():void
         {
             for (var i:int = 0; i < _attackAreaImgList.length; )

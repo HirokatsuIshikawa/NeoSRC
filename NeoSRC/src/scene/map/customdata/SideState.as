@@ -1,7 +1,9 @@
 package scene.map.customdata
 {
     import common.CommonDef;
+    import database.master.MasterCommanderData;
     import database.user.CommanderData;
+    import scene.main.MainController;
     import scene.unit.BattleUnit;
     
     /**
@@ -61,6 +63,13 @@ package scene.map.customdata
             }
         }
         
+        public function loadSaveCommander(data:Object):void
+        {
+            var masterData:MasterCommanderData = MainController.$.model.getMasterCommanderDataFromName(data.name);
+            _commander = new CommanderData(masterData, data.lv);
+            _commander.nowPoint = data.sp;
+        }
+        
         public function dispose():void
         {
             CommonDef.disposeList([_battleUnit]);
@@ -89,6 +98,11 @@ package scene.map.customdata
         public function get commander():CommanderData
         {
             return _commander;
+        }
+        
+        public function set commander(value:CommanderData):void 
+        {
+            _commander = value;
         }
         
         public function get battleUnit():Vector.<BattleUnit>

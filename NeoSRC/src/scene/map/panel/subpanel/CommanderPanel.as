@@ -31,7 +31,7 @@ package scene.map.panel.subpanel
 			
 			
 			_btnSp.addEventListener(Event.TRIGGERED, MainController.$.view.battleMap.showCommanderSkillList);
-			_btnBack.addEventListener(Event.TRIGGERED, MainController.$.view.battleMap.backMove);
+			_btnBack.addEventListener(Event.TRIGGERED, MainController.$.view.battleMap.backCommander);
 			
 			addChild(_btnSp);
 			addChild(_btnBack);

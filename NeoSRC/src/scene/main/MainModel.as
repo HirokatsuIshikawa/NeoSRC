@@ -510,5 +510,22 @@ package scene.main
 			
 			return list.concat();
 		}
+        
+        
+        public function getMasterCommanderDataFromName(name:String):MasterCommanderData
+		{
+			var i:int = 0;
+			var data:MasterCommanderData = null;
+			for (i = 0; i < _masterCommanderData.length; i++)
+			{
+				if (name === _masterCommanderData[i].name || name === _masterCommanderData[i].nickName)
+				{
+					data = _masterCommanderData[i];
+					break;
+				}
+				
+			}
+			return data;
+		}
 	}
 }

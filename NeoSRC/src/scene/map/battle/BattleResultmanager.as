@@ -188,6 +188,11 @@ package scene.map.battle
                         addBuff.setMasterData(MainController.$.model.masterBuffData[i], attackWeaponItem.skill.turn, attackWeaponItem.skill.level);
                         //ターゲットにバフを追加
                         attackWeaponItem.target.buffAdd(addBuff);
+                        //軍師ステータス追加
+                        if (MainController.$.map.sideState[attackWeaponItem.target.side].commander != null)
+                        {
+                            attackWeaponItem.target.commanderStatusSet(MainController.$.map.sideState[attackWeaponItem.target.side].commander);
+                        }
                         break;
                     }
                 }

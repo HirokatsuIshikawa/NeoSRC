@@ -109,6 +109,8 @@ package scene.map
         private var _unitArea:CSprite = null;
         /** 枠エリア */
         private var _frameArea:CSprite = null;
+        /** 効果エリア */
+        private var _effectArea:CSprite = null;
         /** ユニット選択番号 */
         private var _selectUnit:int = 0;
         /**選択行動タイプ*/
@@ -187,7 +189,7 @@ package scene.map
             removeEventListener(TouchEvent.TOUCH, startMapTalkHandler);
             removeEventListener(TouchEvent.TOUCH, startCommandSkillHandler);
             
-            CommonDef.disposeList([_unitArea, _frameArea, _btnReset, _moveAreaImgList, _attackAreaImgList, _rootImgList, _sideState, _mapPictureList]);
+            CommonDef.disposeList([_unitArea, _frameArea, _effectArea, _btnReset, _moveAreaImgList, _attackAreaImgList, _rootImgList, _sideState, _mapPictureList]);
             _btnReset = null;
             _attackAreaImgList = null;
             _terrainDataList = null;
@@ -204,14 +206,30 @@ package scene.map
         //-------------------------------------------------------------
         public function setCommander(sideName:String, commander:CommanderData):void
         {
+            // 味方に設定
+            if (sideState.length <= 0 || _sideState[0] === null)
+            {
+                _sideState[0] = new SideState(MainController.$.model.playerParam.sideName);
+            }
+            
             var i:int = 0;
+            var isNewSide:Boolean = true;
+            var sideNum:int = 1;
             for (i = 0; i < _sideState.length; i++)
             {
                 if (sideName === _sideState[i].name)
                 {
                     _sideState[i].setCommander(commander);
+                    isNewSide = false;
                     break;
                 }
+            }
+            //新勢力追加
+            if (sideNum >= 1 && isNewSide == true)
+            {
+                sideNum = _sideState.length;
+                _sideState[sideNum] = new SideState(sideName);
+                _sideState[sideNum].setCommander(commander);
             }
         }
         
@@ -496,7 +514,7 @@ package scene.map
             // フレームエリアに数字追加
             if (battleUnit.formationNumImg != null)
             {
-                _frameArea.addChildAt(battleUnit.formationNumImg, _frameArea.numChildren);
+                _effectArea.addChildAt(battleUnit.formationNumImg, _effectArea.numChildren);
             }
             
             if (anime)
@@ -681,7 +699,7 @@ package scene.map
                 _frameArea.removeChild(targetUnit.frameImg);
                 if (targetUnit.formationNumImg != null)
                 {
-                    _frameArea.removeChild(targetUnit.formationNumImg);
+                    _effectArea.removeChild(targetUnit.formationNumImg);
                 }
                 
                 targetUnit.dispose();
@@ -759,7 +777,7 @@ package scene.map
                     // フレームエリアに沸く追加
                     _frameArea.addChildAt(battleUnit.frameImg, _frameArea.numChildren);
                     // フレームエリアに数字追加
-                    _frameArea.addChildAt(battleUnit.formationNumImg, _frameArea.numChildren);
+                    _effectArea.addChildAt(battleUnit.formationNumImg, _effectArea.numChildren);
                     
                     // 一定時間かけて表示
                     var tweenAry:Array = new Array();
@@ -852,7 +870,7 @@ package scene.map
             {
                 _statusWindow.setCharaData(unit, customBgmFlg);
             }
-            addChild(_statusWindow);
+            //addChild(_statusWindow);
             _statusWindow.visible = true;
             MainController.$.view.addChild(_statusWindow);
         }
@@ -861,9 +879,9 @@ package scene.map
         public function showCommanderStatusWindow(sideNumber:int):void
         {
             _statusWindow.setCommanderData(_sideState[sideNumber].commander);
-            addChild(_statusWindow);
+            //addChild(_statusWindow);
             _statusWindow.visible = true;
-            //MainController.$.view.addChild(_statusWindow);
+            MainController.$.view.addChild(_statusWindow);
             
             if (_mapTalkFlg)
             {
@@ -988,6 +1006,13 @@ package scene.map
             nowBattleUnit.moveEnd();
             //行動終了時のバフ残存判定
             nowBattleUnit.buffActionEnd();
+            
+            //軍師ステータス追加
+            if (_sideState[nowBattleUnit.side].commander != null)
+            {
+                nowBattleUnit.commanderStatusSet(_sideState[nowBattleUnit.side].commander);
+            }
+            
             // 移動完了後の処理
             if (_selectSide == 0)
             {
@@ -1297,7 +1322,7 @@ package scene.map
         /**軍師スキル終了*/
         private function endCommanderSkill():void
         {
-            terrainDataReset(); 
+            terrainDataReset();
             removeAttackAreaImg();
             if (_mapTalkFlg)
             {
@@ -1309,7 +1334,7 @@ package scene.map
             }
             MainController.$.view.addChild(_battleMapPanel);
         }
-                
+        
         //-------------------------------------------------------------
         //
         // 範囲パネル関連
@@ -1943,6 +1968,19 @@ package scene.map
                 nowBattleUnit.buffActionEnd();
                 //相手側の単発バフ消し
                 _targetUnit.buffActionEnd();
+                
+                //軍師ステータス追加
+                if (_sideState[nowBattleUnit.side].commander != null)
+                {
+                    nowBattleUnit.commanderStatusSet(_sideState[nowBattleUnit.side].commander);
+                }
+                
+                //軍師ステータス追加
+                if (_sideState[_targetUnit.side].commander != null)
+                {
+                    _targetUnit.commanderStatusSet(_sideState[_targetUnit.side].commander);
+                }
+                
                 removeDeadChara();
             }
         }
@@ -1964,7 +2002,7 @@ package scene.map
                     {
                         _unitArea.removeChild(unit.unitImg);
                         _frameArea.removeChild(unit.frameImg);
-                        _frameArea.removeChild(unit.formationNumImg);
+                        _effectArea.removeChild(unit.formationNumImg);
                     }
                 }
             }
@@ -2448,8 +2486,10 @@ package scene.map
             }
             _unitArea = new CSprite();
             _frameArea = new CSprite();
+            _effectArea = new CSprite();
             addChild(_frameArea);
             addChild(_unitArea);
+            addChild(_effectArea);
         }
         
         /**ユニット情報取得*/
@@ -2657,6 +2697,8 @@ package scene.map
                     _sideState[_selectSide].battleUnit[i].buffTurnCount();
                     //ステータスリフレッシュ
                     _sideState[_selectSide].battleUnit[i].refreshState();
+                    
+                    _sideState[_selectSide].battleUnit[i].commanderStatusSet(_sideState[_selectSide].commander);
                 }
             }
             //味方ターンのみ

@@ -108,7 +108,7 @@ package scene.unit
         /**加入フラグ*/
         private var _joinFlg:Boolean = true;
         /**会話ラベル*/
-		public var talkLabel:String = null;
+        public var talkLabel:String = null;
         
         public function get unitImg():DisplayObject
         {
@@ -316,12 +316,12 @@ package scene.unit
         }
         
         /**編成数*/
-        public function get formationNumImg():CImage 
+        public function get formationNumImg():CImage
         {
             return _formationNumImg;
         }
         
-        public function set formationNumImg(value:CImage):void 
+        public function set formationNumImg(value:CImage):void
         {
             _formationNumImg = value;
         }
@@ -338,11 +338,11 @@ package scene.unit
             
             if (num < 0)
             {
-            num = 0;
+                num = 0;
             }
             if (num > maxFormationNum)
             {
-            num = maxFormationNum;
+                num = maxFormationNum;
             }
             return num;
         }
@@ -504,8 +504,6 @@ package scene.unit
             levelSet(_nowLv);
         }
         
-        
-        
         /**ターン開始時*/
         public function buffTurnCount():void
         {
@@ -661,9 +659,8 @@ package scene.unit
             for (i = 0; i < BaseParam.STATUS_STR.length; i++)
             {
                 this.param[BaseParam.STATUS_STR[i]] += commander.param[BaseParam.STATUS_STR[i]];
-            }            
+            }
         }
-        
         
         //強化ポイント追加
         override public function addStrength(num:int = 1):void
@@ -693,7 +690,7 @@ package scene.unit
                 _formationNumImg.texture = MainController.$.imgAsset.getTexture(path);
             }
         }
-        
+    
     }
 
 }

@@ -237,10 +237,10 @@ package viewitem.status
             addChild(_tecImg);
             _spdImg.setNumber(data.param.SPD, ImgNumber.TYPE_STATE_SPD, paramColor[5]);
             addChild(_spdImg);
-            _mndImg.setNumber(data.param.MND, ImgNumber.TYPE_STATE_MND, paramColor[6]);
-            addChild(_mndImg);
-            _capImg.setNumber(data.param.CAP, ImgNumber.TYPE_STATE_CAP, paramColor[7]);
+            _capImg.setNumber(data.param.CAP, ImgNumber.TYPE_STATE_CAP, paramColor[6]);
             addChild(_capImg);
+            _mndImg.setNumber(data.param.MND, ImgNumber.TYPE_STATE_MND, paramColor[7]);
+            addChild(_mndImg);
             _movImg.setNumber(data.param.MOV, ImgNumber.TYPE_STATE_MOV, paramColor[8]);
             addChild(_movImg);
         

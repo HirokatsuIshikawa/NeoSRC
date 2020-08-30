@@ -317,7 +317,15 @@ package scene.main
                     MainController.$.model.playerParam.playerVariable = new Vector.<PlayerVariable>;
                 }
                 MainController.$.model.playerParam.loadObject(data.playerData);
-                var count:int = CommonDef.objectLength(data.unitList);
+                
+                var count:int = CommonDef.objectLength(data.commanderList);
+                //所持軍師データ
+                for (i = 0; i < count; i++)
+                {
+                    MainController.$.model.addPlayerCommanderFromName(data.commanderList[i].name, data.commanderList[i].lv);
+                }
+                
+                count = CommonDef.objectLength(data.unitList);
                 
                 //基本データ読み込み
                 //今のデータ削除
@@ -329,13 +337,6 @@ package scene.main
                 for (i = 0; i < count; i++)
                 {
                     MainController.$.model.addPlayerUnitFromName(data.unitList[i].name, data.unitList[i].lv, data.unitList[i].exp, data.unitList[i].strengthPoint, false, data.unitList[i].customBgmPath);
-                }
-                
-                count = CommonDef.objectLength(data.commanderList);
-                //所持軍師データ
-                for (i = 0; i < count; i++)
-                {
-                    MainController.$.model.addPlayerCommanderFromName(data.commanderList[i].name, data.commanderList[i].lv);
                 }
                 
                 //会話・マップデータ読み込み
@@ -484,6 +485,11 @@ package scene.main
                         {
                             battleMap.frameArea.addChildAt(battleUnit.formationNumImg, _battleMap.frameArea.numChildren);
                         }
+                    }
+                    //軍師ステータスプラス
+                    if (MainController.$.map.sideState[i].commander != null)
+                    {
+                        battleUnit.commanderStatusSet(MainController.$.map.sideState[i].commander);
                     }
                 }
             }

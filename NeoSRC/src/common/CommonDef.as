@@ -170,7 +170,7 @@ package common
                     continue;
                 }
                 
-				if (object is Array || (object.hasOwnProperty("length") && object.length > 0 && object[0].hasOwnProperty("dispose")))
+				if (object is Array || (object.hasOwnProperty("length") && object.length > 0 && object[0] != null && object[0].hasOwnProperty("dispose")))
 				{
 					//再帰的に実行
 					disposeList(object);

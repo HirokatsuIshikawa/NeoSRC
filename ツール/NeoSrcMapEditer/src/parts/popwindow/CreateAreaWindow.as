@@ -301,7 +301,7 @@ package parts.popwindow
 				//名前
 				if (_nameInput.text.length > 0)
 				{
-					str += "name:" + _nameInput.text;
+					str += "name:" + _nameInput.text + " ";
 				}
 				else
 				{

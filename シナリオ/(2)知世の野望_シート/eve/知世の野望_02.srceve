@@ -699,8 +699,6 @@ Call 会話終了チェック
 MapTalk
 
 スライム情報:
-JoinCommander name:大道寺知世 Lv:1 
-SetCommander name:大道寺知世 sidename:さくらチーム
 AddLayer name:キャラクター alpha:0
 CharaLayer name:キャラクター
 Set name:スライム情報フラグ value:1
@@ -779,8 +777,8 @@ Return
 
 会話一通り後:
 Set name:ネクストユニット登場フラグ value:1
-CreateUnit name:ケイブガード x:21 y:9 side:さくらチーム level:1 label:マップ会話エンド
-CreateUnit name:ワイルドランナー x:22 y:9 side:さくらチーム level:1 label:マップ会話エンド
+CreateUnit name:ケイブガード x:21 y:9 side:さくらチーム level:1 label:マップ会話エンド join:0
+CreateUnit name:ワイルドランナー x:22 y:9 side:さくらチーム level:1 label:マップ会話エンド join:0
 Return
 
 マップ会話エンド:
@@ -982,8 +980,26 @@ Exit
 
 
 マップスタート:
+StopBGM
 LoadMap file:ポテト平原.map
-SetCommander name:大道寺知世 Lv:1 side:さくらちゃんチーム
+ReadyMove
+SetMove layer:キャラクター alpha:0
+SetMove layer:エフェクト time:0.3 fade:out
+StartMove type:同時 wait:on
+JoinCommander name:大道寺知世 Lv:1 
+SetCommander name:大道寺知世 sidename:さくらチーム
+StartBGM file:BGM/game_maoudamashii_1_battle24.mp3 vol:1 fade:0.5
+CreateUnit name:キャノンレイダー x:14 y:9 side:敵 level:5 
+CreateUnit name:ブッシュシューター x:11 y:8 side:敵 level:5 
+CreateUnit name:キャノンレイダー x:17 y:8 side:敵 level:5 
+Wait 0.5
+SetChara name:ロッドアタッカー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 0) alpha:1 y:160
+SetChara name:ブッシュシューター x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 1) alpha:1 y:160
+SetChara name:キャノンレイダー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 2) alpha:1 y:160
+ReadyMove
+SetMove layer:キャラクター time:0.1 fade:in
+SetMove layer:キャラクター time:0 x:$変数(エネミー表示位置)
+StartMove type:同時 wait:on
 Talk ロッドアタッカー
 これでよし……と
 
@@ -1007,28 +1023,38 @@ Talk ロッドアタッカー
 なかったんだけどな……
 
 Talk ブッシュシューター
-まぁ、気にすんな
+まぁ、大したことはないだろ
 
-……しかし、またエラいモンスターを
-作ったもんだな
+ん？　あいつらは……
 
-Talk キャノンレイダー
-強さはそこそこだが、流石にスライムよりは強いし
-
-なんたって、使い終わっても利用価値はあるからな
-
-首尾よく進めば、今夜は宴会だぜ！
-
-Talk ロッドアタッカー
-まぁ、確かにブー達には不向きな仕事だな
-
-あいつらが一緒だったら……
-
-……おっ？
-
-
-
-
+HideMessage time:0.3
+clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+Center x:14 y:17
+LaunchUnit name:さくら x:14 y:17 
+LaunchUnit name:なのは x:13 y:18 
+LaunchUnit name:ユーノ x:15 y:18 
+CreateUnit name:ケイブガード x:9 y:17 side:さくらチーム level:2 join:0
+CreateUnit name:ケイブガード x:11 y:17 side:さくらチーム level:2 join:0
+CreateUnit name:ワイルドランナー x:11 y:19 side:さくらチーム level:2 join:0
+CreateUnit name:ワイルドランナー x:9 y:19 side:さくらチーム level:42join:0
+CreateUnit name:ケイブガード x:17 y:17 side:さくらチーム level:2 join:0
+CreateUnit name:ケイブガード x:19 y:17 side:さくらチーム level:2 join:0
+CreateUnit name:ワイルドランナー x:19 y:19 side:さくらチーム level:2 join:0
+CreateUnit name:ワイルドランナー x:17 y:19 side:さくらチーム level:2 join:0
+Wait 1
+SetChara name:さくら x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 0) alpha:1
+SetChara name:なのは x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 1) alpha:1
+SetChara name:ユーノ x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 2) alpha:1
+SetChara name:知世 x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 3) alpha:1
+SetChara name:ケイブガード x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 4) alpha:1 y:160
+SetChara name:ワイルドランナー x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 5) alpha:1 y:160
+ReadyMove
+SetMove layer:キャラクター time:0 x:$変数(プレイヤー表示位置)
+SetMove layer:キャラクター time:0.1 fade:in
+StartMove type:同時 wait:on
 Talk なのは
 あの子達は、昨日の……！
 
@@ -1037,18 +1063,30 @@ Talk ケイブガード
 
 なんだこれ！？　穴だらけじゃないか……！
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(エネミー表示位置)
+StartMove type:連続
 Talk ロッドアタッカー
 みろよ、早速原始人達が
 のこのこやってきやがったぜ
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
+StartMove type:連続
 Talk ワイルドランナー
 アンタたち！　こんな所でなにやってるの！？
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(エネミー表示位置)
+StartMove type:連続
 Talk キャノンレイダー
 お前達に教えてやんねーよ！
 
 べー！！
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
+StartMove type:連続
 Talk ワイルドランナー
 あいつらぁ……！！
 
@@ -1059,9 +1097,13 @@ Talk さくら
 あの子達、こんな所でなにしてるんだろう……？
 
 Talk 知世
-見た所、昨日よりも
-人数が少ないようですが……
+3人だけ……
 
+偵察のつもりなのでしょうか？
+
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(エネミー表示位置)
+StartMove type:連続
 Talk ロッドアタッカー
 ……おい、なんか見た事ない子達が居るけど
 
@@ -1087,12 +1129,38 @@ Talk キャノンレイダー
 
 数はこいつらが居るからいけるはず……
 
+StopBGM
 ……よし、時間だ！！
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
+StartMove type:連続
 Talk ケイブガード
 な、なんだ？！
 
-
+HideMessage time:0.3
+clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+Center unit:キャノンレイダー
+StartBGM file:game_maoudamashii_1_battle25 vol:1 fade:0.5
+CreateUnit name:ポテトン x:10 y:14 side:敵 level:1
+CreateUnit name:ポテトン x:12 y:14 side:敵 level:1 
+CreateUnit name:ポテトン x:13 y:13 side:敵 level:1 
+CreateUnit name:ポテトン x:15 y:13 side:敵 level:1 
+CreateUnit name:ポテトン x:17 y:11 side:敵 level:1 
+CreateUnit name:ポテトン x:19 y:11 side:敵 level:1 
+CreateUnit name:ポテトン x:9 y:11 side:敵 level:1
+CreateUnit name:ポテトン x:11 y:11 side:敵 level:1 
+CreateUnit name:ポテドン x:8 y:9 side:敵 level:1
+CreateUnit name:ポテドン x:10 y:9 side:敵 level:1
+CreateUnit name:ポテドン x:18 y:9 side:敵 level:1
+CreateUnit name:ポテドン x:20 y:9 side:敵 level:1
+ReadyMove
+SetMove layer:キャラクター time:0 x:$変数(プレイヤー表示位置)
+SetMove layer:キャラクター time:0.1 fade:in
+StartMove type:同時 wait:on
 Talk さくら
 ほえっ！？
 
@@ -1100,22 +1168,31 @@ Talk なのは
 地面から何か出てきた……！
 
 Talk ユーノ
-あれは……！
-
-
-
+あれは……？
 
 Talk 知世
 ジャガイモ……でしょうか？
 
 凄く存在感のある顔をしていらっしゃいますが……
 
+Talk ユーノ
+いや、ジャガイモってあんなに大きくないし
+そもそも、自分で動いたりしませんよね……？
+
 Talk さくら
-ま、まさかもったいないオバケじゃないよね……？
+ま、まさかもったいないオバケ……？
 
 Talk ケイブガード
-新しいモンスター！？
+いや、それもどうかと思うけど……
 
+でも間違いない、アイツは新しいタイプのモンスターだ
+
+Talk なのは
+モンスター！？
+
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(エネミー表示位置)
+StartMove type:連続
 Talk キャノンレイダー
 よしよし、この辺は土がいいから
 思ってたのより早く育ったな……
@@ -1124,14 +1201,18 @@ Talk キャノンレイダー
 あっちの女の子達にケガさせないように
 うまいことやるんだ！！
 
-
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
+StartMove type:連続
 Talk ワイルドランナー
 あいつら、あなた達を狙ってる……！？
 
-あいつらと、なにかあったの？
+あなた達、あいつらとなにかあったの？
 
 Talk ユーノ
-なんというか……昨日戦った時から
+なんというか……
+
+昨日戦った時から
 目を着けられてるみたいで……
 
 Talk ケイブガード
@@ -1186,11 +1267,32 @@ Talk 知世
 Talk さくら
 それじゃあ……いくよ！！
 
+hidemsg time:0.3
+clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+SetEvent side:コクエン隊 label:ボス登場判定 type:撃破
+SetEvent side:さくらチーム label:ゲームオーバー type:全滅
 DeleteAllLayer
 Exit
 
+ボス登場判定:
+If $陣営数(コクエン隊) < 7 Goto ボス登場
+Exit
 
-軍師ブレイク:
+ボス登場:
+ClearEvent ボス登場判定
+AddLayer name:エフェクト alpha:0
+AddLayer name:キャラクター alpha:0
+CharaLayer name:キャラクター
+SetChara name:ロッドアタッカー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 0) alpha:1
+SetChara name:ブッシュシューター x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 1) alpha:1
+SetChara name:キャノンレイダー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 2) alpha:1
+ReadyMove
+SetMove layer:キャラクター time:0 x:$変数(エネミー表示位置)
+SetMove layer:キャラクター time:0.1 fade:in
+StartMove type:連続 wait:on
 
 Talk ケイブガード
 強い……！？
@@ -1204,7 +1306,6 @@ Talk キャノンレイダー
 ポテトン達も結構やられちまったが……
 
 だがまだだ！！
-
 
 Talk さくら
 うわっ！？

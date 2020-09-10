@@ -220,8 +220,8 @@ package scene.unit
 				//ボタン離す
 				case TouchPhase.ENDED:
 					
-					var pos:Point = globalToLocal(new Point(touch.globalX, touch.globalY));
-					if (touch.globalX > target.x && touch.globalX < target.x + target.width && touch.globalY > target.y && touch.globalY < target.y + target.height)
+                        var pos:Point = touch.getLocation(target);
+                        if(target.hitTest(pos))
 					{
 						
 						_selectWeapon = target.data;

@@ -9,6 +9,7 @@ package scene.map
     import common.CommonDef;
     import common.CommonSystem;
     import common.util.CharaDataUtil;
+    import scene.talk.message.FaceMessageWindow;
     import system.custom.customSprite.CButton;
     import system.custom.customSprite.CImage;
     import system.custom.customSprite.CSprite;
@@ -55,6 +56,7 @@ package scene.map
         public static const ACT_TYPE_SKILL:int = 2;
         
         public static const FORMATION_NUM_POS:int = 24;
+        public static const BATTLE_ANIME_MESSAGE_WINDOW_Y:int = 400;
         //-------------------------------------------------------------
         //
         // component
@@ -95,6 +97,10 @@ package scene.map
         private var _expGauge:ExpWindow = null;
         /**出撃リスト*/
         private var _organizeList:OrganizeList = null;
+        /**コマンダースキル用メッセージウィンドウ*/
+        private var _messageWindow:FaceMessageWindow = null;
+        
+        private var _selectCommanderSkill:MasterCommanderSkillData = null;
         //-------------------------------------------------------------
         //
         // variable
@@ -171,17 +177,6 @@ package scene.map
         public override function dispose():void
         {
             _btnReset.removeEventListener(Event.TRIGGERED, resetMove);
-            if (_battleMapPanel != null)
-            {
-                _battleMapPanel.dispose();
-                _battleMapPanel = null;
-            }
-            if (_battleActionPanel != null)
-            {
-                _battleActionPanel.dispose();
-                _battleActionPanel = null;
-            }
-            
             removeEventListener(TouchEvent.TOUCH, mouseOperated);
             removeEventListener(TouchEvent.TOUCH, makeRootHandler);
             removeEventListener(TouchEvent.TOUCH, moveAreaHandler);
@@ -189,7 +184,7 @@ package scene.map
             removeEventListener(TouchEvent.TOUCH, startMapTalkHandler);
             removeEventListener(TouchEvent.TOUCH, startCommandSkillHandler);
             
-            CommonDef.disposeList([_unitArea, _frameArea, _effectArea, _btnReset, _moveAreaImgList, _attackAreaImgList, _rootImgList, _sideState, _mapPictureList]);
+            CommonDef.disposeList([_battleMapPanel, _battleActionPanel, _unitArea, _frameArea, _effectArea, _btnReset, _moveAreaImgList, _attackAreaImgList, _rootImgList, _sideState, _mapPictureList, _messageWindow]);
             _btnReset = null;
             _attackAreaImgList = null;
             _terrainDataList = null;
@@ -891,6 +886,7 @@ package scene.map
             {
                 _battleMapPanel.showPanel(BattleMapPanel.PANEL_COMMANDER);
             }
+            MainController.$.view.addChild(_battleMapPanel);
         }
         
         /**ステータス画面非表示*/
@@ -1224,6 +1220,8 @@ package scene.map
         /**軍師スキル範囲作成*/
         public function makeCommanderSkillArea(data:MasterCommanderSkillData, target:int = MasterSkillData.SKILL_TARGET_ALL):void
         {
+            _battleMapPanel.commanderSkillTargetPanel.toAllTarget(data.toAll);
+            _selectCommanderSkill = data;
             _selectActType = ACT_TYPE_SKILL;
             _selectActTargetType = target;
             visibleMoveAreaImg(false);
@@ -1266,6 +1264,11 @@ package scene.map
         /** 軍師スキルターゲット選択判定 */
         private function startCommandSkillHandler(e:TouchEvent):void
         {
+            if (_selectCommanderSkill.toAll == true)
+            {
+                return;
+            }
+            
             var i:int;
             var target:BattleMap = e.currentTarget as BattleMap;
             var pos:Point;
@@ -1315,7 +1318,80 @@ package scene.map
                     break;
                 }
             }
-            //軍師スキル実行
+            //軍師スキル実行・メッセージ開始
+            startCommanderMessage();
+        }
+        
+        
+        public function executeToAllCommanderSkill():void
+        {
+            SingleMusic.playBGM(_sideState[_selectSide].commander.customBgmHeadPath, 1, 1);
+            startCommanderMessage();
+        }
+        
+        
+        //軍師メッセージ
+        private function startCommanderMessage():void
+        {
+            _battleMapPanel.showPanel(BattleMapPanel.PANEL_NONE);
+            
+            _messageWindow = new FaceMessageWindow();
+            _messageWindow.x = (CommonDef.WINDOW_W - _messageWindow.width) / 2;
+            _messageWindow.y = BATTLE_ANIME_MESSAGE_WINDOW_Y;
+            _messageWindow.deleteImage();
+            _messageWindow.deleteText();
+            MainController.$.view.addChild(_messageWindow);
+            
+            playMessage();
+        }
+        
+        public var messageCount:int = 0;
+        public var commanderCharaMessage:Boolean = false;
+        
+        /**メッセージセット*/
+        private function playMessage():void
+        {
+            var charaName:String = _sideState[_selectSide].commander.name;
+            var message:Vector.<String> = MainController.$.model.getRandamCommanderSkillMessage(_sideState[_selectSide].commander, _selectCommanderSkill, _targetUnit);
+            
+            _messageWindow.clearText();
+            _messageWindow.alpha = 0;
+            var strCount:int = message[0].length;
+            
+            var tweenAry:Array = new Array();
+            var tween:Tween24 = Tween24.tween(this, strCount * 0.02, null, {messageCount: message[0].length}).onUpdate(msgUpdate, message);
+            
+            messageCount = 0;
+            _messageWindow.clearText();
+            if (commanderCharaMessage)
+            {
+                _messageWindow.setImage(_sideState[_selectSide].commander.name, null);
+            }
+            else
+            {
+                _messageWindow.setImage("システム", null);
+            }
+            tweenAry.push(Tween24.tween(_messageWindow, 0.3).fadeIn());
+            tweenAry.push(tween);
+            tweenAry.push(Tween24.wait(1));
+            tweenAry.push(Tween24.tween(_messageWindow, 0.3).fadeOut());
+            
+            Tween24.serial(tweenAry).onComplete(setCommanderSkillEffect).play();
+        }
+        
+        /**メッセージアップデート*/
+        private function msgUpdate(message:Vector.<String>):void
+        {
+            _messageWindow.setText(message[0].substr(0, messageCount));
+        }
+        
+        //軍師スキルエフェクト
+        private function setCommanderSkillEffect():void
+        {
+            //メッセージウィンドウ破棄
+            _messageWindow.dispose();
+            _messageWindow = null;
+            
             endCommanderSkill();
         }
         
@@ -2262,6 +2338,7 @@ package scene.map
                 hideStatusWindow();
                 break;
             case BattleMapPanel.PANEL_COMMANDER_SKILL_TARGET: 
+                addEventListener(TouchEvent.TOUCH, mouseOperated);
                 addEventListener(TouchEvent.TOUCH, startCommandSkillHandler);
                 break;
             }

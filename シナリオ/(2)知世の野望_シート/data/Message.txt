@@ -13,3 +13,5 @@
 	{unit}は反撃できない！！
 スキル
 	{unit}は{skill}を使用した！！
+スペシャル
+	{commander}は{special}を使用した！！

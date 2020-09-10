@@ -163,7 +163,7 @@ package scene.map.panel
                 addChild(_commandSkillPanel);
                 break;
             //軍師ターゲット選択    
-            case PANEL_SELECT_SKILL_TARGET: 
+            case PANEL_COMMANDER_SKILL_TARGET: 
                 addChild(_commanderSkillTargetPanel);
                 break;
             }
@@ -220,6 +220,11 @@ package scene.map.panel
         public function get commandSkillPanel():CommanderSkillListPanel
         {
             return _commandSkillPanel;
+        }
+        
+        public function get commanderSkillTargetPanel():SelectCommanderSkillTargetPanel 
+        {
+            return _commanderSkillTargetPanel;
         }
         
         public function get counterAttackRange():int

@@ -13,7 +13,7 @@ package database.master
 		public static const SKILL_TARGET_ALL:int = 9;
 		
 		public static const SKILL_PARAM_LIST:Array = [ //
-		"name", "target",//
+		"name", "target", "toall", //
 		"sp", "count", //
 		"heal", "supply", //
 		"state", "badstate", //
@@ -21,14 +21,14 @@ package database.master
 		"terrain" //
 		];
 		public static const SKILL_PARAM_P_LIST:Array = [ //
-		"名前", "対象",//
+		"名前", "対象", "全体", //
 		"消費", "回数", //
 		"回復", "補給", //
 		"状態回復", "状態異常", //
 		"効果", "ターン", "レベル", //
 		"地形"];
 		public static const SKILL_DEFAULT_VALUE_LIST:Array = [ //
-		"スキル", SKILL_TARGET_ALLY,//名前、ターゲット
+		"スキル", SKILL_TARGET_ALLY,0,//名前、ターゲット、全体化
 		0, 0,  //消費、回数
 		0, 0, 0, 0, //回復、補給、状態回復、状態異常
 		null, 0, 1,//バフ効果、ターン、レベル
@@ -107,6 +107,11 @@ package database.master
             return _useSp;
         }
         
+        public function get toAll():int 
+        {
+            return _toAll;
+        }
+        
         public function set useSp(value:int):void 
         {
             _useSp = value;
@@ -128,6 +133,7 @@ package database.master
 		private var _badstate:int = 0;
 		
 		private var _target:int = 0;
+        private var _toAll:int = 0;
 		
 		private var _buff:String = null;
 		private var _turn:int = 0;
@@ -158,6 +164,7 @@ package database.master
 			_buff = data.buff;
 			_turn = data.turn;
 			_level = data.level - 1;
+            _toAll = data.toall;
 			
 			_terrain = new Vector.<int>;
 			var str:String = data.terrain;

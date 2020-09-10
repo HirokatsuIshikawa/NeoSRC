@@ -2,7 +2,6 @@ package scene.commander
 {
     import common.CommonDef;
     import database.master.MasterCommanderSkillData;
-    import database.master.MasterSkillData;
     import database.master.MasterWeaponData;
     import database.user.CommanderData;
     import scene.main.MainController;
@@ -38,6 +37,9 @@ package scene.commander
         // 対象
         private var _targetImg:CImage = null;
         private var _targetValue:CImage = null;
+        
+        //全体か
+        private var _toAllImg:CImage = null;
         
         //消費FP
         private var _useSpMark:CImage = null;
@@ -136,7 +138,7 @@ package scene.commander
                 nextPosX = _supplyValue.x + _supplyValue.width + 32;
             }
             
-            if (data.target != MasterSkillData.SKILL_TARGET_ALL)
+            if (data.target != MasterCommanderSkillData.SKILL_TARGET_ALL)
             {
                 //対象
                 _targetImg = new CImage(MainController.$.imgAsset.getTexture("Skl_target"));
@@ -149,13 +151,13 @@ package scene.commander
                 
                 switch (data.target)
                 {
-                case MasterSkillData.SKILL_TARGET_ALL: 
+                case MasterCommanderSkillData.SKILL_TARGET_ALL: 
                     //tex = MainController.$.imgAsset.getTexture("Skl_Tgt_All");
                     break;
-                case MasterSkillData.SKILL_TARGET_ALLY: 
+                case MasterCommanderSkillData.SKILL_TARGET_ALLY: 
                     tex = MainController.$.imgAsset.getTexture("Tgt_ally");
                     break;
-                case MasterSkillData.SKILL_TARGET_ENEMY: 
+                case MasterCommanderSkillData.SKILL_TARGET_ENEMY: 
                     tex = MainController.$.imgAsset.getTexture("Tgt_enemy");
                     break;
                 }
@@ -168,6 +170,14 @@ package scene.commander
                 nextPosX += 32;
             }
             
+            if (data.toAll == 1)
+            {
+                _toAllImg = new CImage(MainController.$.imgAsset.getTexture("Wpn_All"));               
+                _toAllImg.x = nextPosX;
+                _toAllImg.y = nextPosY;
+                addChild(_toAllImg);
+                
+            }
             
             ///////////////////////////////////////////////2段目//////////////////////////////////////////
             nextPosX = 8;
@@ -268,7 +278,7 @@ package scene.commander
             var i:int = 0;
             _name.dispose();
             
-            CommonDef.disposeList([_RangeMinValue, _RangeImg, _RangeMaxValue, _RangeBetween, //
+            CommonDef.disposeList([_RangeMinValue, _RangeImg, _RangeMaxValue, _RangeBetween, _toAllImg,//
             _targetImg, _targetValue, _healImg, _healValue, _supplyImg, _supplyValue, //
             _useCount, _maxCount, _useCountMark, _CountSlashMark, _useSp, _useSpMark, _useTp, _useTpMark, _useCountMark, _CountSlashMark,]);
             

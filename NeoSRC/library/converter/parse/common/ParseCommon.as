@@ -1,6 +1,7 @@
 package converter.parse.common
 {
     import database.master.MasterBuffData;
+    import database.master.MasterCommanderSkillData;
     import database.master.base.LearnLevelData;
     import database.user.buff.CharaBuffData;
     import scene.main.MainController;
@@ -33,19 +34,20 @@ package converter.parse.common
         "name", "count", "fp", "tp", "usetp",//
         "range", "terrain", //
         "heal", "supply", "state", "badstate", //
-        "buff", "turn", "lv"//
+        "buff", "turn", "lv",//
+        "target", "toall"//軍師スキル用
         ];
         public static const SKILL_P_LIST:Array = [ //
         "名前", "回数", "消費", "テンション", "消費テンション",//
         "射程", "地形",//
         "回復", "補給", "状態回復", "状態異常", //
-        "効果", "ターン", "レベル"//
+        "効果", "ターン", "レベル",//
+        "陣営", "全体"//軍師スキル用
         ];
         
         //軍師パラメーター
         public static const COMMANDER_PARAM_LIST:Array = ["name", "nickName", "Point", "MaxLv", "HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV", "terrain", "HIT", "EVA"];
         public static const COMMANDER_PARAM_P_LIST:Array = ["名前", "愛称", "策略", "最大レベル", "ＨＰ", "ＦＰ", "攻撃", "潜在", "技術", "防御", "精神", "敏捷", "移動", "地形", "命中", "回避"];
-        
         
         public static const CRITICAL_TYPE:Array = ["rate", "nodef"];
         public static const CRITICAL_P_TYPE:Array = ["倍率", "防御無視"];
@@ -310,6 +312,18 @@ package converter.parse.common
                             {
                                 skillData.minrange = rangeAry[0];
                                 skillData.maxrange = rangeAry[0];
+                            }
+                        }
+                        else if (SKILL_LIST[j] === "target")
+                        {
+                            if (param[1] == "味方" || param[1] == "ally"){
+                                skillData.target = MasterCommanderSkillData.SKILL_TARGET_ALLY;
+                            }
+                            else if (param[1] == "敵" || param[1] == "enemy"){
+                                skillData.target = MasterCommanderSkillData.SKILL_TARGET_ENEMY;
+                            }
+                            else if (param[1] == "全体" || param[1] == "all"){
+                                skillData.target = MasterCommanderSkillData.SKILL_TARGET_ALL;
                             }
                         }
                         else

@@ -1,0 +1,6 @@
+﻿name:友永勇太
+nickname:勇太
+type:立ち絵
+x:160,	y:180
+ボディ, 	勇太, 	0
+basic:ボディ

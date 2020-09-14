@@ -78,6 +78,7 @@ package scene.unit
 		
 		private var _data:MasterWeaponData = null;
 		
+        private var _enable:Boolean = false;
 		//-------------------------------------------------------------
 		//
 		// construction
@@ -736,6 +737,16 @@ package scene.unit
 		{
 			return _data;
 		}
+        
+        public function get enable():Boolean 
+        {
+            return _enable;
+        }
+        
+        public function set enable(value:Boolean):void 
+        {
+            _enable = value;
+        }
 		//-------------------------------------------------------------
 		//
 		// component

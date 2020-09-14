@@ -61,6 +61,7 @@ package scene.commander
         
         private var _data:MasterCommanderSkillData = null;
         
+        private var _enable:Boolean
         //-------------------------------------------------------------
         //
         // construction
@@ -288,6 +289,16 @@ package scene.commander
         public function get data():MasterCommanderSkillData
         {
             return _data;
+        }
+        
+        public function get enable():Boolean 
+        {
+            return _enable;
+        }
+        
+        public function set enable(value:Boolean):void 
+        {
+            _enable = value;
         }
         //-------------------------------------------------------------
         //

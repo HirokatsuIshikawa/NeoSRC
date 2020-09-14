@@ -24,6 +24,7 @@ package database.master.base
         
         public var weaponName:String = null;
         public var skillName:String = null;
+        public var specialName:String = null;
         
         /**相手名*/
         public var enemy:String = null;
@@ -102,9 +103,9 @@ package database.master.base
             //スキル名
             if (skill != null)
             {
-                if (skillName != null)
+                if (specialName != null)
                 {
-                    if (skillName != skill.name)
+                    if (specialName != skill.name)
                     {
                         return false;
                     }

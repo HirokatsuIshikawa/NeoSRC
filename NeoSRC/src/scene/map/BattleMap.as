@@ -1,6 +1,7 @@
 package scene.map
 {
     import a24.tween.Tween24;
+    import common.CommonBattleMath;
     import database.master.MasterCommanderSkillData;
     import database.user.CommanderData;
     import scene.map.basepoint.MapPicture;
@@ -1322,13 +1323,11 @@ package scene.map
             startCommanderMessage();
         }
         
-        
         public function executeToAllCommanderSkill():void
         {
             SingleMusic.playBGM(_sideState[_selectSide].commander.customBgmHeadPath, 1, 1);
             startCommanderMessage();
         }
-        
         
         //軍師メッセージ
         private function startCommanderMessage():void
@@ -1388,9 +1387,40 @@ package scene.map
         //軍師スキルエフェクト
         private function setCommanderSkillEffect():void
         {
+            var i:int = 0, j:int = 0;
             //メッセージウィンドウ破棄
             _messageWindow.dispose();
             _messageWindow = null;
+            
+            //個別効果
+            if (_selectCommanderSkill.toAll == 0)
+            {
+                CommonBattleMath.commanderSkillEffect(_targetUnit, _selectCommanderSkill);
+            }
+            //全体効果
+            else
+            {
+                for (i = 0; i < _sideState.length; i++)
+                {
+                    //敵軍に効果があるスキルを、自軍で飛ばす
+                    if (_selectSide == i && _selectCommanderSkill.target == MasterCommanderSkillData.SKILL_TARGET_ENEMY)
+                    {
+                        continue;
+                    }
+                    //自軍のみに効果があるスキルを、自軍以外で飛ばす
+                    else if (_selectSide != i && _selectCommanderSkill.target == MasterCommanderSkillData.SKILL_TARGET_ALLY)
+                    {
+                        continue;
+                    }
+                    
+                    for (j = 0; j < _sideState[i].battleUnit.length; j++)
+                    {
+                        CommonBattleMath.commanderSkillEffect(_sideState[i].battleUnit[j], _selectCommanderSkill);
+                    }
+                }
+            }
+            
+            _sideState[_selectSide].commander.usePoint(_selectCommanderSkill.useSp);
             
             endCommanderSkill();
         }
@@ -2766,6 +2796,7 @@ package scene.map
             }
             
             //ターン開始時の回復
+            _sideState[_selectSide].commander.addPoint();
             for (i = 0; i < _sideState[_selectSide].battleUnit.length; i++)
             {
                 if (_sideState[_selectSide].battleUnit[i].onMap)

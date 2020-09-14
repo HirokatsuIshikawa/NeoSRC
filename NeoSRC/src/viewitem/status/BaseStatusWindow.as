@@ -243,7 +243,30 @@ package viewitem.status
             addChild(_mndImg);
             _movImg.setNumber(data.param.MOV, ImgNumber.TYPE_STATE_MOV, paramColor[8]);
             addChild(_movImg);
-        
+            
+            if (data.param.HIT > 0)
+            {
+                _hitImg.setNumber(data.param.HIT, ImgNumber.TYPE_STATE_HIT, 0x44FF44);
+                _hitImg.visible = true;
+                addChild(_hitImg);
+            }
+            else
+            {
+                _hitImg.visible = false;
+                removeChild(_hitImg);
+            }            
+            //回避
+            if (data.param.EVA > 0)
+            {
+                _evaImg.setNumber(data.param.EVA, ImgNumber.TYPE_STATE_EVA, 0x44FF44);
+                _evaImg.visible = true;
+                addChild(_evaImg);
+            }
+            else
+            {
+                _evaImg.visible = false;
+                removeChild(_evaImg);
+            }
             //this.addEventListener(TouchEvent.TOUCH, clickHandler);
         }
         
@@ -467,6 +490,10 @@ package viewitem.status
             _capImg.y = ST_BASE_Y + ST_BETWEEN_Y * 2;
             _movImg.x = ST_LEFT_X;
             _movImg.y = ST_BASE_Y + ST_BETWEEN_Y * 3;
+            _hitImg.x = ST_LEFT_X;
+            _hitImg.y = ST_BASE_Y + ST_BETWEEN_Y * 4;
+            _evaImg.x = ST_RIGHT_X;
+            _evaImg.y = ST_BASE_Y + ST_BETWEEN_Y * 4;
         }
     
     }

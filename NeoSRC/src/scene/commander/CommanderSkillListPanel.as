@@ -1,4 +1,4 @@
-package scene.unit
+package scene.commander
 {
     import common.CommonDef;
     import database.master.MasterCommanderSkillData;
@@ -40,7 +40,6 @@ package scene.unit
             super();
         }
         
-        
         // 軍師スキル一覧セット
         public function setSkill(commander:CommanderData):void
         {
@@ -67,13 +66,14 @@ package scene.unit
                 skillItem.y = count * 140;
                 skillItem.addEventListener(TouchEvent.TOUCH, touchFunc);
                 skillItem.alpha = 1;
+                skillItem.enable = true;
                 
                 //使用回数
                 if (datalist[i].maxCount > 0)
                 {
                     if (datalist[i].useCount <= 0)
                     {
-                        skillItem.touchable = false;
+                        skillItem.enable = false;
                         skillItem.alpha = 0.5;
                     }
                 }
@@ -83,7 +83,7 @@ package scene.unit
                 {
                     if (commander.nowPoint < datalist[i].useSp)
                     {
-                        skillItem.touchable = false;
+                        skillItem.enable = false;
                         skillItem.alpha = 0.5;
                     }
                 }
@@ -156,7 +156,13 @@ package scene.unit
         public function touchFunc(e:TouchEvent):void
         {
             var target:CommanderSkillListItem = e.currentTarget as CommanderSkillListItem;
+            if (target.enable == false)
+            {
+                return;
+            }
+            
             var touch:Touch = e.getTouch(target, TouchPhase.ENDED);
+            
             _selectSkill = target.data;
             if (touch != null)
             {
@@ -168,7 +174,7 @@ package scene.unit
                     if (_pushFlg)
                     {
                         var pos:Point = touch.getLocation(target);
-                        if(target.hitTest(pos))
+                        if (target.hitTest(pos))
                         {
                             _selectSkill = target.data;
                             MainController.$.view.battleMap.makeCommanderSkillArea(target.data, _selectSkill.target);
@@ -225,7 +231,13 @@ package scene.unit
                 case TouchPhase.STATIONARY: 
                     break;
                 //ドラッグ
-                case TouchPhase.MOVED: 
+                case TouchPhase.MOVED:
+                    
+                    if (_baseSpr.height < CommonDef.WINDOW_H)
+                    {
+                        return;
+                    }
+                    
                     var pos:Point = globalToLocal(new Point(touch.globalX, touch.globalY));
                     var addPos:int = touch.globalY - touch.previousGlobalY;
                     if (_baseSpr.y + addPos >= 0)

@@ -630,6 +630,10 @@ package scene.unit
                     for (j = 0; j < BaseParam.STATUS_STR.length; j++)
                     {
                         this.param[BaseParam.STATUS_STR[j]] += _passiveList[i].buffParam[learnLv]._param[BaseParam.STATUS_STR[j]];
+                    }                    
+                    for (j = 0; j < BaseParam.ADD_STR.length; j++ )
+                    {
+                        this.param[BaseParam.ADD_STR[j]] += _passiveList[i].buffParam[skillLv]._param[BaseParam.ADD_STR[j]];
                     }
                 }
             }
@@ -643,7 +647,14 @@ package scene.unit
                     {
                         this.param[BaseParam.STATUS_STR[j]] += _buffList[i].buffParam[skillLv]._param[BaseParam.STATUS_STR[j]];
                     }
+                    
+                    for (j = 0; j < BaseParam.ADD_STR.length; j++ )
+                    {
+                        this.param[BaseParam.ADD_STR[j]] += _buffList[i].buffParam[skillLv]._param[BaseParam.ADD_STR[j]];
+                    }
+                    
                 }
+                
             }
         }
         

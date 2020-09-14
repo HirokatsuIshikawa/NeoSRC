@@ -786,7 +786,7 @@ package scene.talk
                 {
                     if (param.name === MainController.$.model.playerCommanderData[i].name || param.name === MainController.$.model.playerCommanderData[i].nickName)
                     {
-                        MainController.$.model.playerCommanderData[i].setLevel(param.value);
+                        MainController.$.model.playerCommanderData[i].setLevel(param.lv);
                         //選択中だった場合マップ軍師に反映
                         if (MainController.$.map != null && //
                         MainController.$.model.playerParam.selectCommanderName === MainController.$.model.playerCommanderData[i].name || //

@@ -57,6 +57,7 @@ package scene.unit
         
         private var _data:MasterSkillData = null;
         
+        private var _enable:Boolean = false;
         //-------------------------------------------------------------
         //
         // construction
@@ -412,6 +413,16 @@ package scene.unit
         public function get data():MasterSkillData
         {
             return _data;
+        }
+        
+        public function get enable():Boolean 
+        {
+            return _enable;
+        }
+        
+        public function set enable(value:Boolean):void 
+        {
+            _enable = value;
         }
         //-------------------------------------------------------------
         //

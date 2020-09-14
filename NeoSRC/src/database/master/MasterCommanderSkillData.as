@@ -14,7 +14,7 @@ package database.master
 		
 		public static const SKILL_PARAM_LIST:Array = [ //
 		"name", "target", "toall", //
-		"sp", "count", //
+		"usesp", "count", //
 		"heal", "supply", //
 		"state", "badstate", //
 		"buff", "turn", "level",//
@@ -154,7 +154,7 @@ package database.master
 			// データ設定
 			_name = data.name;
 			_target = data.target;
-			_useSp = data.sp;
+			_useSp = data.usesp;
 			_useCount = data.count;
 			_maxCount = data.count;
 			_heal = data.heal;

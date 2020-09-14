@@ -88,7 +88,7 @@ package scene.unit
 					else
 					{
 						counterFlg = false;
-						weaponItem.touchable = false;
+						weaponItem.enable = false;
 						weaponItem.alpha = 0.5;
 					}
 				}
@@ -99,7 +99,7 @@ package scene.unit
 					if (datalist[i].useCount <= 0)
 					{
 						counterFlg = false;
-						weaponItem.touchable = false;
+						weaponItem.enable = false;
 						weaponItem.alpha = 0.5;
 					}
 				}
@@ -110,7 +110,7 @@ package scene.unit
 					if (unit.nowFp < datalist[i].useFp)
 					{
 						counterFlg = false;
-						weaponItem.touchable = false;
+						weaponItem.enable = false;
 						weaponItem.alpha = 0.5;
 					}
 				}
@@ -124,7 +124,7 @@ package scene.unit
 						if (MainController.$.map.selectMoved)
 						{
 							counterFlg = false;
-							weaponItem.touchable = false;
+							weaponItem.enable = false;
 							weaponItem.alpha = 0.5;
 						}
 					}
@@ -211,6 +211,10 @@ package scene.unit
 		public function touchFunc(e:TouchEvent):void
 		{
 			var target:WeaponListItem = e.currentTarget as WeaponListItem;
+            if (target.enable == false)
+            {
+                return;
+            }
 			var touch:Touch = e.getTouch(target);
 			if (touch != null)
 			{

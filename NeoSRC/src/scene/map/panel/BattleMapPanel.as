@@ -5,7 +5,7 @@ package scene.map.panel
     import scene.map.panel.subpanel.CommanderPanel;
     import scene.map.panel.subpanel.MapTalkPanel;
     import scene.map.panel.subpanel.SelectCommanderSkillTargetPanel;
-    import scene.unit.CommanderSkillListPanel;
+    import scene.commander.CommanderSkillListPanel;
     import scene.unit.SkillListPanel;
     import scene.unit.WeaponListItem;
     import scene.unit.WeaponListPanel;

@@ -68,13 +68,14 @@ package scene.unit
                 skillItem.y = count * 140;
                 skillItem.addEventListener(TouchEvent.TOUCH, touchFunc);
                 skillItem.alpha = 1;
+                skillItem.enable = true;
                 
                 //使用回数
                 if (datalist[i].maxCount > 0)
                 {
                     if (datalist[i].useCount <= 0)
                     {
-                        skillItem.touchable = false;
+                        skillItem.enable = false;
                         skillItem.alpha = 0.5;
                     }
                 }
@@ -84,7 +85,7 @@ package scene.unit
                 {
                     if (unit.nowFp < datalist[i].useFp)
                     {
-                        skillItem.touchable = false;
+                        skillItem.enable = false;
                         skillItem.alpha = 0.5;
                     }
                 }
@@ -94,7 +95,7 @@ package scene.unit
                 {
                     if (unit.nowTp < datalist[i].enableTp)
                     {
-                        skillItem.touchable = false;
+                        skillItem.enable = false;
                         skillItem.alpha = 0.5;
                     }
                 }
@@ -104,7 +105,7 @@ package scene.unit
                 {
                     if (unit.nowTp < datalist[i].useTp)
                     {
-                        skillItem.touchable = false;
+                        skillItem.enable = false;
                         skillItem.alpha = 0.5;
                     }
                 }
@@ -125,7 +126,6 @@ package scene.unit
             }
         }
         
-        
         //-------------------------------------------------------------
         //
         // override
@@ -138,14 +138,14 @@ package scene.unit
             
             CommonDef.disposeList([_itemList, _btnBack, _baseSpr]);
             /*
-            _btnBack.removeEventListener(Event.TRIGGERED, pushBackBtn);
-            _btnBack.dispose()
-            _btnBack = null;
-            _selectSkill = null;
-            _baseSpr.removeEventListener(TouchEvent.TOUCH, touchSpr);
-            _baseSpr.dispose();
-            _baseSpr = null;
-            */
+               _btnBack.removeEventListener(Event.TRIGGERED, pushBackBtn);
+               _btnBack.dispose()
+               _btnBack = null;
+               _selectSkill = null;
+               _baseSpr.removeEventListener(TouchEvent.TOUCH, touchSpr);
+               _baseSpr.dispose();
+               _baseSpr = null;
+             */
             _selectSkill = null;
             super.dispose();
         }
@@ -162,7 +162,6 @@ package scene.unit
                     _itemList[i] = null;
                 }
             }
-
         
         }
         
@@ -191,6 +190,11 @@ package scene.unit
         public function touchFunc(e:TouchEvent):void
         {
             var target:SkillListItem = e.currentTarget as SkillListItem;
+            if (target.enable == false)
+            {
+                return;
+            }
+            
             var touch:Touch = e.getTouch(target, TouchPhase.ENDED);
             _selectSkill = target.data;
             if (touch != null)
@@ -203,7 +207,7 @@ package scene.unit
                     if (_pushFlg)
                     {
                         var pos:Point = touch.getLocation(target);
-                        if(target.hitTest(pos))
+                        if (target.hitTest(pos))
                         {
                             _selectSkill = target.data;
                             MainController.$.view.battleMap.makeSkillArea(target.data, _selectSkill.target);
@@ -260,7 +264,13 @@ package scene.unit
                 case TouchPhase.STATIONARY: 
                     break;
                 //ドラッグ
-                case TouchPhase.MOVED: 
+                case TouchPhase.MOVED:
+                    
+                    if (_baseSpr.height < CommonDef.WINDOW_H)
+                    {
+                        return;
+                    }
+                    
                     var pos:Point = globalToLocal(new Point(touch.globalX, touch.globalY));
                     var addPos:int = touch.globalY - touch.previousGlobalY;
                     if (_baseSpr.y + addPos >= 0)

@@ -31,14 +31,14 @@ package converter.parse.common
         
         //スキルデータ
         public static const SKILL_LIST:Array = [ //
-        "name", "count", "fp", "tp", "usetp",//
+        "name", "count", "fp", "tp", "usetp","usesp",//
         "range", "terrain", //
         "heal", "supply", "state", "badstate", //
         "buff", "turn", "lv",//
         "target", "toall"//軍師スキル用
         ];
         public static const SKILL_P_LIST:Array = [ //
-        "名前", "回数", "消費", "テンション", "消費テンション",//
+        "名前", "回数", "消費", "テンション", "消費テンション","策略",//
         "射程", "地形",//
         "回復", "補給", "状態回復", "状態異常", //
         "効果", "ターン", "レベル",//
@@ -46,8 +46,8 @@ package converter.parse.common
         ];
         
         //軍師パラメーター
-        public static const COMMANDER_PARAM_LIST:Array = ["name", "nickName", "Point", "MaxLv", "HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV", "terrain", "HIT", "EVA"];
-        public static const COMMANDER_PARAM_P_LIST:Array = ["名前", "愛称", "策略", "最大レベル", "ＨＰ", "ＦＰ", "攻撃", "潜在", "技術", "防御", "精神", "敏捷", "移動", "地形", "命中", "回避"];
+        public static const COMMANDER_PARAM_LIST:Array = ["name", "nickName", "Point", "addPoint","MaxLv", "HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV", "terrain", "HIT", "EVA", "Heal", "Supply"];
+        public static const COMMANDER_PARAM_P_LIST:Array = ["名前", "愛称", "策略", "策略回復","最大レベル", "ＨＰ", "ＦＰ", "攻撃", "潜在", "技術", "防御", "精神", "敏捷", "移動", "地形", "命中", "回避", "回復", "補給"];
         
         public static const CRITICAL_TYPE:Array = ["rate", "nodef"];
         public static const CRITICAL_P_TYPE:Array = ["倍率", "防御無視"];

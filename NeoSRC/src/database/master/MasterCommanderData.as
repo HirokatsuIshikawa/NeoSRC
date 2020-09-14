@@ -13,8 +13,8 @@ package database.master
         public static const INPUT_TYPE:Array = ["HP", "FP", "攻撃", "防御", "技術", "敏捷", "潜在", "精神", "移動"];
         public static const DATA_TYPE:Array = ["HP", "FP", "ATK", "DEF", "TEC", "SPD", "CAP", "MND", "MOV"];
         
-        public static const ADD_INPUT_TYPE:Array = ["命中", "回避", "策略", "回復", "補給"];
-        public static const ADD_DATA_TYPE:Array = ["HIT", "EVA", "Point", "Heal", "Supply"];
+        public static const ADD_INPUT_TYPE:Array = ["命中", "回避", "計略", "計略回復","回復", "補給"];
+        public static const ADD_DATA_TYPE:Array = ["HIT", "EVA", "Point", "addPoint","Heal", "Supply"];
         
         /**識別用ID*/
         private var _id:int = 0;
@@ -37,6 +37,9 @@ package database.master
         /**策略ポイント*/
         public var Point_Max:int = 0;
         public var Point_Min:int = 0;
+        public var addPoint_Max:int = 0;
+        public var addPoint_Min:int = 0;
+        
         public var Heal_Max:int = 0;
         public var Heal_Min:int = 0;
         public var Supply_Max:int = 0;

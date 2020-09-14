@@ -20,6 +20,8 @@ package database.user
         private var _Point:int = 0;
         /**策略ポイント*/
         private var _nowPoint:int = 0;
+        /**回復ポイント*/
+        private var _addPoint:int = 0;
         /**ターン回復*/
         private var _Heal:int = 0;
         /**ターン補給*/
@@ -76,7 +78,7 @@ package database.user
             return _nowPoint;
         }
         
-        public function set nowPoint(value:int):void 
+        public function set nowPoint(value:int):void
         {
             _nowPoint = value;
         }
@@ -141,14 +143,24 @@ package database.user
             }
         }
         
-        public function get customBgmPath():String 
+        public function get customBgmPath():String
         {
             return _customBgmPath;
         }
         
-        public function set customBgmPath(value:String):void 
+        public function set customBgmPath(value:String):void
         {
             _customBgmPath = value;
+        }
+        
+        public function get addPoint():int 
+        {
+            return _addPoint;
+        }
+        
+        public function set addPoint(value:int):void 
+        {
+            _addPoint = value;
         }
         
         /**レベルセット*/
@@ -194,7 +206,26 @@ package database.user
             
             _nowPoint = _Point;
         }
+        
+        public function usePoint(value:int):void
+        {
+            _nowPoint -= value;            
+            if (_nowPoint < 0)
+            {
+                _nowPoint = 0;
+            }
+        }
     
+        
+        public function healPoint():void
+        {
+            _nowPoint += _addPoint;
+            if (_nowPoint > _Point)
+            {
+                _nowPoint = _Point;
+            }
+        }
+        
     }
 
 }

@@ -17,8 +17,8 @@ package converter.parse
         public static const STATE_UNIT:int = 4;
         
         public static const PARAM_LIST:Array = ["name", "nickName", "MaxLv", "stratagem", "addition", "HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV", "HIT", "EVA", "Point", "Heal", "Supply"];
-        public static const PARAM_P_LIST:Array = ["名前", "愛称", "最大レベル", "計略", "回復", "ＨＰ", "ＦＰ", "攻撃", "潜在", "技術", "防御", "精神", "敏捷", "移動", "命中", "回避","策略", "回復", "補給"];
-        public static const MAX_PARAM:Array = ["策略", "回復", "HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV", "HIT", "EVA", "Point", "Heal", "Supply"];
+        public static const PARAM_P_LIST:Array = ["名前", "愛称", "最大レベル", "計略", "計略回復", "ＨＰ", "ＦＰ", "攻撃", "潜在", "技術", "防御", "精神", "敏捷", "移動", "命中", "回避","策略", "回復", "補給"];
+        public static const MAX_PARAM:Array = ["計略", "計略回復", "HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV", "HIT", "EVA", "Point", "Heal", "Supply"];
         
         public static function parseData(str:String):Array
         {

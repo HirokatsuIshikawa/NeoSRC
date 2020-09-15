@@ -3,8 +3,8 @@
   <id>air.NeoSRCMobile</id>
   <versionNumber>1.11</versionNumber>
   <supportedProfiles>mobileDevice</supportedProfiles>
-  <filename>NeoSRCTrial</filename>
-  <name>NeoSRCTrial</name>
+  <filename>SimramaBoxTrial</filename>
+  <name>SimramaBoxTrial</name>
   <android>
     <manifestAdditions><![CDATA[<manifest android:installLocation="auto">
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -29,7 +29,7 @@
     <requestedDisplayResolution>high</requestedDisplayResolution>
   </iPhone>
   <initialWindow>
-    <title>NeoSRCTrial</title>
+    <title>SimramaBoxTrial</title>
     <content>NeoSRCMobile.swf</content>
     <visible>true</visible>
     <fullScreen>false</fullScreen>
@@ -43,16 +43,14 @@
     <maximizable>true</maximizable>
   </initialWindow>
   <icon>
-    <image48x48>icons/icon_48.png</image48x48>
-    <image57x57>icons/icon_57.png</image57x57>
-    <image72x72>icons/NeoSRCMobile72.png</image72x72>
-    <image76x76>icons/icon_76.png</image76x76>
-    <image96x96>icons/NeoSRCMobile96.png</image96x96>
-    <image114x114>icons/NeoSRCMobile114.png</image114x114>
-    <image120x120>icons/NeoSRCMobile120.png</image120x120>
-    <image144x144>icons/NeoSRCMobile144.png</image144x144>
-    <image152x152>icons/NeoSRCMobile152.png</image152x152>
+    <image48x48>icons/SimramaBoxTrial48.png</image48x48>
+    <image72x72>icons/SimramaBoxTrial72.png</image72x72>
+    <image96x96>icons/SimramaBoxTrial96.png</image96x96>
+    <image144x144>icons/SimramaBoxTrial144.png</image144x144>
     <!--<image512x512>icons/icon_512.png</image512x512>-->
+    <image36x36>icons/SimramaBoxTrial36.png</image36x36>
+    <image192x192>icons/SimramaBoxTrial192.png</image192x192>
+    <image512x512>icons/SimramaBoxTrial512.png</image512x512>
   </icon>
   <!--
 		 AIR options:

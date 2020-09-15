@@ -3,8 +3,8 @@
   <id>syougungames.NeoSRCMobile</id>
   <versionNumber>1.11</versionNumber>
   <supportedProfiles>mobileDevice</supportedProfiles>
-  <filename>シミュラマPになろう</filename>
-  <name>シミュラマPになろう</name>
+  <filename>SimramaBox</filename>
+  <name>SimramaBox</name>
   <android>
     <manifestAdditions><![CDATA[<manifest android:installLocation="auto">
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -29,7 +29,7 @@
     <requestedDisplayResolution>high</requestedDisplayResolution>
   </iPhone>
   <initialWindow>
-    <title>NeoSRCMobile</title>
+    <title>SimramaBox</title>
     <content>NeoSRCMobile.swf</content>
     <visible>true</visible>
     <fullScreen>false</fullScreen>
@@ -43,21 +43,13 @@
     <maximizable>true</maximizable>
   </initialWindow>
   <icon>
-    <image48x48>icons/NeoSRCMobile48.png</image48x48>
-    <image72x72>icons/NeoSRCMobile72.png</image72x72>
-    <image96x96>icons/NeoSRCMobile96.png</image96x96>
-    <image114x114>icons/NeoSRCMobile114.png</image114x114>
-    <image120x120>icons/NeoSRCMobile120.png</image120x120>
-    <image144x144>icons/NeoSRCMobile144.png</image144x144>
-    <image152x152>icons/NeoSRCMobile152.png</image152x152>
-    <!--<image512x512>icons/icon_512.png</image512x512>-->
-    <image36x36>icons/NeoSRCMobile36.png</image36x36>
-    <image100x100>icons/NeoSRCMobile100.png</image100x100>
-    <image128x128>icons/NeoSRCMobile128.png</image128x128>
-    <image180x180>icons/NeoSRCMobile180.png</image180x180>
-    <image192x192>icons/NeoSRCMobile192.png</image192x192>
-    <image512x512>icons/NeoSRCMobile512.png</image512x512>
-    <image1024x1024>icons/NeoSRCMobile1024.png</image1024x1024>
+    <image48x48>icons/SimramaBox48.png</image48x48>
+    <image72x72>icons/SimramaBox72.png</image72x72>
+    <image96x96>icons/SimramaBox96.png</image96x96>
+    <image144x144>icons/SimramaBox144.png</image144x144>
+    <image36x36>icons/SimramaBox36.png</image36x36>
+    <image192x192>icons/SimramaBox192.png</image192x192>
+    <image512x512>icons/SimramaBox512.png</image512x512>
   </icon>
   <!--
 		 AIR options:

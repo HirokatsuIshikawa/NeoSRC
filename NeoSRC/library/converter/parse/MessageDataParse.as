@@ -153,7 +153,6 @@ package converter.parse
                                 condition.specialName = conditionValue;
                                 break;
 							}
-							
 						}
 					}
 					//メッセージ設定

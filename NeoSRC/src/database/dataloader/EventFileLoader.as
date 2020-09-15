@@ -41,24 +41,24 @@ package database.dataloader
 				
 				strData = strData.replace(/\r\n/g, "\n");
 				var ary:Array = strData.split("\n");
-				var labelAry:Array = new Array();
+				var labelList:Object = new Object();
                 //ラベルを付けなおすフラグ
                 if (resetLabelFlg)
                 {
-				    labelAry = resetLabel(ary, labelAry);
+				    labelList = resetLabel(ary, labelList);
                 }
-				func(ary, labelAry);
+				func(ary, labelList);
 			}
 			_textloader.load(_requrl);
 		}
 		
-		public static function resetLabel(ary:Array, labelAry:Array):Array
+		public static function resetLabel(ary:Array, labelList:Object):Object
 		{
 			var i:int = 0;
-            if (labelAry != null)
+            if (labelList != null)
             {
-                labelAry = null;
-                labelAry = new Array();
+                labelList = null;
+                labelList = new Object();
             }
             
 			//コメントアウト削除
@@ -82,11 +82,11 @@ package database.dataloader
 					// ラベルキーの追加
 					if (ary[i].length > 0 && ary[i].lastIndexOf(":") == ary[i].length - 1)
 					{
-						labelAry[ary[i]] = [i];
+						labelList[ary[i]] = i;
 					}
 				}
 			}
-            return labelAry;
+            return labelList;
 		}
 	
 	}

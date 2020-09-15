@@ -85,7 +85,7 @@ package scene.talk
         /**テキストデータ*/
         protected var _textData:Array = null;
         /**ラベルデータ*/
-        protected var _labelData:Array = null;
+        protected var _labelData:Object = null;
         /**ライン接続フラグ*/
         protected var _connectLineFlg:Boolean = false;
         
@@ -306,7 +306,7 @@ package scene.talk
         }
         
         /**イベントファイル読み込み完了*/
-        protected function setText(ary:Array, label:Array):void
+        protected function setText(ary:Array, label:Object):void
         {
             _textData = ary;
             _labelData = label;
@@ -325,7 +325,7 @@ package scene.talk
         }
         
         /**イベントファイル読み込み完了*/
-        protected function setContinueText(ary:Array, label:Array):void
+        protected function setContinueText(ary:Array, label:Object):void
         {
             _textData = ary;
             _labelData = label;
@@ -359,7 +359,7 @@ package scene.talk
         /**初期化ラベルロード*/
         private function initialLabelLoad(func:Function):void
         {
-            if (_labelData.indexOf(MainViewer.INIT_LABEL + ":") >= 0)
+            if (_labelData.hasOwnProperty(MainViewer.INIT_LABEL + ":"))
             {
                 _initialLabelFlg = true;
                 _initialLoadFunc = func;
@@ -373,7 +373,7 @@ package scene.talk
         }
         
         /**Eveデータ追加分結合*/
-        protected function addEveData(add:Array, label:Array):void
+        protected function addEveData(add:Array, label:Object):void
         {
             var base:Array = _textData;
             _textData = base.concat(add);

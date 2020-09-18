@@ -1289,17 +1289,25 @@ CharaLayer name:キャラクター
 SetChara name:ロッドアタッカー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 0) alpha:1
 SetChara name:ブッシュシューター x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 1) alpha:1
 SetChara name:キャノンレイダー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 2) alpha:1
+SetChara name:さくら x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 0) alpha:1
+SetChara name:なのは x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 1) alpha:1
+SetChara name:ユーノ x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 2) alpha:1
+SetChara name:知世 x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 3) alpha:1
+SetChara name:ケイブガード x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 4) alpha:1 y:160
+SetChara name:ワイルドランナー x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 5) alpha:1 y:160
 ReadyMove
-SetMove layer:キャラクター time:0 x:$変数(エネミー表示位置)
+SetMove layer:キャラクター time:0 x:$変数(プレイヤー表示位置)
 SetMove layer:キャラクター time:0.1 fade:in
 StartMove type:連続 wait:on
-
 Talk ケイブガード
 強い……！？
 
 Talk ワイルドランナー
 あの子達、こんなに強かったんだ……！
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(エネミー表示位置)
+StartMove type:連続
 Talk キャノンレイダー
 チッ、まさかここまでとは……
 
@@ -1307,6 +1315,12 @@ Talk キャノンレイダー
 
 だがまだだ！！
 
+HideMessage time:0.3
+clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+Center x:14 y:11
 CreateUnit name:ポテトン x:12 y:8 side:味方 level:1
 CreateUnit name:ポテドン x:11 y:9 side:味方 level:1 
 CreateUnit name:ポテトン x:11 y:13 side:味方 level:1 
@@ -1315,8 +1329,11 @@ CreateUnit name:ポテトン x:16 y:14 side:味方 level:1
 CreateUnit name:ポテドン x:17 y:13 side:味方 level:1 
 CreateUnit name:ポテトン x:17 y:9 side:味方 level:1 
 CreateUnit name:ポテドン x:16 y:8 side:味方 level:1 
-
-
+Wait 1
+ReadyMove
+SetMove layer:キャラクター time:0 x:$変数(プレイヤー表示位置)
+SetMove layer:キャラクター time:0.3 fade:in
+StartMove type:同時 wait:on
 Talk さくら
 うわっ！？
 
@@ -1326,31 +1343,54 @@ Talk ケイブガード
 Talk さくら
 び、びっくりした……！
 
+あのジャガイモ、なんか怖い顔してるし……
+
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(エネミー表示位置)
+StartMove type:連続
 Talk キャノンレイダー
 このあたりにゃ結構仕込んだからな
 
 まだまだお代わりは十分あるぜ
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
+StartMove type:連続
 Talk ケイブガード
 クソっ、どうせなら揚げてから出して来いよ！！
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(エネミー表示位置)
+StartMove type:連続
 Talk ロッドアタッカー
 （……実際、食えるんだよなぁ
 味は、普通にジャガイモだし）
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
+StartMove type:連続
 Talk ワイルドランナー
 ……けど、いくら数が多くても
 しょせんはジャガイモお化け
 
 こっちのほうがまだ押してるし
 このまま……
-
+Wait 2
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(エネミー表示位置)
+StartMove type:連続
 Talk キャノンレイダー
 ……おっと、そいつはどうかな？
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
+StartMove type:連続
 Talk なのは
 え……？
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(エネミー表示位置)
+StartMove type:連続
 Talk キャノンレイダー
 不思議に思わなかったか？
 
@@ -1358,6 +1398,9 @@ Talk キャノンレイダー
 
 いったい、どうやって作ったと思う？
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
+StartMove type:連続
 Talk ケイブガード
 そんなの、マギアームを使えば簡単に……
 
@@ -1366,6 +1409,9 @@ Talk ケイブガード
 Talk ユーノ
 な……なんだ！？　この振動……
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(エネミー表示位置)
+StartMove type:連続
 Talk キャノンレイダー
 マギアームは、道具から……とは限らないぜ
 
@@ -1374,16 +1420,29 @@ Talk キャノンレイダー
 Talk キャノンレイダー
 こんな事だってできるんだよ！！
 
+HideMessage time:0.3
+clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+Wait 1
 CreateUnit name:グランモール x:14 y:11 side:敵 level:5
-
-
-
+Wait 1
+ReadyMove
+SetMove layer:キャラクター time:0 x:$変数(プレイヤー表示位置)
+SetMove layer:キャラクター time:0.3 fade:in
+StartMove type:同時 wait:on
 Talk ワイルドランナー
 な、なにこいつ！？
 
 Talk さくら
 大きなモグラさん……？
 
+SetChara name:エレクトロショッカー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 3) alpha:0
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(エネミー表示位置)
+SetMove chara:エレクトロショッカー time:0.5 alpha:1
+StartMove type:連続
 Talk エレクトロショッカー
 おーい、ここに居た分のポテトン達は
 全部掘り出したぜー……
@@ -1399,8 +1458,9 @@ Talk キャノンレイダー
 Talk エレクトロショッカー
 えー……めんどいなぁ……
 
-
-
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
+StartMove type:連続
 Talk ケイブガード
 モグラロボって……
 
@@ -1433,8 +1493,17 @@ Talk 知世
 
 Talk さくら
 わかったよ、知世ちゃん！！
-
-
+hidemsg time:0.3
+clearmsg type:all
+//
+//
+//
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+ClearEvent 
+SetEvent target:グランモール type:撃破 label:グランモール撃破
+DeleteAllLayer
 Exit
 
 

@@ -73,6 +73,7 @@ package scene.unit
 				weaponItem.y = count * 140;
 				weaponItem.addEventListener(TouchEvent.TOUCH, touchFunc);
 				weaponItem.alpha = 1;
+                weaponItem.enable = true;
 				
 				// 反撃時処理
 				if (range > 0)

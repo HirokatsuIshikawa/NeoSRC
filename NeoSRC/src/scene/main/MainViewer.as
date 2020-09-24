@@ -483,7 +483,7 @@ package scene.main
                         _battleMap.frameArea.addChildAt(battleUnit.frameImg, _battleMap.frameArea.numChildren);
                         if (battleUnit.formationNumImg != null)
                         {
-                            battleMap.frameArea.addChildAt(battleUnit.formationNumImg, _battleMap.frameArea.numChildren);
+                            battleMap.effectArea.addChildAt(battleUnit.formationNumImg, _battleMap.effectArea.numChildren);
                         }
                     }
                     //軍師ステータスプラス

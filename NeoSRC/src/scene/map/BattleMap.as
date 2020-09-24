@@ -518,7 +518,10 @@ package scene.map
                 // 一定時間かけて表示
                 var tweenAry:Array = new Array();
                 var tweenUnit:Tween24 = Tween24.tween(battleUnit.unitImg, 0.3).x((posX - 1) * MAP_SIZE).alpha(1);
-                var tweenFrame:Tween24 = Tween24.tween(battleUnit.frameImg, 0.3).alpha(1);
+                if (battleUnit.frameImg != null)
+                {
+                    var tweenFrame:Tween24 = Tween24.tween(battleUnit.frameImg, 0.3).alpha(1);
+                }
                 
                 //tweenAry.push(launchParticle(posX, posY));
                 tweenAry.push(tweenUnit);
@@ -772,8 +775,11 @@ package scene.map
                     _unitArea.addChildAt(battleUnit.unitImg, _unitArea.numChildren);
                     // フレームエリアに沸く追加
                     _frameArea.addChildAt(battleUnit.frameImg, _frameArea.numChildren);
-                    // フレームエリアに数字追加
-                    _effectArea.addChildAt(battleUnit.formationNumImg, _effectArea.numChildren);
+                    if (battleUnit.frameImg != null)
+                    {
+                        // フレームエリアに数字追加
+                        _effectArea.addChildAt(battleUnit.formationNumImg, _effectArea.numChildren);
+                    }
                     
                     // 一定時間かけて表示
                     var tweenAry:Array = new Array();
@@ -3092,6 +3098,11 @@ package scene.map
         public function get statusWindow():BattleMapStatus
         {
             return _statusWindow;
+        }
+        
+        public function get effectArea():CSprite 
+        {
+            return _effectArea;
         }
         
         public function set mapTalkFlg(value:Boolean):void

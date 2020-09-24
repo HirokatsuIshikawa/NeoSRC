@@ -28,12 +28,12 @@
 </manifest>]]></manifestAdditions>
   </android>
   <icon>
-    <image72x72>icons/シミュラマボックス72.png</image72x72>
-    <image96x96>icons/シミュラマボックス96.png</image96x96>
-    <image144x144>icons/シミュラマボックス144.png</image144x144>
-    <image192x192>icons/シミュラマボックス192.png</image192x192>
-    <image512x512>icons/シミュラマボックス512.png</image512x512>
-    <image36x36>icons/シミュラマボックス36.png</image36x36>
-    <image48x48>icons/シミュラマボックス48.png</image48x48>
+    <image72x72>icons/NeoSRC72.png</image72x72>
+    <image96x96>icons/NeoSRC96.png</image96x96>
+    <image144x144>icons/NeoSRC144.png</image144x144>
+    <image192x192>icons/NeoSRC192.png</image192x192>
+    <image512x512>icons/NeoSRC512.png</image512x512>
+    <image36x36>icons/NeoSRC36.png</image36x36>
+    <image48x48>icons/NeoSRC48.png</image48x48>
   </icon>
 </application>

@@ -2,6 +2,7 @@ package scene.talk
 {
     import a24.tween.Tween24;
     import bgm.SingleMusic;
+    import com.hurlant.crypto.prng.Random;
     import common.CalcInfix;
     import common.CommonDef;
     import common.CommonSystem;
@@ -523,6 +524,9 @@ package scene.talk
                 break;
             case "flash": 
                 flashWindow(command, param);
+                break;
+            case "shake": 
+                shakeWindow(command, param);
                 break;
             //-----------------------------------------------------リセット-----------------------------------------------------
             case "allreset": 
@@ -1344,9 +1348,8 @@ package scene.talk
                 _flashImg.color = 0xFFFFFF;
             }
             
-            if (param)
-                
-                addChild(_flashImg);
+            //if (param)
+            addChild(_flashImg);
             Tween24.serial(Tween24.tween(_flashImg, CommonDef.waitTime(flashTime, _skipFlg)).fadeIn(), Tween24.tween(_flashImg, CommonDef.waitTime(flashTime, _skipFlg)).fadeOut()).onComplete(flashEnd).play();
             
             function flashEnd():void
@@ -1358,6 +1361,46 @@ package scene.talk
         
         }
         
+        protected function shakeWindow(command:Array, param:Object):void
+        {
+            var shakeTime:Number;
+            // 時間設定
+            if (param.hasOwnProperty("time"))
+            {
+                shakeTime = param.time;
+            }
+            else
+            {
+                shakeTime = 1;
+            }
+            
+            if (!param.hasOwnProperty("x"))
+            {
+                param.x = 20;
+            }
+            
+            if (!param.hasOwnProperty("y"))
+            {
+                param.y = 20;
+            }
+            
+            Tween24.serial(Tween24.prop(MainController.$.view).$$xy(param.x, param.y), Tween24.tween(MainController.$.view, shakeTime).$$xy(0, 0)).onUpdate(shakeUpdate).onComplete(shakeEnd).play();
+            
+            function shakeUpdate():void
+            {
+                MainController.$.view.x = MainController.$.view.x * Math.random() * 2 - 1;
+                MainController.$.view.y = MainController.$.view.y * Math.random() * 2 - 1;
+            }
+            
+            function shakeEnd():void
+            {
+                MainController.$.view.x = 0;
+                MainController.$.view.y = 0;
+                setLineCommand();
+            }
+        }
+        
+        //全レイヤー
         protected function allLayer(command:Array, param:Object):void
         {
             var tween:Tween24 = null;

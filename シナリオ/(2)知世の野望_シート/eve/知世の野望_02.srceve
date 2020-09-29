@@ -114,7 +114,9 @@ Talk すずか
 烈火のごとく怒るだろうし
 
 Talk アリサ
-う……いや、私が同じ立場だったら
+う……
+wait 0.3
+いや、私が同じ立場だったら
 こじれる前には、ちゃんと話すわよ
 
 ……たぶん
@@ -123,9 +125,11 @@ Talk すずか
 （そうかなぁ……？）
 
 Talk アリサ
-……さて、そんな事より今はなのはを探すわよ
+……さて、そんな事よりなのはを探すわよ
 
-あの時、どこで会ってたのかも
+それにしても、いったいどこにいるのやら……
+
+見かけたヤツに、どこで会ってたのかも
 聞いときゃよかったわね……
 
 hidemsg time:0.3
@@ -156,7 +160,10 @@ SetMove layer:エフェクト time:0.5 fade:out
 StartMove type:連続 wait:on
 showmsg time:0.3
 Talk なのは
-……クシュン！
+……
+Wait 0.2
+cn
+クシュン！
 
 Talk ケルベロス
 なんやなのは、さっきからくしゃみばっかり……
@@ -300,10 +307,10 @@ SetMove layer:キャラクター time:0.5 x:$式($変数(プレイヤー配置�
 SetMove chara:ケイブガード fade:in time:0.5
 SetMove chara:ワイルドランナー fade:in time:0.5
 StartMove type:連続
-Talk ケイブガード
+Talk ケイブガード showname:原始人風な少年
 ………………
 
-Talk ワイルドランナー
+Talk ワイルドランナー showname:原始人風な少女
 ………………
 Wait 1
 ReadyMove
@@ -325,12 +332,12 @@ Talk ユーノ
 ReadyMove
 SetMove layer:キャラクター time:0.5 x:$式($変数(プレイヤー配置間隔) * -3 - 120)
 StartMove type:連続
-Talk ケイブガード
+Talk ケイブガード showname:原始人風な少年
 ………………
 
 ……いや、悪い悪い、驚かせちゃったかな？
 
-Talk ワイルドランナー
+Talk ワイルドランナー showname:原始人風な少女
 どうみても、昨日の連中の
 仲間じゃなさそうね
 

@@ -654,13 +654,19 @@ package scene.talk
 		{
 			_setMsgNextPos = 0;
 			
+            if (param.hasOwnProperty("showname") == false)
+            {
+                param.showname = command[1];
+            }
+            
+            
 			// メッセージウィンドウ初期化
 			if (_messageWindow == null)
 			{
 				
 				msgInit();
 				
-				_messageWindow.setName(command[1]);
+				_messageWindow.setName(param.showname);
 				_talkArea.addChild(_messageWindow);
 				changeFace(command);
 				Tween24.parallel(Tween24.tween(_messageWindow, CommonDef.waitTime(0.5, _skipFlg), Tween24.ease.BackInOut).fadeIn(), Tween24.tween(_msgCloseBtn, CommonDef.waitTime(0.5, _skipFlg), Tween24.ease.BackInOut).fadeIn()).onComplete(function():void
@@ -684,7 +690,7 @@ package scene.talk
 				
 				function talkAction():void
 				{
-					_messageWindow.setName(command[1]);
+					_messageWindow.setName(param.showname);
 					//　キャラ切り替え時名前変更
 					if (_messageWindow.name != command[1])
 					{

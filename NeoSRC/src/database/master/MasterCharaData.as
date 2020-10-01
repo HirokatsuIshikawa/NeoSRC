@@ -38,6 +38,9 @@ package database.master
         
         public function get MaxLv():int  { return _MaxLv; }
         
+        
+        private var _baseLv:int = 0;
+        
         /**最大編成数*/
         private var _maxFormationNum:int;
         
@@ -93,6 +96,11 @@ package database.master
             return _subUnitImgName;
         }
         
+        public function get baseLv():int 
+        {
+            return _baseLv;
+        }
+        
         public function get maxFormationNum():int
         {
             return _maxFormationNum;
@@ -132,6 +140,7 @@ package database.master
             _name = data.name;
             _nickName = data.nickName;
             _MaxLv = MathUtil.max(data.MaxLv, 1);
+            _baseLv = MathUtil.max(data.BaseLv, 0);
             _Cost = data.Cost;
             
             _passiveList = data.Passive;

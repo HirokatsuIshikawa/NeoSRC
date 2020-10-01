@@ -12,8 +12,8 @@ package converter.parse.common
      */
     public class ParseCommon
     {
-        public static const PARAM_LIST:Array = ["name", "nickName", "Cost", "exp", "money", "MaxLv", "HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV", "terrain", "formation"];
-        public static const PARAM_P_LIST:Array = ["名前", "愛称", "コスト", "経験値", "資金", "最大レベル", "ＨＰ", "ＦＰ", "攻撃", "潜在", "技術", "防御", "精神", "敏捷", "移動", "地形", "編成数"];
+        public static const PARAM_LIST:Array = ["name", "nickName", "Cost", "exp", "money", "MaxLv", "BaseLv", "HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV", "terrain", "formation"];
+        public static const PARAM_P_LIST:Array = ["名前", "愛称", "コスト", "経験値", "資金", "最大レベル", "ベースレベル", "ＨＰ", "ＦＰ", "攻撃", "潜在", "技術", "防御", "精神", "敏捷", "移動", "地形", "編成数"];
         public static const MAX_PARAM:Array = ["HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV"];
         //武器データ
         public static const WEAPON_LIST:Array = [ //
@@ -31,14 +31,14 @@ package converter.parse.common
         
         //スキルデータ
         public static const SKILL_LIST:Array = [ //
-        "name", "count", "fp", "tp", "usetp","usesp",//
+        "name", "count", "fp", "tp", "usetp", "usesp",//
         "range", "terrain", //
         "heal", "supply", "state", "badstate", //
         "buff", "turn", "lv",//
         "target", "toall"//軍師スキル用
         ];
         public static const SKILL_P_LIST:Array = [ //
-        "名前", "回数", "消費", "テンション", "消費テンション","策略",//
+        "名前", "回数", "消費", "テンション", "消費テンション", "策略",//
         "射程", "地形",//
         "回復", "補給", "状態回復", "状態異常", //
         "効果", "ターン", "レベル",//
@@ -46,8 +46,8 @@ package converter.parse.common
         ];
         
         //軍師パラメーター
-        public static const COMMANDER_PARAM_LIST:Array = ["name", "nickName", "Point", "addPoint","MaxLv", "HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV", "terrain", "HIT", "EVA", "Heal", "Supply"];
-        public static const COMMANDER_PARAM_P_LIST:Array = ["名前", "愛称", "策略", "策略回復","最大レベル", "ＨＰ", "ＦＰ", "攻撃", "潜在", "技術", "防御", "精神", "敏捷", "移動", "地形", "命中", "回避", "回復", "補給"];
+        public static const COMMANDER_PARAM_LIST:Array = ["name", "nickName", "Point", "addPoint", "MaxLv", "HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV", "terrain", "HIT", "EVA", "Heal", "Supply"];
+        public static const COMMANDER_PARAM_P_LIST:Array = ["名前", "愛称", "策略", "策略回復", "最大レベル", "ＨＰ", "ＦＰ", "攻撃", "潜在", "技術", "防御", "精神", "敏捷", "移動", "地形", "命中", "回避", "回復", "補給"];
         
         public static const CRITICAL_TYPE:Array = ["rate", "nodef"];
         public static const CRITICAL_P_TYPE:Array = ["倍率", "防御無視"];
@@ -316,13 +316,16 @@ package converter.parse.common
                         }
                         else if (SKILL_LIST[j] === "target")
                         {
-                            if (param[1] == "味方" || param[1] == "ally"){
+                            if (param[1] == "味方" || param[1] == "ally")
+                            {
                                 skillData.target = MasterCommanderSkillData.SKILL_TARGET_ALLY;
                             }
-                            else if (param[1] == "敵" || param[1] == "enemy"){
+                            else if (param[1] == "敵" || param[1] == "enemy")
+                            {
                                 skillData.target = MasterCommanderSkillData.SKILL_TARGET_ENEMY;
                             }
-                            else if (param[1] == "全体" || param[1] == "all"){
+                            else if (param[1] == "全体" || param[1] == "all")
+                            {
                                 skillData.target = MasterCommanderSkillData.SKILL_TARGET_ALL;
                             }
                         }

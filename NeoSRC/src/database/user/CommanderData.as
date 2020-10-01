@@ -163,6 +163,11 @@ package database.user
             _addPoint = value;
         }
         
+        public function turnGetPoint():void
+        {
+            _nowPoint = Math.max(Point, _nowPoint + _addPoint);            
+        }
+        
         /**レベルセット*/
         public function levelSet(lv:int):void
         {

@@ -81,11 +81,11 @@ package common
             var damageExp:int = 0;
             var defeatExp:int = 0;
             //ダメージ経験値
-            damageExp = (31 - (targetUnit.nowLv - enemyUnit.nowLv)) / 3;
+            damageExp = Math.max((31 - (targetUnit.showLv - enemyUnit.showLv)) / 3, 1);
             //撃破経験値
             if (!enemyUnit.alive)
             {
-                defeatExp = 20 + (targetUnit.nowLv - enemyUnit.nowLv) * 3 + enemyUnit.masterData.exp;
+                defeatExp = 20 + (enemyUnit.showLv * 1.0 / targetUnit.showLv) * 3 + enemyUnit.masterData.exp;
             }
             
             return damageExp + defeatExp;

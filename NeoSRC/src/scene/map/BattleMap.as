@@ -2801,8 +2801,12 @@ package scene.map
                 _selectSide = 0;
             }
             
-            //ターン開始時の回復
-            _sideState[_selectSide].commander.addPoint();
+            //ターン開始時の回復 コマンダー（居れば）
+            if (_sideState[_selectSide].commander != null)
+            {
+                _sideState[_selectSide].commander.turnGetPoint();
+            }
+            //各ユニットのステータスセット
             for (i = 0; i < _sideState[_selectSide].battleUnit.length; i++)
             {
                 if (_sideState[_selectSide].battleUnit[i].onMap)

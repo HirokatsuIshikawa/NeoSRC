@@ -221,7 +221,7 @@ package viewitem.status
                 
             }
             
-            _lvImg.setNumber(data.nowLv, ImgNumber.TYPE_STATE_Lv);
+            _lvImg.setNumber(data.showLv, ImgNumber.TYPE_STATE_Lv);
             addChild(_lvImg);
             _hpImg.setMaxNumber(data.nowHp, data.param.HP, ImgNumber.TYPE_STATE_HP, paramColor[0]);
             addChild(_hpImg);

@@ -1016,7 +1016,9 @@ Talk キャノンレイダー
 よしよし
 
 あとは少し待つだけで……
-
+Flash time:0.3
+PlaySound file:magic-quake2
+Shake x:20 y:0
 Talk ロッドアタッカー
 うおっ！？
 
@@ -1046,7 +1048,7 @@ LaunchUnit name:ユーノ x:15 y:18
 CreateUnit name:ケイブガード x:9 y:17 side:さくらチーム level:2 join:0
 CreateUnit name:ケイブガード x:11 y:17 side:さくらチーム level:2 join:0
 CreateUnit name:ワイルドランナー x:11 y:19 side:さくらチーム level:2 join:0
-CreateUnit name:ワイルドランナー x:9 y:19 side:さくらチーム level:42join:0
+CreateUnit name:ワイルドランナー x:9 y:19 side:さくらチーム level:2 join:0
 CreateUnit name:ケイブガード x:17 y:17 side:さくらチーム level:2 join:0
 CreateUnit name:ケイブガード x:19 y:17 side:さくらチーム level:2 join:0
 CreateUnit name:ワイルドランナー x:19 y:19 side:さくらチーム level:2 join:0
@@ -1134,11 +1136,13 @@ Talk キャノンレイダー
 結構な事じゃねぇか、昨日の奴等はしくじったが
 ここで捕まえりゃ大手柄だ！！
 
-数はこいつらが居るからいけるはず……
-
+数は心配ないぜ、そろそろ……
+Wait 0.5
 StopBGM
 ……よし、時間だ！！
-
+Wait 1
+PlaySound file:magic-quake2
+Wait 0.5
 ReadyMove
 SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
 StartMove type:連続
@@ -1206,7 +1210,7 @@ Talk キャノンレイダー
 
 いけ！　ポテトン！　ポテドン！！
 あっちの女の子達にケガさせないように
-うまいことやるんだ！！
+うまいこと捕まえるんだ！！
 
 ReadyMove
 SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
@@ -1225,13 +1229,15 @@ Talk ユーノ
 Talk ケイブガード
 どっちにしろ、アイツらの好きにさせるもんか
 
-あのジャガイモが、どれだけの強さかわからないけど
-数が結構多いから、戦いは不利になるかも……
+あのジャガイモ、結構数が居るから
+あんまし油断は出来ないけれど……
 
-とにかく君達は、早くここから離れて……
+Talk ワイルドランナー
+とにかく、あなた達は早くここから……
 
 Talk 知世
 ありがとうございます
+
 でも、大丈夫ですわ
 
 先ほども言った通り、さくらちゃん達は
@@ -1244,18 +1250,30 @@ Talk さくら
 ……大丈夫、戦うのは好きじゃないけど
 あの子達が誰かに迷惑かけようとしてるなら
 
-ちゃんと止めて、叱ってあげなくちゃ
+ちゃんと止めて、叱ってあげなくちゃ！
 
 Talk なのは
 ……そうですね
 
+たぶん、昨日と同じで
+話してわかる相手じゃなさそうですし
+
+Talk ユーノ
+（相手が相手だから、仕方ない気もするけど……
+
+最近のなのは、なんだか過激になってきたかな……？）
+
 Talk 知世
 私には、戦う力はありませんが
+
+こんな事もあろうかと、バッグの中に
+役に立ちそうなものを用意してあります
+
+ここからなら、辺り一帯を見回せますから
+色々と支持する事も出来ますし……
+
 ここから、皆さんの事を
 支援させていただきますわ
-
-なにか御用がありましたら、可能な限り
-サポートいたしますから
 
 Talk ケイブガード
 ……わかったよ
@@ -1279,13 +1297,13 @@ clearmsg type:all
 ReadyMove
 SetMove layer:キャラクター time:0.3 fade:out
 StartMove type:同時 wait:on
-SetEvent side:コクエン隊 label:ボス登場判定 type:撃破
+SetEvent side:敵 label:ボス登場判定 type:撃破
 SetEvent side:さくらチーム label:ゲームオーバー type:全滅
 DeleteAllLayer
 Exit
 
 ボス登場判定:
-If $陣営数(コクエン隊) < 7 Goto ボス登場
+If $陣営数(敵) < 5 Goto ボス登場
 Exit
 
 ボス登場:
@@ -1328,14 +1346,14 @@ ReadyMove
 SetMove layer:キャラクター time:0.3 fade:out
 StartMove type:同時 wait:on
 Center x:14 y:11
-CreateUnit name:ポテトン x:12 y:8 side:味方 level:1
-CreateUnit name:ポテドン x:11 y:9 side:味方 level:1 
-CreateUnit name:ポテトン x:11 y:13 side:味方 level:1 
-CreateUnit name:ポテドン x:12 y:14 side:味方 level:1 
-CreateUnit name:ポテトン x:16 y:14 side:味方 level:1 
-CreateUnit name:ポテドン x:17 y:13 side:味方 level:1 
-CreateUnit name:ポテトン x:17 y:9 side:味方 level:1 
-CreateUnit name:ポテドン x:16 y:8 side:味方 level:1 
+CreateUnit name:ポテトン x:12 y:8 side:敵 level:1
+CreateUnit name:ポテドン x:11 y:9 side:敵 level:1 
+CreateUnit name:ポテトン x:11 y:13 side:敵 level:1 
+CreateUnit name:ポテドン x:12 y:14 side:敵 level:1 
+CreateUnit name:ポテトン x:16 y:14 side:敵 level:1 
+CreateUnit name:ポテドン x:17 y:13 side:敵 level:1 
+CreateUnit name:ポテトン x:17 y:9 side:敵 level:1 
+CreateUnit name:ポテドン x:16 y:8 side:敵 level:1 
 Wait 1
 ReadyMove
 SetMove layer:キャラクター time:0 x:$変数(プレイヤー表示位置)

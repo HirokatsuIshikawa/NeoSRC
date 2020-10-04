@@ -130,6 +130,16 @@ package bgm
 			}
 		}
 		
+        /**戦闘時BGM演奏呼び出し*/
+		public static function playBattleBGM(url:String, vol:Number = 1, fade:Number = 0):void
+        {
+            if (MainController.$.model.playerParam.keepBGMFlg)
+            {
+                return;
+            }
+            playBGM(url, vol, fade);
+        }
+        
 		/**BGM演奏*/
 		public static function playBGM(url:String, vol:Number = 1, fade:Number = 0):void
 		{

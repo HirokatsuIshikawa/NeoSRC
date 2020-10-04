@@ -17,6 +17,7 @@ package scene.intermission.customdata
 		public var clearEve:String = null;
 		public var playingMapBGM:String = null;
 		public var playingMapBGMVol:Number = 1.0;
+        public var keepBGMFlg:Boolean = false;
 		
 		public var intermissonData:Vector.<ShowInterMissionData> = null;
 		public var intermissionBackURL:String = null;

@@ -517,6 +517,9 @@ package scene.main
             {
                 SingleMusic.playBGMData(bgmData);
             }
+            
+            MainController.$.model.playerParam.keepBGMFlg = data.playerData.keepBGMFlg;
+            
             loadContinueEve(data.playerData.nowEve);
         }
         
@@ -629,6 +632,7 @@ package scene.main
         
         public function callInterMission(nextEve:String):void
         {
+            MainController.$.model.playerParam.keepBGMFlg = false;
             //画面初期化
             resetWindow();
             if (nextEve != null)

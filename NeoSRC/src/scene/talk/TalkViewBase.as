@@ -128,6 +128,8 @@ package scene.talk
         /**テロップ次の位置*/
         protected var _talkNextPos:int = 0;
         
+        //トゥイーン中
+        protected var _movingTween:Boolean;
         //-----------------------------------------------------------------
         // processor
         //-----------------------------------------------------------------
@@ -624,6 +626,7 @@ package scene.talk
                 break;
             //-----------------------------------------------------音楽-----------------------------------------------------
             case "startbgm": 
+                MainController.$.model.playerParam.keepBGMFlg = false;
                 SingleMusic.stopBGM(0, 0);
                 MainController.$.model.playerParam.playingMapBGM = param.file;
                 if (param.hasOwnProperty("vol"))
@@ -636,6 +639,14 @@ package scene.talk
             case "stopbgm": 
                 MainController.$.model.playerParam.playingMapBGM = "";
                 SingleMusic.endBGMData(param);
+                setLineCommand();
+                break;
+            case "keepbgm":
+                MainController.$.model.playerParam.keepBGMFlg = true;
+                setLineCommand();
+                break;
+            case "releasebgm":
+                MainController.$.model.playerParam.keepBGMFlg = false;
                 setLineCommand();
                 break;
             case "changeVol": 
@@ -885,7 +896,14 @@ package scene.talk
                 break;
             case "escape": 
                 _moveFlg = true;
-                MainController.$.view.battleMap.escapeUnit(param.name, param.side, param, mapMoveComp);
+                if (param.hasOwnProperty("name"))
+                {
+                    MainController.$.view.battleMap.escapeUnit(param.name, param.side, param, mapMoveComp);
+                }
+                else
+                {
+                    MainController.$.view.battleMap.escapeSide(param.side, param, mapMoveComp);
+                }
                 break;
             case "organize":
                 
@@ -1632,6 +1650,7 @@ package scene.talk
         
         protected function startMoveFunc(command:Array, param:Object):void
         {
+            _movingTween = true;
             if (!param.hasOwnProperty("wait"))
             {
                 param.wait = "on";
@@ -1662,6 +1681,7 @@ package scene.talk
             
             if (waitStr === "off")
             {
+                _movingTween = false;
                 setLineCommand();
             }
         }
@@ -1677,6 +1697,7 @@ package scene.talk
             }
             if (waitFlg === "on")
             {
+                _movingTween = false;
                 _moveFlg = false;
                 setLineCommand();
             }

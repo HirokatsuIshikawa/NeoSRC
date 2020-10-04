@@ -667,11 +667,13 @@ package scene.map
             var targetUnit:BattleUnit = null;
             for (i = 0; i < _sideState[sideNum].battleUnit.length; i++)
             {
+                
                 if (_sideState[sideNum].battleUnit[i].name === name)
                 {
                     targetUnit = _sideState[sideNum].battleUnit[i];
                     break;
                 }
+                
             }
             
             // 一定時間かけて表示
@@ -692,9 +694,9 @@ package scene.map
             {
                 // 戦闘ユニットを勢力に追加
                 targetUnit.onMap = false;
-                // ユニットエリアに画像追加
+                // ユニットエリアの画像排除
                 _unitArea.removeChild(targetUnit.unitImg);
-                // フレームエリアに沸く追加
+                // フレームエリアの枠排除
                 _frameArea.removeChild(targetUnit.frameImg);
                 if (targetUnit.formationNumImg != null)
                 {
@@ -702,6 +704,74 @@ package scene.map
                 }
                 
                 targetUnit.dispose();
+                callBack();
+            }
+        }
+        
+        /** 対象陣営撤退 */
+        public function escapeSide(side:String, param:Object, callBack:Function):void
+        {
+            var newSide:Boolean = true;
+            var i:int = 0;
+            var sideNum:int = 0;
+            
+            // 味方は0に設置
+            if (side === MainController.$.model.playerParam.sideName)
+            {
+                sideNum = 0;
+            }
+            else
+            {
+                for (i = 1; i < _sideState.length; i++)
+                {
+                    // 既存の勢力に追加
+                    if (side === _sideState[i].name)
+                    {
+                        sideNum = i;
+                        break;
+                    }
+                }
+            }
+            
+            var tweenAry:Array = new Array();
+            for (i = 0; i < _sideState[sideNum].battleUnit.length; i++)
+            {
+                var targetUnit:BattleUnit = _sideState[sideNum].battleUnit[i];
+                
+                // 一定時間かけて表示
+                var tweenUnit:Tween24 = Tween24.tween(targetUnit.unitImg, 0.3).fadeOut();
+                var tweenFrame:Tween24 = Tween24.tween(targetUnit.frameImg, 0.3).fadeOut();
+                tweenAry.push(tweenUnit);
+                tweenAry.push(tweenFrame);
+                if (targetUnit.formationNumImg != null)
+                {
+                    var tweenNumImg:Tween24 = Tween24.tween(targetUnit.formationNumImg, 0.3).fadeOut();
+                    tweenAry.push(tweenNumImg);
+                }
+                    //tweenAry.push(launchParticle(targetUnit.PosX, targetUnit.PosY));
+                
+            }
+            
+            Tween24.parallel(tweenAry).onComplete(compEscape).play();
+            
+            function compEscape():void
+            {
+                for (i = 0; i < _sideState[sideNum].battleUnit.length; i++)
+                {
+                    var targetUnit:BattleUnit = _sideState[sideNum].battleUnit[i];
+                    // 戦闘ユニットを勢力に追加
+                    targetUnit.onMap = false;
+                    // ユニットエリアの画像排除
+                    _unitArea.removeChild(targetUnit.unitImg);
+                    // フレームエリアの枠排除
+                    _frameArea.removeChild(targetUnit.frameImg);
+                    if (targetUnit.formationNumImg != null)
+                    {
+                        _effectArea.removeChild(targetUnit.formationNumImg);
+                    }
+                    
+                    targetUnit.dispose();
+                }
                 callBack();
             }
         }
@@ -974,15 +1044,15 @@ package scene.map
             {
                 if (_selectSide == 0)
                 {
-                    SingleMusic.playBGM(nowBattleUnit.customBgmHeadPath, 1, 1);
+                    SingleMusic.playBattleBGM(nowBattleUnit.customBgmHeadPath, 1, 1);
                 }
                 else if (_targetSide == 0)
                 {
-                    SingleMusic.playBGM(_targetUnit.customBgmHeadPath, 1, 1);
+                    SingleMusic.playBattleBGM(_targetUnit.customBgmHeadPath, 1, 1);
                 }
                 else
                 {
-                    SingleMusic.playBGM(nowBattleUnit.customBgmHeadPath, 1, 1);
+                    SingleMusic.playBattleBGM(nowBattleUnit.customBgmHeadPath, 1, 1);
                 }
                 //attackAction();
                 MainController.$.view.eveManager.searchMapBattleEvent(nowBattleUnit, _targetUnit, _selectSide, _targetSide, attackAction, MapEventData.TYPE_BATTLE_BEFORE);
@@ -1314,7 +1384,7 @@ package scene.map
                         _targetSide = i;
                         // ターゲット設定
                         _targetUnit = sideState[i].battleUnit[j];
-                        SingleMusic.playBGM(_sideState[_selectSide].commander.customBgmHeadPath, 1, 1);
+                        SingleMusic.playBattleBGM(_sideState[_selectSide].commander.customBgmHeadPath, 1, 1);
                         
                         endFlg = true;
                         break;
@@ -1331,7 +1401,7 @@ package scene.map
         
         public function executeToAllCommanderSkill():void
         {
-            SingleMusic.playBGM(_sideState[_selectSide].commander.customBgmHeadPath, 1, 1);
+            SingleMusic.playBattleBGM(_sideState[_selectSide].commander.customBgmHeadPath, 1, 1);
             startCommanderMessage();
         }
         
@@ -1965,15 +2035,15 @@ package scene.map
                         
                         if (_selectSide == 0)
                         {
-                            SingleMusic.playBGM(nowBattleUnit.customBgmHeadPath, 1, 1);
+                            SingleMusic.playBattleBGM(nowBattleUnit.customBgmHeadPath, 1, 1);
                         }
                         else if (_targetSide == 0)
                         {
-                            SingleMusic.playBGM(_targetUnit.customBgmHeadPath, 1, 1);
+                            SingleMusic.playBattleBGM(_targetUnit.customBgmHeadPath, 1, 1);
                         }
                         else
                         {
-                            SingleMusic.playBGM(nowBattleUnit.customBgmHeadPath, 1, 1);
+                            SingleMusic.playBattleBGM(nowBattleUnit.customBgmHeadPath, 1, 1);
                         }
                         
                         endFlg = true;
@@ -2943,15 +3013,15 @@ package scene.map
             {
                 if (_selectSide == 0)
                 {
-                    SingleMusic.playBGM(nowBattleUnit.customBgmHeadPath, 1, 1);
+                    SingleMusic.playBattleBGM(nowBattleUnit.customBgmHeadPath, 1, 1);
                 }
                 else if (_targetSide == 0)
                 {
-                    SingleMusic.playBGM(_targetUnit.customBgmHeadPath, 1, 1);
+                    SingleMusic.playBattleBGM(_targetUnit.customBgmHeadPath, 1, 1);
                 }
                 else
                 {
-                    SingleMusic.playBGM(nowBattleUnit.customBgmHeadPath, 1, 1);
+                    SingleMusic.playBattleBGM(nowBattleUnit.customBgmHeadPath, 1, 1);
                 }
                 MainController.$.view.eveManager.searchMapBattleEvent(nowBattleUnit, _targetUnit, _selectSide, _targetSide, enemyAttackAction, MapEventData.TYPE_BATTLE_BEFORE);
             }
@@ -3104,7 +3174,7 @@ package scene.map
             return _statusWindow;
         }
         
-        public function get effectArea():CSprite 
+        public function get effectArea():CSprite
         {
             return _effectArea;
         }

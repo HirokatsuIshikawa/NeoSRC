@@ -75,15 +75,16 @@ package viewitem.status
 			DataLoad.LoadPath("カスタムBGM", "*.mid;*.mp3", compLoad);
 			function compLoad(path:String):void
 			{
+                _unit.customBgmPath = path;
+                
 				for (i = 0; i < MainController.$.model.PlayerUnitData.length; i++)
 				{
 					if (MainController.$.model.PlayerUnitData[i].id == _unitId)
 					{
 						MainController.$.model.PlayerUnitData[i].customBgmPath = path;
-						_unit.customBgmPath = path;
 						//SingleMusic.playBGM(MainController.$.model.PlayerUnitData[i].customBgmHeadPath, 1, 1);
 						break;
-					}
+                    }
 				}
 			}
 		}	

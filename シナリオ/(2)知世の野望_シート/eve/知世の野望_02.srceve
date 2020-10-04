@@ -1079,9 +1079,7 @@ Talk ロッドアタッカー
 みろよ、早速原始人達が
 のこのこやってきやがったぜ
 
-ReadyMove
-SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
-StartMove type:連続
+CenterCharaLayer target:ワイルドランナー
 Talk ワイルドランナー
 アンタたち！　こんな所でなにやってるの！？
 
@@ -1400,7 +1398,8 @@ Talk ワイルドランナー
 
 こっちのほうがまだ押してるし
 このまま……
-Wait 2
+Wait 1
+StopBGM
 ReadyMove
 SetMove layer:キャラクター time:0.5 x:$変数(エネミー表示位置)
 StartMove type:連続
@@ -1428,7 +1427,9 @@ SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
 StartMove type:連続
 Talk ケイブガード
 そんなの、マギアームを使えば簡単に……
-
+Wait 0.5
+PlaySound file:magic-quake2
+shake x:20
 うおっ！？
 
 Talk ユーノ
@@ -1442,9 +1443,13 @@ Talk キャノンレイダー
 
 メカに詳しい奴が設計図を引けば……
 
+StartBGM file:game_maoudamashii_1_battle30
+KeepBGM
 Talk キャノンレイダー
 こんな事だってできるんだよ！！
-
+Wait 1
+PlaySound file:magic-quake2
+shake x:20
 HideMessage time:0.3
 clearmsg type:all
 ReadyMove
@@ -1500,19 +1505,16 @@ Talk ユーノ
 
 さくらさんのカードも大概だったけど
 あんなデタラメなもの、いったいどうやって……
-
+Wait 1
 Talk 知世
-気を付けてください！
-
-あのモグラさんもこちらに来るようですわ！！
+……大丈夫ですわ
 
 Talk なのは
-！！
+え……？
 
-Talk 知世
-大丈夫ですわ、見た目は確かに大きいけれど……
 
-見た目ほど、強い力は感じないそうですから
+
+
 
 落ち着いて戦えば、きっと勝機はみえるはずです
 
@@ -1549,6 +1551,9 @@ Talk キャノンレイダー
 ……まぁいい、ここまでは一応想定内だ
 
 総員撤退、この場から撤退するぞ！！
+
+Flash
+Escape side:敵
 
 Talk ワイルドランナー
 どうやら、逃げていったみたいね……

@@ -3,6 +3,7 @@ package system.file
 	import code.org.coderepos.text.encoding.Jcode;
     import common.CommonDef;
 	import common.CommonSystem;
+    import common.SystemController;
 	import converter.parse.SystemParse;
 	import flash.events.Event;
 	import flash.events.ProgressEvent;
@@ -48,13 +49,13 @@ package system.file
 				//FileReference　ロード成功時の処理
 				function loadComplete(e:Event):void
 				{
-					
 					fr.removeEventListener(Event.COMPLETE, loadComplete);
 					fr.removeEventListener(ProgressEvent.PROGRESS, loadProgress);
 					var fileType:String = e.currentTarget.extension;
 					var barrDat:ByteArray = e.target.data;
 					//漢字コード変換（shift-jis　－＞　UTF-8）
-					
+                    var fileNameStr:String = e.target.name;
+					SystemController.$.view.changeTitleName(fileNameStr.substr(0, fileNameStr.indexOf(".")));
 					var strData:String = "";
 					
 					if (fileType === "srctxt")

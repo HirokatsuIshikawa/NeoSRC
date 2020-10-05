@@ -1,45 +1,39 @@
 package scene.map
 {
     import a24.tween.Tween24;
-    import common.CommonBattleMath;
-    import database.master.MasterCommanderSkillData;
-    import database.user.CommanderData;
-    import scene.map.basepoint.MapPicture;
-    import scene.map.customdata.EnemyMoveData;
     import bgm.SingleMusic;
+    import common.CommonBattleMath;
     import common.CommonDef;
-    import common.CommonSystem;
     import common.util.CharaDataUtil;
-    import scene.talk.message.FaceMessageWindow;
-    import system.custom.customSprite.CButton;
-    import system.custom.customSprite.CImage;
-    import system.custom.customSprite.CSprite;
+    import database.master.MasterCommanderSkillData;
     import database.master.MasterSkillData;
     import database.master.MasterWeaponData;
+    import database.user.CommanderData;
     import database.user.UnitCharaData;
     import flash.geom.Point;
-    import starling.core.Starling;
+    import scene.battleanime.BattleActionPanel;
+    import scene.main.MainController;
+    import scene.map.basepoint.MapPicture;
+    import scene.map.battle.BattleResultmanager;
+    import scene.map.customdata.EnemyMoveData;
+    import scene.map.customdata.SideState;
+    import scene.map.panel.BattleMapPanel;
+    import scene.map.tip.TerrainData;
+    import scene.talk.classdata.MapEventData;
+    import scene.talk.message.FaceMessageWindow;
+    import scene.unit.BattleUnit;
     import starling.display.DisplayObject;
     import starling.events.Event;
     import starling.events.Touch;
     import starling.events.TouchEvent;
     import starling.events.TouchPhase;
-    import starling.textures.Texture;
     import starling.textures.TextureSmoothing;
-    import scene.battleanime.BattleActionPanel;
-    import scene.main.MainController;
-    import scene.map.battle.BattleResultmanager;
-    import scene.map.panel.BattleMapPanel;
-    import scene.map.customdata.SideState;
-    import scene.map.tip.TerrainData;
-    import scene.unit.BattleUnit;
-    import viewitem.status.BaseStatusWindow;
+    import system.custom.customSprite.CButton;
+    import system.custom.customSprite.CImage;
+    import system.custom.customSprite.CSprite;
     import viewitem.status.BattleMapStatus;
     import viewitem.status.ExpWindow;
     import viewitem.status.list.OrganizeList;
-    import scene.talk.classdata.MapEventData;
-    import system.viewobject.extensions.PDParticleSystem;
-    import system.viewobject.extensions.ParticleSystem;
     
     /**
      * ...

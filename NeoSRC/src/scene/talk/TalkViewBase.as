@@ -2,20 +2,26 @@ package scene.talk
 {
     import a24.tween.Tween24;
     import bgm.SingleMusic;
-    import com.hurlant.crypto.prng.Random;
     import common.CalcInfix;
     import common.CommonDef;
     import common.CommonSystem;
-    import database.user.CommanderData;
-    import scene.main.MainViewer;
-    import system.custom.customSprite.CImage;
-    import system.custom.customSprite.CSprite;
-    import system.custom.customSprite.CTextArea;
     import database.dataloader.EventFileLoader;
-    import database.user.FaceData;
+    import database.user.CommanderData;
     import flash.desktop.NativeApplication;
     import flash.filesystem.File;
     import flash.utils.Timer;
+    import scene.intermission.customdata.PlayerVariable;
+    import scene.main.MainController;
+    import scene.main.MainViewer;
+    import scene.map.panel.BattleMapPanel;
+    import scene.talk.classdata.IfSearch;
+    import scene.talk.classdata.MapEventData;
+    import scene.talk.classdata.SelectCommandData;
+    import scene.talk.common.ImgDef;
+    import scene.talk.common.MsgDef;
+    import scene.talk.message.TelopWindow;
+    import scene.talk.window.SelectWindow;
+    import scene.unit.BattleUnit;
     import starling.core.Starling;
     import starling.display.DisplayObject;
     import starling.events.Event;
@@ -24,18 +30,10 @@ package scene.talk
     import starling.events.TouchPhase;
     import starling.textures.Texture;
     import starling.textures.TextureSmoothing;
+    import system.custom.customSprite.CImage;
+    import system.custom.customSprite.CSprite;
+    import system.custom.customSprite.CTextArea;
     import system.file.DataLoad;
-    import scene.main.MainController;
-    import scene.map.panel.BattleMapPanel;
-    import scene.unit.BattleUnit;
-    import scene.intermission.customdata.PlayerVariable;
-    import scene.talk.classdata.IfSearch;
-    import scene.talk.classdata.MapEventData;
-    import scene.talk.classdata.SelectCommandData;
-    import scene.talk.common.ImgDef;
-    import scene.talk.common.MsgDef;
-    import scene.talk.message.TelopWindow;
-    import scene.talk.window.SelectWindow;
     import system.viewobject.extensions.PDParticleSystem;
     import system.viewobject.extensions.ParticleSystem;
     
@@ -641,11 +639,11 @@ package scene.talk
                 SingleMusic.endBGMData(param);
                 setLineCommand();
                 break;
-            case "keepbgm":
+            case "keepbgm": 
                 MainController.$.model.playerParam.keepBGMFlg = true;
                 setLineCommand();
                 break;
-            case "releasebgm":
+            case "releasebgm": 
                 MainController.$.model.playerParam.keepBGMFlg = false;
                 setLineCommand();
                 break;

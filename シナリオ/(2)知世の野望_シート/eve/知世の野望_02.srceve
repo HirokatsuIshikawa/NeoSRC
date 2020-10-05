@@ -125,12 +125,9 @@ Talk すずか
 （そうかなぁ……？）
 
 Talk アリサ
-……さて、そんな事よりなのはを探すわよ
+……そんな事よりなのはを探すわよ
 
-それにしても、いったいどこにいるのやら……
-
-見かけたヤツに、どこで会ってたのかも
-聞いときゃよかったわね……
+えーと、確かこの辺りにある……
 
 hidemsg time:0.3
 clearmsg type:all
@@ -1506,20 +1503,42 @@ Talk ユーノ
 さくらさんのカードも大概だったけど
 あんなデタラメなもの、いったいどうやって……
 Wait 1
-Talk 知世
-……大丈夫ですわ
+Talk さくら
+……大丈夫
 
 Talk なのは
 え……？
 
+Talk さくら
+確かに大きいけど、それほどの力は感じない……
 
+みんなで力を合わせれば、きっと大丈夫だよ！
 
+Talk 知世
+さくらちゃん……！
 
+Talk ケイブガード
+……わかった！
 
+その言葉に乗らせてもらうぜ！！
+
+Talk ワイルドランナー
+ぼんやりとした子だと思ってたけど……
+なんだか、本当に大丈夫に思えるから
+不思議な子だよね……！
+
+Talk なのは
+わかりました！
+ユーノ君、バックアップお願い！！
+
+Talk ユーノ
+わかったよ、なのは！！
+
+Talk 知世
 落ち着いて戦えば、きっと勝機はみえるはずです
 
-Talk さくら
-わかったよ、知世ちゃん！！
+みなさん、がんばってください！！
+
 hidemsg time:0.3
 clearmsg type:all
 //
@@ -1535,7 +1554,23 @@ Exit
 
 
 グランモール撃破:
-
+AddLayer name:キャラクター alpha:0
+AddLayer name:エフェクト alpha:0
+CharaLayer name:キャラクター
+SetChara name:ロッドアタッカー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 0) alpha:1
+SetChara name:ブッシュシューター x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 1) alpha:1
+SetChara name:キャノンレイダー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 2) alpha:1
+SetChara name:エレクトロショッカー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 3) alpha:1
+SetChara name:さくら x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 0) alpha:1
+SetChara name:なのは x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 1) alpha:1
+SetChara name:ユーノ x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 2) alpha:1
+SetChara name:知世 x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 3) alpha:1
+SetChara name:ケイブガード x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 4) alpha:1 y:160
+SetChara name:ワイルドランナー x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 5) alpha:1 y:160
+ReadyMove
+SetMove layer:キャラクター time:0 x:$変数(エネミー表示位置)
+SetMove layer:キャラクター time:0.1 fade:in
+StartMove type:連続 wait:on
 Talk エレクトロショッカー
 だ……ダメだ！！　これ以上やられたら持たないよ！！
 
@@ -1544,43 +1579,70 @@ Talk キャノンレイダー
 
 まさか、グランモールまでやられただと……！？
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
+StartMove type:連続 wait:on
 Talk ケイブガード
 へっ、どんなもんだい！！
 
+ReadyMove
+SetMove layer:キャラクター time:0.5  x:$変数(エネミー表示位置)
+StartMove type:連続 wait:on
 Talk キャノンレイダー
 ……まぁいい、ここまでは一応想定内だ
 
-総員撤退、この場から撤退するぞ！！
+総員、この場から撤退するぞ！！
 
+HideMessage time:0.3
+clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+Wait 1
 Flash
 Escape side:敵
-
+Wait 1
+ReadyMove
+SetMove layer:キャラクター time:0 x:$変数(プレイヤー表示位置)
+SetMove layer:キャラクター time:0.1 fade:in
+StartMove type:連続 wait:on
 Talk ワイルドランナー
 どうやら、逃げていったみたいね……
 
 Talk ユーノ
-空間転移……
+空間転移！？
 
-あんな事も出来るのか……！？
+あんな高等魔法も使えるのか……！？
 
 Talk ケイブガード
-ああ、あれなら俺達でもできるよ
+ああ、テレポートの事？
 
-まぁ、こっち側限定だけど……
+あれなら俺達でもできるよ
+
+Talk ユーノ
+え……！？
+
+Talk ケイブガード
+まぁ、こっち側でしか使えないんだけど……
 
 君達は？
 
 Talk さくら
-私はこっち側に来たのが、つい昨日だし……
+空間を変化させる魔法はあるけど……
 
-ワープする魔法は……持ってないかな
+ワープする魔法は……ないね
 
 Talk なのは
-私も、魔法使えるようになったのつい最近だから……
+私も、魔法使えるようになったの、つい最近だから……
+
+そんな感じの魔法の使い方は、教わってないし……
 
 Talk ユーノ
 （回復した今なら、問題なく使えるけれど……
-……でも、今言う必要はなさそうかな）
+
+とりあえず、今は黙っておこう
+
+後々、大変な事になりそうだし……）
 
 Talk ケイブガード
 じゃあ、村までは俺達と一緒においでよ
@@ -1590,15 +1652,34 @@ Talk ケイブガード
 Talk 知世
 やることですか……？
 
-
-
+hidemsg time:0.3
+clearmsg type:all
+StopBGM fade:0.4
+Wait 0.7
+SetImg img:tex_black size:fill name:ブラック layer:エフェクト alpha:1
+ReadyMove
+SetMove layer:エフェクト time:1 fade:in
+SetMove layer:キャラクター time:1 fade:in
+StartMove type:同時 wait:on
+ClearLayer name:キャラクター
+Goto エピローグ
 Exit
 
 
 
 エピローグ:
-
-
+AddLayer name:背景 alpha:1 level:0
+CharaLayer name:キャラクター
+SetImg img:神社境内 size:just name:神社境内 layer:背景
+SetChara name:アリサ x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 3) alpha:1
+SetChara name:すずか x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 4) alpha:1
+ReadyMove
+SetMove layer:キャラクター time:0.1 fade:in x:0
+SetMove layer:エフェクト time:0.5 fade:out
+StartMove type:連続 wait:on
+Wait 0.3
+showmsg time:0.3
+StartBGM file:game_maoudamashii_7_event43 vol:1 fade:0.5
 Talk アリサ
 あー、もう！
 
@@ -1621,21 +1702,29 @@ Talk アリサ
 神主だっているんだし……
 
 Talk ？？？
-この神社に、息子さんはいないよ
+この神社に、外国人の息子さんはいないよ
 
 Talk アリサ
 えっ！？
 
+SetChara name:奈緒子 x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 1) alpha:0
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:0
+SetMove chara:奈緒子 time:0.5 alpha:1
+StartMove type:連続
+
 Talk ？？？
-イギリスに留学してたって話は聞いた事あるけどね
+イギリスに留学してたって
+聞いた事あるけれど……
 
 Talk すずか
 貴方は……？
 
-Talk 奈緒子
+Talk ？？？
 あ、ゴメン……
 驚かせちゃったかな？
 
+Talk 奈緒子
 わたし、柳沢奈緒子
 
 あなた達、見た事のない制服だけど
@@ -1644,11 +1733,11 @@ Talk 奈緒子
 Talk すずか
 あ、すいません……
 
-海鳴市の、聖祥大付属小学校３年の
+聖祥大付属小学校３年の
 月村すずかです
 
 Talk アリサ
-すずかの友達のアリサ・バニングスです
+すずかの友達のアリサ・バニングスよ
 
 Talk 奈緒子
 聖祥大付属って……海鳴市の？
@@ -1679,10 +1768,11 @@ Talk 奈緒子
 
 だけど、誰かが確認に来たら何もなくって……
 
-学校で、ちょっと噂になってるんだよ
+学校で、ちょっと噂になってるんだ
 
 Talk アリサ
 ……そう言えば、友枝町って
+
 一昨年から、妙な異常気象が頻発してるって
 聞いた事あったけど……
 
@@ -1690,10 +1780,13 @@ Talk 奈緒子
 よく知ってるね
 
 友枝町だけ大雨だったり、大雪だったり
-公園の滑り台がひっくり返って
-いつの間にか戻ってたりとか起こってたんだよ
+公園の滑り台がひっくり返ったりして
+でも、いつの間にか戻ってたりとか……
 
-でも、今年の４月になってから
+そんな色々な事が起こってたんだよ
+
+Talk 奈緒子
+でも、今年になってから
 なにも起こらなくなっちゃって……
 
 噂を聞いて、なにかあったら面白そうと思ったから
@@ -1725,10 +1818,13 @@ Talk 奈緒子
 
 あっ……！
 
-
-
-
-
-
-
+JoinCommander name:大道寺知世 Lv:1 
+hidemsg time:0.3
+clearmsg type:all
+flash time:2
+ReadyMove
+SetMove layer:エフェクト time:1 fade:in
+StartMove type:連続 wait:on
+DeleteAllLayer
+Continue 知世の野望_03.srceve
 Exit

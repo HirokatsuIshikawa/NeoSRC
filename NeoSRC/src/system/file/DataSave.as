@@ -104,7 +104,6 @@ package system.file
                 commanderList[i] = new Object();
                 commanderList[i].name = MainController.$.model.playerCommanderData[i].name;
                 commanderList[i].lv = MainController.$.model.playerCommanderData[i].nowLv;
-                commanderList[i].exp = MainController.$.model.playerCommanderData[i].exp;
             }
             data.commanderList = commanderList;
             

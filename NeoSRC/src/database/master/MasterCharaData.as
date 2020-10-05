@@ -44,6 +44,8 @@ package database.master
         /**最大編成数*/
         private var _maxFormationNum:int;
         
+        private var _unitSize:int;
+        
         /**経験値*/
         private var _exp:int = 0;
         
@@ -99,6 +101,11 @@ package database.master
         public function get baseLv():int 
         {
             return _baseLv;
+        }
+        
+        public function get unitSize():int 
+        {
+            return _unitSize;
         }
         
         public function get maxFormationNum():int
@@ -206,6 +213,15 @@ package database.master
             {
                 _maxFormationNum = data.formation;
             }
+            
+            _unitSize = 1;
+            
+            //ユニットサイズ
+            if (data.hasOwnProperty("unitsize"))
+            {
+                _unitSize = data.unitsize;
+            }
+            
             
             // 武器データセット
             if (data.hasOwnProperty("Weapon"))

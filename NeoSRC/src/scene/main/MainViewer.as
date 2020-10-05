@@ -318,6 +318,12 @@ package scene.main
                 }
                 MainController.$.model.playerParam.loadObject(data.playerData);
                 
+                //基本データ読み込み
+                //今のデータ削除
+                resetWindow();
+                MainController.$.model.resetUnitData();
+                MainController.$.model.resetCommanderData();
+                
                 var count:int = CommonDef.objectLength(data.commanderList);
                 //所持軍師データ
                 for (i = 0; i < count; i++)
@@ -327,11 +333,6 @@ package scene.main
                 
                 count = CommonDef.objectLength(data.unitList);
                 
-                //基本データ読み込み
-                //今のデータ削除
-                resetWindow();
-                MainController.$.model.resetUnitData();
-                MainController.$.model.resetCommanderData();
                 
                 //所持ユニットデータ
                 for (i = 0; i < count; i++)

@@ -12,8 +12,8 @@ package converter.parse.common
      */
     public class ParseCommon
     {
-        public static const PARAM_LIST:Array = ["name", "nickName", "Cost", "exp", "money", "MaxLv", "BaseLv", "HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV", "terrain", "formation"];
-        public static const PARAM_P_LIST:Array = ["名前", "愛称", "コスト", "経験値", "資金", "最大レベル", "ベースレベル", "ＨＰ", "ＦＰ", "攻撃", "潜在", "技術", "防御", "精神", "敏捷", "移動", "地形", "編成数"];
+        public static const PARAM_LIST:Array = ["name", "nickName", "Cost", "exp", "money", "MaxLv", "BaseLv", "HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV", "terrain", "formation", "unitsize"];
+        public static const PARAM_P_LIST:Array = ["名前", "愛称", "コスト", "経験値", "資金", "最大レベル", "ベースレベル", "ＨＰ", "ＦＰ", "攻撃", "潜在", "技術", "防御", "精神", "敏捷", "移動", "地形", "編成数","ユニットサイズ"];
         public static const MAX_PARAM:Array = ["HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV"];
         //武器データ
         public static const WEAPON_LIST:Array = [ //

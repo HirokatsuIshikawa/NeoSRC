@@ -33,6 +33,12 @@ package converter.parse
 			for (i = 0; i < ary.length; i++)
 			{
 				var line:String = ary[i];
+                
+                if (line.indexOf("//") == 0)
+                {
+                    continue;
+                }
+                
 				var param:Array = null;
 				if (line === "基本データ" || line === "DATA")
 				{

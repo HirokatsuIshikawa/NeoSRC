@@ -1,34 +1,37 @@
 package viewitem.status.list
 {
-    import database.user.UnitCharaData;
+    import database.user.CommanderData;
     import scene.main.MainController;
     import starling.events.Event;
     import system.custom.customSprite.CImgButton;
     import viewitem.status.list.UnitListBase;
-    import viewitem.status.list.listitem.StatusListItem;
+    import viewitem.status.list.listitem.CommanderStatusListItem;
     
     /**
      * ...
      * @author ishikawa
      */
-    public class StatusList extends UnitListBase
+    public class CommanderStatusList extends UnitListBase
     {
         /**暗幕画像*/
-        private var _itemList:Vector.<StatusListItem> = null;
+        private var _itemList:Vector.<CommanderStatusListItem> = null;
         private var _closeBtn:CImgButton = null;
         
-        public function StatusList(datalist:Vector.<UnitCharaData>)
+        public function CommanderStatusList(datalist:Vector.<CommanderData>)
         {
             super();
             
-            _itemList = new Vector.<StatusListItem>;
+            _itemList = new Vector.<CommanderStatusListItem>;
             
             for (var i:int = 0; i < datalist.length; i++)
             {
-                _itemList[i] = new StatusListItem(datalist[i]);
-                _itemList[i].x = 60 + (StatusListItem.LIST_WIDTH + 40) * (int)(i % 3);
-                _itemList[i].y = (StatusListItem.LIST_HEIGHT + 24) * (int)(i / 3);
+                _itemList[i] = new CommanderStatusListItem(datalist[i]);
+                _itemList[i].x = 60 + (CommanderStatusListItem.LIST_WIDTH + 40) * (int)(i % 3);
+                _itemList[i].y = (CommanderStatusListItem.LIST_HEIGHT + 24) * (int)(i / 3);
                 this.addChild(_itemList[i]);
+                
+                _itemList[i].judgeSelect(MainController.$.model.playerParam.selectCommanderName);
+                
             }
             
             _closeBtn = new CImgButton(MainController.$.imgAsset.getTexture("btn_Return"));
@@ -36,7 +39,7 @@ package viewitem.status.list
             _closeBtn.y = 360;
             _closeBtn.width = 96;
             _closeBtn.height = 64;
-            _closeBtn.addEventListener(Event.TRIGGERED, MainController.$.view.interMission.closeStatusList);
+            _closeBtn.addEventListener(Event.TRIGGERED, MainController.$.view.interMission.closeCommanderStatusList);
             addChild(_closeBtn);
         }
         
@@ -53,7 +56,7 @@ package viewitem.status.list
             if (_closeBtn)
             {
                 removeChild(_closeBtn);
-                _closeBtn.removeEventListener(Event.TRIGGERED, MainController.$.view.interMission.closeStatusList);
+                _closeBtn.removeEventListener(Event.TRIGGERED, MainController.$.view.interMission.closeCommanderStatusList);
                 _closeBtn.dispose();
             }
             _closeBtn = null;

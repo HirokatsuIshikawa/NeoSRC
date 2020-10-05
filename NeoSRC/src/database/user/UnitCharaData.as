@@ -78,6 +78,11 @@ package database.user
             return _masterData.maxFormationNum;
         }
         
+        public function get unitSize():int
+        {
+            return _masterData.unitSize;
+        }
+        
         public function get showLv():int
         {
             return _masterData.baseLv + _nowLv;

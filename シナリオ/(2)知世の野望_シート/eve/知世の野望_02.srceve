@@ -1712,7 +1712,6 @@ ReadyMove
 SetMove layer:キャラクター time:0.5 x:0
 SetMove chara:奈緒子 time:0.5 alpha:1
 StartMove type:連続
-
 Talk ？？？
 イギリスに留学してたって
 聞いた事あるけれど……
@@ -1818,7 +1817,6 @@ Talk 奈緒子
 
 あっ……！
 
-JoinCommander name:大道寺知世 Lv:1 
 hidemsg time:0.3
 clearmsg type:all
 flash time:2

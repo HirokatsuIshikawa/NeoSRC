@@ -1,6 +1,6 @@
-﻿初期化:
-#<追加インクル_01.srceve>
-#<追加インクル_02.srceve>
+初期化:
+#<add\追加インクル_01.srceve>
+#<add\追加インクル_02.srceve>
 #<LoadStart>
 Exit
 
@@ -114,7 +114,9 @@ Talk すずか
 烈火のごとく怒るだろうし
 
 Talk アリサ
-う……いや、私が同じ立場だったら
+う……
+wait 0.3
+いや、私が同じ立場だったら
 こじれる前には、ちゃんと話すわよ
 
 ……たぶん
@@ -123,10 +125,9 @@ Talk すずか
 （そうかなぁ……？）
 
 Talk アリサ
-……さて、そんな事より今はなのはを探すわよ
+……そんな事よりなのはを探すわよ
 
-あの時、どこで会ってたのかも
-聞いときゃよかったわね……
+えーと、確かこの辺りにある……
 
 hidemsg time:0.3
 clearmsg type:all
@@ -156,7 +157,10 @@ SetMove layer:エフェクト time:0.5 fade:out
 StartMove type:連続 wait:on
 showmsg time:0.3
 Talk なのは
-……クシュン！
+……
+Wait 0.2
+cn
+クシュン！
 
 Talk ケルベロス
 なんやなのは、さっきからくしゃみばっかり……
@@ -300,10 +304,10 @@ SetMove layer:キャラクター time:0.5 x:$式($変数(プレイヤー配置�
 SetMove chara:ケイブガード fade:in time:0.5
 SetMove chara:ワイルドランナー fade:in time:0.5
 StartMove type:連続
-Talk ケイブガード
+Talk ケイブガード showname:原始人風な少年
 ………………
 
-Talk ワイルドランナー
+Talk ワイルドランナー showname:原始人風な少女
 ………………
 Wait 1
 ReadyMove
@@ -325,12 +329,12 @@ Talk ユーノ
 ReadyMove
 SetMove layer:キャラクター time:0.5 x:$式($変数(プレイヤー配置間隔) * -3 - 120)
 StartMove type:連続
-Talk ケイブガード
+Talk ケイブガード showname:原始人風な少年
 ………………
 
 ……いや、悪い悪い、驚かせちゃったかな？
 
-Talk ワイルドランナー
+Talk ワイルドランナー showname:原始人風な少女
 どうみても、昨日の連中の
 仲間じゃなさそうね
 
@@ -957,7 +961,7 @@ Talk 知世
 Talk さくら
 と、知世ちゃん……
 
-その言い方、却って怪しく聞こえる気がする……
+その言い方、かえって怪しく聞こえる気がする……
 
 Talk ケイブガード
 ……わかった、みんなには俺が話しとく
@@ -991,7 +995,7 @@ SetCommander name:大道寺知世 sidename:さくらチーム
 StartBGM file:BGM/game_maoudamashii_1_battle24.mp3 vol:1 fade:0.5
 CreateUnit name:キャノンレイダー x:14 y:9 side:敵 level:5 
 CreateUnit name:ブッシュシューター x:11 y:8 side:敵 level:5 
-CreateUnit name:キャノンレイダー x:17 y:8 side:敵 level:5 
+CreateUnit name:ロッドアタッカー x:17 y:8 side:敵 level:5 
 Wait 0.5
 SetChara name:ロッドアタッカー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 0) alpha:1 y:160
 SetChara name:ブッシュシューター x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 1) alpha:1 y:160
@@ -1009,7 +1013,9 @@ Talk キャノンレイダー
 よしよし
 
 あとは少し待つだけで……
-
+Flash time:0.3
+PlaySound file:magic-quake2
+Shake x:20 y:0
 Talk ロッドアタッカー
 うおっ！？
 
@@ -1039,7 +1045,7 @@ LaunchUnit name:ユーノ x:15 y:18
 CreateUnit name:ケイブガード x:9 y:17 side:さくらチーム level:2 join:0
 CreateUnit name:ケイブガード x:11 y:17 side:さくらチーム level:2 join:0
 CreateUnit name:ワイルドランナー x:11 y:19 side:さくらチーム level:2 join:0
-CreateUnit name:ワイルドランナー x:9 y:19 side:さくらチーム level:42join:0
+CreateUnit name:ワイルドランナー x:9 y:19 side:さくらチーム level:2 join:0
 CreateUnit name:ケイブガード x:17 y:17 side:さくらチーム level:2 join:0
 CreateUnit name:ケイブガード x:19 y:17 side:さくらチーム level:2 join:0
 CreateUnit name:ワイルドランナー x:19 y:19 side:さくらチーム level:2 join:0
@@ -1070,9 +1076,7 @@ Talk ロッドアタッカー
 みろよ、早速原始人達が
 のこのこやってきやがったぜ
 
-ReadyMove
-SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
-StartMove type:連続
+CenterCharaLayer target:ワイルドランナー
 Talk ワイルドランナー
 アンタたち！　こんな所でなにやってるの！？
 
@@ -1127,11 +1131,13 @@ Talk キャノンレイダー
 結構な事じゃねぇか、昨日の奴等はしくじったが
 ここで捕まえりゃ大手柄だ！！
 
-数はこいつらが居るからいけるはず……
-
+数は心配ないぜ、そろそろ……
+Wait 0.5
 StopBGM
 ……よし、時間だ！！
-
+Wait 1
+PlaySound file:magic-quake2
+Wait 0.5
 ReadyMove
 SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
 StartMove type:連続
@@ -1199,7 +1205,7 @@ Talk キャノンレイダー
 
 いけ！　ポテトン！　ポテドン！！
 あっちの女の子達にケガさせないように
-うまいことやるんだ！！
+うまいこと捕まえるんだ！！
 
 ReadyMove
 SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
@@ -1218,13 +1224,15 @@ Talk ユーノ
 Talk ケイブガード
 どっちにしろ、アイツらの好きにさせるもんか
 
-あのジャガイモが、どれだけの強さかわからないけど
-数が結構多いから、戦いは不利になるかも……
+あのジャガイモ、結構数が居るから
+あんまし油断は出来ないけれど……
 
-とにかく君達は、早くここから離れて……
+Talk ワイルドランナー
+とにかく、あなた達は早くここから……
 
 Talk 知世
 ありがとうございます
+
 でも、大丈夫ですわ
 
 先ほども言った通り、さくらちゃん達は
@@ -1237,18 +1245,30 @@ Talk さくら
 ……大丈夫、戦うのは好きじゃないけど
 あの子達が誰かに迷惑かけようとしてるなら
 
-ちゃんと止めて、叱ってあげなくちゃ
+ちゃんと止めて、叱ってあげなくちゃ！
 
 Talk なのは
 ……そうですね
 
+たぶん、昨日と同じで
+話してわかる相手じゃなさそうですし
+
+Talk ユーノ
+（相手が相手だから、仕方ない気もするけど……
+
+最近のなのは、なんだか過激になってきたかな……？）
+
 Talk 知世
 私には、戦う力はありませんが
+
+こんな事もあろうかと、バッグの中に
+役に立ちそうなものを用意してあります
+
+ここからなら、辺り一帯を見回せますから
+色々と支持する事も出来ますし……
+
 ここから、皆さんの事を
 支援させていただきますわ
-
-なにか御用がありましたら、可能な限り
-サポートいたしますから
 
 Talk ケイブガード
 ……わかったよ
@@ -1272,13 +1292,13 @@ clearmsg type:all
 ReadyMove
 SetMove layer:キャラクター time:0.3 fade:out
 StartMove type:同時 wait:on
-SetEvent side:コクエン隊 label:ボス登場判定 type:撃破
+SetEvent side:敵 label:ボス登場判定 type:撃破
 SetEvent side:さくらチーム label:ゲームオーバー type:全滅
 DeleteAllLayer
 Exit
 
 ボス登場判定:
-If $陣営数(コクエン隊) < 7 Goto ボス登場
+If $陣営数(敵) < 5 Goto ボス登場
 Exit
 
 ボス登場:
@@ -1289,17 +1309,25 @@ CharaLayer name:キャラクター
 SetChara name:ロッドアタッカー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 0) alpha:1
 SetChara name:ブッシュシューター x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 1) alpha:1
 SetChara name:キャノンレイダー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 2) alpha:1
+SetChara name:さくら x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 0) alpha:1
+SetChara name:なのは x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 1) alpha:1
+SetChara name:ユーノ x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 2) alpha:1
+SetChara name:知世 x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 3) alpha:1
+SetChara name:ケイブガード x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 4) alpha:1 y:160
+SetChara name:ワイルドランナー x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 5) alpha:1 y:160
 ReadyMove
-SetMove layer:キャラクター time:0 x:$変数(エネミー表示位置)
+SetMove layer:キャラクター time:0 x:$変数(プレイヤー表示位置)
 SetMove layer:キャラクター time:0.1 fade:in
 StartMove type:連続 wait:on
-
 Talk ケイブガード
 強い……！？
 
 Talk ワイルドランナー
 あの子達、こんなに強かったんだ……！
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(エネミー表示位置)
+StartMove type:連続
 Talk キャノンレイダー
 チッ、まさかここまでとは……
 
@@ -1307,6 +1335,25 @@ Talk キャノンレイダー
 
 だがまだだ！！
 
+HideMessage time:0.3
+clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+Center x:14 y:11
+CreateUnit name:ポテトン x:12 y:8 side:敵 level:1
+CreateUnit name:ポテドン x:11 y:9 side:敵 level:1 
+CreateUnit name:ポテトン x:11 y:13 side:敵 level:1 
+CreateUnit name:ポテドン x:12 y:14 side:敵 level:1 
+CreateUnit name:ポテトン x:16 y:14 side:敵 level:1 
+CreateUnit name:ポテドン x:17 y:13 side:敵 level:1 
+CreateUnit name:ポテトン x:17 y:9 side:敵 level:1 
+CreateUnit name:ポテドン x:16 y:8 side:敵 level:1 
+Wait 1
+ReadyMove
+SetMove layer:キャラクター time:0 x:$変数(プレイヤー表示位置)
+SetMove layer:キャラクター time:0.3 fade:in
+StartMove type:同時 wait:on
 Talk さくら
 うわっ！？
 
@@ -1316,31 +1363,55 @@ Talk ケイブガード
 Talk さくら
 び、びっくりした……！
 
+あのジャガイモ、なんか怖い顔してるし……
+
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(エネミー表示位置)
+StartMove type:連続
 Talk キャノンレイダー
 このあたりにゃ結構仕込んだからな
 
 まだまだお代わりは十分あるぜ
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
+StartMove type:連続
 Talk ケイブガード
 クソっ、どうせなら揚げてから出して来いよ！！
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(エネミー表示位置)
+StartMove type:連続
 Talk ロッドアタッカー
 （……実際、食えるんだよなぁ
 味は、普通にジャガイモだし）
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
+StartMove type:連続
 Talk ワイルドランナー
 ……けど、いくら数が多くても
 しょせんはジャガイモお化け
 
 こっちのほうがまだ押してるし
 このまま……
-
+Wait 1
+StopBGM
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(エネミー表示位置)
+StartMove type:連続
 Talk キャノンレイダー
 ……おっと、そいつはどうかな？
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
+StartMove type:連続
 Talk なのは
 え……？
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(エネミー表示位置)
+StartMove type:連続
 Talk キャノンレイダー
 不思議に思わなかったか？
 
@@ -1348,28 +1419,57 @@ Talk キャノンレイダー
 
 いったい、どうやって作ったと思う？
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
+StartMove type:連続
 Talk ケイブガード
 そんなの、マギアームを使えば簡単に……
-
+Wait 0.5
+PlaySound file:magic-quake2
+shake x:20
 うおっ！？
 
 Talk ユーノ
 な……なんだ！？　この振動……
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(エネミー表示位置)
+StartMove type:連続
 Talk キャノンレイダー
 マギアームは、道具から……とは限らないぜ
 
 メカに詳しい奴が設計図を引けば……
 
+StartBGM file:game_maoudamashii_1_battle30
+KeepBGM
 Talk キャノンレイダー
 こんな事だってできるんだよ！！
-
+Wait 1
+PlaySound file:magic-quake2
+shake x:20
+HideMessage time:0.3
+clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+Wait 1
+CreateUnit name:グランモール x:14 y:11 side:敵 level:5
+Wait 1
+ReadyMove
+SetMove layer:キャラクター time:0 x:$変数(プレイヤー表示位置)
+SetMove layer:キャラクター time:0.3 fade:in
+StartMove type:同時 wait:on
 Talk ワイルドランナー
 な、なにこいつ！？
 
 Talk さくら
 大きなモグラさん……？
 
+SetChara name:エレクトロショッカー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 3) alpha:0
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(エネミー表示位置)
+SetMove chara:エレクトロショッカー time:0.5 alpha:1
+StartMove type:連続
 Talk エレクトロショッカー
 おーい、ここに居た分のポテトン達は
 全部掘り出したぜー……
@@ -1385,8 +1485,9 @@ Talk キャノンレイダー
 Talk エレクトロショッカー
 えー……めんどいなぁ……
 
-
-
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
+StartMove type:連続
 Talk ケイブガード
 モグラロボって……
 
@@ -1401,31 +1502,75 @@ Talk ユーノ
 
 さくらさんのカードも大概だったけど
 あんなデタラメなもの、いったいどうやって……
-
-Talk 知世
-気を付けてください！
-
-あのモグラさんもこちらに来るようですわ！！
+Wait 1
+Talk さくら
+……大丈夫
 
 Talk なのは
-！！
-
-Talk 知世
-大丈夫ですわ、見た目は確かに大きいけれど……
-
-見た目ほど、強い力は感じないそうですから
-
-落ち着いて戦えば、きっと勝機はみえるはずです
+え……？
 
 Talk さくら
-わかったよ、知世ちゃん！！
+確かに大きいけど、それほどの力は感じない……
 
+みんなで力を合わせれば、きっと大丈夫だよ！
 
+Talk 知世
+さくらちゃん……！
+
+Talk ケイブガード
+……わかった！
+
+その言葉に乗らせてもらうぜ！！
+
+Talk ワイルドランナー
+ぼんやりとした子だと思ってたけど……
+なんだか、本当に大丈夫に思えるから
+不思議な子だよね……！
+
+Talk なのは
+わかりました！
+ユーノ君、バックアップお願い！！
+
+Talk ユーノ
+わかったよ、なのは！！
+
+Talk 知世
+落ち着いて戦えば、きっと勝機はみえるはずです
+
+みなさん、がんばってください！！
+
+hidemsg time:0.3
+clearmsg type:all
+//
+//
+//
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+ClearEvent 
+SetEvent target:グランモール type:撃破 label:グランモール撃破
+DeleteAllLayer
 Exit
 
 
 グランモール撃破:
-
+AddLayer name:キャラクター alpha:0
+AddLayer name:エフェクト alpha:0
+CharaLayer name:キャラクター
+SetChara name:ロッドアタッカー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 0) alpha:1
+SetChara name:ブッシュシューター x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 1) alpha:1
+SetChara name:キャノンレイダー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 2) alpha:1
+SetChara name:エレクトロショッカー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 3) alpha:1
+SetChara name:さくら x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 0) alpha:1
+SetChara name:なのは x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 1) alpha:1
+SetChara name:ユーノ x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 2) alpha:1
+SetChara name:知世 x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 3) alpha:1
+SetChara name:ケイブガード x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 4) alpha:1 y:160
+SetChara name:ワイルドランナー x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 5) alpha:1 y:160
+ReadyMove
+SetMove layer:キャラクター time:0 x:$変数(エネミー表示位置)
+SetMove layer:キャラクター time:0.1 fade:in
+StartMove type:連続 wait:on
 Talk エレクトロショッカー
 だ……ダメだ！！　これ以上やられたら持たないよ！！
 
@@ -1434,40 +1579,70 @@ Talk キャノンレイダー
 
 まさか、グランモールまでやられただと……！？
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
+StartMove type:連続 wait:on
 Talk ケイブガード
 へっ、どんなもんだい！！
 
+ReadyMove
+SetMove layer:キャラクター time:0.5  x:$変数(エネミー表示位置)
+StartMove type:連続 wait:on
 Talk キャノンレイダー
 ……まぁいい、ここまでは一応想定内だ
 
-総員撤退、この場から撤退するぞ！！
+総員、この場から撤退するぞ！！
 
+HideMessage time:0.3
+clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+Wait 1
+Flash
+Escape side:敵
+Wait 1
+ReadyMove
+SetMove layer:キャラクター time:0 x:$変数(プレイヤー表示位置)
+SetMove layer:キャラクター time:0.1 fade:in
+StartMove type:連続 wait:on
 Talk ワイルドランナー
 どうやら、逃げていったみたいね……
 
 Talk ユーノ
-空間転移……
+空間転移！？
 
-あんな事も出来るのか……！？
+あんな高等魔法も使えるのか……！？
 
 Talk ケイブガード
-ああ、あれなら俺達でもできるよ
+ああ、テレポートの事？
 
-まぁ、こっち側限定だけど……
+あれなら俺達でもできるよ
+
+Talk ユーノ
+え……！？
+
+Talk ケイブガード
+まぁ、こっち側でしか使えないんだけど……
 
 君達は？
 
 Talk さくら
-私はこっち側に来たのが、つい昨日だし……
+空間を変化させる魔法はあるけど……
 
-ワープする魔法は……持ってないかな
+ワープする魔法は……ないね
 
 Talk なのは
-私も、魔法使えるようになったのつい最近だから……
+私も、魔法使えるようになったの、つい最近だから……
+
+そんな感じの魔法の使い方は、教わってないし……
 
 Talk ユーノ
 （回復した今なら、問題なく使えるけれど……
-……でも、今言う必要はなさそうかな）
+
+とりあえず、今は黙っておこう
+
+後々、大変な事になりそうだし……）
 
 Talk ケイブガード
 じゃあ、村までは俺達と一緒においでよ
@@ -1477,15 +1652,34 @@ Talk ケイブガード
 Talk 知世
 やることですか……？
 
-
-
+hidemsg time:0.3
+clearmsg type:all
+StopBGM fade:0.4
+Wait 0.7
+SetImg img:tex_black size:fill name:ブラック layer:エフェクト alpha:1
+ReadyMove
+SetMove layer:エフェクト time:1 fade:in
+SetMove layer:キャラクター time:1 fade:in
+StartMove type:同時 wait:on
+ClearLayer name:キャラクター
+Goto エピローグ
 Exit
 
 
 
 エピローグ:
-
-
+AddLayer name:背景 alpha:1 level:0
+CharaLayer name:キャラクター
+SetImg img:神社境内 size:just name:神社境内 layer:背景
+SetChara name:アリサ x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 3) alpha:1
+SetChara name:すずか x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 4) alpha:1
+ReadyMove
+SetMove layer:キャラクター time:0.1 fade:in x:0
+SetMove layer:エフェクト time:0.5 fade:out
+StartMove type:連続 wait:on
+Wait 0.3
+showmsg time:0.3
+StartBGM file:game_maoudamashii_7_event43 vol:1 fade:0.5
 Talk アリサ
 あー、もう！
 
@@ -1508,21 +1702,28 @@ Talk アリサ
 神主だっているんだし……
 
 Talk ？？？
-この神社に、息子さんはいないよ
+この神社に、外国人の息子さんはいないよ
 
 Talk アリサ
 えっ！？
 
+SetChara name:奈緒子 x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 1) alpha:0
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:0
+SetMove chara:奈緒子 time:0.5 alpha:1
+StartMove type:連続
 Talk ？？？
-イギリスに留学してたって話は聞いた事あるけどね
+イギリスに留学してたって
+聞いた事あるけれど……
 
 Talk すずか
 貴方は……？
 
-Talk 奈緒子
+Talk ？？？
 あ、ゴメン……
 驚かせちゃったかな？
 
+Talk 奈緒子
 わたし、柳沢奈緒子
 
 あなた達、見た事のない制服だけど
@@ -1531,11 +1732,11 @@ Talk 奈緒子
 Talk すずか
 あ、すいません……
 
-海鳴市の、聖祥大付属小学校３年の
+聖祥大付属小学校３年の
 月村すずかです
 
 Talk アリサ
-すずかの友達のアリサ・バニングスです
+すずかの友達のアリサ・バニングスよ
 
 Talk 奈緒子
 聖祥大付属って……海鳴市の？
@@ -1566,10 +1767,11 @@ Talk 奈緒子
 
 だけど、誰かが確認に来たら何もなくって……
 
-学校で、ちょっと噂になってるんだよ
+学校で、ちょっと噂になってるんだ
 
 Talk アリサ
 ……そう言えば、友枝町って
+
 一昨年から、妙な異常気象が頻発してるって
 聞いた事あったけど……
 
@@ -1577,10 +1779,13 @@ Talk 奈緒子
 よく知ってるね
 
 友枝町だけ大雨だったり、大雪だったり
-公園の滑り台がひっくり返って
-いつの間にか戻ってたりとか起こってたんだよ
+公園の滑り台がひっくり返ったりして
+でも、いつの間にか戻ってたりとか……
 
-でも、今年の４月になってから
+そんな色々な事が起こってたんだよ
+
+Talk 奈緒子
+でも、今年になってから
 なにも起こらなくなっちゃって……
 
 噂を聞いて、なにかあったら面白そうと思ったから
@@ -1612,10 +1817,12 @@ Talk 奈緒子
 
 あっ……！
 
-
-
-
-
-
-
+hidemsg time:0.3
+clearmsg type:all
+flash time:2
+ReadyMove
+SetMove layer:エフェクト time:1 fade:in
+StartMove type:連続 wait:on
+DeleteAllLayer
+Continue 知世の野望_03.srceve
 Exit

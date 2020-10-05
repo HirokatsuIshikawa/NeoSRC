@@ -78,6 +78,17 @@ package database.user
             return _masterData.maxFormationNum;
         }
         
+        public function get unitSize():int
+        {
+            return _masterData.unitSize;
+        }
+        
+        public function get showLv():int
+        {
+            return _masterData.baseLv + _nowLv;
+        }
+        
+        
         public function get nowLv():int
         {
             return _nowLv;
@@ -180,25 +191,17 @@ package database.user
             var i:int = 0;
             _id = id;
             _name = data.name;
-            //_imgNameList = new Vector.<String>;
             _masterData = data;
             _terrain = new Vector.<int>;
             _param = new BaseParam();
             _passiveList = new Vector.<CharaBuffData>();
             
-            /*
-               for (var i:int = 0; i < data.imgData.imgList.length; i++)
-               {
-               _imgNameList[i] = data.imgData.imgList[i].name;
-               }
-             */
-            
+
             //パッシブスキル
             if (data.passiveList != null)
             {
                 for (i = 0; i < data.passiveList.length; i++)
                 {
-                    
                     var buff:CharaBuffData = data.passiveList[i];
                     _passiveList.push(buff);
                 }
@@ -252,7 +255,6 @@ package database.user
                 var point:int = _masterData.minParam[str] + addPoint;
                 this.param[BaseParam.STATUS_STR[i]] = point;
             }
-            var fff:int = 0;
         }
         
         public function addStrength(num:int = 1):void

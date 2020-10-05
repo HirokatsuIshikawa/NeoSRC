@@ -13,6 +13,7 @@ package scene.main
     import scene.intermission.InterMission;
     import scene.intermission.customdata.PlayerVariable;
     import scene.intermission.save.ConfirmPopup;
+    import scene.intermission.save.ErrorPopup;
     import scene.intermission.save.LoadList;
     import scene.map.BaseMap;
     import scene.map.BattleMap;
@@ -749,7 +750,7 @@ package scene.main
         public function errorMessageEve(msg:String, line:int):void
         {
             trace(line + "行目:" + msg);
-            var textField:ConfirmPopup = new ConfirmPopup(line + "行目:" + msg);
+            var textField:ErrorPopup = new ErrorPopup(line + "行目:" + msg);
             addChild(textField);
         }
         
@@ -757,7 +758,7 @@ package scene.main
         public function alertMessage(msg:String, key:String):void
         {
             trace(msg + ":" + key);
-            var textField:ConfirmPopup = new ConfirmPopup(msg + ":" + key);
+            var textField:ErrorPopup = new ErrorPopup(msg + ":" + key);
             addChild(textField);
         }
         

@@ -41,7 +41,7 @@ package
 		
 		public function NeoSRC():void
 		{
-			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, onInvoke);
+			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, onInvoke);            
 			//広告
 			showWebView();
 		}
@@ -95,6 +95,12 @@ package
 			SingleMusic.restartBGM();
 		}
 		
+        public function changeTitleName(name:String):void
+        {
+            stage.nativeWindow.title = name;
+        }
+        
+        
 		public function showWebView():void
 		{
 			if (_webView != null)

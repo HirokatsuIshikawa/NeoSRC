@@ -98,11 +98,7 @@ package converter.parse
                     break;
                 }
             }
-            
             return data;
         }
-        
-        
-    
     }
 }

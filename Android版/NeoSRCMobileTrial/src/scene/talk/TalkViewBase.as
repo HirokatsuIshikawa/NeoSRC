@@ -5,15 +5,23 @@ package scene.talk
     import common.CalcInfix;
     import common.CommonDef;
     import common.CommonSystem;
-    import scene.main.MainViewer;
-    import system.custom.customSprite.CImage;
-    import system.custom.customSprite.CSprite;
-    import system.custom.customSprite.CTextArea;
     import database.dataloader.EventFileLoader;
-    import database.user.FaceData;
+    import database.user.CommanderData;
     import flash.desktop.NativeApplication;
     import flash.filesystem.File;
     import flash.utils.Timer;
+    import scene.intermission.customdata.PlayerVariable;
+    import scene.main.MainController;
+    import scene.main.MainViewer;
+    import scene.map.panel.BattleMapPanel;
+    import scene.talk.classdata.IfSearch;
+    import scene.talk.classdata.MapEventData;
+    import scene.talk.classdata.SelectCommandData;
+    import scene.talk.common.ImgDef;
+    import scene.talk.common.MsgDef;
+    import scene.talk.message.TelopWindow;
+    import scene.talk.window.SelectWindow;
+    import scene.unit.BattleUnit;
     import starling.core.Starling;
     import starling.display.DisplayObject;
     import starling.events.Event;
@@ -22,18 +30,10 @@ package scene.talk
     import starling.events.TouchPhase;
     import starling.textures.Texture;
     import starling.textures.TextureSmoothing;
+    import system.custom.customSprite.CImage;
+    import system.custom.customSprite.CSprite;
+    import system.custom.customSprite.CTextArea;
     import system.file.DataLoad;
-    import scene.main.MainController;
-    import scene.map.panel.BattleMapPanel;
-    import scene.unit.BattleUnit;
-    import scene.intermission.customdata.PlayerVariable;
-    import scene.talk.classdata.IfSearch;
-    import scene.talk.classdata.MapEventData;
-    import scene.talk.classdata.SelectCommandData;
-    import scene.talk.common.ImgDef;
-    import scene.talk.common.MsgDef;
-    import scene.talk.message.TelopWindow;
-    import scene.talk.window.SelectWindow;
     import system.viewobject.extensions.PDParticleSystem;
     import system.viewobject.extensions.ParticleSystem;
     
@@ -84,7 +84,7 @@ package scene.talk
         /**テキストデータ*/
         protected var _textData:Array = null;
         /**ラベルデータ*/
-        protected var _labelData:Array = null;
+        protected var _labelData:Object = null;
         /**ライン接続フラグ*/
         protected var _connectLineFlg:Boolean = false;
         
@@ -126,6 +126,8 @@ package scene.talk
         /**テロップ次の位置*/
         protected var _talkNextPos:int = 0;
         
+        //トゥイーン中
+        protected var _movingTween:Boolean;
         //-----------------------------------------------------------------
         // processor
         //-----------------------------------------------------------------
@@ -305,7 +307,7 @@ package scene.talk
         }
         
         /**イベントファイル読み込み完了*/
-        protected function setText(ary:Array, label:Array):void
+        protected function setText(ary:Array, label:Object):void
         {
             _textData = ary;
             _labelData = label;
@@ -324,7 +326,7 @@ package scene.talk
         }
         
         /**イベントファイル読み込み完了*/
-        protected function setContinueText(ary:Array, label:Array):void
+        protected function setContinueText(ary:Array, label:Object):void
         {
             _textData = ary;
             _labelData = label;
@@ -358,7 +360,7 @@ package scene.talk
         /**初期化ラベルロード*/
         private function initialLabelLoad(func:Function):void
         {
-            if (_labelData.indexOf(MainViewer.INIT_LABEL + ":") >= 0)
+            if (_labelData.hasOwnProperty(MainViewer.INIT_LABEL + ":"))
             {
                 _initialLabelFlg = true;
                 _initialLoadFunc = func;
@@ -372,12 +374,23 @@ package scene.talk
         }
         
         /**Eveデータ追加分結合*/
-        protected function addEveData(add:Array, label:Array):void
+        protected function addEveData(add:Array, label:Object):void
         {
-            var base:Array = _textData;
-            _textData = base.concat(add);
+            _textData = mergeAry(_textData, add);
             setLineCommand();
         }
+        
+        protected function mergeAry(...multi):Array 
+        { 
+            var out:String = ""; 
+
+            for each(var i:Array in multi) 
+            { 
+             out += i.join(','); 
+            } 
+
+            return out.split(','); 
+        } 
         
         //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         //
@@ -523,6 +536,9 @@ package scene.talk
             case "flash": 
                 flashWindow(command, param);
                 break;
+            case "shake": 
+                shakeWindow(command, param);
+                break;
             //-----------------------------------------------------リセット-----------------------------------------------------
             case "allreset": 
                 resetAll();
@@ -619,6 +635,7 @@ package scene.talk
                 break;
             //-----------------------------------------------------音楽-----------------------------------------------------
             case "startbgm": 
+                MainController.$.model.playerParam.keepBGMFlg = false;
                 SingleMusic.stopBGM(0, 0);
                 MainController.$.model.playerParam.playingMapBGM = param.file;
                 if (param.hasOwnProperty("vol"))
@@ -631,6 +648,14 @@ package scene.talk
             case "stopbgm": 
                 MainController.$.model.playerParam.playingMapBGM = "";
                 SingleMusic.endBGMData(param);
+                setLineCommand();
+                break;
+            case "keepbgm": 
+                MainController.$.model.playerParam.keepBGMFlg = true;
+                setLineCommand();
+                break;
+            case "releasebgm": 
+                MainController.$.model.playerParam.keepBGMFlg = false;
                 setLineCommand();
                 break;
             case "changeVol": 
@@ -676,6 +701,7 @@ package scene.talk
                 {
                     if (MainController.$.view.battleMap != null && MainController.$.view.battleMap.mapPanel != null)
                     {
+                        MainController.$.view.battleMap.mapTalkFlg = true;
                         MainController.$.view.battleMap.mapPanel.showPanel(BattleMapPanel.PANEL_MAP_TALK);
                     }
                 }
@@ -687,6 +713,114 @@ package scene.talk
                 break;
             case "clearevent": 
                 clearEvent(command, param);
+                setLineCommand();
+                break;
+            //-----------------------------------------------------軍師------------------------------------------------------
+            case "setcommander": 
+                var commanderData:CommanderData = null;
+                //省略した場合はプレイヤーチーム名に
+                if (param.hasOwnProperty("sidename") == false)
+                {
+                    param.sidename = MainController.$.model.playerParam.sideName;
+                }
+                
+                if (param.sidename === MainController.$.model.playerParam.sideName)
+                {
+                    for (i = 0; i < MainController.$.model.playerCommanderData.length; i++)
+                    {
+                        if (param.name === MainController.$.model.playerCommanderData[i].name || param.name === MainController.$.model.playerCommanderData[i].nickName)
+                        {
+                            MainController.$.model.playerParam.selectCommanderName = MainController.$.model.playerCommanderData[i].name;
+                            commanderData = MainController.$.model.playerCommanderData[i];
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    for (i = 0; i < MainController.$.model.masterCommanderData.length; i++)
+                    {
+                        commanderData = new CommanderData(MainController.$.model.masterCommanderData[i], param.lv);
+                        break;
+                    }
+                }
+                if (commanderData != null)
+                {
+                    MainController.$.map.setCommander(param.sidename, commanderData);
+                }
+                setLineCommand();
+                break;
+            case "clearcommander": 
+                //省略した場合はプレイヤーチーム名に
+                if (param.hasOwnProperty("sidename") == false)
+                {
+                    param.sidename = MainController.$.model.playerParam.sideName;
+                }
+                
+                if (param.sideName === MainController.$.model.playerParam.sideName)
+                {
+                    MainController.$.model.playerParam.selectCommanderName = null;
+                }
+                MainController.$.map.clearCommander(param.sidename);
+                setLineCommand();
+                break;
+            case "joincommander": 
+                MainController.$.model.addPlayerCommanderFromName(param.name, param.lv);
+                setLineCommand();
+                break;
+            case "leavecommander": 
+                for (i = 0; i < MainController.$.model.masterCommanderData.length; i++)
+                {
+                    if (param.name === MainController.$.model.masterCommanderData[i].name || param.name === MainController.$.model.masterCommanderData[i].nickName)
+                    {
+                        var leaveCommanderData:CommanderData = MainController.$.model.playerCommanderData.splice(i, 1)[0];
+                        //選択中だった場合マップ軍師を削除
+                        if (MainController.$.map != null && //
+                        MainController.$.model.playerParam.selectCommanderName === MainController.$.model.playerCommanderData[i].name || //
+                        MainController.$.model.playerParam.selectCommanderName === MainController.$.model.playerCommanderData[i].nickName)
+                        {
+                            MainController.$.map.clearCommander(MainController.$.model.playerParam.sideName);
+                        }
+                        leaveCommanderData = null;
+                        break;
+                    }
+                }
+                setLineCommand();
+                break;
+            case "addcommanderlv": 
+                for (i = 0; i < MainController.$.model.playerCommanderData.length; i++)
+                {
+                    if (param.name === MainController.$.model.playerCommanderData[i].name || param.name === MainController.$.model.playerCommanderData[i].nickName)
+                    {
+                        MainController.$.model.playerCommanderData[i].addLevel(param.value);
+                        //選択中だった場合マップ軍師に反映
+                        if (MainController.$.map != null && //
+                        MainController.$.model.playerParam.selectCommanderName === MainController.$.model.playerCommanderData[i].name || //
+                        MainController.$.model.playerParam.selectCommanderName === MainController.$.model.playerCommanderData[i].nickName)
+                        {
+                            MainController.$.map.setCommander(MainController.$.model.playerParam.sideName, MainController.$.model.playerCommanderData[i]);
+                        }
+                        break;
+                    }
+                }
+                setLineCommand();
+                break;
+            case "setcommanderlv": 
+                for (i = 0; i < MainController.$.model.playerCommanderData.length; i++)
+                {
+                    if (param.name === MainController.$.model.playerCommanderData[i].name || param.name === MainController.$.model.playerCommanderData[i].nickName)
+                    {
+                        MainController.$.model.playerCommanderData[i].setLevel(param.lv);
+                        //選択中だった場合マップ軍師に反映
+                        if (MainController.$.map != null && //
+                        MainController.$.model.playerParam.selectCommanderName === MainController.$.model.playerCommanderData[i].name || //
+                        MainController.$.model.playerParam.selectCommanderName === MainController.$.model.playerCommanderData[i].nickName)
+                        {
+                            MainController.$.map.setCommander(MainController.$.model.playerParam.sideName, MainController.$.model.playerCommanderData[i]);
+                        }
+                        break;
+                    }
+                }
                 setLineCommand();
                 break;
             //-----------------------------------------------------ユニット-----------------------------------------------------
@@ -771,7 +905,14 @@ package scene.talk
                 break;
             case "escape": 
                 _moveFlg = true;
-                MainController.$.view.battleMap.escapeUnit(param.name, param.side, param, mapMoveComp);
+                if (param.hasOwnProperty("name"))
+                {
+                    MainController.$.view.battleMap.escapeUnit(param.name, param.side, param, mapMoveComp);
+                }
+                else
+                {
+                    MainController.$.view.battleMap.escapeSide(param.side, param, mapMoveComp);
+                }
                 break;
             case "organize":
                 
@@ -795,6 +936,23 @@ package scene.talk
             case "unitmove": 
                 MainController.$.view.battleMap.moveMapUnit(param.unit, param.x, param.y, setLineCommand);
                 
+                break;
+            //-----------------------------------------------------マップピクチャ＆イベント設置-----------------------------------------------------
+            case "setmappicture": //マップピクチャをセット
+                MainController.$.view.battleMap.setMapPicture(param.img, param.name, param);
+                setLineCommand();
+                break;
+            case "setmappicturelabel": //マップピクチャにラベルをセット
+                MainController.$.view.battleMap.setMapPictureLabel(param.name, param.label);
+                setLineCommand();
+                break;
+            case "deletemappicture": //マップピクチャを名前を指定して削除
+                MainController.$.view.battleMap.deleteMapPicture(param.name);
+                setLineCommand();
+                break;
+            case "deleteallmappicture": //全マップピクチャ削除
+                MainController.$.view.battleMap.deleteAllMapPicture();
+                setLineCommand();
                 break;
             //-----------------------------------------------------コマンドバトル-----------------------------------------------------
             case "partyinunit": // パーティ加入
@@ -896,6 +1054,7 @@ package scene.talk
                 {
                     if (MainController.$.view.battleMap != null && MainController.$.view.battleMap.mapPanel != null)
                     {
+                        MainController.$.view.battleMap.mapTalkFlg = false;
                         MainController.$.view.battleMap.mapPanel.showPanel(BattleMapPanel.PANEL_SYSTEM);
                     }
                 }
@@ -951,7 +1110,8 @@ package scene.talk
             }
             else
             {
-                
+                //ラベルが見つからなかったらエラー
+                MainController.$.view.errorMessageEve("『" + label + ":』が存在しません", _loadLine);
             }
         }
         
@@ -1215,9 +1375,8 @@ package scene.talk
                 _flashImg.color = 0xFFFFFF;
             }
             
-            if (param)
-                
-                addChild(_flashImg);
+            //if (param)
+            addChild(_flashImg);
             Tween24.serial(Tween24.tween(_flashImg, CommonDef.waitTime(flashTime, _skipFlg)).fadeIn(), Tween24.tween(_flashImg, CommonDef.waitTime(flashTime, _skipFlg)).fadeOut()).onComplete(flashEnd).play();
             
             function flashEnd():void
@@ -1229,6 +1388,46 @@ package scene.talk
         
         }
         
+        protected function shakeWindow(command:Array, param:Object):void
+        {
+            var shakeTime:Number;
+            // 時間設定
+            if (param.hasOwnProperty("time"))
+            {
+                shakeTime = param.time;
+            }
+            else
+            {
+                shakeTime = 1;
+            }
+            
+            if (!param.hasOwnProperty("x"))
+            {
+                param.x = 20;
+            }
+            
+            if (!param.hasOwnProperty("y"))
+            {
+                param.y = 20;
+            }
+            
+            Tween24.serial(Tween24.prop(MainController.$.view).$$xy(param.x, param.y), Tween24.tween(MainController.$.view, shakeTime).$$xy(0, 0)).onUpdate(shakeUpdate).onComplete(shakeEnd).play();
+            
+            function shakeUpdate():void
+            {
+                MainController.$.view.x = MainController.$.view.x * Math.random() * 2 - 1;
+                MainController.$.view.y = MainController.$.view.y * Math.random() * 2 - 1;
+            }
+            
+            function shakeEnd():void
+            {
+                MainController.$.view.x = 0;
+                MainController.$.view.y = 0;
+                setLineCommand();
+            }
+        }
+        
+        //全レイヤー
         protected function allLayer(command:Array, param:Object):void
         {
             var tween:Tween24 = null;
@@ -1460,6 +1659,7 @@ package scene.talk
         
         protected function startMoveFunc(command:Array, param:Object):void
         {
+            _movingTween = true;
             if (!param.hasOwnProperty("wait"))
             {
                 param.wait = "on";
@@ -1490,6 +1690,7 @@ package scene.talk
             
             if (waitStr === "off")
             {
+                _movingTween = false;
                 setLineCommand();
             }
         }
@@ -1505,6 +1706,7 @@ package scene.talk
             }
             if (waitFlg === "on")
             {
+                _movingTween = false;
                 _moveFlg = false;
                 setLineCommand();
             }
@@ -2250,7 +2452,17 @@ package scene.talk
             
             if (param.hasOwnProperty("type") && param.type === "global")
             {
-                variable.setGlobal(true);
+                variable.global = true;
+            }
+            
+            for (var i:int = 0; i < playerVariable.length; i++)
+            {
+                
+                if (playerVariable[i].name === variable.name)
+                {
+                    playerVariable.splice(i, 1);
+                    break;
+                }
             }
             
             playerVariable.push(variable);
@@ -2314,6 +2526,7 @@ package scene.talk
             //var key:Object = null;
             var i:int = 0;
             var j:int = 0;
+            
             for (i = 0; i < command.length; i++)
             {
                 command[i] = command[i].toLowerCase();
@@ -2322,7 +2535,18 @@ package scene.talk
                     nextStr = command[i];
                     break;
                 }
-                else if (command[i] == "goto")
+                else if (command[i] === "goto")
+                {
+                    nextStr = command[i];
+                    labelStr = command[i + 1];
+                    break;
+                }
+                else if (command[i] === "return")
+                {
+                    nextStr = command[i];
+                    break;
+                }
+                else if (command[i] === "call")
                 {
                     nextStr = command[i];
                     labelStr = command[i + 1];
@@ -2345,10 +2569,11 @@ package scene.talk
                 {
                     if (playerVariable[j].name === command[i])
                     {
-                        command[i] = playerVariable[j];
+                        command[i] = playerVariable[j].value;
                         break;
                     }
                 }
+                
                 mathString += command[i];
             }
             
@@ -2381,6 +2606,27 @@ package scene.talk
                     // 一致しなかったら次へ
                     setLineCommand();
                 }
+                break;
+            case "call": 
+                if (answer > 0)
+                {
+                    //一致したらコールラベル検索
+                    _callBaseLine.unshift(_loadLine);
+                    searchLoadLine(labelStr);
+                }
+                else
+                {
+                    // 一致しなかったら次へ
+                    setLineCommand();
+                }
+                
+                break;
+            case "return": 
+                if (answer > 0)
+                {
+                    _loadLine = _callBaseLine.shift();
+                }
+                setLineCommand();
                 break;
             }
         
@@ -2866,6 +3112,5 @@ package scene.talk
             setChildIndex(_talkArea, this.numChildren - 1);
             setChildIndex(_touchBtn, this.numChildren - 1);
         }
-    
     }
 }

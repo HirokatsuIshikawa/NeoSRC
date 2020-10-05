@@ -13,7 +13,5 @@ package scene.map.panel.subpanel
             
             _listSprite.removeChild(_passBtn);
         }
-        
     }
-
 }

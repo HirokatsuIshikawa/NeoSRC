@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <application xmlns="http://ns.adobe.com/air/application/32.0">
   <id>syougungames.NeoSRCMobile</id>
-  <versionNumber>1.11</versionNumber>
+  <versionNumber>1.22</versionNumber>
   <supportedProfiles>mobileDevice</supportedProfiles>
   <filename>SimramaBox</filename>
   <name>SimramaBox</name>

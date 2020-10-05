@@ -3,6 +3,7 @@ package system.file
 	import code.org.coderepos.text.encoding.Jcode;
     import common.CommonDef;
 	import common.CommonSystem;
+    import common.SystemController;
 	import converter.parse.SystemParse;
 	import flash.events.Event;
 	import flash.events.ProgressEvent;
@@ -48,13 +49,13 @@ package system.file
 				//FileReference　ロード成功時の処理
 				function loadComplete(e:Event):void
 				{
-					
 					fr.removeEventListener(Event.COMPLETE, loadComplete);
 					fr.removeEventListener(ProgressEvent.PROGRESS, loadProgress);
 					var fileType:String = e.currentTarget.extension;
 					var barrDat:ByteArray = e.target.data;
 					//漢字コード変換（shift-jis　－＞　UTF-8）
-					
+                    var fileNameStr:String = e.target.name;
+					SystemController.$.view.changeTitleName(fileNameStr.substr(0, fileNameStr.indexOf(".")));
 					var strData:String = "";
 					
 					if (fileType === "srctxt")
@@ -254,7 +255,7 @@ package system.file
 			fr.browse([ff]);
 		}
 		
-		//テキストロード
+		//通常セーブロード(実際の読み込みはMainViewerのloadSaveData)
 		public static function loadSaveData(name:String, num:int, func:Function):void
 		{
 			//読み込みインスタンスの生成
@@ -285,7 +286,7 @@ package system.file
 			}
 		}
 		
-		//テキストロード
+		//マップセーブロード(実際の読み込みはMainViewerのloadContinueComp)
 		public static function loadMapSaveData(saveNum:int):void
 		{
 			

@@ -2,6 +2,7 @@ package scene.intermission
 {
     import common.CommonDef;
     import common.CommonSystem;
+    import database.user.CommanderData;
     import scene.main.MainViewer;
     import system.custom.customSprite.CImage;
     import system.custom.customSprite.CImgButton;
@@ -20,6 +21,7 @@ package scene.intermission
     import scene.intermission.customdata.ShowInterMissionData;
     import viewitem.status.InterMissionStatus;
     import viewitem.status.StrengthWindow;
+    import viewitem.status.list.CommanderStatusList;
     import viewitem.status.list.StatusList;
     import viewitem.status.list.StrengthList;
     
@@ -41,7 +43,8 @@ package scene.intermission
         private var _saveList:SaveList = null;
         private var _statusList:StatusList = null;
         private var _strengthList:StrengthList = null;
-        
+        //軍師リスト
+        private var _commanderStatusList:CommanderStatusList = null;
         /**ステータス表示*/
         private var _statusWindow:InterMissionStatus = null;
         private var _strengthWindow:StrengthWindow = null;
@@ -229,8 +232,23 @@ package scene.intermission
                     break;
                 case "UnitList": 
                 case "ユニット一覧": 
+                    if (MainController.$.model.PlayerUnitData.length <= 0)
+                    {
+                        return;
+                    }
                     addBtn = new CImgButton(MainController.$.imgAsset.getTexture("btn_chara"));
                     addBtn.name = "UnitList";
+                    break;                
+                case "CommanderList": 
+                case "軍師一覧": 
+                    if (MainController.$.model.playerCommanderData.length <= 0)
+                    {
+                        return;
+                    }
+                    
+                    
+                    addBtn = new CImgButton(MainController.$.imgAsset.getTexture("btn_intermission_commander"));
+                    addBtn.name = "CommanderList";
                     break;
                 case "DataSave": 
                 case "セーブ": 
@@ -332,6 +350,9 @@ package scene.intermission
             case "UnitList": 
                 callStatusList();
                 break;
+            case "CommanderList": 
+                callCommanderList();
+                break;
             case "DataSave": 
                 callSaveList();
                 break;
@@ -369,6 +390,13 @@ package scene.intermission
             addChild(_statusList);
         }
         
+        public function callCommanderList():void
+        {
+            _commanderStatusList = new CommanderStatusList(MainController.$.model.playerCommanderData);
+            addChild(_commanderStatusList);
+        }
+        
+        
         public function closeStrengthList(event:Event):void
         {
             removeChild(_strengthList);
@@ -383,6 +411,13 @@ package scene.intermission
             _statusList = null;
         }
         
+        public function closeCommanderStatusList(event:Event):void
+        {
+            removeChild(_commanderStatusList);
+            _commanderStatusList.dispose();
+            _commanderStatusList = null;
+        }
+        
         public function callStatusWindow(data:UnitCharaData):void
         {
             var battleUnit:BattleUnit = new BattleUnit(data, 0, 0);
@@ -392,12 +427,23 @@ package scene.intermission
             _statusWindow.visible = true;
         }
         
+        
+        public function callCommanderStatusWindow(data:CommanderData):void
+        {
+            _statusWindow = new InterMissionStatus();
+            _statusWindow.setCommanderData(data);
+            addChild(_statusWindow);
+            _statusWindow.visible = true;
+        }
+        
+        
         public function closeStatusWindow(event:Event):void
         {
             removeChild(_statusWindow);
             _statusWindow.dispose();
             _statusWindow = null;
         }
+                
         
         public function callStrengthWindow(data:UnitCharaData):void
         {

@@ -376,11 +376,10 @@ package scene.talk
         /**Eveデータ追加分結合*/
         protected function addEveData(add:Array, label:Object):void
         {
-            var base:Array = _textData;
-            _textData = base.concat(add);
+            _textData = _textData.concat(add);
             setLineCommand();
         }
-        
+               
         //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         //
         // 読み込みライン処理
@@ -3101,6 +3100,5 @@ package scene.talk
             setChildIndex(_talkArea, this.numChildren - 1);
             setChildIndex(_touchBtn, this.numChildren - 1);
         }
-    
     }
 }

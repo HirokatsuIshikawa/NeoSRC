@@ -165,7 +165,7 @@ package scene.battleanime
                 {
                     _leftUnitImg[i] = new CImage(MainController.$.imgAsset.getTexture(_leftUnitData.masterData.unitsImgName));
                 }
-                setUnitImage(_leftUnitImg[i], 0, i);
+                setUnitImage(_leftUnitImg[i], 0, i, _leftUnitData.masterData.unitSize);
             }
             
             //右ユニットセット
@@ -179,32 +179,32 @@ package scene.battleanime
                 {
                     _rightUnitImg[i] = new CImage(MainController.$.imgAsset.getTexture(_rightUnitData.masterData.unitsImgName));
                 }
-                setUnitImage(_rightUnitImg[i], 1, i);
+                setUnitImage(_rightUnitImg[i], 1, i, _rightUnitData.masterData.unitSize);
             }
         }
         
         public const posListY:Array = [0, -40, 40, -40, 40];
         public const posListL:Array = [0, 80, 80, -80, -80];
         public const posListR:Array = [0, -80, -80, 80, 80];
-        
+        public const UNIT_SIZE:int = 128;
         /**ユニット画像セット*/
-        public function setUnitImage(img:CImage, side:int, pos:int):void
+        public function setUnitImage(img:CImage, side:int, pos:int, size:int):void
         {
             
-            img.width = 128;
-            img.height = 128;
+            img.width = UNIT_SIZE * size;
+            img.height = UNIT_SIZE * size;
             if (side == 0)
             {
-                img.scaleX = -4;
-                img.x = 128 + 128 + posListL[pos];
+                img.scaleX = -4 * size;
+                img.x = UNIT_SIZE + UNIT_SIZE + posListL[pos];
             }
             else
             {
-                img.x = CommonDef.WINDOW_W - 256 + posListR[pos];
+                img.x = CommonDef.WINDOW_W - UNIT_SIZE * 2 + posListR[pos] - UNIT_SIZE * (size - 1);
             }
             img.textureSmoothing = TextureSmoothing.NONE;
             
-            img.y = 160 + posListY[pos];
+            img.y = 160 + posListY[pos] - UNIT_SIZE * (size - 1) / 2;
             addChild(img);
         }
         
@@ -297,7 +297,7 @@ package scene.battleanime
             var targetState:String = MessageDataParse.STATE_LIST[MessageDataParse.MSG_AVO];
             //setUnit(data.attacker, data.target);
             _talkAttackChara = MainController.$.model.isEnableMessageName(data.attacker.name) ? data.attacker.name : "システム";
-            _attackMessage = MainController.$.model.getRandamBattleMessage(data.attacker.name, attackState, data.attacker, data.target, data.weapon, data.skill,data.damage);
+            _attackMessage = MainController.$.model.getRandamBattleMessage(data.attacker.name, attackState, data.attacker, data.target, data.weapon, data.skill, data.damage);
             switch (data.effect)
             {
             
@@ -317,7 +317,7 @@ package scene.battleanime
                 
             }
             _talkTargetChara = MainController.$.model.isEnableMessageName(data.target.name) ? data.target.name : "システム";
-            _targetMessage = MainController.$.model.getRandamBattleMessage(data.target.name, targetState, data.attacker, data.target, data.weapon, data.skill,data.damage);
+            _targetMessage = MainController.$.model.getRandamBattleMessage(data.target.name, targetState, data.attacker, data.target, data.weapon, data.skill, data.damage);
             
             // アクション作成
             _tween = makeAction(data)

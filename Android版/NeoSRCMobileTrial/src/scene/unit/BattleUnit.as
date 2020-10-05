@@ -3,6 +3,7 @@ package scene.unit
     import database.master.MasterWeaponData;
     import database.master.base.BaseParam;
     import database.master.base.LearnLevelData;
+    import database.user.CommanderData;
     import database.user.UnitCharaData;
     import database.user.buff.SkillBuffData;
     import scene.main.MainController;
@@ -107,7 +108,7 @@ package scene.unit
         /**加入フラグ*/
         private var _joinFlg:Boolean = true;
         /**会話ラベル*/
-		public var talkLabel:String = null;
+        public var talkLabel:String = null;
         
         public function get unitImg():DisplayObject
         {
@@ -315,12 +316,12 @@ package scene.unit
         }
         
         /**編成数*/
-        public function get formationNumImg():CImage 
+        public function get formationNumImg():CImage
         {
             return _formationNumImg;
         }
         
-        public function set formationNumImg(value:CImage):void 
+        public function set formationNumImg(value:CImage):void
         {
             _formationNumImg = value;
         }
@@ -337,11 +338,11 @@ package scene.unit
             
             if (num < 0)
             {
-            num = 0;
+                num = 0;
             }
             if (num > maxFormationNum)
             {
-            num = maxFormationNum;
+                num = maxFormationNum;
             }
             return num;
         }
@@ -498,6 +499,11 @@ package scene.unit
             levelSet(_nowLv);
         }
         
+        public function levelStatusReset():void
+        {
+            levelSet(_nowLv);
+        }
+        
         /**ターン開始時*/
         public function buffTurnCount():void
         {
@@ -624,6 +630,10 @@ package scene.unit
                     for (j = 0; j < BaseParam.STATUS_STR.length; j++)
                     {
                         this.param[BaseParam.STATUS_STR[j]] += _passiveList[i].buffParam[learnLv]._param[BaseParam.STATUS_STR[j]];
+                    }                    
+                    for (j = 0; j < BaseParam.ADD_STR.length; j++ )
+                    {
+                        this.param[BaseParam.ADD_STR[j]] += _passiveList[i].buffParam[skillLv]._param[BaseParam.ADD_STR[j]];
                     }
                 }
             }
@@ -637,7 +647,29 @@ package scene.unit
                     {
                         this.param[BaseParam.STATUS_STR[j]] += _buffList[i].buffParam[skillLv]._param[BaseParam.STATUS_STR[j]];
                     }
+                    
+                    for (j = 0; j < BaseParam.ADD_STR.length; j++ )
+                    {
+                        this.param[BaseParam.ADD_STR[j]] += _buffList[i].buffParam[skillLv]._param[BaseParam.ADD_STR[j]];
+                    }
+                    
                 }
+                
+            }
+        }
+        
+        /**軍師ステータスセット*/
+        public function commanderStatusSet(commander:CommanderData):void
+        {
+            /**軍師なしの場合戻る*/
+            if (commander == null)
+            {
+                return;
+            }
+            var i:int = 0;
+            for (i = 0; i < BaseParam.STATUS_STR.length; i++)
+            {
+                this.param[BaseParam.STATUS_STR[i]] += commander.param[BaseParam.STATUS_STR[i]];
             }
         }
         
@@ -669,7 +701,7 @@ package scene.unit
                 _formationNumImg.texture = MainController.$.imgAsset.getTexture(path);
             }
         }
-        
+    
     }
 
 }

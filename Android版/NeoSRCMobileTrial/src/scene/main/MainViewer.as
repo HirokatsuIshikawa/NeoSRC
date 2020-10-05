@@ -6,38 +6,40 @@ package scene.main
     import common.CommonSystem;
     import common.SystemController;
     import common.util.CharaDataUtil;
-    import scene.intermission.save.ConfirmPopup;
-    import scene.map.save.MapLoadList;
-    import scene.map.save.MapSaveList;
-    import system.custom.customSprite.CButton;
-    import system.custom.customSprite.CImage;
-    import system.custom.customTheme.CustomTheme;
     import database.user.UnitCharaData;
     import database.user.buff.SkillBuffData;
     import flash.display.StageQuality;
-    import starling.core.Starling;
-    import starling.display.DisplayObject;
-    import starling.display.Sprite;
-    import starling.events.Event;
-    import system.InitialLoader;
-    import system.file.DataLoad;
     import scene.commandbattle.CommandBattleView;
     import scene.intermission.InterMission;
+    import scene.intermission.customdata.PlayerVariable;
+    import scene.intermission.save.ConfirmPopup;
     import scene.intermission.save.LoadList;
     import scene.map.BaseMap;
     import scene.map.BattleMap;
-    import scene.map.panel.BattleMapPanel;
+    import scene.map.basepoint.MapPicture;
     import scene.map.customdata.SideState;
-    import scene.unit.BattleUnit;
-    import system.file.DataSave;
-    import viewitem.parts.loading.LoadingImg;
-    import viewitem.parts.pc.StartWindowPC;
-    import viewitem.parts.phone.StartWindowPhone;
+    import scene.map.panel.BattleMapPanel;
+    import scene.map.save.MapLoadList;
+    import scene.map.save.MapSaveList;
     import scene.talk.IconTalkView;
     import scene.talk.StandTalkView;
     import scene.talk.TalkViewBase;
     import scene.talk.classdata.MapEventData;
     import scene.talk.message.SystemWindow;
+    import scene.unit.BattleUnit;
+    import starling.core.Starling;
+    import starling.display.DisplayObject;
+    import starling.display.Sprite;
+    import starling.events.Event;
+    import system.InitialLoader;
+    import system.custom.customSprite.CButton;
+    import system.custom.customSprite.CImage;
+    import system.custom.customTheme.CustomTheme;
+    import system.file.DataLoad;
+    import system.file.DataSave;
+    import viewitem.parts.loading.LoadingImg;
+    import viewitem.parts.pc.StartWindowPC;
+    import viewitem.parts.phone.StartWindowPhone;
     
     /**
      * ...
@@ -307,14 +309,30 @@ package scene.main
             if (dataStr != null)
             {
                 var data:Object = JSON.parse(dataStr);
-                
                 var i:int = 0;
-                //基本データ読み込み
+                //変数情報読み込み
+                if (MainController.$.model.playerParam != null)
+                {
+                    MainController.$.model.playerParam.playerVariable = null;
+                    MainController.$.model.playerParam.playerVariable = new Vector.<PlayerVariable>;
+                }
                 MainController.$.model.playerParam.loadObject(data.playerData);
-                var count:int = CommonDef.objectLength(data.unitList);
+                
+                //基本データ読み込み
                 //今のデータ削除
                 resetWindow();
-                MainController.$.model.resetUnitDate();
+                MainController.$.model.resetUnitData();
+                MainController.$.model.resetCommanderData();
+                
+                var count:int = CommonDef.objectLength(data.commanderList);
+                //所持軍師データ
+                for (i = 0; i < count; i++)
+                {
+                    MainController.$.model.addPlayerCommanderFromName(data.commanderList[i].name, data.commanderList[i].lv);
+                }
+                
+                count = CommonDef.objectLength(data.unitList);
+                
                 
                 //所持ユニットデータ
                 for (i = 0; i < count; i++)
@@ -349,16 +367,33 @@ package scene.main
             }
         }
         
+        /**マップ読み込み後、マップ上アイテムセット*/
         public function loadMapComp(data:Object):void
         {
             var i:int = 0;
             var j:int = 0;
+            
+            //マップ配置画像読み込み
+            for (i = 0; i < CommonDef.objectLength(data.mapPictureList); i++)
+            {
+                var mapPictData:Object = data.mapPictureList[i];
+                var mapPict:MapPicture = new MapPicture(mapPictData.imgName, mapPictData.pictName, mapPictData.eventLabel);
+                mapPict.x = mapPictData.x;
+                mapPict.y = mapPictData.y;
+                battleMap.unitArea.addChild(mapPict);
+                battleMap.mapPictureList.push(mapPict);
+            }
+            
             //マップユニット読み込み
             for (i = 0; i < CommonDef.objectLength(data.mapDateList); i++)
             {
                 
                 MainController.$.map.sideState[i] = new SideState(data.mapDateList[i].name);
                 MainController.$.map.sideState[i].state = data.mapDateList[i].state;
+                if (data.mapDateList[i].commander != null)
+                {
+                    MainController.$.map.sideState[i].loadSaveCommander(data.mapDateList[i].commander);
+                }
                 
                 for (j = 0; j < CommonDef.objectLength(data.mapDateList[i].unitDate); j++)
                 {
@@ -449,9 +484,13 @@ package scene.main
                         _battleMap.frameArea.addChildAt(battleUnit.frameImg, _battleMap.frameArea.numChildren);
                         if (battleUnit.formationNumImg != null)
                         {
-                            battleMap.frameArea.addChildAt(battleUnit.formationNumImg, _battleMap.frameArea.numChildren);
+                            battleMap.effectArea.addChildAt(battleUnit.formationNumImg, _battleMap.effectArea.numChildren);
                         }
-                        
+                    }
+                    //軍師ステータスプラス
+                    if (MainController.$.map.sideState[i].commander != null)
+                    {
+                        battleUnit.commanderStatusSet(MainController.$.map.sideState[i].commander);
                     }
                 }
             }
@@ -479,6 +518,9 @@ package scene.main
             {
                 SingleMusic.playBGMData(bgmData);
             }
+            
+            MainController.$.model.playerParam.keepBGMFlg = data.playerData.keepBGMFlg;
+            
             loadContinueEve(data.playerData.nowEve);
         }
         
@@ -488,6 +530,9 @@ package scene.main
             resetWindow();
             var i:int = 0;
             
+            MainController.$.model.resetUnitData();
+            MainController.$.model.resetCommanderData();
+            
             MainController.$.model.playerParam.loadObject(data.playerData);
             
             var count:int = CommonDef.objectLength(data.unitList);
@@ -495,6 +540,13 @@ package scene.main
             for (i = 0; i < count; i++)
             {
                 MainController.$.model.addPlayerUnitFromName(data.unitList[i].name, data.unitList[i].lv, data.unitList[i].exp, data.unitList[i].strengthPoint, false, data.unitList[i].customBgmPath);
+            }
+            
+            count = CommonDef.objectLength(data.commanderList);
+            //所持軍師データ
+            for (i = 0; i < count; i++)
+            {
+                MainController.$.model.addPlayerCommanderFromName(data.commanderList[i].name, data.commanderList[i].lv);
             }
             
             if (_loadListWindow != null)
@@ -581,6 +633,7 @@ package scene.main
         
         public function callInterMission(nextEve:String):void
         {
+            MainController.$.model.playerParam.keepBGMFlg = false;
             //画面初期化
             resetWindow();
             if (nextEve != null)
@@ -696,12 +749,16 @@ package scene.main
         public function errorMessageEve(msg:String, line:int):void
         {
             trace(line + "行目:" + msg);
+            var textField:ConfirmPopup = new ConfirmPopup(line + "行目:" + msg);
+            addChild(textField);
         }
         
         /**警告メッセージ*/
         public function alertMessage(msg:String, key:String):void
         {
             trace(msg + ":" + key);
+            var textField:ConfirmPopup = new ConfirmPopup(msg + ":" + key);
+            addChild(textField);
         }
         
         //--
@@ -724,7 +781,6 @@ package scene.main
             addChild(_saveList);
         
         }
-        
         
         public function returnSaveFunc(num:int):Function
         {

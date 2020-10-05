@@ -158,51 +158,11 @@ package scene.map.battle
         /**スキル使用*/
         public function useSkill(attackWeaponItem:AttackListItem):void
         {
-            var i:int = 0;
-            var value:int = 0;
-            //回復
-            if (attackWeaponItem.skill.heal > 0)
-            {
-                value = attackWeaponItem.skill.heal;
-                attackWeaponItem.target.healHP(attackWeaponItem.skill.heal);
-            }
-            //補給
-            if (attackWeaponItem.skill.supply > 0)
-            {
-                value = attackWeaponItem.skill.supply;
-                attackWeaponItem.target.supplyFP(attackWeaponItem.skill.supply);
-            }
-            //効果
-            if (attackWeaponItem.skill.buff != null)
-            {
-                value = attackWeaponItem.skill.turn;
-                var findFlg:Boolean = false;
-                var buffName:String = attackWeaponItem.skill.buff;
-                //該当バフデータを検索
-                for (i = 0; i < MainController.$.model.masterBuffData.length; i++)
-                {
-                    if (buffName === MainController.$.model.masterBuffData[i].name)
-                    {
-                        findFlg = true;
-                        var addBuff:SkillBuffData = new SkillBuffData();
-                        addBuff.setMasterData(MainController.$.model.masterBuffData[i], attackWeaponItem.skill.turn, attackWeaponItem.skill.level);
-                        //ターゲットにバフを追加
-                        attackWeaponItem.target.buffAdd(addBuff);
-                        break;
-                    }
-                }
-                
-                //見つからなかった場合
-                if (!findFlg)
-                {
-                    MainController.$.view.alertMessage("該当のバフが見つかりません", "BattleResultManager_Error");
-                }
-            }
+            var value:int = CommonBattleMath.unitSkillEffect(attackWeaponItem.target, attackWeaponItem.skill);
             
-            getExp += 10;
+            _getExp += 10;
             addRecord(new BattleAnimeRecord(attackWeaponItem.unit, attackWeaponItem.target, attackWeaponItem.unit.nowHp, attackWeaponItem.target.nowHp, attackWeaponItem.skill, value, attackWeaponItem.unit.side, 0, BattleAnimeRecord.TYPE_NORMAL_SKILL));
             //particleCallback(_attackWeaponList[i].target.PosX, _attackWeaponList[i].target.PosY);
-        
             //endCallBack();
         }
         

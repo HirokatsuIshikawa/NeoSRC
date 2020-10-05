@@ -38,8 +38,13 @@ package database.master
         
         public function get MaxLv():int  { return _MaxLv; }
         
+        
+        private var _baseLv:int = 0;
+        
         /**最大編成数*/
         private var _maxFormationNum:int;
+        
+        private var _unitSize:int;
         
         /**経験値*/
         private var _exp:int = 0;
@@ -93,6 +98,16 @@ package database.master
             return _subUnitImgName;
         }
         
+        public function get baseLv():int 
+        {
+            return _baseLv;
+        }
+        
+        public function get unitSize():int 
+        {
+            return _unitSize;
+        }
+        
         public function get maxFormationNum():int
         {
             return _maxFormationNum;
@@ -132,6 +147,7 @@ package database.master
             _name = data.name;
             _nickName = data.nickName;
             _MaxLv = MathUtil.max(data.MaxLv, 1);
+            _baseLv = MathUtil.max(data.BaseLv, 0);
             _Cost = data.Cost;
             
             _passiveList = data.Passive;
@@ -197,6 +213,15 @@ package database.master
             {
                 _maxFormationNum = data.formation;
             }
+            
+            _unitSize = 1;
+            
+            //ユニットサイズ
+            if (data.hasOwnProperty("unitsize"))
+            {
+                _unitSize = data.unitsize;
+            }
+            
             
             // 武器データセット
             if (data.hasOwnProperty("Weapon"))

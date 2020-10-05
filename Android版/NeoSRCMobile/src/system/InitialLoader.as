@@ -149,6 +149,7 @@ package system
 			unitLoadStart, //
 			loadTalkImgData, //
 			loadBattleMessageStart, //
+            loadCommanderMessageStart, //
 			//loadCommonParticle //
 			]);
 			//初期化
@@ -234,6 +235,20 @@ package system
 			else
 			{
 				_charaLoader.loadCharaData(_loadDataFolderName, CharaDataLoader.TYPE_MESSAGE, loadListNext);
+			}
+		}
+        
+        
+		// 軍師データ読み込み開始
+		private function loadCommanderMessageStart():void
+		{
+			if (_loadDataFolderName.length <= 0)
+			{
+				loadListNext();
+			}
+			else
+			{
+				_charaLoader.loadCharaData(_loadDataFolderName, CharaDataLoader.TYPE_COMMANDER, loadListNext);
 			}
 		}
 		

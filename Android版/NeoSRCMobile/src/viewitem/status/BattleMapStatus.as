@@ -1,16 +1,13 @@
 package viewitem.status
 {
-	import bgm.SingleMusic;
-	import common.CommonDef;
-	import common.CommonSystem;
-	import system.custom.customSprite.CImage;
-	import system.custom.customSprite.CImgButton;
-	import system.custom.customSprite.CSprite;
-	import starling.events.Event;
-	import system.file.DataLoad;
-	import scene.main.MainController;
-	import scene.unit.BattleUnit;
-	import viewitem.status.BaseStatusWindow;
+    import database.user.CommanderData;
+    import scene.main.MainController;
+    import scene.unit.BattleUnit;
+    import starling.events.Event;
+    import system.custom.customSprite.CImgButton;
+    import system.custom.customSprite.CSprite;
+    import system.file.DataLoad;
+    import viewitem.status.BaseStatusWindow;
 	
 	/**
 	 * ...
@@ -25,7 +22,6 @@ package viewitem.status
 		
 		public function BattleMapStatus()
 		{
-			
 			super();
 			
 			_statusWindow = new BaseStatusWindow();
@@ -37,7 +33,6 @@ package viewitem.status
 			_customBGMBtn = new CImgButton(MainController.$.imgAsset.getTexture("btn_bgm"));
 			_customBGMBtn.x = 780;
 			_customBGMBtn.y = 240;
-			
 			_customBGMBtn.width = 64;
 			_customBGMBtn.height = 64;
 			_customBGMBtn.addEventListener(Event.TRIGGERED, callCustomBgm);
@@ -56,6 +51,7 @@ package viewitem.status
 			super.dispose();
 		}
 		
+        /**キャラデータセット*/
 		public function setCharaData(unit:BattleUnit, customBgmFlg:Boolean):void
 		{
 			_unitId = unit.id;
@@ -63,7 +59,14 @@ package viewitem.status
 			_unit = unit;
 			_customBGMBtn.visible = customBgmFlg;
 		}
-		
+        
+        /**軍師データセット*/
+        public function setCommanderData(commander:CommanderData):void
+        {
+            _statusWindow.setCommanderData(commander);
+			_customBGMBtn.visible = false;
+        }
+        
 		/**カスタムBGMセット*/
 		public function callCustomBgm(event:Event):void
 		{
@@ -72,22 +75,18 @@ package viewitem.status
 			DataLoad.LoadPath("カスタムBGM", "*.mid;*.mp3", compLoad);
 			function compLoad(path:String):void
 			{
-				
+                _unit.customBgmPath = path;
+                
 				for (i = 0; i < MainController.$.model.PlayerUnitData.length; i++)
 				{
 					if (MainController.$.model.PlayerUnitData[i].id == _unitId)
 					{
 						MainController.$.model.PlayerUnitData[i].customBgmPath = path;
-						_unit.customBgmPath = path;
 						//SingleMusic.playBGM(MainController.$.model.PlayerUnitData[i].customBgmHeadPath, 1, 1);
 						break;
-					}
+                    }
 				}
-			
 			}
-		
-		}
-	
+		}	
 	}
-
 }

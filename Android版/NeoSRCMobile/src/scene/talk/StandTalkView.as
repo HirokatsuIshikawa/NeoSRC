@@ -174,6 +174,9 @@ package scene.talk
 				setCharaMoveFunc(command, param);
 				setLineCommand();
 				break;
+            case "centercharalayer":
+                centerCharaFunc(command, param);
+                break;
 			//-----------------------------------------------------会話-----------------------------------------------------
 			case "talk": 
 				standTalkFunc(command, param);
@@ -502,6 +505,8 @@ package scene.talk
 					_skipTimer.stop();
 					_skipTimer.reset();
 					_skipFlg = false;
+                    
+            trace("####################################################スキップオフ＿タッチボタンハンドラー")
 					break;
 				//マウスオーバー
 				case TouchPhase.HOVER: 
@@ -513,7 +518,7 @@ package scene.talk
 					break;
 				//押した瞬間
 				case TouchPhase.BEGAN: 
-					if (!_msgCloseFlg)
+					if (!_msgCloseFlg && !_movingTween)
 					{
 						_skipTimer.stop();
 						_skipTimer.reset();
@@ -530,6 +535,8 @@ package scene.talk
 					_skipTimer.reset();
 				}
 				_skipFlg = false;
+                
+            trace("####################################################スキップオフ＿非タッチ")
 			}
 		
 		}
@@ -540,6 +547,7 @@ package scene.talk
 			_skipTimer.stop();
 			_skipTimer.reset();
 			_skipFlg = true;
+            trace("####################################################スキップオン")
 			clickBtn();
 		}
 		
@@ -654,13 +662,19 @@ package scene.talk
 		{
 			_setMsgNextPos = 0;
 			
+            if (param.hasOwnProperty("showname") == false)
+            {
+                param.showname = command[1];
+            }
+            
+            
 			// メッセージウィンドウ初期化
 			if (_messageWindow == null)
 			{
 				
 				msgInit();
 				
-				_messageWindow.setName(command[1]);
+				_messageWindow.setName(param.showname);
 				_talkArea.addChild(_messageWindow);
 				changeFace(command);
 				Tween24.parallel(Tween24.tween(_messageWindow, CommonDef.waitTime(0.5, _skipFlg), Tween24.ease.BackInOut).fadeIn(), Tween24.tween(_msgCloseBtn, CommonDef.waitTime(0.5, _skipFlg), Tween24.ease.BackInOut).fadeIn()).onComplete(function():void
@@ -684,7 +698,7 @@ package scene.talk
 				
 				function talkAction():void
 				{
-					_messageWindow.setName(command[1]);
+					_messageWindow.setName(param.showname);
 					//　キャラ切り替え時名前変更
 					if (_messageWindow.name != command[1])
 					{
@@ -957,6 +971,63 @@ package scene.talk
 			}
 		}
 		
+        protected function centerCharaFunc(command:Array, param:Object):void
+        {
+            var num:int = _tweenAry.length;
+            _tweenAry[num] = new Array();
+            _tweenNum = num;
+            
+            for ( var i:int = 0; i < _charaList.length; i++ )
+            {
+                if(_charaList[i].charaName === param.target || _charaList[i].nickName === param.target)
+                {
+                    param.x = -_charaList[i].x + (CommonDef.WINDOW_W - _charaList[i].width) / 2;
+                    break;
+                }
+            }
+            
+            if (!param.hasOwnProperty("time"))
+            {
+                param.time = 0.5;
+            }
+            
+            tween = MsgDef.setTweenParam(_layer[_charaLayer], param, _skipFlg);
+            _tweenAry[_tweenNum].push(tween);
+            
+            if (!param.hasOwnProperty("wait"))
+            {
+                param.wait = "on";
+            }
+            
+            var waitStr:String = param.wait;
+            waitStr = waitStr.toLowerCase();
+            
+            if (waitStr === "on")
+            {
+                _moveFlg = true;
+            }
+            
+            _noTouch = true;
+            var tween:Tween24;
+            switch (param.type)
+            {
+            default: 
+            case "同時": 
+                tween = Tween24.parallel(_tweenAry[_tweenNum]);
+                break;
+            case "連続": 
+                tween = Tween24.serial(_tweenAry[_tweenNum]);
+                break;
+            }
+            _tween.push(tween);
+            tween.onComplete(compTween, _tweenNum, waitStr).play();
+            
+            if (waitStr === "off")
+            {
+                setLineCommand();
+            }
+        }
+        
 		/** メッセージクリア関数 */
 		protected function msgClearFunc(param:Object):void
 		{

@@ -26,6 +26,11 @@ package viewitem.parts.numbers
 		public static const TYPE_STATE_CAP:String = "Status_CAP";
 		public static const TYPE_STATE_MND:String = "Status_MND";
 		public static const TYPE_STATE_MOV:String = "Status_MOV";
+		public static const TYPE_STATE_HIT:String = "Status_Hit";
+		public static const TYPE_STATE_EVA:String = "Status_Eva";
+		public static const TYPE_STATE_SP:String = "Status_SP";
+		public static const TYPE_STATE_HEAL:String = "Status_Heal";
+		public static const TYPE_STATE_SUPPLY:String = "Status_Supply";
 		
 		public static const ADD_NONE:String = "";
 		public static const ADD_PERCENT:String = "parcent";

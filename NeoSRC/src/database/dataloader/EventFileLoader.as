@@ -4,11 +4,15 @@ package database.dataloader
 	import common.CommonDef;
 	import common.CommonSystem;
 	import flash.events.Event;
+    import flash.events.HTTPStatusEvent;
+    import flash.events.IOErrorEvent;
+    import flash.events.SecurityErrorEvent;
 	import flash.filesystem.File;
 	import flash.net.URLLoader;
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
+    import scene.main.MainController;
 	import system.file.DataLoad;
 	
 	/**
@@ -32,10 +36,14 @@ package database.dataloader
 			_textloader.dataFormat = URLLoaderDataFormat.BINARY;
 			//テキストを読み込み開始し、完了したらtestAreaに代入
 			_textloader.addEventListener(Event.COMPLETE, loadComplete);
+            _textloader.addEventListener(IOErrorEvent.IO_ERROR, loadError);
+            _textloader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, securityLoadError);
 			//FileReference　ロード成功時の処理
 			function loadComplete(e:Event):void
 			{
 				_textloader.removeEventListener(Event.COMPLETE, loadComplete);
+                _textloader.removeEventListener(IOErrorEvent.IO_ERROR, loadError);
+                _textloader.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, securityLoadError);
 				var barrDat:ByteArray = e.target.data;
 				var strData:String = barrDat.readMultiByte(barrDat.length, DataLoad.DATA_CODE_UTF8);
 				
@@ -49,6 +57,17 @@ package database.dataloader
                 }
 				func(ary, labelList);
 			}
+            
+            function loadError(e:IOErrorEvent):void
+            {
+                MainController.$.view.alertMessage(_requrl.url + "を読み込めませんでした", "IOエラー");
+            }          
+            
+            function securityLoadError(e:SecurityErrorEvent):void
+            {
+                MainController.$.view.alertMessage(_requrl.url + "を読み込めませんでした","セキュリティロードエラー")
+            }
+            
 			_textloader.load(_requrl);
 		}
 		

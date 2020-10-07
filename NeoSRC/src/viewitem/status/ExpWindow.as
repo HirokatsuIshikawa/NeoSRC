@@ -8,7 +8,7 @@ package viewitem.status
 	import system.custom.customSprite.CTextArea;
 	import flash.text.TextFormatAlign;
 	import viewitem.base.WindowItemBase;
-	import scene.main.MainController;
+	import main.MainController;
 	import viewitem.parts.gauge.ExpGauge;
 	/**
 	 * ...

@@ -6,7 +6,7 @@ package common
     import database.user.buff.SkillBuffData;
     import flash.desktop.NativeApplication;
     import scene.battleanime.data.BattleAnimeRecord;
-    import scene.main.MainController;
+    import main.MainController;
     import starling.events.Event;
     import scene.map.battle.AttackListItem;
     import scene.unit.BattleUnit;

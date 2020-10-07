@@ -1,7 +1,7 @@
 package scene.map.tip
 {
     import common.CommonDef;
-	import scene.main.MainController;
+	import main.MainController;
     import system.custom.customSprite.CImage;
 	import starling.display.Image;
 	import starling.textures.Texture;

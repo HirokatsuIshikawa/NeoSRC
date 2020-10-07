@@ -3,7 +3,7 @@ package scene.intermission
     import common.CommonDef;
     import common.CommonSystem;
     import database.user.CommanderData;
-    import scene.main.MainViewer;
+    import main.MainViewer;
     import system.custom.customSprite.CImage;
     import system.custom.customSprite.CImgButton;
     import system.custom.customSprite.CSprite;
@@ -16,7 +16,7 @@ package scene.intermission
     import system.file.DataSave;
     import scene.intermission.save.ConfirmPopup;
     import scene.intermission.save.SaveList;
-    import scene.main.MainController;
+    import main.MainController;
     import scene.unit.BattleUnit;
     import scene.intermission.customdata.ShowInterMissionData;
     import viewitem.status.InterMissionStatus;

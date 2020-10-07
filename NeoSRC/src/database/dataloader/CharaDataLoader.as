@@ -16,7 +16,7 @@ package database.dataloader
     import flash.events.ErrorEvent;
     import flash.events.Event;
     import flash.filesystem.File;
-    import scene.main.MainController;
+    import main.MainController;
     
     /**
      * ...

@@ -1,9 +1,10 @@
 package system.file
 {
-	import flash.filesystem.File;
-	import flash.filesystem.FileMode;
-	import flash.filesystem.FileStream;
-	import system.Crypt;
+    import flash.filesystem.File;
+    import flash.filesystem.FileMode;
+    import flash.filesystem.FileStream;
+    import system.Crypt;
+    
     /**
      * ...
      * @author ishikawa
@@ -26,9 +27,6 @@ package system.file
             stream.open(path, FileMode.WRITE);
             stream.writeUTFBytes(data);
             stream.close();
-        
         }
-    
     }
-
 }

@@ -6,7 +6,7 @@ package scene.unit
     import database.user.CommanderData;
     import database.user.UnitCharaData;
     import database.user.buff.SkillBuffData;
-    import scene.main.MainController;
+    import main.MainController;
     import scene.map.BaseMap;
     import scene.map.tip.TerrainData;
     import starling.display.DisplayObject;

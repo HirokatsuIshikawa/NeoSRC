@@ -1,6 +1,6 @@
 package scene.talk.classdata
 {
-	import scene.main.MainController;
+	import main.MainController;
 	
 	/**
 	 * ...

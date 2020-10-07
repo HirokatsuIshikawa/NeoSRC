@@ -12,7 +12,7 @@ package database.dataloader
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
-    import scene.main.MainController;
+    import main.MainController;
 	import system.file.DataLoad;
 	
 	/**

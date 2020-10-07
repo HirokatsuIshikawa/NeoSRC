@@ -1,7 +1,7 @@
 package converter.parse
 {
 	import database.master.base.MessageCondition;
-    import scene.main.MainController;
+    import main.MainController;
 	
 	/**
 	 * ...

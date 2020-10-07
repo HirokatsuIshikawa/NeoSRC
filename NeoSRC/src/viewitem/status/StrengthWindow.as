@@ -7,7 +7,7 @@ package viewitem.status
 	import system.custom.customSprite.CSprite;
 	import system.custom.customSprite.CTextArea;
 	import starling.events.Event;
-	import scene.main.MainController;
+	import main.MainController;
 	import scene.unit.BattleUnit;
 	import viewitem.status.BaseStatusWindow;
 	

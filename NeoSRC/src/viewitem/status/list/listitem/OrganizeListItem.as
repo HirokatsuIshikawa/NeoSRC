@@ -13,7 +13,7 @@ package viewitem.status.list.listitem
 	import starling.events.TouchPhase;
 	import starling.textures.TextureSmoothing;
 	import viewitem.status.list.listitem.ListItemBase;
-	import scene.main.MainController;
+	import main.MainController;
 	
 	/**
 	 * ...

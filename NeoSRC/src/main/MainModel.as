@@ -1,4 +1,4 @@
-package scene.main
+package main
 {
     import common.CommonSystem;
     import common.util.CharaDataUtil;

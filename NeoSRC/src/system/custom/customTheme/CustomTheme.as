@@ -22,7 +22,7 @@ package system.custom.customTheme
 	import starling.filters.DropShadowFilter;
 	import starling.textures.Texture;
 	import starling.textures.TextureSmoothing;
-	import scene.main.MainController;
+	import main.MainController;
 	
 	/**
 	 * ...

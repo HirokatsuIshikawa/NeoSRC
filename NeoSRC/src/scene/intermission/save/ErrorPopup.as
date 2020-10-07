@@ -8,7 +8,7 @@ package scene.intermission.save
 	import flash.text.TextFormatAlign;
 	import starling.display.Image;
 	import starling.events.Event;
-	import scene.main.MainController;
+	import main.MainController;
 	
 	/**
 	 * ...

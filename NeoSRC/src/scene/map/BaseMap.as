@@ -13,7 +13,7 @@ package scene.map
 	import starling.events.TouchPhase;
 	import starling.textures.Texture;
 	import starling.textures.TextureSmoothing;
-	import scene.main.MainController;
+	import main.MainController;
 	import scene.map.tip.MapTip;
 	
 	/**

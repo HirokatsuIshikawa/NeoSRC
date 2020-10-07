@@ -4,7 +4,7 @@ package scene.commander
     import database.master.MasterCommanderSkillData;
     import database.master.MasterWeaponData;
     import database.user.CommanderData;
-    import scene.main.MainController;
+    import main.MainController;
     import starling.textures.Texture;
     import system.custom.customSprite.CImage;
     import system.custom.customSprite.CTextArea;

@@ -12,7 +12,7 @@ package scene.map
     import database.user.UnitCharaData;
     import flash.geom.Point;
     import scene.battleanime.BattleActionPanel;
-    import scene.main.MainController;
+    import main.MainController;
     import scene.map.basepoint.MapPicture;
     import scene.map.battle.BattleResultmanager;
     import scene.map.customdata.EnemyMoveData;

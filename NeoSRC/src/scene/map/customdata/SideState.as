@@ -3,7 +3,7 @@ package scene.map.customdata
     import common.CommonDef;
     import database.master.MasterCommanderData;
     import database.user.CommanderData;
-    import scene.main.MainController;
+    import main.MainController;
     import scene.unit.BattleUnit;
     
     /**

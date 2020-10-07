@@ -1,4 +1,4 @@
-package scene.main
+package main
 {
     import a24.tween.Tween24;
     import bgm.SingleMusic;

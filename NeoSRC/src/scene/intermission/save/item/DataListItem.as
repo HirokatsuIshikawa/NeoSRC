@@ -7,7 +7,7 @@ package scene.intermission.save.item
 	import system.custom.customSprite.CImgButton;
 	import system.custom.customSprite.CTextArea;
 	import flash.geom.Rectangle;
-	import scene.main.MainController;
+	import main.MainController;
 	import viewitem.status.list.listitem.ListItemBase;
 	
 	/**

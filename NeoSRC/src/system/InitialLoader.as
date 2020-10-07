@@ -7,7 +7,7 @@ package system
 	import database.dataloader.single.SingleTxtLoader;
 	import flash.filesystem.File;
 	import starling.assets.AssetManager;
-	import scene.main.MainController;
+	import main.MainController;
 	
 	/**
 	 * ...
@@ -177,10 +177,7 @@ package system
 		{
 			//キャラデータ読み込み
 			_charaLoader = new CharaDataLoader();
-			
 			MainController.$.view.debugMessage("キャラ読み込み開始");
-			//バフ読み込み開始
-			//loadBuffData();
 			loadListNext();
 		}
 		
@@ -251,15 +248,6 @@ package system
 				_charaLoader.loadCharaData(_loadDataFolderName, CharaDataLoader.TYPE_COMMANDER, loadListNext);
 			}
 		}
-		
-		// コモンパーティクルPEX読み込み
-		/*
-		   private function loadCommonParticle():void
-		   {
-		   CommonDef.LAUNCH_XML = MainController.$.imgAsset[CommonSystem.ASSET_IMG].getXml("launch");
-		   loadListNext();
-		   }
-		 */
 		
 		/**キャラデータ読み込み完了後*/
 		private function initLoadComp():void

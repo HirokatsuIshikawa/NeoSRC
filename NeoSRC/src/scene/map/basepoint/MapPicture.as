@@ -1,6 +1,6 @@
 package scene.map.basepoint 
 {
-    import scene.main.MainController;
+    import main.MainController;
     import starling.textures.Texture;
     import system.custom.customSprite.CImage;
 	/**

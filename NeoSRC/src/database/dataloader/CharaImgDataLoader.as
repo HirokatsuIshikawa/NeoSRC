@@ -14,7 +14,7 @@ package database.dataloader
 	import flash.filesystem.File;
 	import common.CommonSystem;
 	import flash.utils.ByteArray;
-	import scene.main.MainController;
+	import main.MainController;
 
 	/**
 	 * ...

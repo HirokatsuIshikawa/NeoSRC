@@ -11,8 +11,8 @@ package scene.talk
     import flash.filesystem.File;
     import flash.utils.Timer;
     import scene.intermission.customdata.PlayerVariable;
-    import scene.main.MainController;
-    import scene.main.MainViewer;
+    import main.MainController;
+    import main.MainViewer;
     import scene.map.panel.BattleMapPanel;
     import scene.talk.classdata.IfSearch;
     import scene.talk.classdata.MapEventData;

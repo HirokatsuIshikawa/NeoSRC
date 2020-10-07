@@ -5,7 +5,7 @@ package viewitem.status.list
 	import system.custom.customSprite.CImage;
 	import system.custom.customSprite.CSprite;
 	import database.user.UnitCharaData;
-	import scene.main.MainController;
+	import main.MainController;
 	import viewitem.status.list.listitem.StatusListItem;
 	
 	/**

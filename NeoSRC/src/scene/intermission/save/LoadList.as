@@ -8,7 +8,7 @@ package scene.intermission.save
     import system.file.DataLoad;
     import scene.intermission.save.item.DataListItem;
     import scene.intermission.save.item.LoadListItem;
-    import scene.main.MainController;
+    import main.MainController;
     
     /**
      * ...

@@ -1,6 +1,6 @@
-package scene.main
+package main
 {
-    import scene.main.MainViewer;
+    import main.MainViewer;
 	import scene.map.BaseMap;
 	import scene.map.BattleMap;
 	import starling.assets.AssetManager;

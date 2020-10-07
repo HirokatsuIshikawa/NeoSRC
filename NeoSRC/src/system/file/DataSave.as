@@ -1,16 +1,13 @@
 package system.file
 {
+    import code.org.coderepos.text.encoding.Jcode;
     import common.CommonDef;
     import common.CommonSystem;
     import flash.events.Event;
     import flash.filesystem.File;
     import flash.net.FileReference;
     import flash.utils.ByteArray;
-    import code.org.coderepos.text.encoding.Jcode;
-    import system.Crypt;
-    import scene.intermission.save.ConfirmPopup;
-    import scene.main.MainController;
-    import scene.main.MainController;
+    import main.MainController;
     
     /**
      * ...
@@ -273,7 +270,5 @@ package system.file
             
             MainController.$.view.waitDark(false);
         }
-    
     }
-
 }

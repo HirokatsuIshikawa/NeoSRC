@@ -4,7 +4,7 @@ package scene.battleanime.battleback
 	import common.CommonDef;
 	import flash.geom.Rectangle;
 	import scene.battleanime.BattleActionPanel;
-	import scene.main.MainController;
+	import main.MainController;
 	import starling.display.Quad;
 	import starling.textures.Texture;
 	import system.custom.customSprite.CImage;

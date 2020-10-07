@@ -4,7 +4,7 @@ package converter.parse.common
     import database.master.MasterCommanderSkillData;
     import database.master.base.LearnLevelData;
     import database.user.buff.CharaBuffData;
-    import scene.main.MainController;
+    import main.MainController;
     
     /**
      * ...

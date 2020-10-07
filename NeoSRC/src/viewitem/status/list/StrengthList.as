@@ -4,7 +4,7 @@ package viewitem.status.list
 	import system.custom.customSprite.CButton;
 	import database.user.UnitCharaData;
 	import starling.events.Event;
-	import scene.main.MainController;
+	import main.MainController;
 	import viewitem.parts.numbers.ImgNumber;
 	import viewitem.status.list.listitem.StrengthListItem;
 	

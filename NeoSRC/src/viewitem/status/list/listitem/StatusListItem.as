@@ -4,7 +4,7 @@ package viewitem.status.list.listitem
     import database.master.MasterCharaData;
     import database.user.UnitCharaData;
     import feathers.controls.TextArea;
-    import scene.main.MainController;
+    import main.MainController;
     import starling.events.Touch;
     import starling.events.TouchEvent;
     import starling.events.TouchPhase;

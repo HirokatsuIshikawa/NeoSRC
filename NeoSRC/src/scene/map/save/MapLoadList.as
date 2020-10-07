@@ -4,7 +4,7 @@ package scene.map.save
     import common.CommonSystem;
     import flash.filesystem.File;
     import scene.intermission.save.LoadList;
-    import scene.main.MainController;
+    import main.MainController;
     import starling.events.Event;
     import system.custom.customSprite.CImgButton;
     

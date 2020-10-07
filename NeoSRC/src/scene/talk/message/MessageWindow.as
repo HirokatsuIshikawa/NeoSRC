@@ -10,7 +10,7 @@ package scene.talk.message
 	import flash.geom.Rectangle;
 	import starling.textures.Texture;
 	import starling.textures.TextureSmoothing;
-	import scene.main.MainController;
+	import main.MainController;
 	
 	/**
 	 * ...

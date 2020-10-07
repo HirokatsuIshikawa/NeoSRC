@@ -11,7 +11,7 @@ package viewitem.status.list.listitem
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
 	import starling.textures.TextureSmoothing;
-	import scene.main.MainController;
+	import main.MainController;
 	import viewitem.status.list.listitem.ListItemBase;
 	
 	/**

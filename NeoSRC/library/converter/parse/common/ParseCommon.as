@@ -13,7 +13,7 @@ package converter.parse.common
     public class ParseCommon
     {
         public static const PARAM_LIST:Array = ["name", "nickName", "Cost", "exp", "money", "MaxLv", "BaseLv", "HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV", "terrain", "formation", "unitsize"];
-        public static const PARAM_P_LIST:Array = ["名前", "愛称", "コスト", "経験値", "資金", "最大レベル", "ベースレベル", "ＨＰ", "ＦＰ", "攻撃", "潜在", "技術", "防御", "精神", "敏捷", "移動", "地形", "編成数","ユニットサイズ"];
+        public static const PARAM_P_LIST:Array = ["名前", "愛称", "コスト", "経験値", "資金", "最大レベル", "ベースレベル", "ＨＰ", "ＦＰ", "攻撃", "潜在", "技術", "防御", "精神", "敏捷", "移動", "地形", "編成数", "ユニットサイズ"];
         public static const MAX_PARAM:Array = ["HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV"];
         //武器データ
         public static const WEAPON_LIST:Array = [ //
@@ -43,6 +43,22 @@ package converter.parse.common
         "回復", "補給", "状態回復", "状態異常", //
         "効果", "ターン", "レベル",//
         "陣営", "全体"//軍師スキル用
+        ];
+        
+        //拠点データ
+        public static const BASE_LIST:Array = [ //
+        "name", //
+        "income", "getpoint", //
+        "heal", "supply", "bullet", //
+        "producttype", "productlevel", //
+        "img" //
+        ];
+        public static const BASE_P_LIST:Array = [ //
+        "名前", //
+        "収入", "制圧度", //
+        "修復", "補給", "弾薬", //
+        "生産タイプ", "生産レベル", //
+        "画像" //
         ];
         
         //軍師パラメーター
@@ -397,5 +413,43 @@ package converter.parse.common
             data.Passive.push(learnPassive);
         
         }
+        
+        // 基本データパース
+        public static function parseBaseData(data:Object, line:String, commanderFlg:Boolean = false):void
+        {
+            var i:int = 0;
+            var j:int = 0;
+            var ary:Array = line.split(",");
+            
+            for (i = 0; i < ary.length; i++)
+            {
+                var baseParamStr:String = ary[i];
+                var param:Array = baseParamStr.split(":");
+                var command:String = param[0];
+                var paramNum:Array = (String)(param[1]).split("-");
+                var setKey:String = null;
+                var growthTypeAry:Array = baseParamStr.split("/");
+                var growthType:String = null;
+                var maxFlg:Boolean = false;
+                
+                if (growthTypeAry.length > 0)
+                {
+                    growthType = growthTypeAry[1];
+                }
+                
+                // セットパラメータ設定
+                for (j = 0; j < BASE_LIST.length; j++)
+                {
+                    if (command.toLocaleLowerCase() === BASE_LIST[j].toLocaleLowerCase() || command === BASE_P_LIST[j])
+                    {
+                        setKey = BASE_LIST[j];
+                        break;
+                    }
+                }
+                
+                setParam(data, setKey, maxFlg, paramNum, growthType);
+            }
+        }
+    
     }
 }

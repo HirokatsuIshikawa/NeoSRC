@@ -3,11 +3,13 @@ package database.dataloader
     import br.com.stimuli.loading.BulkLoader;
     import br.com.stimuli.loading.BulkProgressEvent;
     import common.CommonSystem;
+    import converter.parse.BaseDataParse;
     import converter.parse.BuffDataParse;
     import converter.parse.CharaDataParse;
     import converter.parse.CommanderDataParse;
     import converter.parse.ImgDataParse;
     import converter.parse.MessageDataParse;
+    import database.master.MasterBaseData;
     import database.master.MasterBattleMessage;
     import database.master.MasterBuffData;
     import database.master.MasterCharaData;
@@ -30,6 +32,7 @@ package database.dataloader
         public static const TYPE_BUFF:String = "Buff";
         public static const TYPE_MESSAGE:String = "Message";
         public static const TYPE_COMMANDER:String = "Commander";
+        public static const TYPE_BASE:String = "Base";
         
         /**読み込みデータ*/
         private var _loadData:Object = null;
@@ -109,6 +112,8 @@ package database.dataloader
                 case TYPE_COMMANDER: 
                     _dataLoader.addEventListener(BulkLoader.COMPLETE, loadCommanderDataListComp);
                     break;
+                case TYPE_BASE:
+                    _dataLoader.addEventListener(BulkLoader.COMPLETE, loadBaseDataListComp);
                 }
                 _dataLoader.addEventListener(BulkLoader.PROGRESS, onProgress);
                 _dataLoader.addEventListener(BulkLoader.ERROR, onError);
@@ -336,6 +341,43 @@ package database.dataloader
                     var commanderData:MasterCommanderData = new MasterCommanderData(data[j]);
                     MainController.$.view.debugText.addText(commanderData.name);
                     MainController.$.model.masterCommanderData.push(commanderData);
+                }
+            }
+            _callBack();
+        }
+        
+        
+        private function loadBaseDataListComp(e:Event):void
+        {
+            var i:int = 0;
+            var j:int = 0;
+            //イベント消去
+            _dataLoader.removeEventListener(BulkLoader.COMPLETE, loadBaseDataListComp);
+            _dataLoader.removeEventListener(BulkLoader.PROGRESS, onProgress);
+            _dataLoader.removeEventListener(BulkLoader.ERROR, onError);
+            
+            MainController.$.view.debugText.addText("拠点データ取得");
+            var count:int = 0;
+            //メッセージを入れる
+            for (i = 0; i < _dataNameList.length; i++)
+            {
+                var data:Object;
+                if (_dataNameList[i].indexOf(".srcdat") >= 0)
+                {
+                    data = JSON.parse(_dataLoader.getText(_dataNameList[i]));
+                }
+                else
+                {
+                    data = BaseDataParse.parseData(_dataLoader.getText(_dataNameList[i]));
+                }
+                
+                for (j = 0; j < data.length; j++)
+                {
+                    //MainController.$.view.debugText.addText("データ読み込み" + j + ":" + i);
+                    var baseData:MasterBaseData = new MasterBaseData(count, data[j]);
+                    MainController.$.view.debugText.addText(baseData.name);
+                    MainController.$.model.masterBaseData.push(baseData);
+                    count++;
                 }
             }
             _callBack();

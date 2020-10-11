@@ -150,6 +150,7 @@ package system
 			loadTalkImgData, //
 			loadBattleMessageStart, //
             loadCommanderMessageStart, //
+            loadBaseDataStart,
 			//loadCommonParticle //
 			]);
 			//初期化
@@ -249,6 +250,19 @@ package system
 			}
 		}
 		
+        // 拠点データ読み込み開始
+		private function loadBaseDataStart():void
+		{
+			if (_loadDataFolderName.length <= 0)
+			{
+				loadListNext();
+			}
+			else
+			{
+				_charaLoader.loadCharaData(_loadDataFolderName, CharaDataLoader.TYPE_BASE, loadListNext);
+			}
+		}
+        
 		/**キャラデータ読み込み完了後*/
 		private function initLoadComp():void
 		{

@@ -3,6 +3,7 @@ package main
     import common.CommonSystem;
     import common.util.CharaDataUtil;
     import converter.parse.MessageDataParse;
+    import database.master.MasterBaseData;
     import database.master.MasterBattleMessage;
     import database.master.MasterCommanderData;
     import database.master.MasterCommanderSkillData;
@@ -50,6 +51,9 @@ package main
         
         /**軍師データ*/
         private var _masterCommanderData:Vector.<MasterCommanderData> = null;
+        
+        private var _masterBaseData:Vector.<MasterBaseData> = null;
+        
         /** プレイヤーパーティIDリスト */
         private var _playerPartyList:Vector.<String> = null;
         
@@ -76,7 +80,7 @@ package main
             _enemyPartyList = new Vector.<String>;
             _masterBattleMessageData = new Vector.<database.master.MasterBattleMessage>;
             _masterCommanderData = new Vector.<database.master.MasterCommanderData>;
-            
+            _masterBaseData = new Vector.<database.master.MasterBaseData>;
             _masterBuffData = new Vector.<MasterBuffData>();
             //_imgStorage = new ImgStorage();
             
@@ -401,6 +405,16 @@ package main
         public function set playerCommanderData(value:Vector.<CommanderData>):void
         {
             _playerCommanderData = value;
+        }
+        
+        public function get masterBaseData():Vector.<MasterBaseData> 
+        {
+            return _masterBaseData;
+        }
+        
+        public function set masterBaseData(value:Vector.<MasterBaseData>):void 
+        {
+            _masterBaseData = value;
         }
         
         /**戦闘メッセージゲット*/

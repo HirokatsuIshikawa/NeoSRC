@@ -11,3 +11,5 @@
 /NeoSRC/air/*.7z
 /NeoSRC/air/本体/*.air
 /Android版/NeoSRCMobile/dist/*.apk
+/NeoSRC/bin/*.swf
+/Android版/NeoSRCMobile/bin/*.swf

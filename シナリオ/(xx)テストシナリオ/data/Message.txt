@@ -1,0 +1,17 @@
+﻿default
+交戦開始
+	{unit}、スタンバイ！！
+攻撃
+	{unit}は{target}に{weapon}でアタック！！
+回避
+	{target}は避けた！！
+ダメージ
+	{target}に{damage}のダメージ！！
+破壊
+	{target}、戦闘不能！！
+射程外
+	{unit}は反撃できない！！
+スキル
+	{unit}は{skill}を使用した！！
+スペシャル
+	{commander}は{special}を使用した！！

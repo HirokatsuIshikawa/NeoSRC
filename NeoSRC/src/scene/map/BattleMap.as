@@ -771,7 +771,7 @@ package scene.map
         }
         
         /**出撃リスト*/
-        public function organizeUnit(count:int, posX:int, posY:int, width:int, height:int):void
+        public function organizeUnit(count:int, posX:int, posY:int, width:int, height:int, type:String, cost:int):void
         {
             if (_organizeList != null)
             {
@@ -779,7 +779,7 @@ package scene.map
                 _organizeList = null;
             }
             
-            _organizeList = new OrganizeList(MainController.$.model.PlayerUnitData, count, posX, posY, width, height);
+            _organizeList = new OrganizeList(MainController.$.model.PlayerUnitData, count, posX, posY, width, height, type, cost);
             MainController.$.view.addChild(_organizeList);
         }
         
@@ -839,7 +839,7 @@ package scene.map
                     _unitArea.addChildAt(battleUnit.unitImg, _unitArea.numChildren);
                     // フレームエリアに沸く追加
                     _frameArea.addChildAt(battleUnit.frameImg, _frameArea.numChildren);
-                    if (battleUnit.frameImg != null)
+                    if (battleUnit.formationNumImg != null)
                     {
                         // フレームエリアに数字追加
                         _effectArea.addChildAt(battleUnit.formationNumImg, _effectArea.numChildren);

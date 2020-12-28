@@ -11,6 +11,7 @@ package main
     import database.master.MasterWeaponData;
     import database.master.base.MessageCondition;
     import database.user.CommanderData;
+	import database.user.GenericUnitData;
     import scene.unit.BattleUnit;
     import system.custom.customSprite.CImage;
     import system.custom.customSprite.ImageBoard;
@@ -44,6 +45,10 @@ package main
         private var _playerUnitData:Vector.<UnitCharaData> = null;
         /**プレイヤー軍師データ*/
         private var _playerCommanderData:Vector.<CommanderData> = null;
+		
+		/**プレイヤー生産ユニットリストデータ*/
+		private var _playerGenericUnitData:Vector.<GenericUnitData> = null;
+		
         /**バフデータ*/
         private var _masterBuffData:Vector.<MasterBuffData> = null;
         /**バトルメッセージデータ*/
@@ -76,6 +81,7 @@ package main
             _masterCharaData = new Vector.<MasterCharaData>;
             _playerUnitData = new Vector.<UnitCharaData>;
             _playerCommanderData = new Vector.<CommanderData>;
+			_playerGenericUnitData = new Vector.<database.user.GenericUnitData>;
             _playerPartyList = new Vector.<String>;
             _enemyPartyList = new Vector.<String>;
             _masterBattleMessageData = new Vector.<database.master.MasterBattleMessage>;
@@ -157,6 +163,32 @@ package main
             }
         }
         
+		public function resetGenericUnitData():void
+		{
+			var i:int = 0;
+            for (i = 0; i < _playerGenericUnitData.length; )
+            {
+                _playerGenericUnitData[i] = null;
+                _playerGenericUnitData.splice(i, 1);
+            }
+		}
+		
+		
+		public function getMasterCharaData(name:String):MasterCharaData
+		{
+			var i:int = 0;
+			for (i = 0; i < _masterCharaData.length; i++ )
+			{
+				if (_masterCharaData[i].name === name || _masterCharaData[i].nickName === name)
+				{
+					return _masterCharaData[i];
+				}
+			}
+			return null;
+		}
+		
+		
+		
         public function addPlayerUnitFromName(name:String, lv:int = 0, exp:int = 0, strength:int = 0, launch:Boolean = false, customBgm:String = null):void
         {
             var i:int = 0;
@@ -181,7 +213,6 @@ package main
                         break;
                     }
                 }
-                
             }
             
             _playerUnitData[setId] = new UnitCharaData(setId, data, lv);
@@ -412,6 +443,11 @@ package main
             return _masterBaseData;
         }
         
+		public function get playerGenericUnitData():Vector.<GenericUnitData> 
+		{
+			return _playerGenericUnitData;
+		}
+		
         public function set masterBaseData(value:Vector.<MasterBaseData>):void 
         {
             _masterBaseData = value;

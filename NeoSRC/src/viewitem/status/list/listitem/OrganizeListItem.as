@@ -25,7 +25,6 @@ package viewitem.status.list.listitem
 		public static const LIST_HEIGHT:int = 104;
 		public static const ICON_SIZE:int = 96;
 		
-		
 		/**ユニットデータ*/
 		private var _data:UnitCharaData = null;
 		/**ユニット画像*/
@@ -50,7 +49,7 @@ package viewitem.status.list.listitem
 			_unitImg.width = ICON_SIZE;
 			_unitImg.height = ICON_SIZE;
 			_unitImg.textureSmoothing = TextureSmoothing.NONE;
-
+			
 			_nameTxt = new TextArea();
 			_nameTxt.styleName = "list_text";
 			_nameTxt.x = 112;
@@ -67,19 +66,24 @@ package viewitem.status.list.listitem
 		
 		override public function dispose():void
 		{
-
-			removeChild(_unitImg);
-			_unitImg.dispose();
-			_unitImg = null;
 			
-			removeChild(_nameTxt);
-			_nameTxt.dispose();
-			_nameTxt = null;
+			if (_unitImg != null)
+			{
+				removeChild(_unitImg);
+				_unitImg.dispose();
+				_unitImg = null;
+			}
+			
+			if (_nameTxt != null)
+			{
+				removeChild(_nameTxt);
+				_nameTxt.dispose();
+				_nameTxt = null;
+			}
 			
 			this.removeEventListener(TouchEvent.TOUCH, clickHandler);
 			super.dispose();
 		}
-		
 		
 		private function clickHandler(event:TouchEvent):void
 		{
@@ -95,7 +99,7 @@ package viewitem.status.list.listitem
 					changeSelected();
 					break;
 				//マウスオーバー
-				case TouchPhase.HOVER:
+				case TouchPhase.HOVER: 
 					break;
 				case TouchPhase.STATIONARY: 
 					break;
@@ -132,19 +136,19 @@ package viewitem.status.list.listitem
 				_selected = false;
 				_listImg.color = 0xFFFFFF;
 			}
-			
+		
 		}
 		
-		public function get selected():Boolean 
+		public function get selected():Boolean
 		{
 			return _selected;
 		}
 		
-		public function get data():UnitCharaData 
+		public function get data():UnitCharaData
 		{
 			return _data;
 		}
-		
+	
 	}
 
 }

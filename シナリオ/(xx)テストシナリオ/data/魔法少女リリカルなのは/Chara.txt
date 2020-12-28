@@ -1,0 +1,35 @@
+﻿name:高町なのは
+nickname:なのは
+type:立ち絵
+x:160,	y:160
+ボディ, 	なのは, 	0
+basic:ボディ
+
+name:アリサ・バニングス
+nickname:アリサ
+type:立ち絵
+x:160,	y:160
+ボディ, 	アリサ, 	0
+basic:ボディ
+
+name:月村すずか
+nickname:すずか
+type:立ち絵
+x:160,	y:160
+ボディ, 	すずか, 	0
+basic:ボディ
+
+name:ユーノ・スクライア
+nickname:ユーノ
+type:立ち絵
+x:160,	y:160
+ボディ, 		ユーノ, 			0
+フェレット, 	フェレットユーノ, 	0
+basic:ボディ
+
+name:フェイト・テスタロッサ
+nickname:フェイト
+type:立ち絵
+x:160,	y:160
+ボディ, 	フェイト, 	0
+basic:ボディ

@@ -1,0 +1,20 @@
+﻿name:スライム
+nickname:スライム
+type:立ち絵
+x:160,	y:160
+ボディ, 	スライム, 	0
+basic:ボディ
+
+name:ポテトン
+nickname:ポテトン
+type:立ち絵
+x:160,	y:160
+ボディ, 	ポテトン, 	0
+basic:ボディ
+
+name:ポテドン
+nickname:ポテドン
+type:立ち絵
+x:160,	y:160
+ボディ, 	ポテドン, 	0
+basic:ボディ

@@ -14,7 +14,7 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'2020/01/29'</value>
+      <value>'2020/12/28'</value>
     </define>
     <define append="true">
       <name>CONFIG::air</name>
@@ -30,24 +30,24 @@
     </define>
     <verbose-stacktraces>true</verbose-stacktraces>
     <source-path append="true">
-      <path-element>C:\Users\syoug\Desktop\NeoSRCセット\NeoSRC\trunk\本体\NeoSRC\src</path-element>
-      <path-element>C:\Users\syoug\Desktop\NeoSRCセット\NeoSRC\trunk\本体\NeoSRC\library</path-element>
-      <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
+      <path-element>C:\Users\KATSUMI\Desktop\hiro\Project\NeoSRC\NeoSRC\src</path-element>
+      <path-element>C:\Users\KATSUMI\Desktop\hiro\Project\NeoSRC\NeoSRC\library</path-element>
+      <path-element>D:\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
     <library-path append="true">
-      <path-element>C:\Users\syoug\Desktop\NeoSRCセット\NeoSRC\trunk\本体\NeoSRC\swc\Tween24_2.0.swc</path-element>
-      <path-element>C:\Users\syoug\Desktop\NeoSRCセット\NeoSRC\trunk\本体\NeoSRC\swc\tweener.swc</path-element>
-      <path-element>C:\Users\syoug\Desktop\NeoSRCセット\NeoSRC\trunk\本体\NeoSRC\swc\MetalWorksMobileTheme.swc</path-element>
-      <path-element>C:\Users\syoug\Desktop\NeoSRCセット\NeoSRC\trunk\本体\NeoSRC\swc\sion065.swc</path-element>
-      <path-element>C:\Users\syoug\Desktop\NeoSRCセット\NeoSRC\trunk\本体\NeoSRC\swc\as3crypto.swc</path-element>
-      <path-element>C:\Users\syoug\Desktop\NeoSRCセット\NeoSRC\trunk\本体\NeoSRC\swc\feathers.swc</path-element>
-      <path-element>C:\Users\syoug\Desktop\NeoSRCセット\NeoSRC\trunk\本体\NeoSRC\swc\starling.swc</path-element>
-      <path-element>C:\Users\syoug\Desktop\NeoSRCセット\NeoSRC\trunk\本体\NeoSRC\ane\ImmersiveMode.ane</path-element>
-      <path-element>C:\Users\syoug\Desktop\NeoSRCセット\NeoSRC\trunk\本体\NeoSRC\swc\bulk_loader.swc</path-element>
+      <path-element>C:\Users\KATSUMI\Desktop\hiro\Project\NeoSRC\NeoSRC\swc\Tween24_2.0.swc</path-element>
+      <path-element>C:\Users\KATSUMI\Desktop\hiro\Project\NeoSRC\NeoSRC\swc\tweener.swc</path-element>
+      <path-element>C:\Users\KATSUMI\Desktop\hiro\Project\NeoSRC\NeoSRC\swc\MetalWorksMobileTheme.swc</path-element>
+      <path-element>C:\Users\KATSUMI\Desktop\hiro\Project\NeoSRC\NeoSRC\swc\sion065.swc</path-element>
+      <path-element>C:\Users\KATSUMI\Desktop\hiro\Project\NeoSRC\NeoSRC\swc\as3crypto.swc</path-element>
+      <path-element>C:\Users\KATSUMI\Desktop\hiro\Project\NeoSRC\NeoSRC\swc\feathers.swc</path-element>
+      <path-element>C:\Users\KATSUMI\Desktop\hiro\Project\NeoSRC\NeoSRC\swc\starling.swc</path-element>
+      <path-element>C:\Users\KATSUMI\Desktop\hiro\Project\NeoSRC\NeoSRC\ane\ImmersiveMode.ane</path-element>
+      <path-element>C:\Users\KATSUMI\Desktop\hiro\Project\NeoSRC\NeoSRC\swc\bulk_loader.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>
-    <path-element>C:\Users\syoug\Desktop\NeoSRCセット\NeoSRC\trunk\本体\NeoSRC\src\NeoSRC.as</path-element>
+    <path-element>C:\Users\KATSUMI\Desktop\hiro\Project\NeoSRC\NeoSRC\src\NeoSRC.as</path-element>
   </file-specs>
   <default-background-color>#FFFFFF</default-background-color>
   <default-frame-rate>60</default-frame-rate>

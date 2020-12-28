@@ -1,0 +1,42 @@
+﻿name:木之本桜
+nickname:さくら
+type:立ち絵
+x:160,	y:180
+ボディ, 	さくら, 	0
+basic:ボディ
+
+name:大道寺知世
+nickname:知世
+type:立ち絵
+x:160,	y:160
+ボディ, 	知世, 	0
+basic:ボディ
+
+name:ケルベロス
+nickname:ケロちゃん
+type:立ち絵
+x:160,	y:160
+ボディ, 	ケロちゃん, 	0
+真の姿, 	真ケルベロス, 	0
+basic:ボディ
+
+name:木之本桃矢
+nickname:桃矢
+type:立ち絵
+x:160,	y:160
+ボディ, 	桃矢, 	0
+basic:ボディ
+
+name:月城雪兎
+nickname:雪兎
+type:立ち絵
+x:160,	y:160
+ボディ, 	雪兎, 	0
+basic:ボディ
+
+name:柳沢奈緒子
+nickname:奈緒子
+type:立ち絵
+x:160,	y:180
+ボディ, 	奈緒子, 	0
+basic:ボディ

@@ -924,7 +924,7 @@ package scene.talk
 				//出撃タイプ
 				if (!param.hasOwnProperty("type"))
 				{
-					param.type = OrganizeList.TYPE_UNIQUE;
+					param.type = OrganizeList.TYPE_ALL;
 				}
 				//出撃コスト
 				if (!param.hasOwnProperty("cost"))
@@ -935,9 +935,9 @@ package scene.talk
 				MainController.$.view.battleMap.organizeUnit(param.count, param.x, param.y, param.width, param.height, param.type, param.cost);
 				
 				break;
+                //ユニット移動
 			case "unitmove": 
 				MainController.$.view.battleMap.moveMapUnit(param.unit, param.x, param.y, setLineCommand);
-				
 				break;
 			//汎用ユニット生産リスト
 			case "registgenericunit": 
@@ -2329,7 +2329,7 @@ package scene.talk
 			}
 			
 			//味方陣営の場合
-			if (MainController.$.model.playerParam.sideName === name)
+			if (MainController.$.model.playerParam.sideName === side)
 			{
 				//同じユニットが存在しているか
 				for (i = 0; i < dataList.length; i++)
@@ -2344,7 +2344,7 @@ package scene.talk
 				//新規登録
 				if (findFlg == false)
 				{
-					dataList.push(data);
+					dataList.push(new GenericUnitData(data, lv, cost));
 				}
 			}
 			

@@ -6,15 +6,15 @@
   <compiler>
     <define append="true">
       <name>CONFIG::debug</name>
-      <value>true</value>
-    </define>
-    <define append="true">
-      <name>CONFIG::release</name>
       <value>false</value>
     </define>
     <define append="true">
+      <name>CONFIG::release</name>
+      <value>true</value>
+    </define>
+    <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'2020/12/28'</value>
+      <value>'2021/01/14'</value>
     </define>
     <define append="true">
       <name>CONFIG::air</name>
@@ -28,26 +28,28 @@
       <name>CONFIG::desktop</name>
       <value>true</value>
     </define>
-    <verbose-stacktraces>true</verbose-stacktraces>
+    <optimize>true</optimize>
+    <omit-trace-statements>true</omit-trace-statements>
+    <verbose-stacktraces>false</verbose-stacktraces>
     <source-path append="true">
-      <path-element>C:\Users\KATSUMI\Desktop\hiro\Project\NeoSRC\NeoSRC\src</path-element>
-      <path-element>C:\Users\KATSUMI\Desktop\hiro\Project\NeoSRC\NeoSRC\library</path-element>
-      <path-element>D:\FlashDevelop\Library\AS3\classes</path-element>
+      <path-element>C:\Users\syoug\Desktop\Git_NeoSRC\NeoSRC\src</path-element>
+      <path-element>C:\Users\syoug\Desktop\Git_NeoSRC\NeoSRC\library</path-element>
+      <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
     <library-path append="true">
-      <path-element>C:\Users\KATSUMI\Desktop\hiro\Project\NeoSRC\NeoSRC\swc\Tween24_2.0.swc</path-element>
-      <path-element>C:\Users\KATSUMI\Desktop\hiro\Project\NeoSRC\NeoSRC\swc\tweener.swc</path-element>
-      <path-element>C:\Users\KATSUMI\Desktop\hiro\Project\NeoSRC\NeoSRC\swc\MetalWorksMobileTheme.swc</path-element>
-      <path-element>C:\Users\KATSUMI\Desktop\hiro\Project\NeoSRC\NeoSRC\swc\sion065.swc</path-element>
-      <path-element>C:\Users\KATSUMI\Desktop\hiro\Project\NeoSRC\NeoSRC\swc\as3crypto.swc</path-element>
-      <path-element>C:\Users\KATSUMI\Desktop\hiro\Project\NeoSRC\NeoSRC\swc\feathers.swc</path-element>
-      <path-element>C:\Users\KATSUMI\Desktop\hiro\Project\NeoSRC\NeoSRC\swc\starling.swc</path-element>
-      <path-element>C:\Users\KATSUMI\Desktop\hiro\Project\NeoSRC\NeoSRC\ane\ImmersiveMode.ane</path-element>
-      <path-element>C:\Users\KATSUMI\Desktop\hiro\Project\NeoSRC\NeoSRC\swc\bulk_loader.swc</path-element>
+      <path-element>C:\Users\syoug\Desktop\Git_NeoSRC\NeoSRC\swc\Tween24_2.0.swc</path-element>
+      <path-element>C:\Users\syoug\Desktop\Git_NeoSRC\NeoSRC\swc\tweener.swc</path-element>
+      <path-element>C:\Users\syoug\Desktop\Git_NeoSRC\NeoSRC\swc\MetalWorksMobileTheme.swc</path-element>
+      <path-element>C:\Users\syoug\Desktop\Git_NeoSRC\NeoSRC\swc\sion065.swc</path-element>
+      <path-element>C:\Users\syoug\Desktop\Git_NeoSRC\NeoSRC\swc\as3crypto.swc</path-element>
+      <path-element>C:\Users\syoug\Desktop\Git_NeoSRC\NeoSRC\swc\feathers.swc</path-element>
+      <path-element>C:\Users\syoug\Desktop\Git_NeoSRC\NeoSRC\swc\starling.swc</path-element>
+      <path-element>C:\Users\syoug\Desktop\Git_NeoSRC\NeoSRC\ane\ImmersiveMode.ane</path-element>
+      <path-element>C:\Users\syoug\Desktop\Git_NeoSRC\NeoSRC\swc\bulk_loader.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>
-    <path-element>C:\Users\KATSUMI\Desktop\hiro\Project\NeoSRC\NeoSRC\src\NeoSRC.as</path-element>
+    <path-element>C:\Users\syoug\Desktop\Git_NeoSRC\NeoSRC\src\NeoSRC.as</path-element>
   </file-specs>
   <default-background-color>#FFFFFF</default-background-color>
   <default-frame-rate>60</default-frame-rate>

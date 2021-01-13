@@ -3,6 +3,7 @@ package viewitem.status.list.listitem
     import common.CommonDef;
     import common.CommonSystem;
     import common.util.CharaDataUtil;
+    import database.user.GenericUnitData;
     import starling.text.TextField;
     import starling.text.TextFormat;
     import system.custom.customSprite.CImage;
@@ -21,14 +22,14 @@ package viewitem.status.list.listitem
      * ...
      * @author ishikawa
      */
-    public class OrganizeListItem extends ListItemBase
+    public class GenericOrganizeListItem extends ListItemBase
     {
         public static const LIST_WIDTH:int = 240;
         public static const LIST_HEIGHT:int = 104;
         public static const ICON_SIZE:int = 96;
         
         /**ユニットデータ*/
-        private var _data:UnitCharaData = null;
+        private var _data:GenericUnitData = null;
         /**ユニット画像*/
         private var _unitImg:CImage = null;
         /**名前エリア*/
@@ -39,12 +40,16 @@ package viewitem.status.list.listitem
         
         private var _callBack:Function = null;
         
-        public function OrganizeListItem(data:UnitCharaData, costFlg:Boolean, callBack:Function)
+        private var _organizeFlg:Boolean = false;
+        
+        public function GenericOrganizeListItem(data:GenericUnitData, costFlg:Boolean, callBack:Function, organizeFlg:Boolean)
         {
             super(LIST_WIDTH, LIST_HEIGHT);
             var i:int = 0;
             _data = data;
             _callBack = callBack;
+            _organizeFlg = organizeFlg;
+            
             //マスターキャラデータ取得
             var charaData:MasterCharaData = CharaDataUtil.getMasterCharaDataName(data.name);
             
@@ -56,13 +61,12 @@ package viewitem.status.list.listitem
             _unitImg.textureSmoothing = TextureSmoothing.NONE;
             
             var format:TextFormat = new TextFormat("ComicFont", 14, 0xFF6688, "center", "center");
-            
-            _nameTxt = new TextField(132, 64, charaData.name,format);
+            _nameTxt = new TextField(132, 64, charaData.name, format);
             _nameTxt.x = 100;
             _nameTxt.y = 20;
             if (costFlg)
             {
-                _costTxt = new TextField(132, 32, "コスト：" + data.masterData.Cost,format);                
+                _costTxt = new TextField(132, 32, "コスト：" + _data.cost, format);
                 _costTxt.x = 100;
                 _costTxt.y = 72;
                 addChild(_costTxt);
@@ -130,7 +134,14 @@ package viewitem.status.list.listitem
         
         public function changeSelected():void
         {
-            setSelected(!_selected);
+            if (_organizeFlg)
+            {
+                
+            }
+            else
+            {
+                setSelected(!_selected);
+            }
             _callBack(_data, _selected);
             MainController.$.map.organizeList.checkOrganize();
         }
@@ -148,7 +159,6 @@ package viewitem.status.list.listitem
                 _selected = false;
                 _listImg.color = 0xFFFFFF;
             }
-        
         }
         
         public function get selected():Boolean
@@ -156,7 +166,7 @@ package viewitem.status.list.listitem
             return _selected;
         }
         
-        public function get data():UnitCharaData
+        public function get data():GenericUnitData
         {
             return _data;
         }

@@ -69,12 +69,7 @@ package viewitem.status.list
 			
 			super.dispose();
 		}
-		
-		private function close(e:Event):void
-		{
-			MainController.$.map.startOrganized();
-		}
-		
+				
 		public function get itemList():Vector.<StrengthListItem>
 		{
 			return _itemList;

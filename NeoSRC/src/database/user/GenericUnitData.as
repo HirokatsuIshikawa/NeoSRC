@@ -40,6 +40,12 @@ package database.user
 		{
 			return _data.name;
 		}
+        
+        public function get data():MasterCharaData 
+        {
+            return _data;
+        }
+        
 		public function get nickName():String
 		{
 			return _data.nickName;

@@ -34,6 +34,7 @@ package scene.map
     import viewitem.status.BattleMapStatus;
     import viewitem.status.ExpWindow;
     import viewitem.status.list.OrganizeList;
+    import viewitem.status.list.listitem.OrganizeSelectIcon;
     
     /**
      * ...
@@ -353,7 +354,15 @@ package scene.map
                 // 戦闘ユニットデータの設定
                 //battleUnit = new BattleUnit(CharaDataUtil.getPlayerCharaForName(name), getNewBattleID());
                 
-                var newUnitData:UnitCharaData = new UnitCharaData(_sideState[sideNum].battleUnit.length, CharaDataUtil.getMasterCharaDataName(name), level)
+                var newUnitData:UnitCharaData = null;
+                if (joinFlg)
+                {
+                    newUnitData = new UnitCharaData(MainController.$.model.PlayerUnitData.length, CharaDataUtil.getMasterCharaDataName(name), level)
+                }
+                else
+                {
+                    newUnitData = new UnitCharaData(1000 + _sideState[sideNum].battleUnit.length, CharaDataUtil.getMasterCharaDataName(name), level)
+                }
                 battleUnit = new BattleUnit(newUnitData, getNewBattleID(), 0);
                 battleUnit.setStrength(strength);
                 if (joinFlg == 0)
@@ -779,14 +788,13 @@ package scene.map
                 _organizeList = null;
             }
             
-            _organizeList = new OrganizeList(MainController.$.model.PlayerUnitData, count, posX, posY, width, height, type, cost);
+            _organizeList = new OrganizeList(MainController.$.model.PlayerUnitData, MainController.$.model.playerGenericUnitData, count, posX, posY, width, height, type, cost);
             MainController.$.view.addChild(_organizeList);
         }
         
         /**出撃セット*/
-        public function startOrganized():void
+        public function startOrganized(unitList:Vector.<OrganizeSelectIcon>):void
         {
-            
             MainController.$.view.removeChild(_organizeList);
             var i:int = 0;
             var posX:int = 0;
@@ -797,86 +805,97 @@ package scene.map
             var launchTweenArray:Array = new Array();
             var launchCount:int = 0;
             
-            for (i = 0; i < _organizeList.itemList.length; i++)
+            for (i = 0; i < unitList.length; i++)
             {
-                if (_organizeList.itemList[i].selected)
+                // 戦闘ユニット作成
+                var battleUnit:BattleUnit;
+                var charaData:UnitCharaData;
+                
+                //ネームドユニット
+                if (unitList[i].unitCharaData != null)
                 {
-                    // 戦闘ユニット作成
-                    var battleUnit:BattleUnit;
-                    var charaData:UnitCharaData = _organizeList.itemList[i].data;
-                    charaData.launched = true;
+                    charaData = unitList[i].unitCharaData;
                     // 戦闘ユニットデータの設定
                     battleUnit = new BattleUnit(charaData, getNewBattleID(), 0);
-                    battleUnit.frameImg = new CImage(MainController.$.imgAsset.getTexture("frame_b"));
-                    
-                    //ユニット数の設定
-                    if (battleUnit.maxFormationNum >= 2)
-                    {
-                        battleUnit.formationNumImg = new CImage(MainController.$.imgAsset.getTexture("unitnum_" + battleUnit.maxFormationNum));
-                    }
-                    
-                    // マップ位置をセットをセット
-                    setLaunchCheck(battleUnit, nowPosX, nowPosY);
-                    posX = battleUnit.PosX;
-                    posY = battleUnit.PosY;
-                    // 画像とフレームの位置を追加
-                    battleUnit.unitImg.x = (posX - 1) * MAP_SIZE;
-                    battleUnit.unitImg.y = (posY - 1) * MAP_SIZE;
-                    battleUnit.unitImg.alpha = 0;
-                    battleUnit.frameImg.x = (posX - 1) * MAP_SIZE;
-                    battleUnit.frameImg.y = (posY - 1) * MAP_SIZE;
-                    battleUnit.frameImg.alpha = 0;
-                    if (battleUnit.formationNumImg != null)
-                    {
-                        battleUnit.formationNumImg.x = (posX - 1) * MAP_SIZE + FORMATION_NUM_POS;
-                        battleUnit.formationNumImg.y = (posY - 1) * MAP_SIZE + FORMATION_NUM_POS;
-                        battleUnit.formationNumImg.alpha = 0;
-                    }
-                    
-                    // 戦闘ユニットを勢力に追加
-                    _sideState[0].addUnit(battleUnit);
-                    // ユニットエリアに画像追加
-                    _unitArea.addChildAt(battleUnit.unitImg, _unitArea.numChildren);
-                    // フレームエリアに沸く追加
-                    _frameArea.addChildAt(battleUnit.frameImg, _frameArea.numChildren);
-                    if (battleUnit.formationNumImg != null)
-                    {
-                        // フレームエリアに数字追加
-                        _effectArea.addChildAt(battleUnit.formationNumImg, _effectArea.numChildren);
-                    }
-                    
-                    // 一定時間かけて表示
-                    var tweenAry:Array = new Array();
-                    var tweenUnit:Tween24 = Tween24.tween(battleUnit.unitImg, 0.3).alpha(1);
-                    var tweenFrame:Tween24 = Tween24.tween(battleUnit.frameImg, 0.3).alpha(1);
-                    tweenAry.push(tweenUnit);
-                    tweenAry.push(tweenFrame);
-                    //tweenAry.push(launchParticle(posX, posY));
-                    
-                    launchTweenArray.push(tweenAry);
-                    //Tween24.parallel(tweenAry).onComplete(callBack).play();
-                    //ライン整頓
-                    nowPosX += 2;
-                    if (nowPosX > _organizeList.posX + _organizeList.uWidth)
-                    {
-                        if (addPos == 0)
-                        {
-                            addPos = 1;
-                            nowPosX = _organizeList.posX + addPos;
-                        }
-                        else
-                        {
-                            addPos = 0;
-                            nowPosX = _organizeList.posX + addPos;
-                        }
-                        nowPosY += 1;
-                    }
-                    
-                    if (nowPosY > _organizeList.posY + _organizeList.uHeight)
-                    {
-                        break;
-                    }
                 }
+                //汎用ユニット
+                else if (unitList[i].genericUnitData != null)
+                {
+                    charaData = new UnitCharaData(1000 + _sideState[0].battleUnit.length, unitList[i].genericUnitData.data, unitList[i].genericUnitData.lv);
+                    battleUnit = new BattleUnit(charaData, getNewBattleID(), 0);
+                }
+                
+                charaData.launched = true;
+                battleUnit.frameImg = new CImage(MainController.$.imgAsset.getTexture("frame_b"));
+                
+                //ユニット数の設定
+                if (battleUnit.maxFormationNum >= 2)
+                {
+                    battleUnit.formationNumImg = new CImage(MainController.$.imgAsset.getTexture("unitnum_" + battleUnit.maxFormationNum));
+                }
+                
+                // マップ位置をセットをセット
+                setLaunchCheck(battleUnit, nowPosX, nowPosY);
+                posX = battleUnit.PosX;
+                posY = battleUnit.PosY;
+                // 画像とフレームの位置を追加
+                battleUnit.unitImg.x = (posX - 1) * MAP_SIZE;
+                battleUnit.unitImg.y = (posY - 1) * MAP_SIZE;
+                battleUnit.unitImg.alpha = 0;
+                battleUnit.frameImg.x = (posX - 1) * MAP_SIZE;
+                battleUnit.frameImg.y = (posY - 1) * MAP_SIZE;
+                battleUnit.frameImg.alpha = 0;
+                if (battleUnit.formationNumImg != null)
+                {
+                    battleUnit.formationNumImg.x = (posX - 1) * MAP_SIZE + FORMATION_NUM_POS;
+                    battleUnit.formationNumImg.y = (posY - 1) * MAP_SIZE + FORMATION_NUM_POS;
+                    battleUnit.formationNumImg.alpha = 0;
+                }
+                
+                // 戦闘ユニットを勢力に追加
+                _sideState[0].addUnit(battleUnit);
+                // ユニットエリアに画像追加
+                _unitArea.addChildAt(battleUnit.unitImg, _unitArea.numChildren);
+                // フレームエリアに沸く追加
+                _frameArea.addChildAt(battleUnit.frameImg, _frameArea.numChildren);
+                if (battleUnit.formationNumImg != null)
+                {
+                    // フレームエリアに数字追加
+                    _effectArea.addChildAt(battleUnit.formationNumImg, _effectArea.numChildren);
+                }
+                
+                // 一定時間かけて表示
+                var tweenAry:Array = new Array();
+                var tweenUnit:Tween24 = Tween24.tween(battleUnit.unitImg, 0.3).alpha(1);
+                var tweenFrame:Tween24 = Tween24.tween(battleUnit.frameImg, 0.3).alpha(1);
+                tweenAry.push(tweenUnit);
+                tweenAry.push(tweenFrame);
+                //tweenAry.push(launchParticle(posX, posY));
+                
+                launchTweenArray.push(tweenAry);
+                //Tween24.parallel(tweenAry).onComplete(callBack).play();
+                //ライン整頓
+                nowPosX += 2;
+                if (nowPosX > _organizeList.posX + _organizeList.uWidth)
+                {
+                    if (addPos == 0)
+                    {
+                        addPos = 1;
+                        nowPosX = _organizeList.posX + addPos;
+                    }
+                    else
+                    {
+                        addPos = 0;
+                        nowPosX = _organizeList.posX + addPos;
+                    }
+                    nowPosY += 1;
+                }
+                
+                if (nowPosY > _organizeList.posY + _organizeList.uHeight)
+                {
+                    break;
+                }
+                
             }
             
             organizeLaunch();

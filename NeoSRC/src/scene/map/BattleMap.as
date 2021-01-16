@@ -5,12 +5,14 @@ package scene.map
     import common.CommonBattleMath;
     import common.CommonDef;
     import common.util.CharaDataUtil;
+    import database.master.MasterBaseData;
     import database.master.MasterCommanderSkillData;
     import database.master.MasterSkillData;
     import database.master.MasterWeaponData;
     import database.user.CommanderData;
     import database.user.UnitCharaData;
     import flash.geom.Point;
+    import scene.base.MapBase;
     import scene.battleanime.BattleActionPanel;
     import main.MainController;
     import scene.map.basepoint.MapPicture;
@@ -105,8 +107,12 @@ package scene.map
         
         /** 地形データリスト */
         private var _terrainDataList:Vector.<TerrainData> = null;
+        /** 拠点データリスト */
+        private var _baseDataList:Vector.<MapBase> = null;
         /** 勢力ステータス */
         private var _sideState:Vector.<SideState> = null;
+        /**拠点表示領域*/
+        private var _baseArea:CSprite = null;
         /** ユニット表示領域 */
         private var _unitArea:CSprite = null;
         /** 枠エリア */
@@ -150,6 +156,7 @@ package scene.map
             _moveAreaImgList = new Vector.<CImage>;
             _attackAreaImgList = new Vector.<CImage>;
             _terrainDataList = new Vector.<TerrainData>();
+            _baseDataList = new Vector.<scene.base.MapBase>();
             _rootImgList = new Vector.<CImage>;
             _mapPictureList = new Vector.<MapPicture>;
             _sideState = new Vector.<SideState>;
@@ -180,7 +187,7 @@ package scene.map
             removeEventListener(TouchEvent.TOUCH, startMapTalkHandler);
             removeEventListener(TouchEvent.TOUCH, startCommandSkillHandler);
             
-            CommonDef.disposeList([_battleMapPanel, _battleActionPanel, _unitArea, _frameArea, _effectArea, _btnReset, _moveAreaImgList, _attackAreaImgList, _rootImgList, _sideState, _mapPictureList, _messageWindow]);
+            CommonDef.disposeList([_battleMapPanel, _baseDataList, _battleActionPanel, _unitArea, _baseArea, _frameArea, _effectArea, _btnReset, _moveAreaImgList, _attackAreaImgList, _rootImgList, _sideState, _mapPictureList, _messageWindow]);
             _btnReset = null;
             _attackAreaImgList = null;
             _terrainDataList = null;
@@ -370,7 +377,6 @@ package scene.map
                     battleUnit.joinFlg = false;
                 }
                 newUnitData.launched = true;
-                battleUnit.frameImg = new CImage(MainController.$.imgAsset.getTexture("frame_b"));
             }
             else
             {
@@ -378,8 +384,9 @@ package scene.map
                 battleUnit = new BattleUnit(new UnitCharaData(_sideState[sideNum].battleUnit.length, CharaDataUtil.getMasterCharaDataName(name), level), getNewBattleID(), sideNum);
                 battleUnit.levelSet(level);
                 battleUnit.setStrength(strength);
-                battleUnit.frameImg = new CImage(MainController.$.imgAsset.getTexture("frame_r"));
             }
+            
+            battleUnit.frameImg = new CImage(MainController.$.imgAsset.getTexture(_sideState[sideNum].frameImgPath));
             
             if (param.hasOwnProperty("id"))
             {
@@ -422,7 +429,7 @@ package scene.map
             charaData.launched = true;
             // 戦闘ユニットデータの設定
             battleUnit = new BattleUnit(charaData, getNewBattleID(), 0);
-            battleUnit.frameImg = new CImage(MainController.$.imgAsset.getTexture("frame_b"));
+            battleUnit.frameImg = new CImage(MainController.$.imgAsset.getTexture(_sideState[0].frameImgPath));
             
             if (param.hasOwnProperty("id"))
             {
@@ -826,7 +833,7 @@ package scene.map
                 }
                 
                 charaData.launched = true;
-                battleUnit.frameImg = new CImage(MainController.$.imgAsset.getTexture("frame_b"));
+                battleUnit.frameImg = new CImage(MainController.$.imgAsset.getTexture(_sideState[0].frameImgPath));
                 
                 //ユニット数の設定
                 if (battleUnit.maxFormationNum >= 2)
@@ -2687,9 +2694,11 @@ package scene.map
                     _terrainDataList.push(terrain);
                 }
             }
+            _baseArea = new CSprite();
             _unitArea = new CSprite();
             _frameArea = new CSprite();
             _effectArea = new CSprite();
+            addChild(_baseArea);
             addChild(_frameArea);
             addChild(_unitArea);
             addChild(_effectArea);
@@ -3202,6 +3211,91 @@ package scene.map
         public function set mapTalkFlg(value:Boolean):void
         {
             _mapTalkFlg = value;
+        }
+        
+        //-------------------------------------------------------------
+        //
+        // 拠点
+        //
+        //-------------------------------------------------------------
+        
+        public function setMapBase(name:String, param:Object):void
+        {
+            var i:int = 0;
+            var baseMasterData:MasterBaseData = MainController.$.model.getMasterBaseDataFromName(name);
+            var sideNum:int = -1;
+            
+            if (sideState.length <= 0 || _sideState[0] === null)
+            {
+                // 初期勢力追加
+                _sideState[0] = new SideState(MainController.$.model.playerParam.sideName);
+            }
+            
+            if (param.hasOwnProperty("side"))
+            {
+                if (param.side === MainController.$.model.playerParam.sideName)
+                {
+                    sideNum = 0;
+                }
+                else
+                {
+                    var newSideFlg:Boolean = true;
+                    for (i = 0; i < _sideState.length; i++)
+                    {
+                        //陣営名があった場合統一
+                        if (_sideState[i].name === param.side)
+                        {
+                            sideNum = i;
+                            newSideFlg = false;
+                            break;
+                        }
+                    }
+                    
+                    if(newSideFlg)
+                    {
+                        _sideState[i] = new SideState(param.side);
+                        sideNum = i;
+                    }
+                }
+            }
+            
+            
+            if (param.hasOwnProperty("eventno"))
+            {
+                
+                for (i = 0; i < _terrainDataList.length; i++)
+                {
+                    if (_terrainDataList[i].EventNo == param.eventno)
+                    {
+                        var evBaseData:MapBase = new MapBase(baseMasterData, sideNum);
+                        evBaseData.setPos(i % _mapWidth + 1, i / _mapWidth + 1);
+                        _baseArea.addChild(evBaseData);
+                        if (sideNum >= 0)
+                        {
+                            evBaseData.sideFrame = new CImage(MainController.$.imgAsset.getTexture(_sideState[sideNum].frameImgPath));
+                            evBaseData.sideFrame.x = evBaseData.x;
+                            evBaseData.sideFrame.y = evBaseData.y;
+                            
+                            _frameArea.addChild(evBaseData.sideFrame);
+                        }
+                    }
+                }
+            }
+            else if (param.hasOwnProperty("x") && param.hasOwnProperty("y"))
+            {
+                var baseData:MapBase = new MapBase(baseMasterData, sideNum);
+                baseData.setPos(param.x, param.y);
+                _baseDataList.push(baseData);
+                _baseArea.addChild(baseData);
+                if (sideNum >= 0)
+                {
+                    baseData.sideFrame = new CImage(MainController.$.imgAsset.getTexture(_sideState[sideNum].frameImgPath));
+                    baseData.sideFrame.x = baseData.x;
+                    baseData.sideFrame.y = baseData.y;
+                    _frameArea.addChild(baseData.sideFrame);
+                }
+            }
+        
         }
         
         //-------------------------------------------------------------

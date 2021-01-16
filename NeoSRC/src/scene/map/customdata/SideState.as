@@ -3,7 +3,7 @@ package scene.map.customdata
     import common.CommonDef;
     import database.master.MasterCommanderData;
     import database.user.CommanderData;
-	import database.user.GenericUnitData;
+    import database.user.GenericUnitData;
     import main.MainController;
     import scene.unit.BattleUnit;
     
@@ -18,14 +18,13 @@ package scene.map.customdata
         
         private var _name:String = null;
         private var _state:int = 0;
-        
+        private var _frameImgPath:String = null;
         /** 各勢力ユニットリスト */
         private var _battleUnit:Vector.<BattleUnit> = null;
         
-		/**生産ユニットリスト*/
-		private	var _genericUnitList:Vector.<GenericUnitData> = null;
-		
-		
+        /**生産ユニットリスト*/
+        private var _genericUnitList:Vector.<GenericUnitData> = null;
+        
         /**軍師*/
         private var _commander:CommanderData = null;
         
@@ -34,7 +33,19 @@ package scene.map.customdata
             _name = setName;
             _state = STATE_LIVE;
             _battleUnit = new Vector.<BattleUnit>();
-			_genericUnitList = new Vector.<GenericUnitData>();
+            _genericUnitList = new Vector.<GenericUnitData>();
+            
+            //仮設定
+            if (MainController.$.map.sideState.length <= 0 || MainController.$.map.sideState === null || name === MainController.$.map.sideState[0].name)
+            {
+                _frameImgPath = "frame_b";
+            }
+            else
+            {
+                
+                _frameImgPath = "frame_r";
+            }
+        
         }
         
         /**ユニット追加*/
@@ -106,21 +117,24 @@ package scene.map.customdata
             return _commander;
         }
         
-        public function set commander(value:CommanderData):void 
+        public function set commander(value:CommanderData):void
         {
             _commander = value;
         }
         
-		public function get genericUnitList():Vector.<GenericUnitData> 
-		{
-			return _genericUnitList;
-		}
-		
+        public function get genericUnitList():Vector.<GenericUnitData>
+        {
+            return _genericUnitList;
+        }
+        
+        public function get frameImgPath():String 
+        {
+            return _frameImgPath;
+        }
+        
         public function get battleUnit():Vector.<BattleUnit>
         {
             return _battleUnit;
         }
-    
     }
-
 }

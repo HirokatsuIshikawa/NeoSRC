@@ -12,6 +12,10 @@ Exit
 StopBGM
 LoadMap file:ゲンシ平原.map
 //
+SetBase name:原始ベース EventNo:2 side:さくらチーム
+SetBase name:鉱山 EventNo:1 side:コクエン隊
+SetBase name:魔法陣 x:3 y:3
+//
 //
 CreateUnit name:ロッドアタッカー x:11 y:10 side:コクエン隊 level:3
 CreateUnit name:ロッドアタッカー x:10 y:11 side:コクエン隊 level:3

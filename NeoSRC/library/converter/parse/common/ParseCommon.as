@@ -51,7 +51,7 @@ package converter.parse.common
         "income", "getpoint", //
         "heal", "supply", "bullet", //
         "producttype", "productlevel", //
-        "img" //
+        "imgpath" //
         ];
         public static const BASE_P_LIST:Array = [ //
         "名前", //

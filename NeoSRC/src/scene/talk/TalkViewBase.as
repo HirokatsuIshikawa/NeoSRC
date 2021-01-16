@@ -960,6 +960,11 @@ package scene.talk
 				setLineCommand();
 				break;
 			
+			//-----------------------------------------------------拠点-----------------------------------------------------
+            case "setbase":
+                MainController.$.view.battleMap.setMapBase(param.name, param);                
+                setLineCommand();
+                break;
 			//-----------------------------------------------------マップピクチャ＆イベント設置-----------------------------------------------------
 			case "setmappicture": //マップピクチャをセット
 				MainController.$.view.battleMap.setMapPicture(param.img, param.name, param);

@@ -275,7 +275,7 @@ package database.dataloader
         
         }
         
-        /**バフリスト読み込み完了*/
+        /**メッセージリスト読み込み完了*/
         private function loadMessageDataListComp(e:Event):void
         {
             var i:int = 0;
@@ -346,7 +346,7 @@ package database.dataloader
             _callBack();
         }
         
-        
+        /**基地データ読み込み完了*/
         private function loadBaseDataListComp(e:Event):void
         {
             var i:int = 0;

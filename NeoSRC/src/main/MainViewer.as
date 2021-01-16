@@ -452,12 +452,9 @@ package main
                         
                         // 戦闘ユニットデータの設定
                         battleUnit.joinFlg = joinFlg;
-                        battleUnit.frameImg = new CImage(MainController.$.imgAsset.getTexture("frame_b"));
                     }
-                    else
-                    {
-                        battleUnit.frameImg = new CImage(MainController.$.imgAsset.getTexture("frame_r"));
-                    }
+                    
+                    battleUnit.frameImg = new CImage(MainController.$.imgAsset.getTexture(MainController.$.map.sideState[i].frameImgPath));
                     
                     battleUnit.frameImg.x = (posX - 1) * BaseMap.MAP_SIZE;
                     battleUnit.frameImg.y = (posY - 1) * BaseMap.MAP_SIZE;

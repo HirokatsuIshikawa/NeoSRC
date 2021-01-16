@@ -627,6 +627,23 @@ package main
             }
             return data;
         }
+               
+        /**拠点マスターデータ名前取り*/
+        public function getMasterBaseDataFromName(name:String):MasterBaseData
+        {
+            var i:int = 0;
+            var data:MasterBaseData = null;
+            for (i = 0; i < _masterBaseData.length; i++)
+            {
+                if (name === _masterBaseData[i].name)
+                {
+                    data = _masterBaseData[i];
+                    break;
+                }
+                
+            }
+            return data;
+        }
         
         /**戦闘メッセージゲット*/
         public function getRandamCommanderSkillMessage(commander:CommanderData,skill:MasterCommanderSkillData, target:BattleUnit):Vector.<String>

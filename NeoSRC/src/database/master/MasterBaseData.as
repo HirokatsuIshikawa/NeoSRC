@@ -15,7 +15,8 @@ package database.master
         public static const BASE_INIT_TYPE:Array = [ //
         "income", "getpoint", //
         "heal", "supply", "bullet", //
-        "producttype", "productlevel" //
+        "producttype", "productlevel", //
+        "imgpath"
         ];
         
         public static const BASE_INIT_VALUE:Array = [ //
@@ -32,6 +33,16 @@ package database.master
         /**バフ名*/
         protected var _name:String = null;
         
+        public function get imgpath():String 
+        {
+            return _imgpath;
+        }
+        
+        public function get getpoint():int 
+        {
+            return _getpoint;
+        }
+        
         public function get name():String  { return _name; }
         
         protected var _income:int;
@@ -41,6 +52,7 @@ package database.master
         protected var _bullet:int;
         protected var _producttype:String;
         protected var _productlevel:int;
+        protected var _imgpath:String;
         
         public function MasterBaseData(id:int, data:Object):void
         {

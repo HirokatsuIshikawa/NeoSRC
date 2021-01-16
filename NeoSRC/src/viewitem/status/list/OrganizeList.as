@@ -297,6 +297,7 @@ package viewitem.status.list
             
             
             _costCount.setMaxNumber(_cost, _maxCost)
+            addChild(_costCount);
         }
         
         

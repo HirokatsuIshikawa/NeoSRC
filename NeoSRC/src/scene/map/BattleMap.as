@@ -839,7 +839,7 @@ package scene.map
                 posX = battleUnit.PosX;
                 posY = battleUnit.PosY;
                 // 画像とフレームの位置を追加
-                battleUnit.unitImg.x = (posX - 1) * MAP_SIZE;
+                battleUnit.unitImg.x = (posX) * MAP_SIZE;
                 battleUnit.unitImg.y = (posY - 1) * MAP_SIZE;
                 battleUnit.unitImg.alpha = 0;
                 battleUnit.frameImg.x = (posX - 1) * MAP_SIZE;
@@ -856,7 +856,7 @@ package scene.map
                 _sideState[0].addUnit(battleUnit);
                 // ユニットエリアに画像追加
                 _unitArea.addChildAt(battleUnit.unitImg, _unitArea.numChildren);
-                // フレームエリアに沸く追加
+                // フレームエリアに枠追加
                 _frameArea.addChildAt(battleUnit.frameImg, _frameArea.numChildren);
                 if (battleUnit.formationNumImg != null)
                 {
@@ -866,17 +866,24 @@ package scene.map
                 
                 // 一定時間かけて表示
                 var tweenAry:Array = new Array();
-                var tweenUnit:Tween24 = Tween24.tween(battleUnit.unitImg, 0.3).alpha(1);
+                var tweenUnit:Tween24 = Tween24.tween(battleUnit.unitImg, 0.3).x((posX - 1) * MAP_SIZE).alpha(1);
                 var tweenFrame:Tween24 = Tween24.tween(battleUnit.frameImg, 0.3).alpha(1);
                 tweenAry.push(tweenUnit);
                 tweenAry.push(tweenFrame);
+                
+                if (battleUnit.formationNumImg != null)
+                {
+                    var tweenFormationNum:Tween24 = Tween24.tween(battleUnit.formationNumImg, 0.3).alpha(1);
+                    tweenAry.push(tweenFormationNum);
+                }
+                
                 //tweenAry.push(launchParticle(posX, posY));
                 
                 launchTweenArray.push(tweenAry);
                 //Tween24.parallel(tweenAry).onComplete(callBack).play();
                 //ライン整頓
                 nowPosX += 2;
-                if (nowPosX > _organizeList.posX + _organizeList.uWidth)
+                if (nowPosX >= _organizeList.posX + _organizeList.uWidth)
                 {
                     if (addPos == 0)
                     {

@@ -17,7 +17,7 @@ package main
     import scene.intermission.save.LoadList;
     import scene.map.BaseMap;
     import scene.map.BattleMap;
-    import scene.map.basepoint.MapPicture;
+    import scene.map.MapPicture;
     import scene.map.customdata.SideState;
     import scene.map.panel.BattleMapPanel;
     import scene.map.save.MapLoadList;
@@ -721,7 +721,7 @@ package main
             }
         }
         
-        /**暗幕設置*/
+        /**暗幕設置 開始終了フラグ*/
         public function waitDark(flg:Boolean):void
         {
             if (flg)

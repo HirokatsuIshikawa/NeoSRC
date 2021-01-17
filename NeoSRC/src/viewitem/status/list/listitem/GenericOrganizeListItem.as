@@ -136,14 +136,14 @@ package viewitem.status.list.listitem
         {
             if (_organizeFlg)
             {
-                
+                _callBack(_data, _selected);
+                MainController.$.map.organizeList.checkOrganize();
             }
             else
             {
                 setSelected(!_selected);
+                _callBack(_data, _selected);
             }
-            _callBack(_data, _selected);
-            MainController.$.map.organizeList.checkOrganize();
         }
         
         public function setSelected(flg:Boolean):void

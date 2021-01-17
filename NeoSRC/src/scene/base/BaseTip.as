@@ -9,7 +9,7 @@ package scene.base
      * ...
      * @author ...
      */
-    public class MapBase extends CImage
+    public class BaseTip extends CImage
     {
         
         private var _masterData:MasterBaseData = null;
@@ -20,9 +20,10 @@ package scene.base
         private var _posX:int = 0;
         private var _posY:int = 0;
         
-        public function MapBase(data:MasterBaseData, sideNum:int)
+        public function BaseTip(data:MasterBaseData, sideNum:int)
         {
             _masterData = data;
+            _sideNum = sideNum;
             var tex:Texture = MainController.$.imgAsset.getTexture(data.imgpath);
             
             if (tex == null)
@@ -60,6 +61,26 @@ package scene.base
         public function get sideFrame():CImage 
         {
             return _sideFrame;
+        }
+        
+        public function get posX():int 
+        {
+            return _posX;
+        }
+        
+        public function get posY():int 
+        {
+            return _posY;
+        }
+        
+        public function get sideNum():int 
+        {
+            return _sideNum;
+        }
+        
+        public function get masterData():MasterBaseData 
+        {
+            return _masterData;
         }
         
         public function set sideFrame(value:CImage):void 

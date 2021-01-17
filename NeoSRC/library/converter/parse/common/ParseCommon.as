@@ -56,7 +56,7 @@ package converter.parse.common
         public static const BASE_P_LIST:Array = [ //
         "名前", //
         "収入", "制圧度", //
-        "修復", "補給", "弾薬", //
+        "回復", "補給", "弾薬", //
         "生産タイプ", "生産レベル", //
         "画像" //
         ];

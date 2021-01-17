@@ -260,12 +260,21 @@ package scene.unit
             return false;
         }
         
-        //移動カウント現象
+        //移動カウント減少
         public function moveEnd():void
         {
             _moveCount--;
             setMoveColor();
         }
+        
+        
+        //移動カウントゼロ
+        public function moveZero():void
+        {
+            _moveCount = 0;
+            setMoveColor();
+        }
+        
         
         //移動後・移動前ユニットカラー変更
         public function setMoveColor():void

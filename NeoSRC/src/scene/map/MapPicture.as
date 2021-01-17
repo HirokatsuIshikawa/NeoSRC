@@ -1,4 +1,4 @@
-package scene.map.basepoint 
+package scene.map 
 {
     import main.MainController;
     import starling.textures.Texture;

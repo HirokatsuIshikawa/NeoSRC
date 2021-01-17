@@ -43,6 +43,36 @@ package database.master
             return _getpoint;
         }
         
+        public function get producttype():String 
+        {
+            return _producttype;
+        }
+        
+        public function get productlevel():int 
+        {
+            return _productlevel;
+        }
+        
+        public function get supply():int 
+        {
+            return _supply;
+        }
+        
+        public function get heal():int 
+        {
+            return _heal;
+        }
+        
+        public function get income():int 
+        {
+            return _income;
+        }
+        
+        public function get bullet():int 
+        {
+            return _bullet;
+        }
+        
         public function get name():String  { return _name; }
         
         protected var _income:int;
@@ -72,6 +102,7 @@ package database.master
                     this["_" + BASE_INIT_TYPE[i]] = BASE_INIT_VALUE[i];
                 }
             }
+            
         }
     }
 }

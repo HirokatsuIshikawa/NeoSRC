@@ -926,15 +926,15 @@ package scene.talk
 				{
 					param.type = OrganizeList.TYPE_ALL;
 				}
-				//出撃コスト
-				if (!param.hasOwnProperty("cost"))
-				{
-					param.cost = 0;
-				}
 				
-				MainController.$.view.battleMap.organizeUnit(param.count, param.x, param.y, param.width, param.height, param.type, param.cost);
+				MainController.$.view.battleMap.organizeUnit(param.count, param.x, param.y, param.width, param.height, param.type);
 				
 				break;
+            //コスト設定
+            case "setsidecost":
+                MainController.$.view.battleMap.setSideCost(param.side, param.cost);
+				setLineCommand();
+                break;
                 //ユニット移動
 			case "unitmove": 
 				MainController.$.view.battleMap.moveMapUnit(param.unit, param.x, param.y, setLineCommand);

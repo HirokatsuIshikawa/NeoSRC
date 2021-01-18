@@ -53,9 +53,8 @@ package viewitem.status.list
         private var _uWidth:int = 0;
         private var _uHeight:int = 0;
         private var _cost:int = 0;
-        private var _maxCost:int = 0;
         
-        public function OrganizeList(dataList:Vector.<UnitCharaData>, genericDataList:Vector.<GenericUnitData>, count:int, posX:int, posY:int, uWidth:int, uHeight:int, type:String, cost:int)
+        public function OrganizeList(dataList:Vector.<UnitCharaData>, genericDataList:Vector.<GenericUnitData>, count:int, posX:int, posY:int, uWidth:int, uHeight:int, type:String)
         {
             super();
             var i:int = 0;
@@ -71,8 +70,7 @@ package viewitem.status.list
             _posY = posY;
             _uWidth = uWidth;
             _uHeight = uHeight;
-            _cost = cost;
-            _maxCost = cost;
+            _cost = 0;
             
             var listCount:int = 0;
             
@@ -94,7 +92,7 @@ package viewitem.status.list
                         continue;
                     }
                     
-                    _itemList[i] = new OrganizeListItem(dataList[i], cost > 0,selectUniqueItem);
+                    _itemList[i] = new OrganizeListItem(dataList[i], MainController.$.map.sideState[0].cost >= 0, selectUniqueItem);
                     _itemList[i].x = 60 + (OrganizeListItem.LIST_WIDTH + 40) * (int)(i % 3);
                     _itemList[i].y = (OrganizeListItem.LIST_HEIGHT + 24) * (int)(i / 3);
                     _uniqueSpr.addChild(_itemList[i]);
@@ -115,7 +113,7 @@ package viewitem.status.list
                     {
                         listCount++;
                     }
-                    _genericItemList[i] = new GenericOrganizeListItem(genericDataList[i], cost > 0,selectGenericItem, true);
+                    _genericItemList[i] = new GenericOrganizeListItem(genericDataList[i], MainController.$.map.sideState[0].cost >= 0, selectGenericItem, true);
                     _genericItemList[i].x = 60 + (GenericOrganizeListItem.LIST_WIDTH + 40) * (int)(i % 3);
                     _genericItemList[i].y = (GenericOrganizeListItem.LIST_HEIGHT + 24) * (int)(i / 3);
                     _genericSpr.addChild(_genericItemList[i]);
@@ -193,7 +191,6 @@ package viewitem.status.list
                 _genericSpr.visible = true;
             }
             
-            
             _costCount = new ImgNumber();
             _costCount.x = 20;
             _costCount.y = CommonDef.WINDOW_H - 96;
@@ -204,7 +201,7 @@ package viewitem.status.list
             
             //選択ユニットリスト
             _organizeSpr = new CSprite();
-                _organizeSpr.addEventListener(TouchEvent.TOUCH, touchGenericSpr);
+            _organizeSpr.addEventListener(TouchEvent.TOUCH, touchGenericSpr);
             _organizeSpr.width = 400;
             _organizeSpr.height = 32;
             _organizeSpr.x = 80;
@@ -245,31 +242,30 @@ package viewitem.status.list
         
         private function checkItemSelect():void
         {
-            if (_maxCost <= 0)
+            if (MainController.$.map.sideState[0].cost < 0)
             {
                 return;
             }
             
-            _cost = _maxCost;
+            _cost = MainController.$.map.sideState[0].cost;
             
             var i:int = 0;
             
-            for (i = 0; i < _organizeUnitList.length; i++ )
+            for (i = 0; i < _organizeUnitList.length; i++)
             {
-                if(_organizeUnitList[i].unitCharaData != null)
+                if (_organizeUnitList[i].unitCharaData != null)
                 {
                     _cost -= _organizeUnitList[i].unitCharaData.masterData.Cost;
                 }
                 else if (_organizeUnitList[i].genericUnitData != null)
                 {
                     _cost -= _organizeUnitList[i].genericUnitData.cost;
-                }            
+                }
             }
             
-            
-            for (i = 0; i < _itemList.length; i++ )
+            for (i = 0; i < _itemList.length; i++)
             {
-                if(_itemList[i].data.masterData.Cost > _cost)
+                if (_itemList[i].data.masterData.Cost > _cost)
                 {
                     _itemList[i].alpha = 0.7;
                     _itemList[i].touchable = false;
@@ -281,9 +277,9 @@ package viewitem.status.list
                 }
             }
             
-            for (i = 0; i < _genericItemList.length; i++ )
+            for (i = 0; i < _genericItemList.length; i++)
             {
-                if(_genericItemList[i].data.cost > _cost)
+                if (_genericItemList[i].data.cost > _cost)
                 {
                     _genericItemList[i].alpha = 0.7;
                     _genericItemList[i].touchable = false;
@@ -295,11 +291,9 @@ package viewitem.status.list
                 }
             }
             
-            
-            _costCount.setMaxNumber(_cost, _maxCost)
+            _costCount.setMaxNumber(_cost, MainController.$.map.sideState[0].cost)
             addChild(_costCount);
         }
-        
         
         override public function dispose():void
         {
@@ -328,7 +322,6 @@ package viewitem.status.list
             {
                 _organizeSpr.removeEventListener(TouchEvent.TOUCH, touchGenericSpr);
             }
-            
             
             CommonDef.disposeList([_uniqueSpr, _genericSpr, _organizeSpr]);
             if (_startBtn != null)
@@ -360,6 +353,10 @@ package viewitem.status.list
         private function compOrganized(e:Event):void
         {
             MainController.$.map.startOrganized(_organizeUnitList);
+            if (MainController.$.map.sideState[0].cost >= 0)
+            {
+                MainController.$.map.sideState[0].cost = _cost;
+            }
         }
         
         //ユニークボタン選択

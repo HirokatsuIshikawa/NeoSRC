@@ -35,6 +35,7 @@ JoinUnit name:木之本桜 level:5
 JoinUnit name:なのは level:5
 JoinUnit name:ユーノ level:5
 //Organize count:7 x:3 y:11 width:5 height:3 type:ALL cost:10
+SetSideCost side:さくらチーム cost:12
 Organize count:6 x:3 y:11 width:3 height:4 type:ALL
 //
 StartBGM file:BGM/game_maoudamashii_1_battle24.mp3 vol:0.5 fade:0.5

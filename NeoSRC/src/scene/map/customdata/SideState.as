@@ -28,13 +28,15 @@ package scene.map.customdata
         /**軍師*/
         private var _commander:CommanderData = null;
         
+        private var _cost:int = -1;
+        
         public function SideState(setName:String)
         {
             _name = setName;
             _state = STATE_LIVE;
             _battleUnit = new Vector.<BattleUnit>();
             _genericUnitList = new Vector.<GenericUnitData>();
-            
+            _cost = -1;
             //仮設定
             if (MainController.$.map.sideState.length <= 0 || MainController.$.map.sideState === null || name === MainController.$.map.sideState[0].name)
             {
@@ -135,6 +137,16 @@ package scene.map.customdata
         public function get battleUnit():Vector.<BattleUnit>
         {
             return _battleUnit;
+        }
+        
+        public function get cost():int 
+        {
+            return _cost;
+        }
+        
+        public function set cost(value:int):void 
+        {
+            _cost = value;
         }
     }
 }

@@ -11,7 +11,7 @@ package database.user
 		private var _lv:int;
 		private var _cost:int;
 		
-		
+		private var _customBgm:String = "";
 		
 		public function get cost():int 
 		{
@@ -50,6 +50,16 @@ package database.user
 		{
 			return _data.nickName;
 		}
+        
+        public function get customBgm():String 
+        {
+            return _customBgm;
+        }
+        
+        public function set customBgm(value:String):void 
+        {
+            _customBgm = value;
+        }
 		
 		public function compareName(name:String):Boolean
 		{

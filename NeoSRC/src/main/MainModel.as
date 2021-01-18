@@ -11,7 +11,7 @@ package main
     import database.master.MasterWeaponData;
     import database.master.base.MessageCondition;
     import database.user.CommanderData;
-	import database.user.GenericUnitData;
+    import database.user.GenericUnitData;
     import scene.unit.BattleUnit;
     import system.custom.customSprite.CImage;
     import system.custom.customSprite.ImageBoard;
@@ -45,10 +45,10 @@ package main
         private var _playerUnitData:Vector.<UnitCharaData> = null;
         /**プレイヤー軍師データ*/
         private var _playerCommanderData:Vector.<CommanderData> = null;
-		
-		/**プレイヤー生産ユニットリストデータ*/
-		private var _playerGenericUnitData:Vector.<GenericUnitData> = null;
-		
+        
+        /**プレイヤー生産ユニットリストデータ*/
+        private var _playerGenericUnitData:Vector.<GenericUnitData> = null;
+        
         /**バフデータ*/
         private var _masterBuffData:Vector.<MasterBuffData> = null;
         /**バトルメッセージデータ*/
@@ -81,7 +81,7 @@ package main
             _masterCharaData = new Vector.<MasterCharaData>;
             _playerUnitData = new Vector.<UnitCharaData>;
             _playerCommanderData = new Vector.<CommanderData>;
-			_playerGenericUnitData = new Vector.<database.user.GenericUnitData>;
+            _playerGenericUnitData = new Vector.<database.user.GenericUnitData>;
             _playerPartyList = new Vector.<String>;
             _enemyPartyList = new Vector.<String>;
             _masterBattleMessageData = new Vector.<database.master.MasterBattleMessage>;
@@ -153,6 +153,8 @@ package main
             }
         }
         
+        
+        
         public function resetCommanderData():void
         {
             var i:int = 0;
@@ -163,32 +165,29 @@ package main
             }
         }
         
-		public function resetGenericUnitData():void
-		{
-			var i:int = 0;
+        public function resetGenericUnitData():void
+        {
+            var i:int = 0;
             for (i = 0; i < _playerGenericUnitData.length; )
             {
                 _playerGenericUnitData[i] = null;
                 _playerGenericUnitData.splice(i, 1);
             }
-		}
-		
-		
-		public function getMasterCharaData(name:String):MasterCharaData
-		{
-			var i:int = 0;
-			for (i = 0; i < _masterCharaData.length; i++ )
-			{
-				if (_masterCharaData[i].name === name || _masterCharaData[i].nickName === name)
-				{
-					return _masterCharaData[i];
-				}
-			}
-			return null;
-		}
-		
-		
-		
+        }
+        
+        public function getMasterCharaData(name:String):MasterCharaData
+        {
+            var i:int = 0;
+            for (i = 0; i < _masterCharaData.length; i++)
+            {
+                if (_masterCharaData[i].name === name || _masterCharaData[i].nickName === name)
+                {
+                    return _masterCharaData[i];
+                }
+            }
+            return null;
+        }
+        
         public function addPlayerUnitFromName(name:String, lv:int = 0, exp:int = 0, strength:int = 0, launch:Boolean = false, customBgm:String = null):void
         {
             var i:int = 0;
@@ -221,6 +220,38 @@ package main
             _playerUnitData[setId].addStrength(strength);
         
         }
+        
+        
+        public function addPlayerGenericUnitFromName(name:String, lv:int = 1, cost:int = 0, customBgm:String = null):void
+        {
+            var i:int = 0;
+            var length:int = _masterCharaData.length;
+            var setId:int = _playerGenericUnitData.length;
+            var data:MasterCharaData = null;
+            for (i = 0; i < length; i++)
+            {
+                if (_masterCharaData[i].nickName === name)
+                {
+                    data = _masterCharaData[i];
+                    break;
+                }
+            }
+            if (data == null)
+            {
+                for (i = 0; i < length; i++)
+                {
+                    if (_masterCharaData[i].name === name)
+                    {
+                        data = _masterCharaData[i];
+                        break;
+                    }
+                }
+            }
+            
+            _playerGenericUnitData[setId] = new GenericUnitData(data, lv, cost);
+            _playerGenericUnitData[setId].customBgm = customBgm;
+        }
+        
         
         /**コマンダー追加*/
         public function addPlayerCommanderFromName(name:String, lv:int = 0):void
@@ -438,17 +469,17 @@ package main
             _playerCommanderData = value;
         }
         
-        public function get masterBaseData():Vector.<MasterBaseData> 
+        public function get masterBaseData():Vector.<MasterBaseData>
         {
             return _masterBaseData;
         }
         
-		public function get playerGenericUnitData():Vector.<GenericUnitData> 
-		{
-			return _playerGenericUnitData;
-		}
-		
-        public function set masterBaseData(value:Vector.<MasterBaseData>):void 
+        public function get playerGenericUnitData():Vector.<GenericUnitData>
+        {
+            return _playerGenericUnitData;
+        }
+        
+        public function set masterBaseData(value:Vector.<MasterBaseData>):void
         {
             _masterBaseData = value;
         }
@@ -574,7 +605,7 @@ package main
                 {
                     for (j = 0; j < _masterBattleMessageData[i].message.length; j++)
                     {
-                        if (_masterBattleMessageData[i].message[j].commanderSkillJudge(state, commander,skill, target))
+                        if (_masterBattleMessageData[i].message[j].commanderSkillJudge(state, commander, skill, target))
                         {
                             list.push(_masterBattleMessageData[i].message[j]);
                         }
@@ -592,7 +623,7 @@ package main
                     {
                         for (j = 0; j < _masterBattleMessageData[i].message.length; j++)
                         {
-                            if (_masterBattleMessageData[i].message[j].commanderSkillJudge(state, commander,skill, target))
+                            if (_masterBattleMessageData[i].message[j].commanderSkillJudge(state, commander, skill, target))
                             {
                                 list.push(_masterBattleMessageData[i].message[j]);
                             }
@@ -627,7 +658,7 @@ package main
             }
             return data;
         }
-               
+        
         /**拠点マスターデータ名前取り*/
         public function getMasterBaseDataFromName(name:String):MasterBaseData
         {
@@ -646,10 +677,10 @@ package main
         }
         
         /**戦闘メッセージゲット*/
-        public function getRandamCommanderSkillMessage(commander:CommanderData,skill:MasterCommanderSkillData, target:BattleUnit):Vector.<String>
+        public function getRandamCommanderSkillMessage(commander:CommanderData, skill:MasterCommanderSkillData, target:BattleUnit):Vector.<String>
         {
             var message:Vector.<String> = new Vector.<String>();
-            var list:Vector.<MessageCondition> = getCommanderSkillMessageList(commander.name, commander,MessageDataParse.STATE_LIST[MessageDataParse.MSG_SPECIAL], skill, target);
+            var list:Vector.<MessageCondition> = getCommanderSkillMessageList(commander.name, commander, MessageDataParse.STATE_LIST[MessageDataParse.MSG_SPECIAL], skill, target);
             var i:int = 0;
             
             //ランダム取得

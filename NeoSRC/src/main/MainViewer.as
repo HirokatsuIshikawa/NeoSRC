@@ -6,9 +6,11 @@ package main
     import common.CommonSystem;
     import common.SystemController;
     import common.util.CharaDataUtil;
+    import database.master.MasterBaseData;
     import database.user.UnitCharaData;
     import database.user.buff.SkillBuffData;
     import flash.display.StageQuality;
+    import scene.base.BaseTip;
     import scene.commandbattle.CommandBattleView;
     import scene.intermission.InterMission;
     import scene.intermission.customdata.PlayerVariable;
@@ -22,6 +24,7 @@ package main
     import scene.map.panel.BattleMapPanel;
     import scene.map.save.MapLoadList;
     import scene.map.save.MapSaveList;
+    import scene.map.tip.MapTip;
     import scene.talk.IconTalkView;
     import scene.talk.StandTalkView;
     import scene.talk.TalkViewBase;
@@ -323,6 +326,7 @@ package main
                 //今のデータ削除
                 resetWindow();
                 MainController.$.model.resetUnitData();
+                MainController.$.model.resetGenericUnitData();
                 MainController.$.model.resetCommanderData();
                 
                 var count:int = CommonDef.objectLength(data.commanderList);
@@ -334,11 +338,17 @@ package main
                 
                 count = CommonDef.objectLength(data.unitList);
                 
-                
                 //所持ユニットデータ
                 for (i = 0; i < count; i++)
                 {
                     MainController.$.model.addPlayerUnitFromName(data.unitList[i].name, data.unitList[i].lv, data.unitList[i].exp, data.unitList[i].strengthPoint, false, data.unitList[i].customBgmPath);
+                }
+                
+                //汎用ユニットデータ
+                 count = CommonDef.objectLength(data.genericUnitList);
+                for (i = 0; i < count; i++)
+                {
+                    MainController.$.model.addPlayerGenericUnitFromName(data.genericUnitList[i].name, data.genericUnitList[i].lv, data.genericUnitList[i].cost,data.genericUnitList[i].customBgmPath);
                 }
                 
                 //会話・マップデータ読み込み
@@ -373,7 +383,8 @@ package main
         {
             var i:int = 0;
             var j:int = 0;
-            
+            var posX:int = 0;
+            var posY:int = 0;
             //マップ配置画像読み込み
             for (i = 0; i < CommonDef.objectLength(data.mapPictureList); i++)
             {
@@ -390,6 +401,8 @@ package main
             {
                 
                 MainController.$.map.sideState[i] = new SideState(data.mapDateList[i].name);
+                
+                MainController.$.map.sideState[i].cost = data.mapDateList[i].cost;
                 MainController.$.map.sideState[i].state = data.mapDateList[i].state;
                 if (data.mapDateList[i].commander != null)
                 {
@@ -434,8 +447,8 @@ package main
                     battleUnit.setNowPoint(unitData.HP, unitData.FP, unitData.TP);
                     
                     _battleMap.setLaunchCheck(battleUnit, unitData.posX, unitData.posY);
-                    var posX:int = battleUnit.PosX;
-                    var posY:int = battleUnit.PosY;
+                    posX = battleUnit.PosX;
+                    posY = battleUnit.PosY;
                     // 画像とフレームの位置を追加
                     battleUnit.unitImg.x = (posX - 1) * BaseMap.MAP_SIZE;
                     battleUnit.unitImg.y = (posY - 1) * BaseMap.MAP_SIZE;
@@ -493,6 +506,31 @@ package main
                 }
             }
             
+            //マップ拠点読み込み
+            for (i = 0; i < CommonDef.objectLength(data.mapBaseList); i++)
+            {
+                var mapBaseData:Object = data.mapBaseList[i];
+                var baseMasterData:MasterBaseData = MainController.$.model.getMasterBaseDataFromName(mapBaseData.masterName);
+                var baseTip:BaseTip = new BaseTip(baseMasterData, mapBaseData.sideNum);
+                
+                posX = mapBaseData.posX;
+                posY = mapBaseData.posY;
+                
+                baseTip.setPos(posX, posY);
+                baseTip.nowPoint = mapBaseData.nowPoint;
+                battleMap.baseArea.addChild(baseTip);
+                battleMap.baseDataList.push(baseTip);
+                
+                //所属している拠点の場合、フレーム表示
+                if (baseMasterData, mapBaseData.sideNum >= 0)
+                {
+                    baseTip.sideFrame = new CImage(MainController.$.imgAsset.getTexture(battleMap.sideState[baseMasterData, mapBaseData.sideNum].frameImgPath));
+                    baseTip.sideFrame.x = baseTip.x;
+                    baseTip.sideFrame.y = baseTip.y;
+                    battleMap.frameArea.addChildAt(baseTip.sideFrame, 0);
+                }
+            }
+            
             //イベントリスト読み込み
             for (i = 0; i < CommonDef.objectLength(data.mapEventList); i++)
             {
@@ -529,6 +567,7 @@ package main
             var i:int = 0;
             
             MainController.$.model.resetUnitData();
+                MainController.$.model.resetGenericUnitData();
             MainController.$.model.resetCommanderData();
             
             MainController.$.model.playerParam.loadObject(data.playerData);
@@ -539,6 +578,14 @@ package main
             {
                 MainController.$.model.addPlayerUnitFromName(data.unitList[i].name, data.unitList[i].lv, data.unitList[i].exp, data.unitList[i].strengthPoint, false, data.unitList[i].customBgmPath);
             }
+            
+            
+            count = CommonDef.objectLength(data.genericUnitList);
+            for (i = 0; i < count; i++)
+            {
+                MainController.$.model.addPlayerGenericUnitFromName(data.genericUnitList[i].name, data.genericUnitList[i].lv, data.genericUnitList[i].cost,data.genericUnitList[i].customBgmPath);
+            }
+            
             
             count = CommonDef.objectLength(data.commanderList);
             //所持軍師データ
@@ -708,17 +755,14 @@ package main
         {
             waitDark(false);
             //Tween24.tween(_battleMap, 1.0, null).fadeIn().onComplete(nextAct).play();
-            Tween24.wait(1.0).onComplete(nextAct).play();
             
-            function nextAct():void
+            //removeChild(_eveManager);
+            //_battleMap.setBattleMapPanel();
+            if (callBack != null)
             {
-                //removeChild(_eveManager);
-                //_battleMap.setBattleMapPanel();
-                if (callBack != null)
-                {
-                    callBack();
-                }
+                callBack();
             }
+        
         }
         
         /**暗幕設置 開始終了フラグ*/

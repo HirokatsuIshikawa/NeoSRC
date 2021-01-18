@@ -32,6 +32,7 @@ package scene.map
     import starling.events.Touch;
     import starling.events.TouchEvent;
     import starling.events.TouchPhase;
+    import starling.textures.Texture;
     import starling.textures.TextureSmoothing;
     import system.custom.customSprite.CButton;
     import system.custom.customSprite.CImage;
@@ -323,36 +324,8 @@ package scene.map
             var newSide:Boolean = true;
             var i:int = 0;
             var sideNum:int = 0;
-            if (sideState.length <= 0 || _sideState[0] === null)
-            {
-                // 初期勢力追加
-                _sideState[0] = new SideState(MainController.$.model.playerParam.sideName);
-            }
             
-            // 味方は0に設置
-            if (side === MainController.$.model.playerParam.sideName)
-            {
-                sideNum = 0;
-            }
-            else
-            {
-                for (i = 1; i < _sideState.length; i++)
-                {
-                    // 既存の勢力に追加
-                    if (side === _sideState[i].name)
-                    {
-                        newSide = false;
-                        sideNum = i;
-                        break;
-                    }
-                }
-                // 新勢力追加
-                if (newSide)
-                {
-                    sideNum = _sideState.length;
-                    _sideState[sideNum] = new SideState(side);
-                }
-            }
+            sideNum = makeNewSide(side);
             // 戦闘ユニット作成
             var battleUnit:BattleUnit;
             
@@ -797,7 +770,7 @@ package scene.map
         }
         
         /**出撃リスト*/
-        public function organizeUnit(count:int, posX:int, posY:int, width:int, height:int, type:String, cost:int):void
+        public function organizeUnit(count:int, posX:int, posY:int, width:int, height:int, type:String):void
         {
             if (_organizeList != null)
             {
@@ -805,7 +778,7 @@ package scene.map
                 _organizeList = null;
             }
             
-            _organizeList = new OrganizeList(MainController.$.model.PlayerUnitData, MainController.$.model.playerGenericUnitData, count, posX, posY, width, height, type, cost);
+            _organizeList = new OrganizeList(MainController.$.model.PlayerUnitData, MainController.$.model.playerGenericUnitData, count, posX, posY, width, height, type);
             MainController.$.view.addChild(_organizeList);
         }
         
@@ -1779,7 +1752,6 @@ package scene.map
             _targetUnit.moveZero();
         }
         
-        
         private function productClose():void
         {
             if (_productListPanel != null)
@@ -1789,7 +1761,6 @@ package scene.map
                 _productListPanel = null;
             }
         }
-        
         
         private function callCloseBaseInfo():void
         {
@@ -3296,6 +3267,16 @@ package scene.map
             return _effectArea;
         }
         
+        public function get baseDataList():Vector.<BaseTip> 
+        {
+            return _baseDataList;
+        }
+        
+        public function get baseArea():CSprite 
+        {
+            return _baseArea;
+        }
+        
         public function set mapTalkFlg(value:Boolean):void
         {
             _mapTalkFlg = value;
@@ -3307,44 +3288,55 @@ package scene.map
         //
         //-------------------------------------------------------------
         
-        public function setMapBase(name:String, param:Object):void
+        private function makeNewSide(side:String):int
         {
             var i:int = 0;
-            var baseMasterData:MasterBaseData = MainController.$.model.getMasterBaseDataFromName(name);
             var sideNum:int = -1;
-            
             if (sideState.length <= 0 || _sideState[0] === null)
             {
                 // 初期勢力追加
                 _sideState[0] = new SideState(MainController.$.model.playerParam.sideName);
             }
             
+            if (side === MainController.$.model.playerParam.sideName)
+            {
+                sideNum = 0;
+            }
+            else
+            {
+                var newSideFlg:Boolean = true;
+                for (i = 0; i < _sideState.length; i++)
+                {
+                    //陣営名があった場合統一
+                    if (side === _sideState[i].name)
+                    {
+                        newSideFlg = false;
+                        sideNum = i;
+                        break;
+                    }
+                }
+                
+                if (newSideFlg)
+                {
+                    _sideState[i] = new SideState(side);
+                    sideNum = i;
+                }
+            }
+            return sideNum;
+        }
+        
+        public function setMapBase(name:String, param:Object):void
+        {
+            var i:int = 0;
+            var baseMasterData:MasterBaseData = MainController.$.model.getMasterBaseDataFromName(name);
+            var sideNum:int = -1;
+            var tex:Texture = null;
+            var alpha:int = 1;
+            
+            MainController.$.view.waitDark(true);
             if (param.hasOwnProperty("side"))
             {
-                if (param.side === MainController.$.model.playerParam.sideName)
-                {
-                    sideNum = 0;
-                }
-                else
-                {
-                    var newSideFlg:Boolean = true;
-                    for (i = 0; i < _sideState.length; i++)
-                    {
-                        //陣営名があった場合統一
-                        if (_sideState[i].name === param.side)
-                        {
-                            sideNum = i;
-                            newSideFlg = false;
-                            break;
-                        }
-                    }
-                    
-                    if (newSideFlg)
-                    {
-                        _sideState[i] = new SideState(param.side);
-                        sideNum = i;
-                    }
-                }
+                sideNum = makeNewSide(param.side);
             }
             
             if (param.hasOwnProperty("eventno"))
@@ -3362,7 +3354,6 @@ package scene.map
                             evBaseData.sideFrame = new CImage(MainController.$.imgAsset.getTexture(_sideState[sideNum].frameImgPath));
                             evBaseData.sideFrame.x = evBaseData.x;
                             evBaseData.sideFrame.y = evBaseData.y;
-                            
                             _frameArea.addChildAt(evBaseData.sideFrame, 0);
                         }
                     }
@@ -3382,6 +3373,24 @@ package scene.map
                     _frameArea.addChildAt(baseData.sideFrame, 0);
                 }
             }
+            
+            MainController.$.view.waitDark(false);
+        }
+        
+        /**陣営のコスト設定*/
+        public function setSideCost(side:String, cost:int):void
+        {
+            var i:int = 0;
+            var sideNum:int = makeNewSide(side);
+            _sideState[sideNum].cost = cost;
+        }
+        
+        /**陣営のコスト設定*/
+        public function addSideCost(side:String, cost:int):void
+        {
+            var i:int = 0;
+            var sideNum:int = makeNewSide(side);
+            _sideState[sideNum].cost += cost;
         }
         
         //-------------------------------------------------------------

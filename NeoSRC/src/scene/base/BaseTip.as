@@ -83,6 +83,16 @@ package scene.base
             return _masterData;
         }
         
+        public function get nowPoint():int 
+        {
+            return _nowPoint;
+        }
+        
+        public function set nowPoint(value:int):void 
+        {
+            _nowPoint = value;
+        }
+        
         public function set sideFrame(value:CImage):void 
         {
             _sideFrame = value;

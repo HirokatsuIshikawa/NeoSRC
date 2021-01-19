@@ -13,7 +13,7 @@ package database.dataloader
 	import flash.utils.ByteArray;
 	import starling.textures.Texture;
 	import system.Crypt;
-	import scene.main.MainController;
+	import main.MainController;
 	
 	/**
 	 * ...

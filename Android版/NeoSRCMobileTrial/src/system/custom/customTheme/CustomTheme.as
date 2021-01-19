@@ -22,7 +22,7 @@ package system.custom.customTheme
 	import starling.filters.DropShadowFilter;
 	import starling.textures.Texture;
 	import starling.textures.TextureSmoothing;
-	import scene.main.MainController;
+	import main.MainController;
 	
 	/**
 	 * ...
@@ -51,7 +51,7 @@ package system.custom.customTheme
 		   public static const img_btnSound:Class;
 		 */
 		//フォント
-		[Embed(source="../../../../asset/font/f910-shin-comic-2.otf", fontName = 'ComicFont', embedAsCFF = 'false')]
+		[Embed(source = "../../../../asset/font/f910-shin-comic-2.04.otf",fontFamily="ComicFont",fontWeight="normal",fontStyle="normal",mimeType="application/x-font",embedAsCFF="false")]
 		public static const ComicFont:Class;
 		
 		// textures

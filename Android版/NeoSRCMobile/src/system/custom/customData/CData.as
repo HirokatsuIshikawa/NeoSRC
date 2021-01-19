@@ -2,7 +2,7 @@ package system.custom.customData
 {
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
-	import scene.main.MainController;
+	import main.MainController;
 	
 	/**
 	 * ...

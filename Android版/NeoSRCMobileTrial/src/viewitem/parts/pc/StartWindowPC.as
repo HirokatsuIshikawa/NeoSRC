@@ -3,7 +3,7 @@ package viewitem.parts.pc
 	import common.CommonDef;
 	import common.CommonSystem;
 	import flash.filesystem.File;
-	import scene.main.MainController;
+	import main.MainController;
 	import system.custom.customSprite.CImage;
 	import system.custom.customSprite.CImgButton;
 	import system.custom.customSprite.CSprite;

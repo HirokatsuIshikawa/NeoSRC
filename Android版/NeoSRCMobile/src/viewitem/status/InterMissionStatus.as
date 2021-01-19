@@ -3,7 +3,7 @@ package viewitem.status
     import bgm.SingleMusic;
     import common.CommonDef;
     import database.user.CommanderData;
-    import scene.main.MainController;
+    import main.MainController;
     import scene.unit.BattleUnit;
     import starling.events.Event;
     import system.custom.customSprite.CImage;

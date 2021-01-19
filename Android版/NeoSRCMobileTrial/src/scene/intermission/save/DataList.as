@@ -11,7 +11,7 @@ package scene.intermission.save
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
 	import scene.intermission.save.item.DataListItem;
-	import scene.main.MainController;
+	import main.MainController;
 	
 	/**
 	 * データリスト選択

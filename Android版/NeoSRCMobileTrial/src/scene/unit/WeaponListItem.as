@@ -6,7 +6,7 @@ package scene.unit
 	import system.custom.customSprite.CTextArea;
 	import database.master.MasterWeaponData;
 	import feathers.controls.TextArea;
-	import scene.main.MainController;
+	import main.MainController;
 	import viewitem.status.list.listitem.ListItemBase;
 	import viewitem.parts.numbers.ImgNumber;
 	

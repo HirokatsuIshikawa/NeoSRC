@@ -16,7 +16,7 @@ package scene.battleanime
     import starling.textures.Texture;
     import starling.textures.TextureSmoothing;
     import scene.battleanime.data.BattleAnimeRecord;
-    import scene.main.MainController;
+    import main.MainController;
     import viewitem.parts.numbers.ImgNumber;
     
     /**

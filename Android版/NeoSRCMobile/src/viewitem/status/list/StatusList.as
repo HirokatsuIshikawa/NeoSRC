@@ -1,7 +1,7 @@
 package viewitem.status.list
 {
     import database.user.UnitCharaData;
-    import scene.main.MainController;
+    import main.MainController;
     import starling.events.Event;
     import system.custom.customSprite.CImgButton;
     import viewitem.status.list.UnitListBase;

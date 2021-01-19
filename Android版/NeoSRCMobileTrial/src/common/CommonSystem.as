@@ -3,7 +3,7 @@ package common
 	import flash.desktop.NativeApplication;
 	import flash.filesystem.File;
 	import flash.net.SharedObject;
-	import scene.main.MainController;
+	import main.MainController;
 	import starling.events.Event;
 	
 	/**

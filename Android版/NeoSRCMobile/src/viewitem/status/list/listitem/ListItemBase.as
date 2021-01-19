@@ -6,7 +6,7 @@ package viewitem.status.list.listitem
 	import system.custom.customSprite.CSprite;
 	import flash.geom.Rectangle;
 	import starling.textures.TextureSmoothing;
-	import scene.main.MainController;
+	import main.MainController;
 	/**
 	 * ...
 	 * @author ishikawa

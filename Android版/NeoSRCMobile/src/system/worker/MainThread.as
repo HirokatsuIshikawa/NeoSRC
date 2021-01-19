@@ -7,7 +7,7 @@ package system.worker
 	import flash.net.URLLoader;
 	import flash.utils.ByteArray;
 	import starling.core.Starling;
-	import scene.main.MainViewer;
+	import main.MainViewer;
 	
 	/**
 	 * ...

@@ -1,7 +1,7 @@
 package scene.intermission.save.item
 {
     import common.CommonSystem;
-    import scene.main.MainController;
+    import main.MainController;
     import scene.map.panel.BattleMapPanel;
     import starling.events.Event;
     

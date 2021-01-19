@@ -14,7 +14,7 @@ package database.dataloader.single
 	import starling.textures.TextureAtlas;
 	import common.CommonDef;
 	import common.CommonSystem;
-	import scene.main.MainController;
+	import main.MainController;
 	
 	/**
 	 * ...

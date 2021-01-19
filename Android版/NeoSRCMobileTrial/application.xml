@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <application xmlns="http://ns.adobe.com/air/application/32.0">
   <id>air.NeoSRCMobile</id>
-  <versionNumber>1.20</versionNumber>
+  <versionNumber>1.21</versionNumber>
   <supportedProfiles>mobileDevice</supportedProfiles>
   <filename>SimramaBoxTrial</filename>
   <name>SimramaBoxTrial</name>

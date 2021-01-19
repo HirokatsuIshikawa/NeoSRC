@@ -6,7 +6,7 @@ package database.user
     import database.master.base.BaseParam;
     import database.user.buff.CharaBuffData;
     import flash.filesystem.File;
-    import scene.main.MainController;
+    import main.MainController;
     
     /**
      * ...

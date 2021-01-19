@@ -1,6 +1,6 @@
 package database.dataloader
 {
-	import scene.main.MainController;
+	import main.MainController;
 	import br.com.stimuli.loading.BulkLoader;
 	import br.com.stimuli.loading.BulkProgressEvent;
 	import common.CommonDef;

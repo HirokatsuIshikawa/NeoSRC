@@ -19,7 +19,7 @@ package viewitem.status
     import starling.events.TouchPhase;
     import starling.utils.Color;
     import viewitem.base.WindowItemBase;
-    import scene.main.MainController;
+    import main.MainController;
     import scene.unit.BattleUnit;
     import viewitem.parts.numbers.ImgNumber;
     

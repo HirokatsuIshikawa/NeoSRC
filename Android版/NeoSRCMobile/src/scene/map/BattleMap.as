@@ -5,15 +5,20 @@ package scene.map
     import common.CommonBattleMath;
     import common.CommonDef;
     import common.util.CharaDataUtil;
+    import database.master.MasterBaseData;
     import database.master.MasterCommanderSkillData;
     import database.master.MasterSkillData;
     import database.master.MasterWeaponData;
     import database.user.CommanderData;
+    import database.user.GenericUnitData;
     import database.user.UnitCharaData;
     import flash.geom.Point;
+    import main.MainController;
+    import scene.base.BaseInfo;
+    import scene.base.BaseTip;
     import scene.battleanime.BattleActionPanel;
-    import scene.main.MainController;
-    import scene.map.basepoint.MapPicture;
+    import scene.map.BaseMap;
+    import scene.map.MapPicture;
     import scene.map.battle.BattleResultmanager;
     import scene.map.customdata.EnemyMoveData;
     import scene.map.customdata.SideState;
@@ -27,6 +32,7 @@ package scene.map
     import starling.events.Touch;
     import starling.events.TouchEvent;
     import starling.events.TouchPhase;
+    import starling.textures.Texture;
     import starling.textures.TextureSmoothing;
     import system.custom.customSprite.CButton;
     import system.custom.customSprite.CImage;
@@ -34,6 +40,8 @@ package scene.map
     import viewitem.status.BattleMapStatus;
     import viewitem.status.ExpWindow;
     import viewitem.status.list.OrganizeList;
+    import viewitem.status.list.ProductList;
+    import viewitem.status.list.listitem.OrganizeSelectIcon;
     
     /**
      * ...
@@ -96,6 +104,12 @@ package scene.map
         private var _messageWindow:FaceMessageWindow = null;
         
         private var _selectCommanderSkill:MasterCommanderSkillData = null;
+        
+        /**拠点データパネル*/
+        private var _baseInfo:BaseInfo = null;
+        
+        /**生産画面*/
+        private var _productListPanel:ProductList = null;
         //-------------------------------------------------------------
         //
         // variable
@@ -104,8 +118,12 @@ package scene.map
         
         /** 地形データリスト */
         private var _terrainDataList:Vector.<TerrainData> = null;
+        /** 拠点データリスト */
+        private var _baseDataList:Vector.<BaseTip> = null;
         /** 勢力ステータス */
         private var _sideState:Vector.<SideState> = null;
+        /**拠点表示領域*/
+        private var _baseArea:CSprite = null;
         /** ユニット表示領域 */
         private var _unitArea:CSprite = null;
         /** 枠エリア */
@@ -149,6 +167,7 @@ package scene.map
             _moveAreaImgList = new Vector.<CImage>;
             _attackAreaImgList = new Vector.<CImage>;
             _terrainDataList = new Vector.<TerrainData>();
+            _baseDataList = new Vector.<scene.base.BaseTip>();
             _rootImgList = new Vector.<CImage>;
             _mapPictureList = new Vector.<MapPicture>;
             _sideState = new Vector.<SideState>;
@@ -179,7 +198,7 @@ package scene.map
             removeEventListener(TouchEvent.TOUCH, startMapTalkHandler);
             removeEventListener(TouchEvent.TOUCH, startCommandSkillHandler);
             
-            CommonDef.disposeList([_battleMapPanel, _battleActionPanel, _unitArea, _frameArea, _effectArea, _btnReset, _moveAreaImgList, _attackAreaImgList, _rootImgList, _sideState, _mapPictureList, _messageWindow]);
+            CommonDef.disposeList([_productListPanel, _baseInfo, _battleMapPanel, _baseDataList, _battleActionPanel, _unitArea, _baseArea, _frameArea, _effectArea, _btnReset, _moveAreaImgList, _attackAreaImgList, _rootImgList, _sideState, _mapPictureList, _messageWindow]);
             _btnReset = null;
             _attackAreaImgList = null;
             _terrainDataList = null;
@@ -305,43 +324,15 @@ package scene.map
             var newSide:Boolean = true;
             var i:int = 0;
             var sideNum:int = 0;
-            if (sideState.length <= 0 || _sideState[0] === null)
-            {
-                // 初期勢力追加
-                _sideState[0] = new SideState(MainController.$.model.playerParam.sideName);
-            }
             
-            // 味方は0に設置
-            if (side === MainController.$.model.playerParam.sideName)
-            {
-                sideNum = 0;
-            }
-            else
-            {
-                for (i = 1; i < _sideState.length; i++)
-                {
-                    // 既存の勢力に追加
-                    if (side === _sideState[i].name)
-                    {
-                        newSide = false;
-                        sideNum = i;
-                        break;
-                    }
-                }
-                // 新勢力追加
-                if (newSide)
-                {
-                    sideNum = _sideState.length;
-                    _sideState[sideNum] = new SideState(side);
-                }
-            }
+            sideNum = makeNewSide(side);
             // 戦闘ユニット作成
             var battleUnit:BattleUnit;
             
             if (sideNum == 0)
             {
                 var joinFlg:int = 1;
-                if (param.hasOwnProperty("join"))
+                if (param != null && param.hasOwnProperty("join"))
                 {
                     joinFlg = param.join;
                 }
@@ -353,7 +344,15 @@ package scene.map
                 // 戦闘ユニットデータの設定
                 //battleUnit = new BattleUnit(CharaDataUtil.getPlayerCharaForName(name), getNewBattleID());
                 
-                var newUnitData:UnitCharaData = new UnitCharaData(_sideState[sideNum].battleUnit.length, CharaDataUtil.getMasterCharaDataName(name), level)
+                var newUnitData:UnitCharaData = null;
+                if (joinFlg)
+                {
+                    newUnitData = new UnitCharaData(MainController.$.model.PlayerUnitData.length, CharaDataUtil.getMasterCharaDataName(name), level)
+                }
+                else
+                {
+                    newUnitData = new UnitCharaData(1000 + _sideState[sideNum].battleUnit.length, CharaDataUtil.getMasterCharaDataName(name), level)
+                }
                 battleUnit = new BattleUnit(newUnitData, getNewBattleID(), 0);
                 battleUnit.setStrength(strength);
                 if (joinFlg == 0)
@@ -361,7 +360,6 @@ package scene.map
                     battleUnit.joinFlg = false;
                 }
                 newUnitData.launched = true;
-                battleUnit.frameImg = new CImage(MainController.$.imgAsset.getTexture("frame_b"));
             }
             else
             {
@@ -369,15 +367,16 @@ package scene.map
                 battleUnit = new BattleUnit(new UnitCharaData(_sideState[sideNum].battleUnit.length, CharaDataUtil.getMasterCharaDataName(name), level), getNewBattleID(), sideNum);
                 battleUnit.levelSet(level);
                 battleUnit.setStrength(strength);
-                battleUnit.frameImg = new CImage(MainController.$.imgAsset.getTexture("frame_r"));
             }
             
-            if (param.hasOwnProperty("id"))
+            battleUnit.frameImg = new CImage(MainController.$.imgAsset.getTexture(_sideState[sideNum].frameImgPath));
+            
+            if (param != null && param.hasOwnProperty("id"))
             {
                 battleUnit.nameId = param.id;
             }
             
-            if (param.hasOwnProperty("label"))
+            if (param != null && param.hasOwnProperty("label"))
             {
                 battleUnit.talkLabel = param.label;
             }
@@ -413,7 +412,7 @@ package scene.map
             charaData.launched = true;
             // 戦闘ユニットデータの設定
             battleUnit = new BattleUnit(charaData, getNewBattleID(), 0);
-            battleUnit.frameImg = new CImage(MainController.$.imgAsset.getTexture("frame_b"));
+            battleUnit.frameImg = new CImage(MainController.$.imgAsset.getTexture(_sideState[0].frameImgPath));
             
             if (param.hasOwnProperty("id"))
             {
@@ -526,7 +525,7 @@ package scene.map
                     var tweenNum:Tween24 = Tween24.tween(battleUnit.formationNumImg, 0.3).alpha(1);
                     tweenAry.push(tweenNum);
                 }
-                
+                _targetUnit = battleUnit;
                 Tween24.parallel(tweenAry).onComplete(callBack).play();
             }
             else
@@ -771,7 +770,7 @@ package scene.map
         }
         
         /**出撃リスト*/
-        public function organizeUnit(count:int, posX:int, posY:int, width:int, height:int):void
+        public function organizeUnit(count:int, posX:int, posY:int, width:int, height:int, type:String):void
         {
             if (_organizeList != null)
             {
@@ -779,14 +778,13 @@ package scene.map
                 _organizeList = null;
             }
             
-            _organizeList = new OrganizeList(MainController.$.model.PlayerUnitData, count, posX, posY, width, height);
+            _organizeList = new OrganizeList(MainController.$.model.PlayerUnitData, MainController.$.model.playerGenericUnitData, count, posX, posY, width, height, type);
             MainController.$.view.addChild(_organizeList);
         }
         
         /**出撃セット*/
-        public function startOrganized():void
+        public function startOrganized(unitList:Vector.<OrganizeSelectIcon>):void
         {
-            
             MainController.$.view.removeChild(_organizeList);
             var i:int = 0;
             var posX:int = 0;
@@ -797,86 +795,104 @@ package scene.map
             var launchTweenArray:Array = new Array();
             var launchCount:int = 0;
             
-            for (i = 0; i < _organizeList.itemList.length; i++)
+            for (i = 0; i < unitList.length; i++)
             {
-                if (_organizeList.itemList[i].selected)
+                // 戦闘ユニット作成
+                var battleUnit:BattleUnit;
+                var charaData:UnitCharaData;
+                
+                //ネームドユニット
+                if (unitList[i].unitCharaData != null)
                 {
-                    // 戦闘ユニット作成
-                    var battleUnit:BattleUnit;
-                    var charaData:UnitCharaData = _organizeList.itemList[i].data;
-                    charaData.launched = true;
+                    charaData = unitList[i].unitCharaData;
                     // 戦闘ユニットデータの設定
                     battleUnit = new BattleUnit(charaData, getNewBattleID(), 0);
-                    battleUnit.frameImg = new CImage(MainController.$.imgAsset.getTexture("frame_b"));
-                    
-                    //ユニット数の設定
-                    if (battleUnit.maxFormationNum >= 2)
-                    {
-                        battleUnit.formationNumImg = new CImage(MainController.$.imgAsset.getTexture("unitnum_" + battleUnit.maxFormationNum));
-                    }
-                    
-                    // マップ位置をセットをセット
-                    setLaunchCheck(battleUnit, nowPosX, nowPosY);
-                    posX = battleUnit.PosX;
-                    posY = battleUnit.PosY;
-                    // 画像とフレームの位置を追加
-                    battleUnit.unitImg.x = (posX - 1) * MAP_SIZE;
-                    battleUnit.unitImg.y = (posY - 1) * MAP_SIZE;
-                    battleUnit.unitImg.alpha = 0;
-                    battleUnit.frameImg.x = (posX - 1) * MAP_SIZE;
-                    battleUnit.frameImg.y = (posY - 1) * MAP_SIZE;
-                    battleUnit.frameImg.alpha = 0;
-                    if (battleUnit.formationNumImg != null)
-                    {
-                        battleUnit.formationNumImg.x = (posX - 1) * MAP_SIZE + FORMATION_NUM_POS;
-                        battleUnit.formationNumImg.y = (posY - 1) * MAP_SIZE + FORMATION_NUM_POS;
-                        battleUnit.formationNumImg.alpha = 0;
-                    }
-                    
-                    // 戦闘ユニットを勢力に追加
-                    _sideState[0].addUnit(battleUnit);
-                    // ユニットエリアに画像追加
-                    _unitArea.addChildAt(battleUnit.unitImg, _unitArea.numChildren);
-                    // フレームエリアに沸く追加
-                    _frameArea.addChildAt(battleUnit.frameImg, _frameArea.numChildren);
-                    if (battleUnit.frameImg != null)
-                    {
-                        // フレームエリアに数字追加
-                        _effectArea.addChildAt(battleUnit.formationNumImg, _effectArea.numChildren);
-                    }
-                    
-                    // 一定時間かけて表示
-                    var tweenAry:Array = new Array();
-                    var tweenUnit:Tween24 = Tween24.tween(battleUnit.unitImg, 0.3).alpha(1);
-                    var tweenFrame:Tween24 = Tween24.tween(battleUnit.frameImg, 0.3).alpha(1);
-                    tweenAry.push(tweenUnit);
-                    tweenAry.push(tweenFrame);
-                    //tweenAry.push(launchParticle(posX, posY));
-                    
-                    launchTweenArray.push(tweenAry);
-                    //Tween24.parallel(tweenAry).onComplete(callBack).play();
-                    //ライン整頓
-                    nowPosX += 2;
-                    if (nowPosX > _organizeList.posX + _organizeList.uWidth)
-                    {
-                        if (addPos == 0)
-                        {
-                            addPos = 1;
-                            nowPosX = _organizeList.posX + addPos;
-                        }
-                        else
-                        {
-                            addPos = 0;
-                            nowPosX = _organizeList.posX + addPos;
-                        }
-                        nowPosY += 1;
-                    }
-                    
-                    if (nowPosY > _organizeList.posY + _organizeList.uHeight)
-                    {
-                        break;
-                    }
                 }
+                //汎用ユニット
+                else if (unitList[i].genericUnitData != null)
+                {
+                    charaData = new UnitCharaData(1000 + _sideState[0].battleUnit.length, unitList[i].genericUnitData.data, unitList[i].genericUnitData.lv);
+                    battleUnit = new BattleUnit(charaData, getNewBattleID(), 0);
+                }
+                
+                charaData.launched = true;
+                battleUnit.frameImg = new CImage(MainController.$.imgAsset.getTexture(_sideState[0].frameImgPath));
+                
+                //ユニット数の設定
+                if (battleUnit.maxFormationNum >= 2)
+                {
+                    battleUnit.formationNumImg = new CImage(MainController.$.imgAsset.getTexture("unitnum_" + battleUnit.maxFormationNum));
+                }
+                
+                // マップ位置をセットをセット
+                setLaunchCheck(battleUnit, nowPosX, nowPosY);
+                posX = battleUnit.PosX;
+                posY = battleUnit.PosY;
+                // 画像とフレームの位置を追加
+                battleUnit.unitImg.x = (posX) * MAP_SIZE;
+                battleUnit.unitImg.y = (posY - 1) * MAP_SIZE;
+                battleUnit.unitImg.alpha = 0;
+                battleUnit.frameImg.x = (posX - 1) * MAP_SIZE;
+                battleUnit.frameImg.y = (posY - 1) * MAP_SIZE;
+                battleUnit.frameImg.alpha = 0;
+                if (battleUnit.formationNumImg != null)
+                {
+                    battleUnit.formationNumImg.x = (posX - 1) * MAP_SIZE + FORMATION_NUM_POS;
+                    battleUnit.formationNumImg.y = (posY - 1) * MAP_SIZE + FORMATION_NUM_POS;
+                    battleUnit.formationNumImg.alpha = 0;
+                }
+                
+                // 戦闘ユニットを勢力に追加
+                _sideState[0].addUnit(battleUnit);
+                // ユニットエリアに画像追加
+                _unitArea.addChildAt(battleUnit.unitImg, _unitArea.numChildren);
+                // フレームエリアに枠追加
+                _frameArea.addChildAt(battleUnit.frameImg, _frameArea.numChildren);
+                if (battleUnit.formationNumImg != null)
+                {
+                    // フレームエリアに数字追加
+                    _effectArea.addChildAt(battleUnit.formationNumImg, _effectArea.numChildren);
+                }
+                
+                // 一定時間かけて表示
+                var tweenAry:Array = new Array();
+                var tweenUnit:Tween24 = Tween24.tween(battleUnit.unitImg, 0.3).x((posX - 1) * MAP_SIZE).alpha(1);
+                var tweenFrame:Tween24 = Tween24.tween(battleUnit.frameImg, 0.3).alpha(1);
+                tweenAry.push(tweenUnit);
+                tweenAry.push(tweenFrame);
+                
+                if (battleUnit.formationNumImg != null)
+                {
+                    var tweenFormationNum:Tween24 = Tween24.tween(battleUnit.formationNumImg, 0.3).alpha(1);
+                    tweenAry.push(tweenFormationNum);
+                }
+                
+                //tweenAry.push(launchParticle(posX, posY));
+                
+                launchTweenArray.push(tweenAry);
+                //Tween24.parallel(tweenAry).onComplete(callBack).play();
+                //ライン整頓
+                nowPosX += 2;
+                if (nowPosX >= _organizeList.posX + _organizeList.uWidth)
+                {
+                    if (addPos == 0)
+                    {
+                        addPos = 1;
+                        nowPosX = _organizeList.posX + addPos;
+                    }
+                    else
+                    {
+                        addPos = 0;
+                        nowPosX = _organizeList.posX + addPos;
+                    }
+                    nowPosY += 1;
+                }
+                
+                if (nowPosY > _organizeList.posY + _organizeList.uHeight)
+                {
+                    break;
+                }
+                
             }
             
             organizeLaunch();
@@ -1636,13 +1652,13 @@ package scene.map
         /**移動エリア配置*/
         private function makeMoveArea(pos:Point):void
         {
-            var setFlg:Boolean = false;
             var i:int = 0;
             var j:int = 0;
             var posX:int = pos.x / MAP_SIZE;
             var posY:int = pos.y / MAP_SIZE;
             hideStatusWindow();
             
+            //ユニット検索
             for (i = 0; i < _sideState.length; i++)
             {
                 for (j = 0; j < _sideState[i].battleUnit.length; j++)
@@ -1677,9 +1693,82 @@ package scene.map
                             _battleMapPanel.showPanel(BattleMapPanel.PANEL_COMMAND_ENEMY);
                         }
                         MainController.$.view.addChild(_battleMapPanel);
-                        break;
+                        return;
                     }
                 }
+            }
+            
+            //拠点イベント検索
+            var sideName:String = "";
+            for (i = 0; i < _baseDataList.length; i++)
+            {
+                if (_baseDataList[i].posX == posX + 1 && _baseDataList[i].posY == posY + 1)
+                {
+                    var sideNum:int = _baseDataList[i].sideNum;
+                    if (sideNum >= 0)
+                    {
+                        sideName = _sideState[sideNum].name;
+                    }
+                    _baseInfo = new BaseInfo(_baseDataList[i], sideName, callProductUnit, callCloseBaseInfo);
+                    MainController.$.view.addChild(_baseInfo);
+                    return;
+                }
+            }
+        }
+        
+        private function callProductUnit(data:BaseTip):void
+        {
+            _productListPanel = new ProductList(MainController.$.model.playerGenericUnitData, data, productFunc, productClose);
+            MainController.$.view.addChild(_productListPanel);
+            
+            if (_baseInfo != null)
+            {
+                
+                MainController.$.view.removeChild(_baseInfo);
+                _baseInfo.dispose();
+                _baseInfo = null;
+            }
+        }
+        
+        private function productFunc(genericData:GenericUnitData, baseData:BaseTip):void
+        {
+            if (_productListPanel != null)
+            {
+                MainController.$.view.removeChild(_productListPanel);
+                _productListPanel.dispose();
+                _productListPanel = null;
+            }
+            
+            setTouchEvent(BattleMapPanel.PANEL_NONE);
+            
+            _battleMapPanel.showPanel(BattleMapPanel.PANEL_NONE);
+            createUnit(genericData.name, MainController.$.model.playerParam.sideName, baseData.posX, baseData.posY, genericData.lv, 0, null, productCreateComp, true);
+        }
+        
+        private function productCreateComp():void
+        {
+            setTouchEvent(BattleMapPanel.PANEL_SYSTEM);
+            _battleMapPanel.showPanel(BattleMapPanel.PANEL_SYSTEM);
+            _targetUnit.moveZero();
+        }
+        
+        private function productClose():void
+        {
+            if (_productListPanel != null)
+            {
+                MainController.$.view.removeChild(_productListPanel);
+                _productListPanel.dispose();
+                _productListPanel = null;
+            }
+        }
+        
+        private function callCloseBaseInfo():void
+        {
+            if (_baseInfo != null)
+            {
+                MainController.$.view.removeChild(_baseInfo);
+                _baseInfo.dispose();
+                _baseInfo = null;
             }
         }
         
@@ -2451,8 +2540,11 @@ package scene.map
             var myTouch:Touch = eventObject.getTouch(target, TouchPhase.HOVER);
             if (myTouch)
             {
+                var i:int = 0;
                 var pos:Point = globalToLocal(new Point(myTouch.globalX, myTouch.globalY));
-                _battleMapPanel.setShowPos(Math.floor(pos.x / MAP_SIZE) + 1, Math.floor(pos.y / MAP_SIZE) + 1);
+                var posX:int = Math.floor(pos.x / MAP_SIZE) + 1;
+                var posY:int = Math.floor(pos.y / MAP_SIZE) + 1;
+                _battleMapPanel.setShowPos(posX, posY);
             }
             super.mouseOperated(eventObject);
         }
@@ -2661,9 +2753,11 @@ package scene.map
                     _terrainDataList.push(terrain);
                 }
             }
+            _baseArea = new CSprite();
             _unitArea = new CSprite();
             _frameArea = new CSprite();
             _effectArea = new CSprite();
+            addChild(_baseArea);
             addChild(_frameArea);
             addChild(_unitArea);
             addChild(_effectArea);
@@ -3173,9 +3267,134 @@ package scene.map
             return _effectArea;
         }
         
+        public function get baseDataList():Vector.<BaseTip> 
+        {
+            return _baseDataList;
+        }
+        
+        public function get baseArea():CSprite 
+        {
+            return _baseArea;
+        }
+        
         public function set mapTalkFlg(value:Boolean):void
         {
             _mapTalkFlg = value;
+        }
+        
+        //-------------------------------------------------------------
+        //
+        // 拠点
+        //
+        //-------------------------------------------------------------
+        
+        private function makeNewSide(side:String):int
+        {
+            var i:int = 0;
+            var sideNum:int = -1;
+            if (sideState.length <= 0 || _sideState[0] === null)
+            {
+                // 初期勢力追加
+                _sideState[0] = new SideState(MainController.$.model.playerParam.sideName);
+            }
+            
+            if (side === MainController.$.model.playerParam.sideName)
+            {
+                sideNum = 0;
+            }
+            else
+            {
+                var newSideFlg:Boolean = true;
+                for (i = 0; i < _sideState.length; i++)
+                {
+                    //陣営名があった場合統一
+                    if (side === _sideState[i].name)
+                    {
+                        newSideFlg = false;
+                        sideNum = i;
+                        break;
+                    }
+                }
+                
+                if (newSideFlg)
+                {
+                    _sideState[i] = new SideState(side);
+                    sideNum = i;
+                }
+            }
+            return sideNum;
+        }
+        
+        public function setMapBase(name:String, param:Object):void
+        {
+            var i:int = 0;
+            var baseMasterData:MasterBaseData = MainController.$.model.getMasterBaseDataFromName(name);
+            var sideNum:int = -1;
+            var tex:Texture = null;
+            var alpha:int = 1;
+            
+            MainController.$.view.waitDark(true);
+            if (param.hasOwnProperty("side"))
+            {
+                sideNum = makeNewSide(param.side);
+            }
+            
+            if (param.hasOwnProperty("eventno"))
+            {
+                for (i = 0; i < _terrainDataList.length; i++)
+                {
+                    if (_terrainDataList[i].EventNo == param.eventno)
+                    {
+                        var evBaseData:BaseTip = new BaseTip(baseMasterData, sideNum);
+                        evBaseData.setPos(i % _mapWidth + 1, i / _mapWidth + 1);
+                        _baseDataList.push(evBaseData);
+                        _baseArea.addChild(evBaseData);
+                        if (sideNum >= 0)
+                        {
+                            evBaseData.sideFrame = new CImage(MainController.$.imgAsset.getTexture(_sideState[sideNum].frameImgPath));
+                            evBaseData.sideFrame.x = evBaseData.x;
+                            evBaseData.sideFrame.y = evBaseData.y;
+                            _frameArea.addChildAt(evBaseData.sideFrame, 0);
+                        }
+                    }
+                }
+            }
+            else if (param.hasOwnProperty("x") && param.hasOwnProperty("y"))
+            {
+                var baseData:BaseTip = new BaseTip(baseMasterData, sideNum);
+                baseData.setPos(param.x, param.y);
+                _baseDataList.push(baseData);
+                _baseArea.addChild(baseData);
+                if (sideNum >= 0)
+                {
+                    baseData.sideFrame = new CImage(MainController.$.imgAsset.getTexture(_sideState[sideNum].frameImgPath));
+                    baseData.sideFrame.x = baseData.x;
+                    baseData.sideFrame.y = baseData.y;
+                    _frameArea.addChildAt(baseData.sideFrame, 0);
+                }
+            }
+            
+            MainController.$.view.waitDark(false);
+        }
+        
+        /**陣営のコスト設定*/
+        public function setSideCost(side:String, cost:int):void
+        {
+            var i:int = 0;
+            var sideNum:int = makeNewSide(side);
+            _sideState[sideNum].cost = cost;
+        }
+        
+        /**陣営のコスト設定*/
+        public function addSideCost(side:String, cost:int):void
+        {
+            var i:int = 0;
+            var sideNum:int = makeNewSide(side);
+            _sideState[sideNum].cost += cost;
+            if (_sideState[sideNum].cost < 0)
+            {
+                _sideState[sideNum].cost = 0;
+            }
         }
         
         //-------------------------------------------------------------

@@ -5,7 +5,7 @@ package scene.map.save
     import scene.intermission.save.SaveList;
     import scene.intermission.save.item.DataListItem;
     import scene.intermission.save.item.SaveListItem;
-    import scene.main.MainController;
+    import main.MainController;
     import starling.events.Event;
     import system.custom.customSprite.CImgButton;
     import system.file.DataLoad;

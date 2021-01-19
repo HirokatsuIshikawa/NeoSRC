@@ -4,7 +4,7 @@ package viewitem.parts.numbers
 	import common.CommonSystem;
 	import system.custom.customSprite.CImage;
 	import system.custom.customSprite.CSprite;
-	import scene.main.MainController;
+	import main.MainController;
 	
 	/**
 	 * ...

@@ -9,7 +9,7 @@ package scene.talk
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
-	import scene.main.MainController;
+	import main.MainController;
 	import scene.talk.common.MsgDef;
 	import scene.talk.message.FaceMessageWindow;
 	

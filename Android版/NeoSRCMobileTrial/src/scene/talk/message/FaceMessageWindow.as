@@ -1,7 +1,7 @@
 package scene.talk.message
 {
     import database.user.FaceData;
-    import scene.main.MainController;
+    import main.MainController;
     import scene.talk.message.MessageWindow;
     import starling.display.Quad;
     import system.custom.customSprite.CImage;

@@ -4,7 +4,7 @@ package scene.intermission.save.item
     import common.CommonSystem;
     import scene.map.panel.BattleMapPanel;
     import starling.events.Event;
-    import scene.main.MainController;
+    import main.MainController;
     import system.file.DataLoad;
     
     /**

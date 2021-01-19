@@ -5,7 +5,7 @@ package scene.commander
     import database.user.CommanderData;
     import flash.geom.Point;
     import scene.commander.CommanderSkillListItem;
-    import scene.main.MainController;
+    import main.MainController;
     import scene.map.panel.BattleMapPanel;
     import starling.events.Event;
     import starling.events.Touch;

@@ -13,7 +13,7 @@ package scene.map.panel.subpanel
     import system.file.DataLoad;
     import system.file.DataSave;
     import scene.intermission.save.ConfirmPopup;
-    import scene.main.MainController;
+    import main.MainController;
     import scene.map.panel.BattleMapPanel;
     
     /**

@@ -7,7 +7,7 @@ package bgm
 	import flash.events.TimerEvent;
 	import flash.filesystem.File;
 	import flash.utils.Timer;
-	import scene.main.MainController;
+	import main.MainController;
 	
 	/**
 	 * ...

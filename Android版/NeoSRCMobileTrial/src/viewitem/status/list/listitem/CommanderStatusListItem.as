@@ -5,7 +5,7 @@ package viewitem.status.list.listitem
     import database.user.CommanderData;
     import database.user.FaceData;
     import feathers.controls.TextArea;
-    import scene.main.MainController;
+    import main.MainController;
     import starling.display.Quad;
     import starling.events.Touch;
     import starling.events.TouchEvent;

@@ -8,7 +8,7 @@ package database.dataloader.single
     import flash.net.URLLoader;
     import flash.net.URLLoaderDataFormat;
     import flash.net.URLRequest;
-    import scene.main.MainController;
+    import main.MainController;
 	
 	/**
 	 * ...

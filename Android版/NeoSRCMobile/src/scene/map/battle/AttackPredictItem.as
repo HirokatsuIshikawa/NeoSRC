@@ -8,7 +8,7 @@ package scene.map.battle
 	import feathers.controls.TextArea;
 	import flash.geom.Rectangle;
 	import starling.textures.TextureSmoothing;
-	import scene.main.MainController;
+	import main.MainController;
 	import scene.map.BattleMap;
 	
 	/**

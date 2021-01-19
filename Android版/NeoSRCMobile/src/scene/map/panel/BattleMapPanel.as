@@ -10,7 +10,7 @@ package scene.map.panel
     import scene.unit.WeaponListItem;
     import scene.unit.WeaponListPanel;
     import system.custom.customSprite.CSprite;
-    import scene.main.MainController;
+    import main.MainController;
     import scene.map.battle.AttackListItem;
     import scene.map.panel.subpanel.CharaCommandPanel;
     import scene.map.panel.subpanel.MovePanel;

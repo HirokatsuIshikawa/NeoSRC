@@ -4,7 +4,7 @@ package scene.commandbattle
 	import system.custom.customSprite.CSprite;
 	import database.user.UnitCharaData;
 	import starling.textures.TextureSmoothing;
-	import scene.main.MainController;
+	import main.MainController;
 	import scene.unit.BattleUnit;
 	/**
 	 * ...

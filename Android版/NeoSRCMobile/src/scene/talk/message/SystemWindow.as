@@ -11,7 +11,7 @@ package scene.talk.message
 	import starling.display.Image;
 	import starling.display.Quad;
 	import starling.textures.TextureSmoothing;
-	import scene.main.MainController;
+	import main.MainController;
 	
 	/**
 	 * ...

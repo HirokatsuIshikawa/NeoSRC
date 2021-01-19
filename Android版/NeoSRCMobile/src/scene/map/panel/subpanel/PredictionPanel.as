@@ -6,7 +6,7 @@ package scene.map.panel.subpanel
 	import system.custom.customSprite.CImgButton;
 	import system.custom.customSprite.CSprite;
 	import starling.events.Event;
-	import scene.main.MainController;
+	import main.MainController;
 	import scene.map.panel.BattleMapPanel;
 	import scene.map.battle.AttackListItem;
 	import scene.map.battle.AttackPredictList;

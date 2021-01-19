@@ -3,7 +3,7 @@ package common.util
     import database.master.MasterCharaData;
     import database.master.MasterCommanderData;
     import database.user.UnitCharaData;
-    import scene.main.MainController;
+    import main.MainController;
     
     /**
      * キャラデータユーティリティ

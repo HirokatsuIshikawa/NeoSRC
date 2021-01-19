@@ -1,16 +1,13 @@
 package system.file
 {
+    import code.org.coderepos.text.encoding.Jcode;
     import common.CommonDef;
     import common.CommonSystem;
     import flash.events.Event;
     import flash.filesystem.File;
     import flash.net.FileReference;
     import flash.utils.ByteArray;
-    import code.org.coderepos.text.encoding.Jcode;
-    import system.Crypt;
-    import scene.intermission.save.ConfirmPopup;
-    import scene.main.MainController;
-    import scene.main.MainController;
+    import main.MainController;
     
     /**
      * ...
@@ -77,7 +74,9 @@ package system.file
             var i:int = 0;
             var data:Object = new Object();
             var unitList:Object = new Object();
+            var genericUnitList:Object = new Object();
             var commanderList:Object = new Object();
+            var baseList:Object = new Object();
             var nowDate:Date = new Date();
             var nowDateStr:String = "";
             
@@ -98,6 +97,18 @@ package system.file
                     //unitList[i].name = MainController.$.model.PlayerUnitData[i].name;
             }
             data.unitList = unitList;
+                        
+            /**セーブ用汎用ユニットデータ*/
+            for (i = 0; i < MainController.$.model.playerGenericUnitData.length; i++)
+            {
+                genericUnitList[i] = new Object();
+                genericUnitList[i].name = MainController.$.model.playerGenericUnitData[i].name;
+                genericUnitList[i].lv = MainController.$.model.playerGenericUnitData[i].lv;
+                genericUnitList[i].cost = MainController.$.model.playerGenericUnitData[i].cost;
+                genericUnitList[i].customBgm = MainController.$.model.playerGenericUnitData[i].customBgm;
+            }
+            data.genericUnitList = genericUnitList;
+            
             /**セーブ用コマンダーデータ*/
             for (i = 0; i < MainController.$.model.playerCommanderData.length; i++)
             {
@@ -138,8 +149,10 @@ package system.file
             var j:int = 0;
             var data:Object = new Object();
             var unitList:Object = new Object();
+            var genericUnitList:Object = new Object();
             var commanderList:Object = new Object();
             var mapPictureList:Object = new Object();
+            var mapBaseList:Object = new Object();
             var mapDateList:Object = new Object();
             var nowDate:Date = new Date();
             var nowDateStr:String = "";
@@ -161,6 +174,17 @@ package system.file
                 unitList[i].customBgmPath = MainController.$.model.PlayerUnitData[i].customBgmPath;
             }
             data.unitList = unitList;
+            
+            /**セーブ用汎用ユニットデータ*/
+            for (i = 0; i < MainController.$.model.playerGenericUnitData.length; i++)
+            {
+                genericUnitList[i] = new Object();
+                genericUnitList[i].name = MainController.$.model.playerGenericUnitData[i].name;
+                genericUnitList[i].lv = MainController.$.model.playerGenericUnitData[i].lv;
+                genericUnitList[i].cost = MainController.$.model.playerGenericUnitData[i].cost;
+                genericUnitList[i].customBgm = MainController.$.model.playerGenericUnitData[i].customBgm;
+            }
+            data.genericUnitList = genericUnitList;
             
             /**セーブ用コマンダーデータ*/
             for (i = 0; i < MainController.$.model.playerCommanderData.length; i++)
@@ -184,6 +208,21 @@ package system.file
             }
             data.mapPictureList = mapPictureList;
             
+            
+            /**セーブ用拠点データ*/
+            for (i = 0; i < MainController.$.map.baseDataList.length; i++ )
+            {
+                mapBaseList[i] = new Object();
+                mapBaseList[i].name = MainController.$.map.baseDataList[i].name;
+                mapBaseList[i].masterName = MainController.$.map.baseDataList[i].masterData.name;
+                mapBaseList[i].sideNum = MainController.$.map.baseDataList[i].sideNum;
+                mapBaseList[i].nowPoint = MainController.$.map.baseDataList[i].nowPoint;
+                mapBaseList[i].posX = MainController.$.map.baseDataList[i].posX;
+                mapBaseList[i].posY = MainController.$.map.baseDataList[i].posY;
+            }
+            
+            data.mapBaseList = mapBaseList;
+            
             /**セーブ用マップユニットデータ*/
             for (i = 0; i < MainController.$.map.sideState.length; i++)
             {
@@ -191,6 +230,7 @@ package system.file
                 mapDateList[i] = new Object();
                 mapDateList[i].name = MainController.$.map.sideState[i].name;
                 mapDateList[i].state = MainController.$.map.sideState[i].state;
+                mapDateList[i].cost = MainController.$.map.sideState[i].cost;
                 mapDateList[i].unitDate = new Object();
                 //軍師データ
                 if (MainController.$.map.sideState[i].commander != null)
@@ -273,7 +313,5 @@ package system.file
             
             MainController.$.view.waitDark(false);
         }
-    
     }
-
 }

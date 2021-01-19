@@ -16,6 +16,8 @@ SetBase name:原始ベース EventNo:2 side:さくらチーム
 SetBase name:鉱山 EventNo:1 side:コクエン隊
 SetBase name:魔法陣 x:3 y:3
 JoinCommander name:大道寺知世 Lv:1 
+JoinCommander name:大道寺知世 Lv:1 
+JoinCommander name:大道寺知世 Lv:1 
 SetCommander name:大道寺知世 sidename:さくらチーム
 //
 //

@@ -935,6 +935,11 @@ package scene.talk
                 MainController.$.view.battleMap.setSideCost(param.side, param.cost);
 				setLineCommand();
                 break;
+            //コスト追加
+            case "addsidecost":
+                MainController.$.view.battleMap.addSideCost(param.side, param.cost);
+				setLineCommand();
+                break;
                 //ユニット移動
 			case "unitmove": 
 				MainController.$.view.battleMap.moveMapUnit(param.unit, param.x, param.y, setLineCommand);

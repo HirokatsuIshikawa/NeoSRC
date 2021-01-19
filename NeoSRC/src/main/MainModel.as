@@ -260,6 +260,7 @@ package main
             var length:int = _masterCommanderData.length;
             var setId:int = _playerCommanderData.length;
             var data:MasterCommanderData = null;
+            var setNum:int = 0;
             for (i = 0; i < length; i++)
             {
                 if (_masterCommanderData[i].nickName === name)
@@ -280,8 +281,19 @@ package main
                 }
                 
             }
+            setNum = _playerCommanderData.length;
+            //複合する者があるか
+            for (i = 0;  _playerCommanderData.length; i++)
+            {
+                if (_playerCommanderData[i].masterData === data)
+                {
+                    setNum = i;
+                    _playerCommanderData[setNum] = null;
+                    break;
+                }
+            }
             
-            _playerCommanderData[_playerCommanderData.length] = new CommanderData(data, lv);
+            _playerCommanderData[setNum] = new CommanderData(data, lv);
         }
         
         /**プレイヤーユニットデータ*/

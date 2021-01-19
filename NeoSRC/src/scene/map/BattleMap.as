@@ -3391,6 +3391,10 @@ package scene.map
             var i:int = 0;
             var sideNum:int = makeNewSide(side);
             _sideState[sideNum].cost += cost;
+            if (_sideState[sideNum].cost < 0)
+            {
+                _sideState[sideNum].cost = 0;
+            }
         }
         
         //-------------------------------------------------------------

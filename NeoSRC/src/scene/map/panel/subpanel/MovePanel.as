@@ -22,7 +22,10 @@ package scene.map.panel.subpanel
 		private var _btnAttack:CImgButton = null;
 		private var _btnSkill:CImgButton = null;
 		private var _btnBack:CImgButton = null;
+		private var _btnGetPoint:CImgButton = null;
 		
+        private var _getPointNo:int = -1;
+        
 		public function MovePanel()
 		{
 			super();
@@ -30,26 +33,32 @@ package scene.map.panel.subpanel
 			_btnAttack = new CImgButton(MainController.$.imgAsset.getTexture("btn_Atk"));
 			_btnSkill = new CImgButton(MainController.$.imgAsset.getTexture("btn_Skill"));
 			_btnBack = new CImgButton(MainController.$.imgAsset.getTexture("btn_Return"));
+			_btnGetPoint = new CImgButton(MainController.$.imgAsset.getTexture("btn_getpoint"));
 			
 			_btnMove.x = BattleMapPanel.BTN_INTERBAL * 0;
 			_btnAttack.x = BattleMapPanel.BTN_INTERBAL * 1;
 			_btnSkill.x = BattleMapPanel.BTN_INTERBAL * 2;
 			_btnBack.x = BattleMapPanel.RIGHT_SIDE;
+			_btnGetPoint.x = BattleMapPanel.BTN_INTERBAL * 3;
 			
 			_btnMove.y = BattleMapPanel.UNDER_LINE;
 			_btnAttack.y = BattleMapPanel.UNDER_LINE;
 			_btnSkill.y = BattleMapPanel.UNDER_LINE;
 			_btnBack.y = BattleMapPanel.UNDER_LINE;
+			_btnGetPoint.y = BattleMapPanel.UNDER_LINE;
 			
 			_btnMove.addEventListener(Event.TRIGGERED, MainController.$.view.battleMap.startMove);
 			_btnAttack.addEventListener(Event.TRIGGERED, MainController.$.view.battleMap.showWeaponList);
 			_btnSkill.addEventListener(Event.TRIGGERED, MainController.$.view.battleMap.showSkillList);
 			_btnBack.addEventListener(Event.TRIGGERED, MainController.$.view.battleMap.backMove);
+			_btnGetPoint.addEventListener(Event.TRIGGERED, MainController.$.view.battleMap.moveConquest);
+            _btnGetPoint.visible = false;
 			
 			addChild(_btnMove);
 			addChild(_btnAttack);
 			addChild(_btnSkill);
 			addChild(_btnBack);
+			addChild(_btnGetPoint);
 		
 		}
 		
@@ -72,7 +81,31 @@ package scene.map.panel.subpanel
 			_btnBack.dispose();
 			_btnBack = null;
 			
+			_btnGetPoint.removeEventListener(Event.TRIGGERED, MainController.$.view.battleMap.moveConquest);
+			_btnGetPoint.dispose();
+			_btnGetPoint = null;
+			
 			super.dispose();
 		}
+        
+        
+        public function get getPointNo():int 
+        {
+            return _getPointNo;
+        }
+        
+        public function enableGetPoint(flg:Boolean, num:int):void
+        {
+            _btnGetPoint.visible = flg;
+            if (flg)
+            {
+                _getPointNo = num;
+            }
+            else
+            {
+                _getPointNo = -1;
+            }
+        }
+        
 	}
 }

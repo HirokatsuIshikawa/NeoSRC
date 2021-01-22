@@ -14,6 +14,7 @@ package scene.map
     import database.user.UnitCharaData;
     import flash.geom.Point;
     import main.MainController;
+    import scene.base.BaseConquestInfo;
     import scene.base.BaseInfo;
     import scene.base.BaseTip;
     import scene.battleanime.BattleActionPanel;
@@ -167,7 +168,7 @@ package scene.map
             _moveAreaImgList = new Vector.<CImage>;
             _attackAreaImgList = new Vector.<CImage>;
             _terrainDataList = new Vector.<TerrainData>();
-            _baseDataList = new Vector.<scene.base.BaseTip>();
+            _baseDataList = new Vector.<BaseTip>();
             _rootImgList = new Vector.<CImage>;
             _mapPictureList = new Vector.<MapPicture>;
             _sideState = new Vector.<SideState>;
@@ -951,16 +952,49 @@ package scene.map
             if (unit != null)
             {
                 _statusWindow.setCharaData(unit, customBgmFlg);
+                _targetUnit = unit;
             }
             //addChild(_statusWindow);
             _statusWindow.visible = true;
             MainController.$.view.addChild(_statusWindow);
         }
         
+        /**選択中ユニットが拠点上に居るか？*/
+        public function getTargetUnitOnOtherBase():Boolean
+        {
+            var i:int = 0;
+            for (i = 0; i < _baseDataList.length; i++ )
+            {
+                if (_baseDataList[i].sideNum != _targetUnit.side && _baseDataList[i].posX == _targetUnit.PosX && _baseDataList[i].posY == _targetUnit.PosY)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        
+        
+        /**選択中ユニットがいる拠点データ？*/
+        public function getTargetUnitDataOnOtherBase():BaseTip
+        {
+            var i:int = 0;
+            for (i = 0; i < _baseDataList.length; i++ )
+            {
+                if (_baseDataList[i].sideNum != _targetUnit.side && _baseDataList[i].posX == _targetUnit.PosX && _baseDataList[i].posY == _targetUnit.PosY)
+                {
+                    return _baseDataList[i];
+                }
+            }
+            return null;
+        }
+        
+        
+        
         /**軍師ステータス画面表示*/
         public function showCommanderStatusWindow(sideNumber:int):void
         {
-            _statusWindow.setCommanderData(_sideState[sideNumber].commander);
+            _statusWindow.setCommanderData(_sideState[sideNumber].commander, _sideState[sideNumber].cost);
             //addChild(_statusWindow);
             _statusWindow.visible = true;
             MainController.$.view.addChild(_statusWindow);
@@ -1027,6 +1061,41 @@ package scene.map
             MainController.$.view.addChild(_battleMapPanel);
         }
         
+        private var _conquestInfo:BaseConquestInfo = null;
+        
+        /**移動パネル・制圧*/
+        public function baseConquest(e:Event):void
+        {
+            var baseTip:BaseTip = getTargetUnitDataOnOtherBase();
+            _conquestInfo = new BaseConquestInfo(baseTip, baseTip.sideNum >= 0 ? _sideState[baseTip.sideNum].name : "", conquestStart, closeBaseConquest);
+            MainController.$.view.addChild(_conquestInfo);
+        }
+        
+        /**制圧開始*/
+        private function conquestStart():void
+        {
+            _conquestInfo.conquestAciton(_targetUnit, endConquest);
+        }
+        
+        /**制圧終了*/
+        private function endConquest():void
+        {
+            MainController.$.view.removeChild(_conquestInfo);
+            _conquestInfo.dispose();
+            _conquestInfo = null;
+            removeMoveAreaImg();
+            removeAttackAreaImg();
+            ActionAllEnd();
+        }
+        
+        /**制圧パネル閉じる*/
+        private function closeBaseConquest():void
+        {
+            MainController.$.view.removeChild(_conquestInfo);
+            _conquestInfo.dispose();
+            _conquestInfo = null;
+        }
+        
         /** 移動終了 */
         private function endMove(moveData:EnemyMoveData = null):void
         {
@@ -1067,12 +1136,25 @@ package scene.map
                 //attackAction();
                 MainController.$.view.eveManager.searchMapBattleEvent(nowBattleUnit, _targetUnit, _selectSide, _targetSide, attackAction, MapEventData.TYPE_BATTLE_BEFORE);
             }
+            else if (_conquestInfo != null)
+            {
+                _conquestInfo.visible = true;
+                _conquestInfo.conquestAciton(_targetUnit, moveConquestEnd);
+            }            
             // 攻撃しない時はマップ進入イベント検索
             else
             {
                 MainController.$.view.eveManager.searchMapMoveEvent(nowBattleUnit, _selectSide, ActionAllEnd, MapEventData.TYPE_MATH_IN);
             }
         }
+        
+        /**移動制圧終了*/
+        private function moveConquestEnd():void
+        {
+            closeBaseConquest();
+            MainController.$.view.eveManager.searchMapMoveEvent(nowBattleUnit, _selectSide, ActionAllEnd, MapEventData.TYPE_MATH_IN);
+        }
+        
         
         private function ActionAllEnd():void
         {
@@ -1842,6 +1924,21 @@ package scene.map
                 }
                 
                 remakeMoveArea(unit, unit.PosX + countX - 1, unit.PosY + countY - 1, _terrainDataList[posNum].MoveCount, moveList.MoveDirrection);
+                
+                var getPointFlg:Boolean = false;
+                var getPointNo:int = -1;
+                for (i = 0; i < _baseDataList.length; i++ )
+                {
+                    if (_baseDataList[i].sideNum != unit.side && _baseDataList[i].posX == posX + 1 && _baseDataList[i].posY == posY + 1)
+                    {
+                        getPointNo = i;
+                        getPointFlg = true;
+                        break;
+                    }
+                }
+                
+                _battleMapPanel.movePanel.enableGetPoint(getPointFlg, getPointNo);
+                
             }
             else if (_terrainDataList[posNum].RootSelected && phase === TouchPhase.BEGAN)
             {
@@ -2574,7 +2671,7 @@ package scene.map
             if (myTouch && (myTouch.phase == TouchPhase.BEGAN || myTouch.phase == TouchPhase.MOVED))
             {
                 pos = globalToLocal(new Point(myTouch.globalX, myTouch.globalY));
-                makeRootArea(pos.x, pos.y, myTouch.phase);
+                makeRootArea(pos.x, pos.y, myTouch.phase);                
             }
         }
         
@@ -2629,6 +2726,21 @@ package scene.map
             unit.resetImgPos();
             remakeMoveArea(unit, unit.PosX - 1, unit.PosY - 1, unit.param.MOV, list);
             setCenterPos(unit.PosX - 1, unit.PosY - 1);
+        }
+        
+        /**移動パネル・制圧*/
+        public function moveConquest():void
+        {
+            var baseTip:BaseTip = _baseDataList[_battleMapPanel.movePanel.getPointNo];
+            _conquestInfo = new BaseConquestInfo(baseTip, baseTip.sideNum >= 0 ? _sideState[baseTip.sideNum].name : "", moveConquestStart, closeBaseConquest);
+            MainController.$.view.addChild(_conquestInfo);
+        }
+        
+        /**移動パネル制圧開始*/
+        public function moveConquestStart():void
+        {
+            _conquestInfo.visible = false;
+            startMove();
         }
         
         /** 移動パネル・移動 */

@@ -29,7 +29,7 @@ package viewitem.status
      */
     public class BaseStatusWindow extends WindowItemBase
     {
-        public static const COMMAND_IMG_LIST:Array = ["_atkImg","_defImg","_tecImg","_spdImg","_mndImg","_capImg","_movImg","_hitImg","_evaImg","_healImg", "_supplyImg"];
+        public static const COMMAND_IMG_LIST:Array = ["_atkImg", "_defImg", "_tecImg", "_spdImg", "_mndImg", "_capImg", "_movImg", "_hitImg", "_evaImg", "_healImg", "_supplyImg", "_costImg"];
         private var _data:UnitCharaData = null;
         /**画像板*/
         private var _faceImgBoard:ImageBoard = null;
@@ -54,6 +54,7 @@ package viewitem.status
         private var _spImg:ImgNumber = null;
         private var _healImg:ImgNumber = null;
         private var _supplyImg:ImgNumber = null;
+        private var _costImg:ImgNumber = null;
         
         private const ST_LEFT_X:int = 8;
         private const ST_RIGHT_X:int = 156;
@@ -94,6 +95,7 @@ package viewitem.status
             _supplyImg = new ImgNumber();
             _hitImg = new ImgNumber();
             _evaImg = new ImgNumber();
+            _costImg = new ImgNumber();
         }
         
         override public function dispose():void
@@ -128,6 +130,7 @@ package viewitem.status
             _spImg.dispose();
             _healImg.dispose();
             _supplyImg.dispose();
+            _costImg.dispose();
             
             _lvImg = null;
             _hpImg = null;
@@ -145,6 +148,7 @@ package viewitem.status
             _spImg = null;
             _healImg = null;
             _supplyImg = null;
+            _costImg = null;
             super.dispose();
         }
         
@@ -254,7 +258,7 @@ package viewitem.status
             {
                 _hitImg.visible = false;
                 removeChild(_hitImg);
-            }            
+            }
             //回避
             if (data.param.EVA > 0)
             {
@@ -271,10 +275,10 @@ package viewitem.status
         }
         
         /**キャラデータセット*/
-        public function setCommanderData(data:CommanderData):void
+        public function setCommanderData(data:CommanderData, cost:int):void
         {
             var charaData:MasterCommanderData = CharaDataUtil.getMasterCommanderDataName(data.masterData.name);
-            setPosCommanderParam(data);
+            setPosCommanderParam(data, cost);
             imgSet(charaData.charaImgName);
             
             _nameTxt.text = charaData.nickName;
@@ -336,6 +340,9 @@ package viewitem.status
             addChild(_healImg);
             _supplyImg.setNumber(data.Supply, ImgNumber.TYPE_STATE_SUPPLY);
             addChild(_supplyImg);
+            
+            _costImg.setNumber(cost, ImgNumber.TYPE_STATE_COST);
+            addChild(_costImg);
         
             //this.addEventListener(TouchEvent.TOUCH, clickHandler);
         }
@@ -411,7 +418,7 @@ package viewitem.status
         }
         
         /**ステータス位置セット*/
-        private function setPosCommanderParam(data:CommanderData):void
+        private function setPosCommanderParam(data:CommanderData, cost:int):void
         {
             _lvImg.visible = true;
             _spImg.visible = true;
@@ -429,6 +436,7 @@ package viewitem.status
             _evaImg.visible = data.EVA > 0 ? true : false;
             _supplyImg.visible = data.Supply > 0 ? true : false;
             _healImg.visible = data.Heal > 0 ? true : false;
+            _costImg.visible = cost >= 0 ? true : false;
             
             _lvImg.x = 8;
             _lvImg.y = 32;
@@ -438,7 +446,7 @@ package viewitem.status
             
             var posYCount:int = 0;
             
-            for (var i:int = 0; i < COMMAND_IMG_LIST.length; i++  )
+            for (var i:int = 0; i < COMMAND_IMG_LIST.length; i++)
             {
                 if (this[COMMAND_IMG_LIST[i]].visible == true)
                 {

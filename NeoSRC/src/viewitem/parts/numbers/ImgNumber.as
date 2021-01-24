@@ -32,6 +32,9 @@ package viewitem.parts.numbers
 		public static const TYPE_STATE_HEAL:String = "Status_Heal";
 		public static const TYPE_STATE_SUPPLY:String = "Status_Supply";
 		public static const TYPE_STATE_COST:String = "Status_COST";
+		public static const TYPE_STATE_CON:String = "Status_CON";
+        
+        
 		
 		public static const ADD_NONE:String = "";
 		public static const ADD_PERCENT:String = "parcent";

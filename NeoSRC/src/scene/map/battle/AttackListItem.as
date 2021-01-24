@@ -51,7 +51,6 @@ package scene.map.battle
 			{
 				_hit = 0;
 			}
-		
 		}
 		
 		public function setSkill(unit:BattleUnit, side:int, skill:MasterSkillData, target:BattleUnit):void

@@ -2,6 +2,7 @@ package scene.map.panel.subpanel
 {
 	import common.CommonDef;
 	import common.CommonSystem;
+    import scene.base.BaseTip;
 	import system.custom.customSprite.CButton;
 	import system.custom.customSprite.CImgButton;
 	import system.custom.customSprite.CSprite;
@@ -24,7 +25,9 @@ package scene.map.panel.subpanel
 		private var _btnBack:CImgButton = null;
 		private var _btnGetPoint:CImgButton = null;
 		
+        private var _data:BaseTip;
         private var _getPointNo:int = -1;
+        private var _side:int;
         
 		public function MovePanel()
 		{
@@ -88,24 +91,37 @@ package scene.map.panel.subpanel
 			super.dispose();
 		}
         
+        public function get data():BaseTip 
+        {
+            return _data;
+        }
+        
+        public function get side():int 
+        {
+            return _side;
+        }
         
         public function get getPointNo():int 
         {
             return _getPointNo;
         }
         
-        public function enableGetPoint(flg:Boolean, num:int):void
+        public function JudgeInfo(data:BaseTip, num:int, unitSide:int):void
         {
-            _btnGetPoint.visible = flg;
-            if (flg)
+            _data = data;
+            
+            if (data != null)
             {
+                _btnGetPoint.visible = true;
                 _getPointNo = num;
+                _side = unitSide;
             }
             else
             {
+                _btnGetPoint.visible = false;
                 _getPointNo = -1;
+                _side = -1;
             }
         }
-        
 	}
 }

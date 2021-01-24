@@ -10,8 +10,8 @@ package database.master
     public class MasterCommanderData extends MasterParamData
     {
         
-        public static const INPUT_TYPE:Array = ["HP", "FP", "攻撃", "防御", "技術", "敏捷", "潜在", "精神", "移動"];
-        public static const DATA_TYPE:Array = ["HP", "FP", "ATK", "DEF", "TEC", "SPD", "CAP", "MND", "MOV"];
+        public static const INPUT_TYPE:Array = ["HP", "FP", "攻撃", "防御", "技術", "敏捷", "潜在", "精神", "移動", "制圧"];
+        public static const DATA_TYPE:Array = ["HP", "FP", "ATK", "DEF", "TEC", "SPD", "CAP", "MND", "MOV", "CON"];
         
         public static const ADD_INPUT_TYPE:Array = ["命中", "回避", "計略", "計略回復","回復", "補給"];
         public static const ADD_DATA_TYPE:Array = ["HIT", "EVA", "Point", "addPoint","Heal", "Supply"];

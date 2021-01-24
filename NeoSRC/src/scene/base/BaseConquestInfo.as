@@ -58,7 +58,7 @@ package scene.base
         public static const TOP_POSY:int = 46;
         public static const UNDER_POSY:int = 86;
         
-        public function BaseConquestInfo(data:BaseTip, sideName:String, conquestCallBack:Function, closeCallBack:Function)
+        public function BaseConquestInfo(data:BaseTip, sideName:String, unit:BattleUnit, conquestCallBack:Function, closeCallBack:Function)
         {
             super();
             _data = data;
@@ -178,8 +178,12 @@ package scene.base
             _conquestButton = new CImgButton(tex);
             _conquestButton.x = _listImg.x + 640 - tex.width;
             _conquestButton.y = _listImg.y + 140 - tex.height;
-            
             _conquestButton.addEventListener(Event.TRIGGERED, productHandler);
+            
+            if (_data.sideNum == unit.side)
+            {
+                _conquestButton.visible = false;
+            }
             
             //名称・所属
             _name = new CTextArea(24, 0xFFFFFF, 0x0);
@@ -229,7 +233,8 @@ package scene.base
         
         public function conquestAciton(unit:BattleUnit, callBack:Function):void
         {
-            var unitPoint:int = unit.maxFormationNum <= 1 ? 10 : 10 * (unit.formationNum / unit.maxFormationNum);
+            //制圧ポイント
+            var unitPoint:int = unit.maxFormationNum <= 1 ? unit.param.CON : unit.param.CON * (unit.formationNum / unit.maxFormationNum);
             
             var changePoint:int = Math.min(_data.masterData.getpoint, _data.nowPoint + unitPoint);
             var tween:Tween24 = Tween24.serial(Tween24.tween(_data, 1, null, {nowPoint: changePoint}).onUpdate(tweenUpdate), Tween24.wait(0.6)).onComplete(tweenEnd);
@@ -279,6 +284,12 @@ package scene.base
         private function closeHandler(e:Event):void
         {
             _closeCallBack();
+        }
+        
+        public function btnInvisible():void
+        {
+            _closeButton.visible = false;
+            _conquestButton.visible = false;
         }
     }
 }

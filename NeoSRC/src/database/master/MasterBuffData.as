@@ -1,8 +1,7 @@
 package database.master
 {
-	import common.CommonDef;
-	import database.master.base.BaseParam;
-	import database.master.base.BuffParam;
+    import common.CommonDef;
+    import database.master.base.BuffParam;
 	
 	/**
 	 * ...

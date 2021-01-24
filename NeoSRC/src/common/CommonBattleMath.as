@@ -37,6 +37,12 @@ package common
                 baseAvo = attackItem.target.param.SPD;
                 hit = (baseHit - baseAvo) + attackItem.weapon.hitPlus;
             }
+            
+            //防御側地形番号
+            var terrainNo:int = attackItem.target.mathPosX + attackItem.target.mathPosY * MainController.$.map.mapWidth;
+            
+            //防御側地形回避
+            hit -= MainController.$.map.terrain[terrainNo].AgiComp;
             hit = MathUtil.clamp(hit, 0, 100);
             
             return (int)(hit);
@@ -45,6 +51,9 @@ package common
         /**ダメージ計算式*/
         public static function battleDamage(data:AttackListItem):int
         {
+            
+            //防御側地形番号
+            var terrainNo:int = data.target.mathPosX + data.target.mathPosY * MainController.$.map.mapWidth;
             // 基礎攻撃力
             var baseAtk:Number = data.unit.param.ATK + data.weapon.atkplus;
             // 基礎防御力
@@ -64,6 +73,8 @@ package common
             
             // 1/16のブレ
             baseDamage = baseDamage + baseDamage / 16.0 * getRandom(100, -100) / 100.0;
+            //防御側地形防御
+            baseDamage = baseDamage * (100.0 - MainController.$.map.terrain[terrainNo].DefComp) / 100.0;
             
             var damage:int = MathUtil.max((int)(baseDamage), 1);
             return damage;

@@ -7,6 +7,7 @@ package scene.unit
     import database.user.UnitCharaData;
     import database.user.buff.SkillBuffData;
     import main.MainController;
+    import scene.base.BaseTip;
     import scene.map.BaseMap;
     import scene.map.tip.TerrainData;
     import starling.display.DisplayObject;
@@ -267,14 +268,12 @@ package scene.unit
             setMoveColor();
         }
         
-        
         //移動カウントゼロ
         public function moveZero():void
         {
             _moveCount = 0;
             setMoveColor();
         }
-        
         
         //移動後・移動前ユニットカラー変更
         public function setMoveColor():void
@@ -579,8 +578,8 @@ package scene.unit
                 learnLv = getLearnLevel(_passiveList[i]._levelList);
                 if (learnLv > 0)
                 {
-                    _nowHp += _passiveList[i].buffParam[learnLv]._param.HealHP
-                    _nowFp += _passiveList[i].buffParam[learnLv]._param.HealFP
+                    _nowHp += _passiveList[i].buffParam[learnLv]._param.HealHP;
+                    _nowFp += _passiveList[i].buffParam[learnLv]._param.HealFP;
                 }
             }
             //バフ
@@ -589,15 +588,45 @@ package scene.unit
                 if (learnLv > 0)
                 {
                     var skillLv:int = _buffList[i].skillLv;
-                    _nowHp += _buffList[i].buffParam[skillLv]._param.HealHP
-                    _nowFp += _buffList[i].buffParam[skillLv]._param.HealFP
+                    _nowHp += _buffList[i].buffParam[skillLv]._param.HealHP;
+                    _nowFp += _buffList[i].buffParam[skillLv]._param.HealFP;
                 }
             }
             
             //最大値に戻す
-            if (_nowFp > param.HP)
+            if (_nowHp > param.HP)
             {
-                _nowFp = param.HP
+                _nowHp = param.HP;
+            }
+            if (_nowFp > param.FP)
+            {
+                _nowFp = param.FP;
+            }
+        }
+        
+        /**拠点回復*/
+        public function baseHeal(baseData:BaseTip):void
+        {
+            var i:int = 0;
+            var learnLv:int = 0;
+            
+            _nowHp += baseData.masterData.heal;
+            _nowFp += baseData.masterData.supply;
+            //バフ
+            for (i = 0; i < _buffList.length; i++)
+            {
+                if (learnLv > 0)
+                {
+                    var skillLv:int = _buffList[i].skillLv;
+                    _nowHp += _buffList[i].buffParam[skillLv]._param.HealHP;
+                    _nowFp += _buffList[i].buffParam[skillLv]._param.HealFP;
+                }
+            }
+            
+            //最大値に戻す
+            if (_nowHp > param.HP)
+            {
+                _nowHp = param.HP
             }
             if (_nowFp > param.FP)
             {
@@ -639,8 +668,8 @@ package scene.unit
                     for (j = 0; j < BaseParam.STATUS_STR.length; j++)
                     {
                         this.param[BaseParam.STATUS_STR[j]] += _passiveList[i].buffParam[learnLv]._param[BaseParam.STATUS_STR[j]];
-                    }                    
-                    for (j = 0; j < BaseParam.ADD_STR.length; j++ )
+                    }
+                    for (j = 0; j < BaseParam.ADD_STR.length; j++)
                     {
                         this.param[BaseParam.ADD_STR[j]] += _passiveList[i].buffParam[skillLv]._param[BaseParam.ADD_STR[j]];
                     }
@@ -657,7 +686,7 @@ package scene.unit
                         this.param[BaseParam.STATUS_STR[j]] += _buffList[i].buffParam[skillLv]._param[BaseParam.STATUS_STR[j]];
                     }
                     
-                    for (j = 0; j < BaseParam.ADD_STR.length; j++ )
+                    for (j = 0; j < BaseParam.ADD_STR.length; j++)
                     {
                         this.param[BaseParam.ADD_STR[j]] += _buffList[i].buffParam[skillLv]._param[BaseParam.ADD_STR[j]];
                     }

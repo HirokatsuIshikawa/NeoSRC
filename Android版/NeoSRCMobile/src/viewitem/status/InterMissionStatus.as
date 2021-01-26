@@ -139,7 +139,7 @@ package viewitem.status
             _decideBtn.visible = true;
             _type = TYPE_COMMANDER;
             _commanderData = data;
-            _statusWindow.setCommanderData(data);
+            _statusWindow.setCommanderData(data, -1);
             
             if (data.customBgmPath != null && data.customBgmPath.length > 0)
             {

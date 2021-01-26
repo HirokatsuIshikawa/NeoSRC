@@ -8,8 +8,8 @@ package database.master.base
 	public class BaseParam
 	{
 		
-		public static const STATUS_STR:Array = ["HP", "FP", "ATK", "DEF", "TEC", "SPD", "CAP", "MND", "MOV"];
-		public static const STATUS_STR_JP:Array = ["HP", "FP", "攻撃", "防御", "技術", "敏捷", "潜在", "精神", "移動"];
+		public static const STATUS_STR:Array = ["HP", "FP", "ATK", "DEF", "TEC", "SPD", "CAP", "MND", "MOV", "CON"];
+		public static const STATUS_STR_JP:Array = ["HP", "FP", "攻撃", "防御", "技術", "敏捷", "潜在", "精神", "移動", "制圧"];
 		public static const ADD_STR:Array = ["HIT", "EVA", "HealHP", "HealFP"];
 		public static const ADD_STR_JP:Array = ["命中", "回避", "HP回復", "FP回復"];
 		/**HP*/
@@ -146,6 +146,18 @@ package database.master.base
 			_EVA = value;
 		}
 		
+        
+		
+		/**制圧*/
+		protected var _CON:int = 0;
+		
+		public function get CON():int  { return _CON; }
+		
+		public function set CON(value:int):void
+		{
+			_CON = value;
+		}
+        
 	}
 
 }

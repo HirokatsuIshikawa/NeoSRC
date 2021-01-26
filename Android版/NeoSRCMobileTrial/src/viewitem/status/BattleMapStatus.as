@@ -61,9 +61,9 @@ package viewitem.status
 		}
         
         /**軍師データセット*/
-        public function setCommanderData(commander:CommanderData):void
+        public function setCommanderData(commander:CommanderData, cost:int):void
         {
-            _statusWindow.setCommanderData(commander);
+            _statusWindow.setCommanderData(commander, cost);
 			_customBGMBtn.visible = false;
         }
         

@@ -38,7 +38,6 @@ package database.master
         
         public function get MaxLv():int  { return _MaxLv; }
         
-        
         private var _baseLv:int = 0;
         
         /**最大編成数*/
@@ -93,17 +92,17 @@ package database.master
             return _skillDataList;
         }
         
-        public function get subUnitImgName():String 
+        public function get subUnitImgName():String
         {
             return _subUnitImgName;
         }
         
-        public function get baseLv():int 
+        public function get baseLv():int
         {
             return _baseLv;
         }
         
-        public function get unitSize():int 
+        public function get unitSize():int
         {
             return _unitSize;
         }
@@ -113,9 +112,9 @@ package database.master
             return _maxFormationNum;
         }
         
-        public static const INPUT_TYPE:Array = ["HP", "FP", "攻撃", "防御", "技術", "敏捷", "潜在", "精神", "移動"];
-        public static const DATA_TYPE:Array = ["HP", "FP", "ATK", "DEF", "TEC", "SPD", "CAP", "MND", "MOV"];
-        public static const DATA_INIT_NUM:Array = [15, 15, 15, 15, 15, 15, 15, 15, 4];
+        public static const INPUT_TYPE:Array = ["HP", "FP", "攻撃", "防御", "技術", "敏捷", "潜在", "精神", "移動", "制圧"];
+        public static const DATA_TYPE:Array = ["HP", "FP", "ATK", "DEF", "TEC", "SPD", "CAP", "MND", "MOV", "CON"];
+        public static const DATA_INIT_NUM:Array = [15, 15, 15, 15, 15, 15, 15, 15, 4, 10];
         
         public static const PARA_HP:int = 0;
         public static const PARA_FP:int = 1;
@@ -127,6 +126,7 @@ package database.master
         public static const PARA_CAP:int = 6;
         public static const PARA_MND:int = 7;
         public static const PARA_MOV:int = 8;
+        public static const PARA_CON:int = 9;
         
         public static const TERRAIN_SKY:int = 0;
         public static const TERRAIN_GROUND:int = 1;
@@ -221,7 +221,6 @@ package database.master
             {
                 _unitSize = data.unitsize;
             }
-            
             
             // 武器データセット
             if (data.hasOwnProperty("Weapon"))

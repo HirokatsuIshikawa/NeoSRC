@@ -12,9 +12,9 @@ package converter.parse.common
      */
     public class ParseCommon
     {
-        public static const PARAM_LIST:Array = ["name", "nickName", "Cost", "exp", "money", "MaxLv", "BaseLv", "HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV", "terrain", "formation", "unitsize"];
-        public static const PARAM_P_LIST:Array = ["名前", "愛称", "コスト", "経験値", "資金", "最大レベル", "ベースレベル", "ＨＰ", "ＦＰ", "攻撃", "潜在", "技術", "防御", "精神", "敏捷", "移動", "地形", "編成数", "ユニットサイズ"];
-        public static const MAX_PARAM:Array = ["HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV"];
+        public static const PARAM_LIST:Array = ["name", "nickName", "Cost", "exp", "money", "MaxLv", "BaseLv", "HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV", "CON","terrain", "formation", "unitsize"];
+        public static const PARAM_P_LIST:Array = ["名前", "愛称", "コスト", "経験値", "資金", "最大レベル", "ベースレベル", "ＨＰ", "ＦＰ", "攻撃", "潜在", "技術", "防御", "精神", "敏捷", "移動", "制圧","地形", "編成数", "ユニットサイズ"];
+        public static const MAX_PARAM:Array = ["HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV", "CON"];
         //武器データ
         public static const WEAPON_LIST:Array = [ //
         "name", "value", "atkplus", "count", "fp", "tp", "usetp",//
@@ -62,8 +62,8 @@ package converter.parse.common
         ];
         
         //軍師パラメーター
-        public static const COMMANDER_PARAM_LIST:Array = ["name", "nickName", "Point", "addPoint", "MaxLv", "HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV", "terrain", "HIT", "EVA", "Heal", "Supply"];
-        public static const COMMANDER_PARAM_P_LIST:Array = ["名前", "愛称", "策略", "策略回復", "最大レベル", "ＨＰ", "ＦＰ", "攻撃", "潜在", "技術", "防御", "精神", "敏捷", "移動", "地形", "命中", "回避", "回復", "補給"];
+        public static const COMMANDER_PARAM_LIST:Array = ["name", "nickName", "Point", "addPoint", "MaxLv", "HP", "FP", "ATK", "CAP", "TEC", "DEF", "MND", "SPD", "MOV", "CON","terrain", "HIT", "EVA", "Heal", "Supply"];
+        public static const COMMANDER_PARAM_P_LIST:Array = ["名前", "愛称", "策略", "策略回復", "最大レベル", "ＨＰ", "ＦＰ", "攻撃", "潜在", "技術", "防御", "精神", "敏捷", "移動", "制圧","地形", "命中", "回避", "回復", "補給"];
         
         public static const CRITICAL_TYPE:Array = ["rate", "nodef"];
         public static const CRITICAL_P_TYPE:Array = ["倍率", "防御無視"];

@@ -37,16 +37,26 @@ package scene.base
                 this.alpha = 0;
             }
             
-            if (_sideNum >= 0)
+            _nowPoint = 0;
+            
+            super(tex);
+        }
+        
+         
+        public function refreshSide(num:int):void
+        {
+            _sideNum = num;
+            if (_sideFrame == null)
             {
-                _nowPoint = data.getpoint;
+                _sideFrame = new CImage(MainController.$.imgAsset.getTexture(MainController.$.map.sideState[num].frameImgPath));
+                _sideFrame.x = this.x;
+                _sideFrame.y = this.y;
+                MainController.$.map.frameArea.addChildAt(_sideFrame, 0);
             }
             else
             {
-                _nowPoint = 0;
+                _sideFrame.texture = MainController.$.imgAsset.getTexture(MainController.$.map.sideState[num].frameImgPath);
             }
-            
-            super(tex);
         }
         
         public function setPos(posX:int, posY:int):void
@@ -58,42 +68,47 @@ package scene.base
             this.y = (posY - 1) * 32;
         }
         
-        public function get sideFrame():CImage 
+        public function get sideFrame():CImage
         {
             return _sideFrame;
         }
         
-        public function get posX():int 
+        public function get posX():int
         {
             return _posX;
         }
         
-        public function get posY():int 
+        public function get posY():int
         {
             return _posY;
         }
         
-        public function get sideNum():int 
+        public function get sideNum():int
         {
             return _sideNum;
         }
         
-        public function get masterData():MasterBaseData 
+        public function set sideNum(value:int):void
+        {
+            _sideNum = value;
+        }
+        
+        public function get masterData():MasterBaseData
         {
             return _masterData;
         }
         
-        public function get nowPoint():int 
+        public function get nowPoint():int
         {
             return _nowPoint;
         }
         
-        public function set nowPoint(value:int):void 
+        public function set nowPoint(value:int):void
         {
             _nowPoint = value;
         }
         
-        public function set sideFrame(value:CImage):void 
+        public function set sideFrame(value:CImage):void
         {
             _sideFrame = value;
         }

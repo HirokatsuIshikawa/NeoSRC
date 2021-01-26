@@ -59,7 +59,7 @@ package common
 		
 		public static function initPhoneInfo():void
 		{
-			
+			INFO = SharedObject.getLocal("NeoSrcInfo");
 			var dir:File = File.userDirectory;
 			var file:File = dir.resolvePath("シミュラマPになろう//BGM");
 			
@@ -68,6 +68,7 @@ package common
 			file = dir.resolvePath("シミュラマPになろう//SE");
 			COMMON_SE_PATH = file.nativePath;
 		
+            LAST_SAVE_NUM = INFO.data.LastContinueNo;
 			//file = dir.resolvePath("シミュラマPになろう//IMG");
 			//COMMON_IMG_PATH = file.nativePath;
 		

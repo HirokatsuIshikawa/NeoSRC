@@ -1,6 +1,7 @@
 package scene.map.customdata
 {
     import database.master.MasterWeaponData;
+    import scene.base.BaseTip;
     import scene.map.customdata.SideState;
     import scene.unit.BattleUnit;
     
@@ -26,11 +27,10 @@ package scene.map.customdata
         
         }
         
-        public function getPriority(posX:int, posY:int, stayFlg:Boolean, unit:BattleUnit, target:Vector.<SideState>, side:int):void
+        public function getPriority(posX:int, posY:int, stayFlg:Boolean, unit:BattleUnit, target:Vector.<SideState>, baseList:Vector.<BaseTip>,side:int):void
         {
             var i:int = 0;
             var j:int = 0;
-            var k:int = 0;
             _movePosX = posX;
             _movePosY = posY;
             // 全ユニットを検索
@@ -52,28 +52,14 @@ package scene.map.customdata
                     var targetUnit:BattleUnit = target[i].battleUnit[j];
                     var setPriority:int = 0;
                     var distance:int = Math.abs(posX - (target[i].battleUnit[j].PosX - 1)) + Math.abs(posY - (target[i].battleUnit[j].PosY - 1));
-                    var weaponValue:int = 0;
+                    
                     var weaponNum:int = -1;
                     
                     // 近いほど優先度をあげる
                     setPriority += (99 - distance);
                     
-                    // 射程範囲内の最大攻撃力武器を選択
-                    for (k = 0; k < unit.weaponList.length; k++)
-                    {
-                        if (unit.weaponList[k].minRange <= distance && distance <= unit.weaponList[k].maxRange)
-                        {
-                            //移動後武器の場合
-                            if (!unit.weaponList[k].pWeapon && !stayFlg)
-                            {
-                                continue;
-                            }
-                            if (weaponValue < unit.weaponList[k].value)
-                            {
-                                weaponNum = k;
-                            }
-                        }
-                    }
+                    //使用武器番号取得
+                    weaponNum = getWeaponNum(unit, distance, stayFlg);
                     
                     //武器がある場合
                     if (weaponNum >= 0)
@@ -99,6 +85,30 @@ package scene.map.customdata
                     }
                 }
             }
+        }
+        
+        /**武器優先度取得*/
+        private function getWeaponNum(unit:BattleUnit, distance:int, stayFlg:Boolean):int
+        {
+            var k:int = 0;
+            var weaponValue:int = 0;
+            // 射程範囲内の最大攻撃力武器を選択
+            for (k = 0; k < unit.weaponList.length; k++)
+            {
+                if (unit.weaponList[k].minRange <= distance && distance <= unit.weaponList[k].maxRange)
+                {
+                    //移動後武器の場合
+                    if (!unit.weaponList[k].pWeapon && !stayFlg)
+                    {
+                        continue;
+                    }
+                    if (weaponValue < unit.weaponList[k].value)
+                    {
+                        return k;
+                    }
+                }
+            }
+            return -1;
         }
         
         public function get priority():int

@@ -1723,7 +1723,7 @@ package scene.map
                 if (aiMove != null)
                 {
                     var moveTarget:EnemyMoveData = new EnemyMoveData();
-                    moveTarget.getPriority(posX, posY, stayFlg, nowBattleUnit, _sideState, _selectSide);
+                    moveTarget.getPriority(posX, posY, stayFlg, nowBattleUnit, _sideState, _baseDataList,_selectSide);
                     aiMove.push(moveTarget);
                 }
             }
@@ -3222,7 +3222,7 @@ package scene.map
                 else
                 {
                     var moveTarget:EnemyMoveData = new EnemyMoveData();
-                    moveTarget.getPriority(unit.PosX - 1, unit.PosY - 1, false, nowBattleUnit, _sideState, _selectSide);
+                    moveTarget.getPriority(unit.PosX - 1, unit.PosY - 1, false, nowBattleUnit, _sideState, _baseDataList,_selectSide);
                     if (moveTarget.selectWeapon != null)
                     {
                         checkMoveAttack(moveTarget);

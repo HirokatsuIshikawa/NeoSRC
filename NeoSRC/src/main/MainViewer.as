@@ -524,7 +524,7 @@ package main
                 //所属している拠点の場合、フレーム表示
                 if (baseMasterData, mapBaseData.sideNum >= 0)
                 {
-                    baseTip.sideFrame = new CImage(MainController.$.imgAsset.getTexture(battleMap.sideState[baseMasterData, mapBaseData.sideNum].frameImgPath));
+                    baseTip.sideFrame = new CImage(MainController.$.imgAsset.getTexture(battleMap.sideState[baseMasterData, mapBaseData.sideNum].flagImgPath));
                     baseTip.sideFrame.x = baseTip.x;
                     baseTip.sideFrame.y = baseTip.y;
                     battleMap.frameArea.addChildAt(baseTip.sideFrame, 0);

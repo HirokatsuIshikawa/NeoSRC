@@ -3,6 +3,7 @@ package scene.map.panel.subpanel
 	import common.CommonDef;
 	import common.CommonSystem;
     import scene.base.BaseTip;
+    import scene.unit.BattleUnit;
 	import system.custom.customSprite.CButton;
 	import system.custom.customSprite.CImgButton;
 	import system.custom.customSprite.CSprite;
@@ -106,11 +107,18 @@ package scene.map.panel.subpanel
             return _getPointNo;
         }
         
-        public function JudgeInfo(data:BaseTip, num:int, unitSide:int):void
+        public function initPanel():void
+        {
+            _btnGetPoint.visible = false;
+            _getPointNo = -1;
+            _side = -1;
+        }
+        
+        public function JudgeInfo(data:BaseTip, num:int, unit:BattleUnit, unitSide:int):void
         {
             _data = data;
             
-            if (data != null)
+            if (data != null && unit.param.CON > 0)
             {
                 _btnGetPoint.visible = true;
                 _getPointNo = num;

@@ -48,14 +48,14 @@ package scene.base
             _sideNum = num;
             if (_sideFrame == null)
             {
-                _sideFrame = new CImage(MainController.$.imgAsset.getTexture(MainController.$.map.sideState[num].frameImgPath));
+                _sideFrame = new CImage(MainController.$.imgAsset.getTexture(MainController.$.map.sideState[num].flagImgPath));
                 _sideFrame.x = this.x;
                 _sideFrame.y = this.y;
                 MainController.$.map.frameArea.addChildAt(_sideFrame, 0);
             }
             else
             {
-                _sideFrame.texture = MainController.$.imgAsset.getTexture(MainController.$.map.sideState[num].frameImgPath);
+                _sideFrame.texture = MainController.$.imgAsset.getTexture(MainController.$.map.sideState[num].flagImgPath);
             }
         }
         

@@ -27,12 +27,38 @@ package scene.map.customdata
         
         }
         
-        public function getPriority(posX:int, posY:int, stayFlg:Boolean, unit:BattleUnit, target:Vector.<SideState>, baseList:Vector.<BaseTip>,side:int):void
+        public function getPriority(posX:int, posY:int, stayFlg:Boolean, unit:BattleUnit, target:Vector.<SideState>, baseList:Vector.<BaseTip>, side:int):void
+        {
+            _movePosX = posX;
+            _movePosY = posY;
+            getBaseControlPriority(posX, posY, unit, baseList, side);
+            //getWeaponPriority(posX, posY, stayFlg, unit, target, side);
+        }
+        
+        public function getBaseControlPriority(posX:int, posY:int, unit:BattleUnit, baseList:Vector.<BaseTip>, side:int):void
+        {
+            
+            var i:int = 0;
+            for (i = 0; i < baseList.length; i++)
+            {
+                var setPriority:int = 0;
+                //制圧力があって、違う拠点の座標を取れる場合
+                if (unit.param.CON > 0 && baseList[i].sideNum != side && posX == baseList[i].posX - 1 && posY == baseList[i].posY - 1)
+                {
+                    setPriority = baseList[i].masterData.income;
+                    // 優先度変更
+                    if (_priority == 0 || setPriority > _priority)
+                    {
+                        _priority = setPriority;
+                    }
+                }
+            }
+        }
+        
+        public function getWeaponPriority(posX:int, posY:int, stayFlg:Boolean, unit:BattleUnit, target:Vector.<SideState>, side:int):void
         {
             var i:int = 0;
             var j:int = 0;
-            _movePosX = posX;
-            _movePosY = posY;
             // 全ユニットを検索
             for (i = 0; i < target.length; i++)
             {
@@ -54,6 +80,7 @@ package scene.map.customdata
                     var distance:int = Math.abs(posX - (target[i].battleUnit[j].PosX - 1)) + Math.abs(posY - (target[i].battleUnit[j].PosY - 1));
                     
                     var weaponNum:int = -1;
+                    var baseNum:int = -1;
                     
                     // 近いほど優先度をあげる
                     setPriority += (99 - distance);

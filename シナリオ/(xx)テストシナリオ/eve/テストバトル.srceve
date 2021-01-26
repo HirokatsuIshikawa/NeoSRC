@@ -13,7 +13,7 @@ StopBGM
 LoadMap file:ゲンシ平原.map
 //
 SetBase name:原始ベース EventNo:2 side:さくらチーム
-SetBase name:鉱山 EventNo:1 side:コクエン隊
+SetBase name:鉱山 EventNo:1 side:さくらチーム
 SetBase name:鉱山 x:3 y:11
 JoinCommander name:大道寺知世 Lv:1 
 JoinCommander name:大道寺知世 Lv:1 

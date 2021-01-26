@@ -73,7 +73,9 @@ package scene.map.panel.subpanel
             _btnSp.visible = flg;
             _btnBack.visible = true;
             
-            if (MainController.$.map.isUnitOnOtherBase(MainController.$.map.getSelectSideUnitData()))
+            var unit:BattleUnit = MainController.$.map.getSelectSideUnitData();
+            
+            if (unit != null && unit.param.CON > 0 && MainController.$.map.isUnitOnOtherBase(unit))
             {
                 _btnBaseInfo.visible = flg;
             }

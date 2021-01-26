@@ -1032,6 +1032,7 @@ package scene.map
             var list:Vector.<String> = new Vector.<String>;
             setDrag(false);
             _battleMapPanel.showPanel(BattleMapPanel.PANEL_MOVE);
+            _battleMapPanel.movePanel.initPanel();
             MainController.$.view.addChild(_battleMapPanel);
         
             //remakeMoveArea(unit.PosX - 1, unit.PosY - 1, 5, list);
@@ -1882,8 +1883,10 @@ package scene.map
             var i:int = 0;
             _nowMovePosX = posX;
             _nowMovePosY = posY;
-            
-            checkMoveArea(unit, posX, posY, posX, posY, move, "", cloneList(movelist), aiMove, true);
+            if (aiMove != null)
+            {
+                checkMoveArea(unit, posX, posY, posX, posY, move, "", cloneList(movelist), aiMove, true);
+            }
             //setCenterPos(posX, posY);
             checkMoveArea(unit, posX + 1, posY, posX, posY, move, "right", cloneList(movelist), aiMove);
             checkMoveArea(unit, posX - 1, posY, posX, posY, move, "left", cloneList(movelist), aiMove);
@@ -1958,7 +1961,7 @@ package scene.map
                     }
                 }
                 
-                _battleMapPanel.movePanel.JudgeInfo(baseInfoNo >= 0 ? _baseDataList[baseInfoNo] : null, baseInfoNo, unit.side);
+                _battleMapPanel.movePanel.JudgeInfo(baseInfoNo >= 0 ? _baseDataList[baseInfoNo] : null, baseInfoNo, unit,unit.side);
                 
             }
             else if (_terrainDataList[posNum].RootSelected && phase === TouchPhase.BEGAN)
@@ -2753,7 +2756,7 @@ package scene.map
         public function moveConquest():void
         {
             var baseTip:BaseTip = _battleMapPanel.movePanel.data;
-            _conquestInfo = new BaseConquestInfo(baseTip, baseTip.sideNum >= 0 ? _sideState[baseTip.sideNum].name : "", _targetUnit, moveConquestStart, closeBaseConquest);
+            _conquestInfo = new BaseConquestInfo(baseTip, baseTip.sideNum >= 0 ? _sideState[baseTip.sideNum].name : "", nowBattleUnit, moveConquestStart, closeBaseConquest);
             MainController.$.view.addChild(_conquestInfo);
         }
         
@@ -3499,7 +3502,7 @@ package scene.map
                         _baseArea.addChild(evBaseData);
                         if (sideNum >= 0)
                         {
-                            evBaseData.sideFrame = new CImage(MainController.$.imgAsset.getTexture(_sideState[sideNum].frameImgPath));
+                            evBaseData.sideFrame = new CImage(MainController.$.imgAsset.getTexture(_sideState[sideNum].flagImgPath));
                             evBaseData.sideFrame.x = evBaseData.x;
                             evBaseData.sideFrame.y = evBaseData.y;
                             _frameArea.addChildAt(evBaseData.sideFrame, 0);
@@ -3515,7 +3518,7 @@ package scene.map
                 _baseArea.addChild(baseData);
                 if (sideNum >= 0)
                 {
-                    baseData.sideFrame = new CImage(MainController.$.imgAsset.getTexture(_sideState[sideNum].frameImgPath));
+                    baseData.sideFrame = new CImage(MainController.$.imgAsset.getTexture(_sideState[sideNum].flagImgPath));
                     baseData.sideFrame.x = baseData.x;
                     baseData.sideFrame.y = baseData.y;
                     _frameArea.addChildAt(baseData.sideFrame, 0);

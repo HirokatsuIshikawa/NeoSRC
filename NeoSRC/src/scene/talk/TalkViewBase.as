@@ -12,6 +12,7 @@ package scene.talk
 	import flash.desktop.NativeApplication;
 	import flash.filesystem.File;
 	import flash.utils.Timer;
+    import scene.base.BaseTip;
 	import scene.intermission.customdata.PlayerVariable;
 	import main.MainController;
 	import main.MainViewer;
@@ -967,7 +968,12 @@ package scene.talk
 			
 			//-----------------------------------------------------拠点-----------------------------------------------------
             case "setbase":
-                MainController.$.view.battleMap.setMapBase(param.name, param);                
+                if (!param.hasOwnProperty("eventid"))
+                {
+                    param.eventid = "";
+                }
+                
+                MainController.$.view.battleMap.setMapBase(param.name, param.eventid, param);                
                 setLineCommand();
                 break;
 			//-----------------------------------------------------マップピクチャ＆イベント設置-----------------------------------------------------
@@ -1201,6 +1207,13 @@ package scene.talk
 				eventData.setMapParam(param.label, param);
 				_eventList.push(eventData);
 				break;
+                //制圧
+            case MapEventData.TYPE_NAME[MapEventData.TYPE_BASE_CONTROL]:
+            case MapEventData.TYPE_NAME_JP[MapEventData.TYPE_BASE_CONTROL]:
+                eventData = new MapEventData();
+                eventData.setControlParam(param.label, param);
+                _eventList.push(eventData);
+                break;
 			//戦闘・戦闘後
 			case MapEventData.TYPE_NAME[MapEventData.TYPE_BATTLE_BEFORE]: 
 			case MapEventData.TYPE_NAME_JP[MapEventData.TYPE_BATTLE_BEFORE]: 
@@ -1234,8 +1247,20 @@ package scene.talk
 			
 			param.x = data.PosX;
 			param.y = data.PosY;
-			param.side = side;
+			param.side = MainController.$.map.sideState[side].name;
 			param.unit = data.name;
+			
+			searchEvent(param, callBack, type);
+		}
+		
+		/**拠点制圧イベント検索*/
+		public function searchBaseControllEvent(data:BattleUnit, baseData:BaseTip, side:int, callBack:Function, type:int):void
+		{
+			var param:Object = new Object();
+			
+			param.side = MainController.$.map.sideState[side].name;
+			param.unit = data.name;
+            param.eventid = baseData.eventId;
 			
 			searchEvent(param, callBack, type);
 		}
@@ -1288,15 +1313,16 @@ package scene.talk
 				if (_eventList[i].type == type)
 				{
 					// イベントとパラメーターを識別
-					if (((type == MapEventData.TYPE_BATTLE_BEFORE || type == MapEventData.TYPE_BATTLE_AFTER) && _eventList[i].judgeBattleParam(param)) || // 戦闘前・後イベント
+					if ((
+                    (type == MapEventData.TYPE_BATTLE_BEFORE || type == MapEventData.TYPE_BATTLE_AFTER) && _eventList[i].judgeBattleParam(param)) || // 戦闘前・後イベント
 					(type == MapEventData.TYPE_MATH_IN && _eventList[i].judgeMapParam(param)) ||		//マス侵入イベント
+					(type == MapEventData.TYPE_BASE_CONTROL && _eventList[i].judgeBaseControllParam(param)) ||		//拠点制圧イベント
 					(type == MapEventData.TYPE_DEFEAT && _eventList[i].judgeDefeatParam(param)) ||	//撃破イベント
 					(type == MapEventData.TYPE_EXTINCTION && _eventList[i].judgeExtinctionParam(param))	//全滅イベント
 					)
 					{
 						endFlg = true;
 					}
-					
 				}
 				
 				if (endFlg)

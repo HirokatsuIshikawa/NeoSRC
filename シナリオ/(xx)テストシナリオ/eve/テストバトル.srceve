@@ -15,6 +15,7 @@ LoadMap file:ゲンシ平原.map
 SetBase name:原始ベース EventNo:2 side:さくらチーム
 SetBase name:鉱山 EventNo:1 side:さくらチーム
 SetBase name:鉱山 x:3 y:11
+SetBase name:鉱山 x:4 y:11 eventId:となりの鉱山
 JoinCommander name:大道寺知世 Lv:1 
 JoinCommander name:大道寺知世 Lv:1 
 JoinCommander name:大道寺知世 Lv:1 
@@ -39,7 +40,39 @@ JoinUnit name:ユーノ level:5
 //Organize count:7 x:3 y:11 width:5 height:3 type:ALL cost:10
 SetSideCost side:さくらチーム cost:12
 Organize count:6 x:3 y:11 width:3 height:4 type:ALL
+SetEvent side:コクエン隊 label:コクエン制圧 type:制圧
+SetEvent unit:木之本桜 label:さくら制圧２ type:制圧 eventId:となりの鉱山
+SetEvent unit:木之本桜 label:さくら制圧 type:制圧
 //
 StartBGM file:BGM/game_maoudamashii_1_battle24.mp3 vol:0.5 fade:0.5
 DeleteAllLayer
+Exit
+
+コクエン制圧:
+showmsg time:0.3
+Talk システム
+コクエン制圧
+
+HideMessage time:0.3
+clearmsg type:all
+Exit
+
+さくら制圧:
+showmsg time:0.3
+Talk システム
+さくら制圧
+
+HideMessage time:0.3
+clearmsg type:all
+Exit
+
+
+さくら制圧２:
+ClearEvent さくら制圧２
+showmsg time:0.3
+Talk システム
+さくら制圧２
+
+HideMessage time:0.3
+clearmsg type:all
 Exit

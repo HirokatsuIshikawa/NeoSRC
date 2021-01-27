@@ -111,6 +111,10 @@ package scene.map
         
         /**生産画面*/
         private var _productListPanel:ProductList = null;
+        
+        /**拠点制圧情報*/
+        private var _conquestInfo:BaseConquestInfo = null;
+        
         //-------------------------------------------------------------
         //
         // variable
@@ -1064,8 +1068,6 @@ package scene.map
             MainController.$.view.addChild(_battleMapPanel);
         }
         
-        private var _conquestInfo:BaseConquestInfo = null;
-        
         /**移動パネル・制圧*/
         public function baseConquest(e:Event):void
         {
@@ -1079,7 +1081,7 @@ package scene.map
         private function conquestStart():void
         {
             var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
-            _conquestInfo.conquestAciton(unit, endConquest);
+            _conquestInfo.conquestAction(unit, endConquest);
         }
         
         /**制圧終了*/
@@ -1090,7 +1092,41 @@ package scene.map
             _conquestInfo = null;
             removeMoveAreaImg();
             removeAttackAreaImg();
-            ActionAllEnd();
+            terrainDataReset();
+            
+            _battleMapPanel.showPanel(BattleMapPanel.PANEL_NONE);
+            hideStatusWindow();
+            MainController.$.view.eveManager.searchBaseControllEvent(nowBattleUnit, getBaseDataOnUnit(nowBattleUnit), _selectSide, searchMoveEvent, MapEventData.TYPE_BASE_CONTROL);
+            
+            function searchMoveEvent():void
+            {
+                MainController.$.view.eveManager.searchMapMoveEvent(nowBattleUnit, _selectSide, conquestEventFinish, MapEventData.TYPE_MATH_IN);
+            }
+            
+            function conquestEventFinish():void
+            {
+                ActionAllEnd();
+            }
+        }
+        
+        private function endEnemyConquest():void
+        {
+            nowBattleUnit.moveEnd();
+            MainController.$.view.removeChild(_conquestInfo);
+            _conquestInfo.dispose();
+            _conquestInfo = null;
+            
+            MainController.$.view.eveManager.searchBaseControllEvent(nowBattleUnit, getBaseDataOnUnit(nowBattleUnit), _selectSide, searchEnemyMoveEvent, MapEventData.TYPE_BASE_CONTROL);
+            
+            function searchEnemyMoveEvent():void
+            {
+                MainController.$.view.eveManager.searchMapMoveEvent(nowBattleUnit, _selectSide, conquestEnemyEventFinish, MapEventData.TYPE_MATH_IN);
+            }
+            
+            function conquestEnemyEventFinish():void
+            {
+                enemyAct();
+            }
         }
         
         /**制圧パネル閉じる*/
@@ -1118,10 +1154,10 @@ package scene.map
         
         private function checkMoveAttack(moveData:EnemyMoveData):void
         {
-            // 味方以外の時は攻撃選択
+            // 味方以外の時は敵行動開始
             if (_selectSide > 0)
             {
-                enemyAttack(moveData);
+                enemyAction(moveData);
             }
             // 攻撃フラグが立っているときは戦闘前イベント検索
             else if (_battleResultManager.attackFlg)
@@ -1147,20 +1183,13 @@ package scene.map
                 var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
                 _conquestInfo.btnInvisible();
                 _conquestInfo.visible = true;
-                _conquestInfo.conquestAciton(unit, moveConquestEnd);
+                _conquestInfo.conquestAction(unit, endConquest);
             }
             // 攻撃しない時はマップ進入イベント検索
             else
             {
                 MainController.$.view.eveManager.searchMapMoveEvent(nowBattleUnit, _selectSide, ActionAllEnd, MapEventData.TYPE_MATH_IN);
             }
-        }
-        
-        /**移動制圧終了*/
-        private function moveConquestEnd():void
-        {
-            closeBaseConquest();
-            MainController.$.view.eveManager.searchMapMoveEvent(nowBattleUnit, _selectSide, ActionAllEnd, MapEventData.TYPE_MATH_IN);
         }
         
         private function ActionAllEnd():void
@@ -1204,7 +1233,10 @@ package scene.map
             var baseData:BaseTip = getBaseDataOnUnit(unit);
             if (baseData != null)
             {
-                baseData.nowPoint = 0;
+                if (moveList == null)
+                {
+                    baseData.nowPoint = 0;
+                }
             }
             
             var i:int;
@@ -1656,7 +1688,7 @@ package scene.map
             //移動先にユニットが居るか
             var sideOn:Boolean = false;
             var stayFlg:Boolean = (posX == baseX && posY == baseY);
-
+            
             var i:int = 0;
             var j:int = 0;
             //全軍検索
@@ -1724,7 +1756,7 @@ package scene.map
                 if (aiMove != null)
                 {
                     var moveTarget:EnemyMoveData = new EnemyMoveData();
-                    moveTarget.getPriority(posX, posY, stayFlg, nowBattleUnit, _sideState, _baseDataList,_selectSide);
+                    moveTarget.getPriority(posX, posY, stayFlg, nowBattleUnit, _sideState, _baseDataList, _selectSide);
                     aiMove.push(moveTarget);
                 }
             }
@@ -1961,7 +1993,7 @@ package scene.map
                     }
                 }
                 
-                _battleMapPanel.movePanel.JudgeInfo(baseInfoNo >= 0 ? _baseDataList[baseInfoNo] : null, baseInfoNo, unit,unit.side);
+                _battleMapPanel.movePanel.JudgeInfo(baseInfoNo >= 0 ? _baseDataList[baseInfoNo] : null, baseInfoNo, unit, unit.side);
                 
             }
             else if (_terrainDataList[posNum].RootSelected && phase === TouchPhase.BEGAN)
@@ -3216,16 +3248,14 @@ package scene.map
                     if (nowBattleUnit.PosX != _nowMovePosX || nowBattleUnit.PosY != _nowMovePosY)
                     {
                         _selectMoved = true;
-                        
                     }
-                    
                     //_targetUnit = _battleUnit[aiMove[targetPos].targetSide][aiMove[targetPos].targetNum];
                     moveUnit(aiMove[targetPos]);
                 }
                 else
                 {
                     var moveTarget:EnemyMoveData = new EnemyMoveData();
-                    moveTarget.getPriority(unit.PosX - 1, unit.PosY - 1, false, nowBattleUnit, _sideState, _baseDataList,_selectSide);
+                    moveTarget.getPriority(unit.PosX - 1, unit.PosY - 1, false, nowBattleUnit, _sideState, _baseDataList, _selectSide);
                     if (moveTarget.selectWeapon != null)
                     {
                         checkMoveAttack(moveTarget);
@@ -3242,13 +3272,22 @@ package scene.map
         }
         
         /** 敵攻撃アクション */
-        private function enemyAttack(moveData:EnemyMoveData):void
+        private function enemyAction(moveData:EnemyMoveData):void
         {
             _targetSide = moveData.targetSide;
             // ターゲット設定
             _targetUnit = _sideState[moveData.targetSide].battleUnit[moveData.targetNum];
+            
+            //拠点番号がある場合
+            if (moveData.baseNum >= 0)
+            {
+                var baseData:BaseTip = _baseDataList[moveData.baseNum];
+                _conquestInfo = new BaseConquestInfo(baseData, baseData.sideNum >= 0 ? _sideState[baseData.sideNum].name : "", nowBattleUnit, null, null);
+                _conquestInfo.conquestAction(nowBattleUnit, endEnemyConquest);
+                MainController.$.view.addChild(_conquestInfo);
+            }
             //戦闘可能ならば戦闘イベント
-            if (moveData.selectWeapon != null)
+            else if (moveData.selectWeapon != null)
             {
                 if (_selectSide == 0)
                 {
@@ -3476,7 +3515,7 @@ package scene.map
             return sideNum;
         }
         
-        public function setMapBase(name:String, param:Object):void
+        public function setMapBase(name:String, eventId:String, param:Object):void
         {
             var i:int = 0;
             var baseMasterData:MasterBaseData = MainController.$.model.getMasterBaseDataFromName(name);
@@ -3496,7 +3535,7 @@ package scene.map
                 {
                     if (_terrainDataList[i].EventNo == param.eventno)
                     {
-                        var evBaseData:BaseTip = new BaseTip(baseMasterData, sideNum);
+                        var evBaseData:BaseTip = new BaseTip(baseMasterData, sideNum, eventId);
                         evBaseData.setPos(i % _mapWidth + 1, i / _mapWidth + 1);
                         _baseDataList.push(evBaseData);
                         _baseArea.addChild(evBaseData);
@@ -3512,7 +3551,7 @@ package scene.map
             }
             else if (param.hasOwnProperty("x") && param.hasOwnProperty("y"))
             {
-                var baseData:BaseTip = new BaseTip(baseMasterData, sideNum);
+                var baseData:BaseTip = new BaseTip(baseMasterData, sideNum, eventId);
                 baseData.setPos(param.x, param.y);
                 _baseDataList.push(baseData);
                 _baseArea.addChild(baseData);

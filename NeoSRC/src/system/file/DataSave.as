@@ -219,6 +219,7 @@ package system.file
                 mapBaseList[i].nowPoint = MainController.$.map.baseDataList[i].nowPoint;
                 mapBaseList[i].posX = MainController.$.map.baseDataList[i].posX;
                 mapBaseList[i].posY = MainController.$.map.baseDataList[i].posY;
+                mapBaseList[i].eventId = MainController.$.map.baseDataList[i].eventId;
             }
             
             data.mapBaseList = mapBaseList;

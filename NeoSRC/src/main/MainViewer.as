@@ -511,7 +511,7 @@ package main
             {
                 var mapBaseData:Object = data.mapBaseList[i];
                 var baseMasterData:MasterBaseData = MainController.$.model.getMasterBaseDataFromName(mapBaseData.masterName);
-                var baseTip:BaseTip = new BaseTip(baseMasterData, mapBaseData.sideNum);
+                var baseTip:BaseTip = new BaseTip(baseMasterData, mapBaseData.sideNum, data.mapBaseList[i].eventId);
                 
                 posX = mapBaseData.posX;
                 posY = mapBaseData.posY;

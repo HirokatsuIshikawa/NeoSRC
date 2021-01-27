@@ -231,7 +231,7 @@ package scene.base
             addChild(_name);
         }
         
-        public function conquestAciton(unit:BattleUnit, callBack:Function):void
+        public function conquestAction(unit:BattleUnit, callBack:Function):void
         {
             //制圧ポイント
             var unitPoint:int = unit.maxFormationNum <= 1 ? unit.param.CON : unit.param.CON * (unit.formationNum / unit.maxFormationNum);

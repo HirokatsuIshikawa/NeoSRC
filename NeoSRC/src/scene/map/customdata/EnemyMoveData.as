@@ -21,6 +21,7 @@ package scene.map.customdata
         private var _selectWeapon:MasterWeaponData = null;
         private var _targetSide:int = 0;
         private var _targetNum:int = 0;
+        private var _baseNum:int = -1;
         
         public function EnemyMoveData()
         {
@@ -31,10 +32,17 @@ package scene.map.customdata
         {
             _movePosX = posX;
             _movePosY = posY;
+            _baseNum = -1;
+            //制圧拠点を選択する
             getBaseControlPriority(posX, posY, unit, baseList, side);
-            //getWeaponPriority(posX, posY, stayFlg, unit, target, side);
+            //制圧対象が無ければ武器をチョイスする
+            if (_baseNum < 0)
+            {
+                getWeaponPriority(posX, posY, stayFlg, unit, target, side);
+            }
         }
         
+        //拠点制圧優先度
         public function getBaseControlPriority(posX:int, posY:int, unit:BattleUnit, baseList:Vector.<BaseTip>, side:int):void
         {
             
@@ -42,19 +50,28 @@ package scene.map.customdata
             for (i = 0; i < baseList.length; i++)
             {
                 var setPriority:int = 0;
+                var setBaseNum:int = -1;
+                var distance:int = Math.abs(posX - (baseList[i].posX - 1)) + Math.abs(posY - (baseList[i].posY - 1));
+                // 近いほど優先度をあげる
+                setPriority += (99 - distance) / 2.0;
+                
                 //制圧力があって、違う拠点の座標を取れる場合
                 if (unit.param.CON > 0 && baseList[i].sideNum != side && posX == baseList[i].posX - 1 && posY == baseList[i].posY - 1)
                 {
-                    setPriority = baseList[i].masterData.income;
-                    // 優先度変更
-                    if (_priority == 0 || setPriority > _priority)
-                    {
-                        _priority = setPriority;
-                    }
+                    setPriority += 100;
+                    setBaseNum = i;
+                }
+                
+                // 優先度変更
+                if (_priority == 0 || setPriority > _priority)
+                {
+                    _baseNum = setBaseNum;
+                    _priority = setPriority;
                 }
             }
         }
         
+        //攻撃優先度
         public function getWeaponPriority(posX:int, posY:int, stayFlg:Boolean, unit:BattleUnit, target:Vector.<SideState>, side:int):void
         {
             var i:int = 0;
@@ -166,6 +183,11 @@ package scene.map.customdata
         public function get targetNum():int
         {
             return _targetNum;
+        }
+        
+        public function get baseNum():int 
+        {
+            return _baseNum;
         }
         
         public function get distance():int

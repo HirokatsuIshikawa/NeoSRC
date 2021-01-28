@@ -896,7 +896,7 @@ package scene.map
                 if (nowPosY > _organizeList.posY + _organizeList.uHeight)
                 {
                     break;
-                }
+                } 
                 
             }
             
@@ -967,6 +967,25 @@ package scene.map
         {
             var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
             return unit;
+        }
+        
+        public function isUnitOnNumberBase(num:int):Boolean
+        {
+            var i:int = 0;
+            var j:int = 0;
+            for (i = 0; i < _sideState.length; i++)
+            {
+                for (j = 0; j < _sideState[i].battleUnit.length; j++)
+                {
+                    var unit:BattleUnit = _sideState[i].battleUnit[j];
+                    var baseData:BaseTip = _baseDataList[num];
+                    if (baseData.posX == unit.PosX && baseData.posY == unit.PosY)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
         
         /**対象ユニットが拠点上に居るか？*/
@@ -3182,6 +3201,7 @@ package scene.map
             var i:int = 0;
             var unit:BattleUnit = null;
             
+            //敵ユニット行動
             for (i = 0; i < _sideState[_selectSide].battleUnit.length; i++)
             {
                 unit = _sideState[_selectSide].battleUnit[i];
@@ -3194,12 +3214,65 @@ package scene.map
                 }
             }
             
+            //敵生産行動            
+            if (!selectFlg)
+            {
+                //配列のコピー
+                var productUnitNumList:Vector.<GenericUnitData> = _sideState[_selectSide].genericUnitList.concat();
+                //生産できないユニットを除去
+                for (i = 0; i < productUnitNumList.length; i++ )
+                {
+                    if (productUnitNumList[i].cost > _sideState[_selectSide].cost)
+                    {
+                        productUnitNumList.splice(i, 1);
+                        i--;
+                    }
+                }
+            
+                //生産可能状態の時
+                if (productUnitNumList.length > 0)
+                {
+                    for (i = 0; i < _baseDataList.length; i++)
+                    {
+                        //自軍拠点
+                        if(_baseDataList[i].sideNum == _selectSide && _baseDataList[i].masterData.producttype != "")
+                        {
+                            var jjj:int = 0;
+                            //上にユニットが乗っていない
+                            if (isUnitOnNumberBase(i) == false)
+                            {
+                                selectFlg = true;
+                                setCenterPos(_baseDataList[i].posX, _baseDataList[i].posY, productEnemyUnit);
+                                
+                                function productEnemyUnit():void
+                                {
+                                    var rand:int = CommonBattleMath.getRandom(productUnitNumList.length - 1, 0); 
+                                    _battleMapPanel.showPanel(BattleMapPanel.PANEL_NONE);
+                                    _sideState[_selectSide].cost -= productUnitNumList[rand].cost;
+                                    createUnit(productUnitNumList[rand].name, _sideState[_selectSide].name, _baseDataList[i].posX, _baseDataList[i].posY, productUnitNumList[rand].lv, 0, null, compEnemyProduct, true);
+
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            
             // 該当がなかったらフェーズチェンジ
             if (!selectFlg)
             {
                 changePhase();
             }
         }
+        
+        /**敵拠点生産終了*/
+        private function compEnemyProduct():void
+        {
+            _targetUnit.moveZero();
+            enemyAct();
+        }
+        
         
         private function returnEnemyMove(unit:BattleUnit):Function
         {
@@ -3478,7 +3551,7 @@ package scene.map
         //
         //-------------------------------------------------------------
         
-        private function makeNewSide(side:String):int
+        public function makeNewSide(side:String):int
         {
             var i:int = 0;
             var sideNum:int = -1;

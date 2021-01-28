@@ -12,14 +12,17 @@ Exit
 StopBGM
 LoadMap file:ゲンシ平原.map
 //
-SetBase name:原始ベース EventNo:2 side:さくらチーム
+SetBase name:原始ベース EventNo:2 side:コクエン隊
 SetBase name:鉱山 EventNo:1 side:さくらチーム
 SetBase name:鉱山 x:3 y:11
 SetBase name:鉱山 x:4 y:11 eventId:となりの鉱山
 JoinCommander name:大道寺知世 Lv:1 
-JoinCommander name:大道寺知世 Lv:1 
-JoinCommander name:大道寺知世 Lv:1 
 SetCommander name:大道寺知世 sidename:さくらチーム
+//敵生産ユニット登録
+RegistGenericUnit name:ロッドアタッカー lv:1 cost:10 side:コクエン隊
+RegistGenericUnit name:エレクトロショッカー lv:1 cost:10 side:コクエン隊
+RegistGenericUnit name:ブッシュシューター lv:1 cost:10 side:コクエン隊
+RegistGenericUnit name:ロッドアタッカー lv:2 cost:20 side:コクエン隊
 //
 //
 CreateUnit name:ロッドアタッカー x:11 y:10 side:コクエン隊 level:3
@@ -39,10 +42,11 @@ JoinUnit name:なのは level:5
 JoinUnit name:ユーノ level:5
 //Organize count:7 x:3 y:11 width:5 height:3 type:ALL cost:10
 SetSideCost side:さくらチーム cost:12
+SetSideCost side:コクエン隊 cost:12
 Organize count:6 x:3 y:11 width:3 height:4 type:ALL
-SetEvent side:コクエン隊 label:コクエン制圧 type:制圧
-SetEvent unit:木之本桜 label:さくら制圧２ type:制圧 eventId:となりの鉱山
-SetEvent unit:木之本桜 label:さくら制圧 type:制圧
+//SetEvent side:コクエン隊 label:コクエン制圧 type:制圧
+//SetEvent unit:木之本桜 label:さくら制圧２ type:制圧 eventId:となりの鉱山
+//SetEvent unit:木之本桜 label:さくら制圧 type:制圧
 //
 StartBGM file:BGM/game_maoudamashii_1_battle24.mp3 vol:0.5 fade:0.5
 DeleteAllLayer

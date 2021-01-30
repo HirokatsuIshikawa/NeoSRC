@@ -1,5 +1,7 @@
 package scene.unit
 {
+    import common.CommonDef;
+    import database.master.MasterCharaData;
     import database.master.MasterWeaponData;
     import database.master.base.BaseParam;
     import database.master.base.LearnLevelData;
@@ -46,6 +48,26 @@ package scene.unit
             //_unitImg = new CImage(TextureManager.loadUnitNameTexture(masterData.unitsImgName, TextureManager.TYPE_UNIT));
             _unitImg = new CImage(MainController.$.imgAsset.getTexture(masterData.unitsImgName));
             
+            _flyIconImg = new CImage(MainController.$.imgAsset.getTexture("icon_flg"));
+            
+            if (terrain[TerrainData.TERRAIN_TYPE_SKY] < 0)
+            {
+                _isFly = false;
+            }
+            else if (terrain[TerrainData.TERRAIN_TYPE_SKY] < 2)
+            {
+                _isFly = true;
+            }
+            else
+            {
+                _isFly = false;
+            }
+            
+            if (_isFly)
+            {
+                _flyIconImg.visible = true;
+            }
+            
             _alive = true;
             _onMap = true;
             _moveCount++;
@@ -67,9 +89,14 @@ package scene.unit
             {
                 _formationNumImg.dispose();
             }
+            if (_flyIconImg != null)
+            {
+                _flyIconImg.dispose();
+            }
             _formationNumImg = null;
             _unitImg = null;
             _frameImg = null;
+            _flyIconImg = null;
         }
         
         private var _battleId:int = 0;
@@ -101,6 +128,9 @@ package scene.unit
         private var _frameImg:CImage = null;
         /**編成数画像*/
         private var _formationNumImg:CImage = null;
+        
+        /**飛行アイコン画像*/
+        private var _flyIconImg:CImage = null;
         
         /**空中*/
         private var _isFly:Boolean = false;
@@ -232,6 +262,18 @@ package scene.unit
             return _isFly;
         }
         
+        public function flyUp():void
+        {
+            _isFly = true;
+            _flyIconImg.visible = true;
+        }
+        
+        public function landing():void
+        {
+            _isFly = false;
+            _flyIconImg.visible = false;
+        }
+        
         public function set moveCount(value:int):void
         {
             _moveCount = value;
@@ -332,6 +374,11 @@ package scene.unit
         public function set formationNumImg(value:CImage):void
         {
             _formationNumImg = value;
+        }
+        
+        public function get flyIconImg():CImage
+        {
+            return _flyIconImg;
         }
         
         public function get formationNum():int

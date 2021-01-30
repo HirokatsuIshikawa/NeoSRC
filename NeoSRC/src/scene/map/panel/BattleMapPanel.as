@@ -227,6 +227,16 @@ package scene.map.panel
             return _commanderSkillTargetPanel;
         }
         
+        public function get charaCommandPanel():CharaCommandPanel 
+        {
+            return _charaCommandPanel;
+        }
+        
+        public function get systemPanel():SystemPanel 
+        {
+            return _systemPanel;
+        }
+        
         public function get counterAttackRange():int
         {
             return _counterAttackRange;

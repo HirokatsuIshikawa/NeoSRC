@@ -482,7 +482,20 @@ package main
                         battleUnit.formationNumImg.y = (posY - 1) * BaseMap.MAP_SIZE + BattleMap.FORMATION_NUM_POS;
                         battleUnit.formationNumImg.alpha = 1;
                         battleUnit.formationNumImg.visible = true;
-                        
+                    }
+                    
+                    
+                    //飛行アイコン
+                    battleUnit.flyIconImg.x = (posX - 1) * BaseMap.MAP_SIZE;
+                    battleUnit.flyIconImg.y = (posY - 1) * BaseMap.MAP_SIZE;
+                   
+                    if (unitData.isFly)
+                    {
+                        battleUnit.flyUp();
+                    }
+                    else
+                    {
+                        battleUnit.landing();
                     }
                     
                     // 戦闘ユニットを勢力に追加
@@ -493,6 +506,7 @@ package main
                         _battleMap.unitArea.addChildAt(battleUnit.unitImg, _battleMap.unitArea.numChildren);
                         // フレームエリアに沸く追加
                         _battleMap.frameArea.addChildAt(battleUnit.frameImg, _battleMap.frameArea.numChildren);
+                        _battleMap.frameArea.addChildAt(battleUnit.flyIconImg, _battleMap.frameArea.numChildren);
                         if (battleUnit.formationNumImg != null)
                         {
                             battleMap.effectArea.addChildAt(battleUnit.formationNumImg, _battleMap.effectArea.numChildren);

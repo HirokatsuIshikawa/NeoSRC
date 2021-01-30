@@ -4,6 +4,7 @@ package scene.map
     import bgm.SingleMusic;
     import common.CommonBattleMath;
     import common.CommonDef;
+    import common.CommonMapMath;
     import common.util.CharaDataUtil;
     import database.master.MasterBaseData;
     import database.master.MasterCommanderSkillData;
@@ -266,63 +267,7 @@ package scene.map
         //
         //-------------------------------------------------------------
         
-        /**進入地形対応チェック*/
-        private function checkMoveEnable(unit:BattleUnit, terrain:TerrainData):Boolean
-        {
-            var flg:Boolean = true;
-            
-            //侵入不可地形
-            if (terrain.Type == TerrainData.TYPE_NUM[TerrainData.TERRAIN_TYPE_NONE])
-            {
-                flg = false;
-            }
-            //空中移動できない場合
-            else if (terrain.Type == TerrainData.TYPE_NUM[TerrainData.TERRAIN_TYPE_SKY] && !unit.isFly)
-            {
-                flg = false;
-            }
-            else
-            {
-                //移動コスト取得
-                var properCost:int = unit.terrain[terrain.Type];
-                //適応不可
-                if (properCost == -1)
-                {
-                    flg = false;
-                }
-            }
-            
-            return flg;
-        }
-        
-        /**移動コスト算出*/
-        private function checkCost(point:int, cost:int, proper:Vector.<int>, terrain:TerrainData):int
-        {
-            var moveCost:int = cost;
-            var restPoint:int = point;
-            var properCost:int = proper[terrain.Type];
-            var propCost:int = 0;
-            
-            //S適正の場合は移動コストは必ず１
-            if (properCost == 0)
-            {
-                moveCost = 1;
-            }
-            //E適性の場合は1マスのみ
-            else if (properCost == 99)
-            {
-                restPoint = 0;
-            }
-            //それ以外は適正値に対応
-            else
-            {
-                moveCost += (properCost - 1);
-            }
-            
-            restPoint -= moveCost;
-            return restPoint;
-        }
-        
+
         /** 戦闘ユニット作成 */
         public function createUnit(name:String, side:String, posX:int, posY:int, level:int, strength:int, param:Object, callBack:Function, animeFlg:Boolean):void
         {
@@ -491,6 +436,19 @@ package scene.map
             battleUnit.frameImg.x = (posX - 1) * MAP_SIZE;
             battleUnit.frameImg.y = (posY - 1) * MAP_SIZE;
             battleUnit.frameImg.alpha = anime ? 0 : 1;
+            battleUnit.flyIconImg.x = (posX - 1) * MAP_SIZE;
+            battleUnit.flyIconImg.y = (posY - 1) * MAP_SIZE;
+            battleUnit.flyIconImg.alpha = anime ? 0 : 1;
+            
+            if (battleUnit.isFly)
+            {
+                battleUnit.flyUp();
+            }
+            else
+            {
+                battleUnit.landing();
+            }
+            
             if (battleUnit.formationNumImg != null)
             {
                 battleUnit.formationNumImg.x = (posX - 1) * MAP_SIZE + FORMATION_NUM_POS;
@@ -504,6 +462,7 @@ package scene.map
             _unitArea.addChildAt(battleUnit.unitImg, _unitArea.numChildren);
             // フレームエリアに沸く追加
             _frameArea.addChildAt(battleUnit.frameImg, _frameArea.numChildren);
+            _frameArea.addChildAt(battleUnit.flyIconImg, _frameArea.numChildren);
             
             // フレームエリアに数字追加
             if (battleUnit.formationNumImg != null)
@@ -521,9 +480,11 @@ package scene.map
                     var tweenFrame:Tween24 = Tween24.tween(battleUnit.frameImg, 0.3).alpha(1);
                 }
                 
+                var tweenFly:Tween24 = Tween24.tween(battleUnit.flyIconImg, 0.3).alpha(1);
                 //tweenAry.push(launchParticle(posX, posY));
                 tweenAry.push(tweenUnit);
                 tweenAry.push(tweenFrame);
+                tweenAry.push(tweenFly);
                 
                 if (battleUnit.formationNumImg != null)
                 {
@@ -840,6 +801,10 @@ package scene.map
                 battleUnit.frameImg.x = (posX - 1) * MAP_SIZE;
                 battleUnit.frameImg.y = (posY - 1) * MAP_SIZE;
                 battleUnit.frameImg.alpha = 0;
+                battleUnit.flyIconImg.x = (posX - 1) * MAP_SIZE;
+                battleUnit.flyIconImg.y = (posY - 1) * MAP_SIZE;
+                battleUnit.flyIconImg.alpha = 0;
+                
                 if (battleUnit.formationNumImg != null)
                 {
                     battleUnit.formationNumImg.x = (posX - 1) * MAP_SIZE + FORMATION_NUM_POS;
@@ -853,6 +818,7 @@ package scene.map
                 _unitArea.addChildAt(battleUnit.unitImg, _unitArea.numChildren);
                 // フレームエリアに枠追加
                 _frameArea.addChildAt(battleUnit.frameImg, _frameArea.numChildren);
+                _frameArea.addChildAt(battleUnit.flyIconImg, _frameArea.numChildren);
                 if (battleUnit.formationNumImg != null)
                 {
                     // フレームエリアに数字追加
@@ -863,6 +829,12 @@ package scene.map
                 var tweenAry:Array = new Array();
                 var tweenUnit:Tween24 = Tween24.tween(battleUnit.unitImg, 0.3).x((posX - 1) * MAP_SIZE).alpha(1);
                 var tweenFrame:Tween24 = Tween24.tween(battleUnit.frameImg, 0.3).alpha(1);
+                if (battleUnit.isFly)
+                {
+                    var tweenFly:Tween24 = Tween24.tween(battleUnit.flyIconImg, 0.3).alpha(1);
+                    tweenAry.push(tweenFly);
+                    
+                }
                 tweenAry.push(tweenUnit);
                 tweenAry.push(tweenFrame);
                 
@@ -896,7 +868,7 @@ package scene.map
                 if (nowPosY > _organizeList.posY + _organizeList.uHeight)
                 {
                     break;
-                } 
+                }
                 
             }
             
@@ -1312,10 +1284,13 @@ package scene.map
                     twnlist[0].xy((unit.PosX + countX - 1) * MAP_SIZE, (unit.PosY + countY - 1) * MAP_SIZE);
                     twnlist[1] = Tween24.tween(unit.frameImg, 0.1, Tween24.ease.Linear);
                     twnlist[1].xy((unit.PosX + countX - 1) * MAP_SIZE, (unit.PosY + countY - 1) * MAP_SIZE);
+                    twnlist[2] = Tween24.tween(unit.flyIconImg, 0.1, Tween24.ease.Linear);
+                    twnlist[2].xy((unit.PosX + countX - 1) * MAP_SIZE, (unit.PosY + countY - 1) * MAP_SIZE);
+                    
                     if (unit.formationNumImg != null)
                     {
-                        twnlist[2] = Tween24.tween(unit.formationNumImg, 0.1, Tween24.ease.Linear);
-                        twnlist[2].xy((unit.PosX + countX - 1) * MAP_SIZE + FORMATION_NUM_POS, (unit.PosY + countY - 1) * MAP_SIZE + FORMATION_NUM_POS);
+                        twnlist[3] = Tween24.tween(unit.formationNumImg, 0.1, Tween24.ease.Linear);
+                        twnlist[3].xy((unit.PosX + countX - 1) * MAP_SIZE + FORMATION_NUM_POS, (unit.PosY + countY - 1) * MAP_SIZE + FORMATION_NUM_POS);
                     }
                     
                     moveTwn = Tween24.parallel(twnlist);
@@ -1329,11 +1304,13 @@ package scene.map
                     twnlist[0].xy(_nowMovePosX * MAP_SIZE, _nowMovePosY * MAP_SIZE);
                     twnlist[1] = Tween24.tween(unit.frameImg, 0.1, Tween24.ease.QuadOut);
                     twnlist[1].xy(_nowMovePosX * MAP_SIZE, _nowMovePosY * MAP_SIZE);
+                    twnlist[2] = Tween24.tween(unit.flyIconImg, 0.1, Tween24.ease.QuadOut);
+                    twnlist[2].xy(_nowMovePosX * MAP_SIZE, _nowMovePosY * MAP_SIZE);
                     
                     if (unit.formationNumImg != null)
                     {
-                        twnlist[2] = Tween24.tween(unit.formationNumImg, 0.1, Tween24.ease.QuadOut);
-                        twnlist[2].xy(_nowMovePosX * MAP_SIZE + FORMATION_NUM_POS, _nowMovePosY * MAP_SIZE + FORMATION_NUM_POS);
+                        twnlist[3] = Tween24.tween(unit.formationNumImg, 0.1, Tween24.ease.QuadOut);
+                        twnlist[3].xy(_nowMovePosX * MAP_SIZE + FORMATION_NUM_POS, _nowMovePosY * MAP_SIZE + FORMATION_NUM_POS);
                     }
                     
                     moveTwn = Tween24.parallel(twnlist);
@@ -1385,6 +1362,8 @@ package scene.map
             visibleRootAreaImg(true);
             _battleMapPanel.showPanel(BattleMapPanel.PANEL_MOVE);
             MainController.$.view.addChild(_battleMapPanel);
+            
+            addChild(_btnReset);
         }
         
         /**スキルリスト戻る*/
@@ -1706,6 +1685,7 @@ package scene.map
             
             //移動先にユニットが居るか
             var sideOn:Boolean = false;
+            var selfOn:Boolean = false;
             var stayFlg:Boolean = (posX == baseX && posY == baseY);
             
             var i:int = 0;
@@ -1723,6 +1703,12 @@ package scene.map
                         {
                             if (_selectSide == i)
                             {
+                                if(unit === _sideState[i].battleUnit[j])
+                                {
+                                    selfOn = true;
+                                }
+                                
+                                trace("#####X:" + _sideState[i].battleUnit[j].PosX + "-" + posX + "###Y:" + _sideState[i].battleUnit[j].PosY + "-" + posY + "###" + _sideState[i].battleUnit[j].onMap)
                                 sideOn = true;
                                 break;
                             }
@@ -1747,10 +1733,10 @@ package scene.map
             //コスト取得
             var cost:int = terrain.Cost;
             //移動コスト計算
-            if (checkMoveEnable(unit, terrain))
+            if (CommonMapMath.checkMoveEnable(unit, terrain))
             {
                 //地形に応じて移動ポイント計算
-                point = checkCost(point, cost, unit.terrain, terrain);
+                point = CommonMapMath.checkMoveCost(point, cost, unit.terrain, terrain, unit.isFly);
             }
             else
             {
@@ -1761,8 +1747,20 @@ package scene.map
             //point -= cost;
             dirrectionList.push(dirrection);
             // 未選択であれば移動可能に
-            if (!terrain.MoveChecked && !terrain.RootSelected && !sideOn)
+            if (!terrain.MoveChecked && !terrain.RootSelected && !selfOn)
             {
+                if (sideOn)
+                {
+                    _battleMapPanel.alpha = 0.7;
+                    _battleMapPanel.touchable = false;
+                }
+                else
+                {
+                    _battleMapPanel.alpha = 1;
+                    _battleMapPanel.touchable = true;
+                }
+                
+                terrain.onUnit = sideOn;
                 var img:CImage = new CImage(CommonDef.MOVE_TIP_TEX);
                 img.x = posX * MAP_SIZE;
                 img.y = posY * MAP_SIZE;
@@ -1929,8 +1927,9 @@ package scene.map
         }
         
         /**移動エリア再作成*/
-        private function remakeMoveArea(unit:BattleUnit, posX:int, posY:int, move:int, movelist:Vector.<String>, side:int = 0, aiMove:Vector.<EnemyMoveData> = null):void
+        public function remakeMoveArea(unit:BattleUnit, posX:int, posY:int, move:int, movelist:Vector.<String>, side:int = 0, aiMove:Vector.<EnemyMoveData> = null):void
         {
+            trace("#####");
             var i:int = 0;
             _nowMovePosX = posX;
             _nowMovePosY = posY;
@@ -1955,6 +1954,7 @@ package scene.map
             
             if (_terrainDataList[posNum].MoveChecked)
             {
+
                 _selectMoved = true;
                 var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
                 
@@ -1999,7 +1999,6 @@ package scene.map
                 {
                     _terrainDataList[i].MoveChecked = false;
                 }
-                
                 remakeMoveArea(unit, unit.PosX + countX - 1, unit.PosY + countY - 1, _terrainDataList[posNum].MoveCount, moveList.MoveDirrection);
                 
                 var baseInfoNo:int = -1;
@@ -2013,6 +2012,15 @@ package scene.map
                 }
                 
                 _battleMapPanel.movePanel.JudgeInfo(baseInfoNo >= 0 ? _baseDataList[baseInfoNo] : null, baseInfoNo, unit, unit.side);
+                
+                if (_terrainDataList[posNum].onUnit)
+                {
+                    _battleMapPanel.movePanel.enableActionPanel(false);
+                }
+                else
+                {
+                    _battleMapPanel.movePanel.enableActionPanel(true);
+                }
                 
             }
             else if (_terrainDataList[posNum].RootSelected && phase === TouchPhase.BEGAN)
@@ -2439,6 +2447,7 @@ package scene.map
                     {
                         _unitArea.removeChild(unit.unitImg);
                         _frameArea.removeChild(unit.frameImg);
+                        _frameArea.removeChild(unit.flyIconImg);
                         _effectArea.removeChild(unit.formationNumImg);
                     }
                 }
@@ -2793,6 +2802,8 @@ package scene.map
             deleteMoveImg();
             backMove();
             
+            _battleMapPanel.movePanel.enableActionPanel(true);
+            
             addChild(_btnReset);
             _battleMapPanel.showPanel(BattleMapPanel.PANEL_MOVE);
             MainController.$.view.addChild(_battleMapPanel);
@@ -2846,7 +2857,7 @@ package scene.map
         }
         
         /** 画面上から移動範囲を消去 */
-        private function removeMoveAreaImg():void
+        public function removeMoveAreaImg():void
         {
             for (var i:int = 0; i < _moveAreaImgList.length; )
             {
@@ -2854,6 +2865,17 @@ package scene.map
                 _moveAreaImgList[i].dispose();
                 _moveAreaImgList[i] = null;
                 _moveAreaImgList.shift();
+            }
+        }
+        
+        //地形データの移動チェックを戻す
+        public function resetMoveTerrainData():void
+        {
+            var i:int = 0;
+            // 移動不可設定
+            for (i = 0; i < _terrainDataList.length; i++)
+            {
+                _terrainDataList[i].MoveChecked = false;
             }
         }
         
@@ -2992,8 +3014,10 @@ package scene.map
                 var tweenAry:Array = new Array();
                 var tweenUnit:Tween24 = Tween24.tween(unitData.unitImg, 0.3).xy((unitData.PosX - 1) * MAP_SIZE, (unitData.PosY - 1) * MAP_SIZE);
                 var tweenFrame:Tween24 = Tween24.tween(unitData.frameImg, 0.3).xy((unitData.PosX - 1) * MAP_SIZE, (unitData.PosY - 1) * MAP_SIZE);
+                var tweenFly:Tween24 = Tween24.tween(unitData.flyIconImg, 0.3).xy((unitData.PosX - 1) * MAP_SIZE, (unitData.PosY - 1) * MAP_SIZE);
                 tweenAry.push(tweenUnit);
                 tweenAry.push(tweenFrame);
+                tweenAry.push(tweenFly);
                 
                 if (unitData.formationNumImg != null)
                 {
@@ -3082,7 +3106,7 @@ package scene.map
         }
         
         /**地形データ移動関連リセット*/
-        private function terrainDataReset():void
+        public function terrainDataReset():void
         {
             var i:int = 0;
             for (i = 0; i < _terrainDataList.length; i++)
@@ -3220,7 +3244,7 @@ package scene.map
                 //配列のコピー
                 var productUnitNumList:Vector.<GenericUnitData> = _sideState[_selectSide].genericUnitList.concat();
                 //生産できないユニットを除去
-                for (i = 0; i < productUnitNumList.length; i++ )
+                for (i = 0; i < productUnitNumList.length; i++)
                 {
                     if (productUnitNumList[i].cost > _sideState[_selectSide].cost)
                     {
@@ -3228,14 +3252,14 @@ package scene.map
                         i--;
                     }
                 }
-            
+                
                 //生産可能状態の時
                 if (productUnitNumList.length > 0)
                 {
                     for (i = 0; i < _baseDataList.length; i++)
                     {
                         //自軍拠点
-                        if(_baseDataList[i].sideNum == _selectSide && _baseDataList[i].masterData.producttype != "")
+                        if (_baseDataList[i].sideNum == _selectSide && _baseDataList[i].masterData.producttype != "")
                         {
                             var jjj:int = 0;
                             //上にユニットが乗っていない
@@ -3246,11 +3270,11 @@ package scene.map
                                 
                                 function productEnemyUnit():void
                                 {
-                                    var rand:int = CommonBattleMath.getRandom(productUnitNumList.length - 1, 0); 
+                                    var rand:int = CommonBattleMath.getRandom(productUnitNumList.length - 1, 0);
                                     _battleMapPanel.showPanel(BattleMapPanel.PANEL_NONE);
                                     _sideState[_selectSide].cost -= productUnitNumList[rand].cost;
                                     createUnit(productUnitNumList[rand].name, _sideState[_selectSide].name, _baseDataList[i].posX, _baseDataList[i].posY, productUnitNumList[rand].lv, 0, null, compEnemyProduct, true);
-
+                                
                                 }
                                 break;
                             }
@@ -3272,7 +3296,6 @@ package scene.map
             _targetUnit.moveZero();
             enemyAct();
         }
-        
         
         private function returnEnemyMove(unit:BattleUnit):Function
         {

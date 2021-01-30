@@ -27,10 +27,10 @@ package map.canvas
 		private var _under:Boolean = false;
 		
 		public static const TYPE_NUM:Array = [0, 1, 2, 3, 4];
-		public static const TYPE_NAME:Array = ["地上", "水中", "空中", "宇宙", "不可"];
+		public static const TYPE_NAME:Array = [ "空中", "地上", "水中", "宇宙", "不可"];
 		public static const VIEW_TYPE:Array = [0, 1, 2, 3, 4, 5, 6, 7];
 		public static const VIEW_TYPE_NAME:Array = ["タイプ", "名称", "コスト", "回避", "防御", "Ev番号", "高さ", "地水中"];
-		public static const TYPE_COLOR:Array = [0x33FF00, 0x0000FF, 0x99FFFF, 0x800080, 0xCC00FF]
+		public static const TYPE_COLOR:Array = [0x99FFFF, 0x33FF00, 0x0000FF, 0x800080, 0xCC00FF]
 		
 		public static var defaultTex:Texture = null;
 		

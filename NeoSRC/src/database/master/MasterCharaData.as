@@ -127,12 +127,7 @@ package database.master
         public static const PARA_MND:int = 7;
         public static const PARA_MOV:int = 8;
         public static const PARA_CON:int = 9;
-        
-        public static const TERRAIN_SKY:int = 0;
-        public static const TERRAIN_GROUND:int = 1;
-        public static const TERRAIN_WATER:int = 2;
-        public static const TERRAIN_SPAGE:int = 3;
-        
+                
         private var _passiveList:Vector.<CharaBuffData> = null;
         
         /**コンストラクタ*/

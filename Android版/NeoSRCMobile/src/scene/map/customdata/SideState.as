@@ -19,6 +19,7 @@ package scene.map.customdata
         private var _name:String = null;
         private var _state:int = 0;
         private var _frameImgPath:String = null;
+        private var _flagImgPath:String = null;
         /** 各勢力ユニットリスト */
         private var _battleUnit:Vector.<BattleUnit> = null;
         
@@ -41,13 +42,13 @@ package scene.map.customdata
             if (MainController.$.map.sideState.length <= 0 || MainController.$.map.sideState === null || name === MainController.$.map.sideState[0].name)
             {
                 _frameImgPath = "frame_b";
+                _flagImgPath = "flag_b";
             }
             else
             {
-                
                 _frameImgPath = "frame_r";
+                _flagImgPath = "flag_r";
             }
-        
         }
         
         /**ユニット追加*/
@@ -142,6 +143,11 @@ package scene.map.customdata
         public function get cost():int 
         {
             return _cost;
+        }
+        
+        public function get flagImgPath():String 
+        {
+            return _flagImgPath;
         }
         
         public function set cost(value:int):void 

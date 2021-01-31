@@ -1749,7 +1749,8 @@ package scene.map
             // 未選択であれば移動可能に
             if (!terrain.MoveChecked && !terrain.RootSelected && !selfOn)
             {
-                if (sideOn)
+                /*
+                if (sideOn && _selectSide == 0)
                 {
                     _battleMapPanel.alpha = 0.7;
                     _battleMapPanel.touchable = false;
@@ -1759,7 +1760,7 @@ package scene.map
                     _battleMapPanel.alpha = 1;
                     _battleMapPanel.touchable = true;
                 }
-                
+                */
                 terrain.onUnit = sideOn;
                 var img:CImage = new CImage(CommonDef.MOVE_TIP_TEX);
                 img.x = posX * MAP_SIZE;

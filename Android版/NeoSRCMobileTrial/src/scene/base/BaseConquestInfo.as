@@ -231,7 +231,7 @@ package scene.base
             addChild(_name);
         }
         
-        public function conquestAciton(unit:BattleUnit, callBack:Function):void
+        public function conquestAction(unit:BattleUnit, callBack:Function):void
         {
             //制圧ポイント
             var unitPoint:int = unit.maxFormationNum <= 1 ? unit.param.CON : unit.param.CON * (unit.formationNum / unit.maxFormationNum);
@@ -245,14 +245,16 @@ package scene.base
             function tweenUpdate():void
             {
                 _getPointValue.setMaxNumber(_data.nowPoint, _data.masterData.getpoint);
+                
+                if (_data.nowPoint >= _data.masterData.getpoint)
+                {
+                    _name.text = _data.masterData.name + "-" + MainController.$.map.sideState[unit.side].name;
+                    _data.refreshSide(unit.side);
+                }
             }
             
             function tweenEnd():void
             {
-                if (_data.nowPoint == _data.masterData.getpoint)
-                {
-                    _data.refreshSide(unit.side);
-                }
                 callBack();
             }
         }

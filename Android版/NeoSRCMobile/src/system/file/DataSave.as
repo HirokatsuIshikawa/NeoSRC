@@ -219,6 +219,7 @@ package system.file
                 mapBaseList[i].nowPoint = MainController.$.map.baseDataList[i].nowPoint;
                 mapBaseList[i].posX = MainController.$.map.baseDataList[i].posX;
                 mapBaseList[i].posY = MainController.$.map.baseDataList[i].posY;
+                mapBaseList[i].eventId = MainController.$.map.baseDataList[i].eventId;
             }
             
             data.mapBaseList = mapBaseList;
@@ -277,6 +278,7 @@ package system.file
                     mapDateList[i].unitDate[j].onMap = MainController.$.map.sideState[i].battleUnit[j].onMap;
                     mapDateList[i].unitDate[j].buffList = MainController.$.map.sideState[i].battleUnit[j].buffList;
                     mapDateList[i].unitDate[j].customBgmPath = MainController.$.map.sideState[i].battleUnit[j].customBgmPath;
+                    mapDateList[i].unitDate[j].isFly = MainController.$.map.sideState[i].battleUnit[j].isFly;
                     
                     //ラベル
                     mapDateList[i].unitDate[j].talkLabel = MainController.$.map.sideState[i].battleUnit[j].talkLabel;

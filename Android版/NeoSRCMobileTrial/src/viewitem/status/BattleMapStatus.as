@@ -72,7 +72,7 @@ package viewitem.status
 		{
 			var i:int = 0;
 			
-			DataLoad.LoadPath("カスタムBGM", "*.mid;*.mp3", compLoad);
+			DataLoad.LoadPath("カスタムBGM", "*.mid;*.mp3;", compLoad);
 			function compLoad(path:String):void
 			{
                 _unit.customBgmPath = path;

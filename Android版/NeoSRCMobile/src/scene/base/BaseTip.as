@@ -20,10 +20,13 @@ package scene.base
         private var _posX:int = 0;
         private var _posY:int = 0;
         
-        public function BaseTip(data:MasterBaseData, sideNum:int)
+        private var _eventId:String = "";
+        
+        public function BaseTip(data:MasterBaseData, sideNum:int, eventId:String)
         {
             _masterData = data;
             _sideNum = sideNum;
+            _eventId = eventId;
             var tex:Texture = MainController.$.imgAsset.getTexture(data.imgpath);
             
             if (tex == null)
@@ -48,14 +51,14 @@ package scene.base
             _sideNum = num;
             if (_sideFrame == null)
             {
-                _sideFrame = new CImage(MainController.$.imgAsset.getTexture(MainController.$.map.sideState[num].frameImgPath));
+                _sideFrame = new CImage(MainController.$.imgAsset.getTexture(MainController.$.map.sideState[num].flagImgPath));
                 _sideFrame.x = this.x;
                 _sideFrame.y = this.y;
                 MainController.$.map.frameArea.addChildAt(_sideFrame, 0);
             }
             else
             {
-                _sideFrame.texture = MainController.$.imgAsset.getTexture(MainController.$.map.sideState[num].frameImgPath);
+                _sideFrame.texture = MainController.$.imgAsset.getTexture(MainController.$.map.sideState[num].flagImgPath);
             }
         }
         
@@ -106,6 +109,11 @@ package scene.base
         public function set nowPoint(value:int):void
         {
             _nowPoint = value;
+        }
+        
+        public function get eventId():String 
+        {
+            return _eventId;
         }
         
         public function set sideFrame(value:CImage):void

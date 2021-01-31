@@ -80,7 +80,7 @@ package converter.parse.common
                 var baseParamStr:String = ary[i];
                 var param:Array = baseParamStr.split(":");
                 var command:String = param[0];
-                var paramNum:Array = (String)(param[1]).split("-");
+                var paramNum:Array = command === "地形" ? [(String)(param[1])] : (String)(param[1]).split("-");
                 var setKey:String = null;
                 var growthTypeAry:Array = baseParamStr.split("/");
                 var growthType:String = null;

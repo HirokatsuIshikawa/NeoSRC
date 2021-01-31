@@ -33,15 +33,16 @@ package scene.map.tip
 		/** 移動rui */
 		private var _moveDirrection:Vector.<String>;
 		
+        public var onUnit:Boolean = false;
 		
-		public static const TERRAIN_TYPE_GROUND:int = 0;
-		public static const TERRAIN_TYPE_WATER:int = 1;
-		public static const TERRAIN_TYPE_SKY:int = 2;
+		public static const TERRAIN_TYPE_SKY:int = 0;
+		public static const TERRAIN_TYPE_GROUND:int = 1;
+		public static const TERRAIN_TYPE_WATER:int = 2;
 		public static const TERRAIN_TYPE_SPACE:int = 3;
 		public static const TERRAIN_TYPE_NONE:int = 4;
 		
 		public static const TYPE_NUM:Array = [0, 1, 2, 3, 4];
-		public static const TYPE_NAME:Array = ["地上", "水中", "空中", "宇宙", "不可"];
+		public static const TYPE_NAME:Array = ["空中", "地上", "水中", "宇宙", "不可"];
 		public static const VIEW_TYPE:Array = [0, 1, 2, 3, 4, 5];
 		public static const VIEW_TYPE_NAME:Array = ["タイプ", "名称", "コスト", "回避", "防御", "Ev番号"];
 		public static const TYPE_COLOR:Array = [0x33FF00, 0x0000FF, 0x99FFFF, 0x800080, 0xCC00FF]
@@ -73,9 +74,8 @@ package scene.map.tip
 			MoveCount = 0;
 			isAttackSelect = false;
 			AttackRangePoint = 0;
+            onUnit = false;
 		}
-		
-		
 		
 		public function attackReset():void
 		{

@@ -1,0 +1,15 @@
+﻿
+name:ユガミ
+nickname:ユガミ
+type:立ち絵
+x:160,	y:160
+ボディ, 	ユガミ, 	0
+basic:ボディ
+
+
+name:エージェント
+nickname:エージェント
+type:立ち絵
+x:160,	y:160
+ボディ, 	050, 	0
+basic:ボディ

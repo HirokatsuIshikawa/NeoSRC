@@ -1,0 +1,910 @@
+﻿スタート:
+//ユニット追加
+PlayerSideName さくらチーム
+JoinUnit name:木之本桜 level:5
+//Goto 戦闘開始
+//Goto ステージ開始
+//Continue 知世の野望_01
+//Goto ステージクリア開始
+//背景セット
+AddLayer name:背景 alpha:0
+//AddLayer name:キャラクター alpha:0 layername:背景 addlevel:-1
+//AddLayer name:エフェクト alpha:0 layername:キャラクター
+AddLayer name:キャラクター alpha:0
+AddLayer name:エフェクト alpha:0
+CharaLayer name:キャラクター
+SetImg img:back/住宅地.jpg size:just name:部屋 layer:背景
+SetChara name:木之本桜 x:340 alpha:1
+SetChara name:ケルベロス x:540 alpha:0
+ReadyMove
+SetMove name:ケルベロス alpha:0
+SetMove layer:背景 time:0.5 fade:in
+SetMove layer:キャラクター time:0.5 fade:in
+SetMove layer:エフェクト time:0.5 fade:in
+StartMove type:同時 wait:on
+StartBGM file:BGM/海鳴市.mp3 vol:1 fade:0.5
+//StartBGM file:WA2_BattleKnightBrazer.mid vol:1 fade:0.5
+//PlaySound file:雷撃4.mp3
+//setparticle name:パーティクル pex:blue.pex layer:エフェクト tex:effect/fire.png x:100 y:100
+//RegistImgList item/itemlist.xml
+//SetImg xml:item/itemlist.xml img:door name:ドア size:free x:440 y:240 layer:背景
+Talk ケルベロス
+さくらぁ～、まだ着かへんのか？
+
+いい加減うんざりしてきたで
+
+Talk さくら
+ケロちゃん！　声出しちゃだめだってば！！
+
+他の人に聞かれたらどうするの？
+
+Talk ケルベロス
+だって、ワイ家を出てからずーっと
+カバンの中に閉じ込められっぱなしなんやで
+
+息がつまってまうわ……
+
+それに、近くには誰もおらんのやろ
+
+せやったら、ワイが顔だしても
+別に問題はないはずや
+
+Talk さくら
+もー……
+ちょっとだけだよ
+
+ReadyMove
+SetMove chara:ケルベロス fade:in time:0.3
+StartMove type:同時 wait:on
+Talk ケルベロス
+ふぅ、やっと一息つけたわ……
+
+Talk さくら
+ホント、気をつけてよね
+
+こんなところ見られたら
+ご近所じゃなくたって
+大変な事になっちゃうんだから
+
+Talk ケルベロス
+分かっとるって
+
+しっかし、さくらとこうして
+海鳴に来るのも久しぶりやな
+
+Talk さくら
+私だって、来れるんだったら何時も来たいけど
+ケロちゃんと違って色々と用事があるんだもの
+
+MsgClear type:normal
+……ケロちゃん、まさか一人で遊びに行った時に
+迷惑かけたりしてないよね？
+
+Talk ケルベロス
+そんな事せぇへんがな
+そんなんしたらワイ完全にワルもんや
+
+MsgClear
+……ところでさくら
+人の家を訪ねるのに、手ぶらちゅうんは
+少々礼儀にかけるんとちゃうか？
+
+Talk さくら
+え……そうかな？
+
+お父さんからお土産に
+手作りのクッキー貰ったんだけど
+
+Talk ケルベロス
+クッキー……
+それも悪くないなぁ
+
+せやけど見舞いには
+もっとええもんがあるんとちゃうか？
+
+Talk さくら
+いいものって？
+
+Talk ケルベロス
+例えば……
+
+そうやな、この海鳴には翠屋ちゅう
+有名な喫茶店があるのは知っとるか？
+
+Talk さくら
+翠屋……
+
+どこかで聞いた事あるような？
+
+Talk ケルベロス
+知っとるんやったら話が早い
+
+あそこで出しとるケーキは絶品らしいで
+
+お土産には、ちょうどええんとちゃうかなぁ……
+
+Talk さくら
+ケーキかぁ……
+
+Talk ケルベロス
+いやぁ、ほんまあれは絶品やったで
+
+こないだご馳走になった時は
+まさに、天にも昇る気持ちに……
+
+Talk さくら
+………………
+
+Talk ケルベロス
+はっ！？
+
+Talk さくら
+ケロちゃん！　さてはこの前遊びに行った時
+そのケーキごちそうになったんでしょう！
+
+ダメじゃない！
+ごちそうになったらちゃんと言わなきゃ！！
+
+Talk ケルベロス
+あっはっは……スマンスマン
+
+ケーキの味にうっとりしとったから
+ついつい忘れてしもうたんや
+
+Talk さくら
+もう……
+
+Talk ケルベロス
+ワイは悪うない
+
+悪いんは全てを忘れさす
+素敵な味のあのケーキや
+
+まぁ、そういうわけやからここはひとつ
+ケーキを買いに行こうやないか
+
+一度、その翠屋にも行ってみたかったところやし……
+
+Talk さくら
+うーん……
+
+でも、ケーキはいいんだけど
+お土産買うほどのおこづかいは……
+
+Talk ケルベロス
+ん……？
+
+StopBGM fade:0.3
+PlaySound file:SE/シャキーン.mp3
+Flash color:0xFFFFFF time:0.3
+//SetImg xml:システム img:tex_white size:fill name:ホワイト layer:エフェクト alpha:1
+//ReadyMove
+//SetMove layer:エフェクト time:0.1 fade:in
+//SetMove layer:エフェクト time:0.1 fade:out
+//StartMove type:連続 wait:on
+Talk ケルベロス
+この気配は……
+
+Talk さくら
+ケロちゃん、これって……！
+
+StartBGM file:BGM/戦闘開始前.mp3 vol:1 fade:0.5
+Talk ケルベロス
+……ああ、強い魔の気配
+
+なにかの魔法が、近くで発動したんや
+
+MsgClear
+しっかし、なんやこの気配……？
+
+なんか、喜んどるというか
+はしゃいどる様な気配や……
+
+MsgClear
+なんでこないな所で
+こんな気配がするんかわからんけど
+
+これ、ひょっとして
+かなりまずいパターンとちゃうか？
+
+Talk さくら
+このまま、放って置くわけにはいかないよね？
+
+Talk ケルベロス
+ああ
+誰が使うとるんか判らんけど
+こないな強い魔の気配を
+放って置く訳には行かん
+
+MsgClear
+行くでさくら！
+
+カードキャプターの出番や！！
+
+Talk さくら
+うん！
+
+MsgClear
+StartBGM file:BGM/さくらのテーマ.mp3 vol:1 fade:0.5
+星の力を秘めし鍵よ！　真の姿を我が前に示せ！！
+
+契約の下、さくらが命じる……
+
+封印解除（レリーズ）！！
+
+PlaySound file:SE/シャキーン.mp3
+Talk さくら
+翔（フライ）！！
+Flash color:0xFFFFFF time:0.3
+hidemsg time:0.3
+ReadyMove
+SetMove chara:木之本桜 time:1 x:1200
+SetMove chara:ケルベロス time:1 x:1200
+StartMove type:同時 wait:on
+clearmsg type:all
+SetImg xml:システム img:tex_black size:fill name:ブラック layer:エフェクト alpha:1
+ReadyMove
+SetMove layer:エフェクト time:1 fade:in
+SetMove layer:キャラクター time:1 fade:out
+StartMove type:同時 wait:on
+//DeleteAllLayer
+DeleteLayer name:背景
+ClearLayer name:キャラクター
+//DeleteLayer name:キャラクター
+Goto ステージ開始
+Exit
+
+
+戦闘開始:
+StopBGM
+LoadMap file:月村家森.map
+Wait 1
+JoinUnit name:なのは level:2
+CreateUnit name:フェイト x:10 y:6 side:敵 level:3
+LaunchUnit name:木之本桜 x:13 y:6
+DeleteAllLayer
+hidemsg time:0.3
+clearmsg
+//SetMapEvent x:14 y:13 side:0 label:村イベント type:移動
+//SetBattleEvent 主人公 敵 label:戦闘前イベント
+//SetEvent さくら フェイト label:さくらとフェイト type:戦闘
+//SetEvent target:フェイト label:フェイト撃破 type:撃破
+SetEvent side:敵 label:ステージクリア type:全滅
+Exit
+
+ステージ開始:
+StopBGM
+LoadMap file:月村家森.map
+StartBGM file:BGM/戦闘開始前.mp3 vol:1 fade:0.5
+//AddLayer name:キャラクター alpha:0
+//AddLayer name:エフェクト alpha:0
+//CharaLayer name:キャラクター
+SetChara name:なのは x:480
+SetChara name:ユーノ フェレット x:640
+SetChara name:フェイト x:-600
+//JoinUnit name:なのは
+//AllLayer time:0.5 alpha:0 chara:show
+ReadyMove
+SetMove layer:エフェクト time:0.5 fade:out
+StartMove type:同時 wait:on
+CreateUnit name:なのは x:17 y:12 level:1 side:さくらチーム
+CreateUnit name:フェイト x:13 y:12 level:1 side:敵
+ReadyMove
+SetMove layer:キャラクター time:0.5 fade:in
+StartMove type:同時 wait:on
+Talk なのは
+ッ！？
+
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:900
+StartMove type:同時 wait:on
+Talk フェイト
+………………
+
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:0
+StartMove type:同時 wait:on
+Talk ユーノ フェレット
+なのは、気を付けて！
+彼女、かなり戦闘に手慣れてる……！
+
+Talk なのは
+あの子、私と同じくらいなのに……！
+
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:900
+StartMove type:同時 wait:on
+Talk フェイト
+………………
+
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:0
+StartMove type:同時 wait:on
+Talk ユーノ フェレット
+（どうして、こんな処にあれだけの魔導師が……
+
+……せめて、僕の魔力が回復していれば……！）
+
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:900
+StartMove type:同時 wait:on
+Talk フェイト
+これで……終わり……
+
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:0
+StartMove type:同時 wait:on
+Talk なのは
+！？
+
+Talk ユーノ フェレット
+マズイ、今の力じゃ防ぎきれない……
+
+なのは！！
+
+Talk なのは
+ユーノ君！　逃げて！！
+
+HideMsg
+ClearMsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:900
+StartMove type:同時 wait:on
+PlaySound file:SE/雷撃4.mp3
+SetImg xml:システム img:tex_white size:fill name:ホワイト layer:エフェクト alpha:1
+ReadyMove
+SetMove layer:エフェクト time:0.1 fade:in
+StartMove type:連続 wait:on
+Talk フェイト
+………………
+
+！？
+
+StopBGM
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:0
+StartMove type:同時 wait:on
+Talk なのは
+……？
+
+ReadyMove
+SetMove layer:エフェクト time:0.1 fade:out
+StartMove type:連続 wait:on
+あれ……なんともない……
+
+StartBGM file:BGM/さくらのテーマ.mp3 vol:1 fade:0.5
+LaunchUnit name:木之本桜 x:16 y:12
+SetChara name:木之本桜 x:10 alpha:0
+SetChara name:ケルベロス x:240 alpha:0 真の姿
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:300
+SetMove chara:木之本桜 time:0.3 alpha:1
+SetMove chara:ケルベロス time:0.3 alpha:1
+StartMove type:同時 wait:on
+Talk ケルベロス 真の姿
+ふぅ、間に合うた……
+間一髪やったわ
+
+Talk なのは
+え……！？　ら……ライオン！？
+
+Talk ケルベロス 真の姿
+お前ら、ケガないか？
+
+Talk ユーノ フェレット
+あ、はい、おかげさまで……
+
+Talk なのは
+どうもありがとうございます
+
+Talk ケルベロス 真の姿
+ええってええって、困った時はお互い様や
+
+Talk なのは
+（翼の生えたライオンが関西弁でしゃべってる……
+
+　……きっと、さっきの攻撃で
+　どうにかなっちゃて、夢を見てるんだ）
+
+Talk ユーノ フェレット
+………………
+
+Talk なのは
+！？　イタタ……
+
+Talk ユーノ フェレット
+夢じゃ……ない？
+
+Talk ケルベロス 真の姿
+なんや、二人して自分のほっぺつねりよって？
+
+おもしろいやっちゃなぁ
+
+芸人の魔法少女なんか？
+
+Talk なのは
+げ……芸人！？
+
+Talk ユーノ フェレット
+いや、別にウケを取ろうとしたわけじゃ……
+
+Talk さくら
+ケロちゃん！　なにやってるのよ！？
+
+……大丈夫、ケガはない？
+
+Talk なのは
+あ……すいません、どうもありがとうございます
+
+Talk さくら
+よかった、無事なんだね……
+ごめんね、ケロちゃんがびっくりさせちゃって
+
+Talk なのは
+ケロちゃん……？
+
+もしかして、このライオンのこと……？
+
+msgClear
+（ものすごくイメージに似合わない名前だけど……
+
+　それより、なんだろう、この人……
+
+　会った事無い筈なのに
+　なぜか、懐かしい感じがする……？）
+
+Talk ユーノ フェレット
+あなた達は一体……？
+
+Talk ケルベロス 真の姿
+話しとるところ、悪いけど
+残念ながら、詳しい話をしとる暇は無さそうや
+
+Talk なのは
+え？
+
+Talk ケルベロス 真の姿
+さくら、どうやらアッチはまだやる気みたいやで
+
+
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:900
+StartMove type:同時 wait:on
+Talk フェイト
+新しい魔導師、あの子の仲間……？
+
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:300
+StartMove type:同時 wait:on
+Talk ケルベロス 真の姿
+……さっきの魔法とあの杖
+ちょっと厄介な奴みたいやな
+
+なにが目的かは知らんけど
+どうやら引く気は無いみたいや
+
+Talk さくら
+……ケロちゃん
+
+この子達の事、お願いできる？
+
+Talk なのは
+え……？
+
+Talk ケルベロス 真の姿
+さくら？　……大丈夫なんか？
+
+まぁ、ちゃんとカードを使えば
+なんてことはない相手やろうけど……
+
+Talk ユーノ フェレット
+（なんてことないって……あの魔導師が！？）
+
+Talk さくら
+……うん、わかってる
+
+でも、あの子の事を見てたら
+ここで私がなんとかしなきゃって思えて……
+
+Talk ケルベロス 真の姿
+………………
+
+わかった、そこまで言うんやったら任せるわ
+油断するんやないで
+
+Talk さくら
+うん！
+
+ReadyMove
+SetMove chara:さくら time:0.3 x:-400
+StartMove type:同時 wait:on
+Wait 0.3
+Talk なのは
+空を……
+
+やっぱりあの子も魔法小女！？
+
+Talk ユーノ フェレット
+どうやら、そうみたい……
+だけどあんな魔法、今まで見た事ない……
+僕の知らない魔法を使うのか……？
+
+Talk なのは
+あの子に続いて、また新しい魔法少女に出会うなんて……
+
+Talk ケルベロス 真の姿
+あんさんら、僅かながらも魔法が使えるっちゅうことは
+うわさに聞く魔法少女っちゅうやつかいな？
+
+いやぁ、さくら以外にも居るとは思わんかったわ
+
+Talk なのは
+さくら……あの人の名前？
+
+Talk ユーノ フェレット
+貴方達はいったい……？
+
+Talk ケルベロス 真の姿
+ワイの名はケルベロス
+
+ずっと昔にクロウ・リードっちゅう
+魔術師に造られた黄金の守護獣や
+
+Talk なのは
+クロウ・リード……？
+
+Talk ユーノ フェレット
+魔術師と守護獣……？
+
+魔導師と使い魔とは違うのか……？
+
+Talk ケルベロス 真の姿
+そして、あれがワイの今の主……
+
+かつてクロウ・リードの造りだした
+魔法のカード、クロウカードの継承者！
+超絶無敵の魔法少女！　カードキャプターさくらや
+
+Talk なのは
+カードキャプター……？
+
+DeleteAllLayer
+hidemsg time:0.3
+clearmsg type:all
+Escape name:高町なのは side:さくらチーム
+SetEvent さくら フェイト label:さくらとフェイト type:戦闘
+SetEvent target:フェイト label:フェイト撃破 type:撃破
+SetEvent side:敵 label:ステージクリア type:全滅
+SetEvent side:さくらチーム label:ゲームオーバー type:全滅
+Exit
+
+
+ゲームオーバー:
+Select goto:on 再挑戦する:コンティニュー あきらめる:終了
+Exit
+
+再挑戦する:
+QuickLoad
+Exit
+
+あきらめる:
+Finish
+Exit
+
+
+
+
+さくらとフェイト:
+AddLayer name:キャラクター alpha:0
+CharaLayer name:キャラクター
+SetChara name:さくら x:280
+SetChara name:フェイト x:680
+AllLayer time:0.5 alpha:0 chara:show
+ReadyMove
+SetMove layer:キャラクター time:0.5 fade:in
+StartMove type:同時 wait:on
+Talk さくら
+あなた！　なんでこんな事するの！？
+
+Talk フェイト
+……どうせ、話した所で意味はない
+
+私には、負けられない理由がある
+
+だから、ここは絶対に譲れない……！
+
+Talk さくら
+負けられない理由……？
+
+DeleteAllLayer
+hidemsg time:0.3
+clearmsg type:all
+ClearEvent さくらとフェイト
+Exit
+
+
+フェイト撃破:
+AddLayer name:キャラクター alpha:0
+AddLayer name:エフェクト alpha:0
+CharaLayer name:キャラクター
+SetChara name:さくら x:280
+SetChara name:フェイト x:680
+AllLayer time:0.5 alpha:0 chara:show
+ReadyMove
+SetMove layer:キャラクター time:0.5 fade:in
+StartMove type:同時 wait:on
+Talk フェイト
+！？　バルディッシュが！
+
+これほどの使い手が居たなんて……
+
+これ以上の戦闘継続は無理か……
+
+Talk さくら
+………………
+
+Talk フェイト
+今度は……負けない
+
+Talk さくら
+えっ？
+
+clearmsg type:all
+hideMsg 0.3
+ReadyMove
+SetMove chara:フェイト time:0.5 fade:out
+StartMove type:同時 wait:on
+showmsg 0.3
+Talk さくら
+行っちゃった……
+
+今度って……あの子、また何かやるつもりなのかな……
+……小狼君も、出会った頃はあんな感じだったけど……
+
+//DeleteAllLayer
+hidemsg time:0.3
+clearmsg type:all
+SetImg xml:システム img:tex_black size:fill name:ブラック layer:エフェクト alpha:1
+ReadyMove
+SetMove layer:エフェクト time:1 fade:in
+StartMove type:同時 wait:on
+RemoveChara name:さくら
+RemoveChara name:フェイト
+Goto ステージクリア
+Exit
+
+
+ステージクリア開始:
+//AddLayer name:キャラクター alpha:0
+//AddLayer name:エフェクト alpha:0
+CharaLayer name:キャラクター
+SetImg xml:システム img:tex_black size:fill name:ブラック layer:エフェクト alpha:1
+ReadyMove
+SetMove layer:エフェクト time:1 fade:in
+StartMove type:同時 wait:on
+clearLayer name:キャラクター
+Goto ステージクリア
+Exit
+
+ステージクリア:
+AddLayer name:背景 alpha:1 level:0
+CharaLayer name:キャラクター
+SetImg img:back/BG22a_80.jpg size:just name:部屋 layer:背景
+SetChara name:ケルベロス x:520 alpha:1 真の姿
+SetChara name:なのは x:820 alpha:1
+SetChara name:ユーノ x:940 alpha:1 フェレット
+ReadyMove
+SetMove layer:キャラクター time:0.1 fade:in
+SetMove layer:エフェクト time:0.5 fade:out
+StartMove type:連続 wait:on
+Talk ケルベロス 真の姿
+やれやれ、なんとかなったみたいやな
+
+しかしナニモンや、あの金髪娘……
+Wait 0.3
+おっと、そういやまだ終わりやなかったな
+さっきの怪しい気配の元を探さんと
+
+ん～……
+
+Talk なのは
+あ……あの、なにか？
+
+Talk ケルベロス 真の姿
+……ちゃうな、魔力の性質がさっきとは別もんや
+
+んん～……
+
+Talk ユーノ フェレット
+ひっ！？
+
+Talk ケルベロス 真の姿
+警戒すんな、別に取って食ったりせんわ
+
+……どうやら、あんさんもちゃうようやな
+
+そうなると、いったい誰や？
+この魔力を放っとるんは……？
+
+Talk ユーノ フェレット
+あ……
+
+Talk なのは
+後ろ……
+
+Talk ケルベロス 真の姿
+ん？　後ろ……？
+
+うわっぷ！？
+Wait 0.3
+SetChara name:さくら x:0 alpha:0
+ReadyMove
+SetMove chara:さくら x:280 time:0.5 fade:in
+StartMove type:同時 wait:on
+Talk さくら
+ふぅ、やっと終わったよ……
+
+……って、ケロちゃん！？
+いったい何やってるのよ！
+
+Talk ケルベロス 真の姿
+見りゃわかるやろ！
+このデカネコになめられとるんや！！
+
+こら！　やめんかい！
+舌のザラザラが痛……イタタタタ……！
+
+Talk さくら
+ほえ～……大きなネコ……
+
+……今回、わたし『大（ビッグ）』のカード
+使ってないよね？
+
+Talk ケルベロス 真の姿
+あー、そういや居よったな
+あの時にもデカくなった野良猫
+
+どうせやったら、あの時みたいに
+小僧と小娘にちょっかい出せばええのに……
+
+……いや、どっちもとっくに帰ってもうとったか
+
+それにこのネコ……
+子猫なんとちゃうんか？
+
+親猫、一体どんな大きさやねん……
+
+って、ちゃう！　そうやない！！
+
+さくら！　こいつがさっきの魔力の持ち主や！
+
+きっと、デカくなっとるのも
+なんかの魔力の影響やで！
+
+Talk さくら
+ええっ！？　このネコさんが！？
+
+でも、いったいどうしてこんなに大きく……
+
+Talk ユーノ フェレット
+あの……
+お取込み中もうしわけありませんが
+
+Talk さくら
+ほえ？　フェレットさん……？
+
+Talk ユーノ フェレット
+その猫を大きくしている原因
+僕達に任せてもらえないでしょうか？
+
+Talk ケルベロス 真の姿
+なんやそこの……イタチ小僧
+お前さん、このネコが
+でっかくなった原因知っとるんか？
+
+Talk ユーノ フェレット
+イタチ小僧……
+
+ええ、まぁ……
+
+……元を正せば、僕が原因みたいなものですし
+
+Talk ケルベロス 真の姿
+なんや、意味深なセリフやな……
+
+Talk さくら
+……どうしよう、ケロちゃん
+ここは任せた方がいいのかな……？
+
+Talk ケルベロス 真の姿
+……せやな、ここは判っとるヤツに任せるのが一番やろ
+
+なにをするか、ワイも興味あるし
+悪いヤツらでもなさそうやからな
+
+Talk ユーノ フェレット
+あ、ありがとうございます
+
+じゃあ、なのはおねがい
+
+Talk なのは
+うん！
+
+msgClear
+リリカルマジカル！
+
+ジュエルシード、シリアル１４！　 封印！
+
+Flash color:0xFFFFFF time:0.3
+Talk ケルベロス 真の姿
+あのデカ猫が……！
+
+Talk さくら
+ほえ……こんなに小さな子ネコさんだったんだ
+
+Talk ケルベロス 真の姿
+『大（ビッグ）』のカードの時と同じやな
+その魔石が、原因か
+
+見た感じ、あんさんらなんか理由があって
+その魔石を集めとるようやな
+
+よかったら、その辺ちょっと聞かせて……
+
+msgClear
+！？
+
+Talk さくら
+どうしたのケロちゃん？
+
+Talk ケルベロス 真の姿
+あかん、誰かこっちに近づいてきよる！
+
+こんな処見つかったらえらい事になるで！！
+
+Talk ユーノ フェレット
+しまった……いつの間に結界が！？
+
+なのは！　バリアジャケットの解除を！
+
+Talk なのは
+う……うん！
+
+Talk ケルベロス 真の姿
+さくら、ワイらも長居は無用や
+はよ、こっから離れるで
+
+Talk さくら
+うん！
+
+ReadyMove
+SetMove chara:ケルベロス time:1 x:-500
+StartMove type:同時 wait:on
+Talk なのは
+あの……ありがとうございます！
+
+さくら……さん？
+
+Talk さくら
+ほえっ……？
+
+……わたし、木之本桜！
+
+じゃあね、なのは……ちゃん
+
+Talk なのは
+！　……はい！
+
+hidemsg time:0.3
+ReadyMove
+SetMove chara:木之本桜 time:1 x:-500
+StartMove type:同時 wait:on
+Wait 1
+SetImg xml:システム img:tex_black size:fill name:ブラック layer:エフェクト alpha:1
+ReadyMove
+SetMove layer:エフェクト time:1 fade:in
+StartMove type:連続 wait:on
+DeleteAllLayer
+clearmsg
+Continue 知世の野望_01.srceve
+Exit

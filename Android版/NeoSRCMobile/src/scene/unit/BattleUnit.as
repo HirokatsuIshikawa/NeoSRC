@@ -48,7 +48,7 @@ package scene.unit
             //_unitImg = new CImage(TextureManager.loadUnitNameTexture(masterData.unitsImgName, TextureManager.TYPE_UNIT));
             _unitImg = new CImage(MainController.$.imgAsset.getTexture(masterData.unitsImgName));
             
-            _flyIconImg = new CImage(MainController.$.imgAsset.getTexture("icon_flg"));
+            _flyIconImg = new CImage(MainController.$.imgAsset.getTexture("icon_fly"));
             
             if (terrain[TerrainData.TERRAIN_TYPE_SKY] < 0)
             {

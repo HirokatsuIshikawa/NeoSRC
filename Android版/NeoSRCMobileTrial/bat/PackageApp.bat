@@ -3,6 +3,7 @@
 :: Set working dir
 cd %~dp0 & cd ..
 
+set JAVA_HOME=C:\Program Files\Java\jdk-12.0.1
 set PAUSE_ERRORS=1
 call bat\SetupSDK.bat
 call bat\SetupApp.bat

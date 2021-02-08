@@ -345,10 +345,10 @@ package main
                 }
                 
                 //汎用ユニットデータ
-                 count = CommonDef.objectLength(data.genericUnitList);
+                count = CommonDef.objectLength(data.genericUnitList);
                 for (i = 0; i < count; i++)
                 {
-                    MainController.$.model.addPlayerGenericUnitFromName(data.genericUnitList[i].name, data.genericUnitList[i].lv, data.genericUnitList[i].cost,data.genericUnitList[i].customBgmPath);
+                    MainController.$.model.addPlayerGenericUnitFromName(data.genericUnitList[i].name, data.genericUnitList[i].lv, data.genericUnitList[i].cost, data.genericUnitList[i].customBgmPath);
                 }
                 
                 //会話・マップデータ読み込み
@@ -484,11 +484,10 @@ package main
                         battleUnit.formationNumImg.visible = true;
                     }
                     
-                    
                     //飛行アイコン
                     battleUnit.flyIconImg.x = (posX - 1) * BaseMap.MAP_SIZE;
                     battleUnit.flyIconImg.y = (posY - 1) * BaseMap.MAP_SIZE;
-                   
+                    
                     if (unitData.isFly)
                     {
                         battleUnit.flyUp();
@@ -581,7 +580,7 @@ package main
             var i:int = 0;
             
             MainController.$.model.resetUnitData();
-                MainController.$.model.resetGenericUnitData();
+            MainController.$.model.resetGenericUnitData();
             MainController.$.model.resetCommanderData();
             
             MainController.$.model.playerParam.loadObject(data.playerData);
@@ -593,13 +592,11 @@ package main
                 MainController.$.model.addPlayerUnitFromName(data.unitList[i].name, data.unitList[i].lv, data.unitList[i].exp, data.unitList[i].strengthPoint, false, data.unitList[i].customBgmPath);
             }
             
-            
             count = CommonDef.objectLength(data.genericUnitList);
             for (i = 0; i < count; i++)
             {
-                MainController.$.model.addPlayerGenericUnitFromName(data.genericUnitList[i].name, data.genericUnitList[i].lv, data.genericUnitList[i].cost,data.genericUnitList[i].customBgmPath);
+                MainController.$.model.addPlayerGenericUnitFromName(data.genericUnitList[i].name, data.genericUnitList[i].lv, data.genericUnitList[i].cost, data.genericUnitList[i].customBgmPath);
             }
-            
             
             count = CommonDef.objectLength(data.commanderList);
             //所持軍師データ

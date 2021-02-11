@@ -1237,6 +1237,13 @@ package scene.talk
                 eventData.setExtinctionParam(param.side, param.label, param);
                 _eventList.push(eventData);
                 break;
+            //ターン
+            case MapEventData.TYPE_NAME[MapEventData.TYPE_TURN]: 
+            case MapEventData.TYPE_NAME_JP[MapEventData.TYPE_TURN]: 
+                eventData = new MapEventData();
+                eventData.setTurnParam(param.side, param.label, param);
+                _eventList.push(eventData);
+                break;
             }
         }
         
@@ -1261,6 +1268,18 @@ package scene.talk
             param.side = MainController.$.map.sideState[side].name;
             param.unit = data.name;
             param.eventid = baseData.eventId;
+            
+            searchEvent(param, callBack, type);
+        }
+        
+        
+        /**マップターンイベント検索*/
+        public function searchMapTurnEvent(turn:int, side:int, callBack:Function, type:int):void
+        {
+            var param:Object = new Object();
+            
+            param.turn = turn;
+            param.side = MainController.$.map.sideState[side].name;
             
             searchEvent(param, callBack, type);
         }
@@ -1317,7 +1336,8 @@ package scene.talk
                     (type == MapEventData.TYPE_MATH_IN && _eventList[i].judgeMapParam(param)) ||		//マス侵入イベント
                     (type == MapEventData.TYPE_BASE_CONTROL && _eventList[i].judgeBaseControllParam(param)) ||		//拠点制圧イベント
                     (type == MapEventData.TYPE_DEFEAT && _eventList[i].judgeDefeatParam(param)) ||	//撃破イベント
-                    (type == MapEventData.TYPE_EXTINCTION && _eventList[i].judgeExtinctionParam(param))	//全滅イベント
+                    (type == MapEventData.TYPE_EXTINCTION && _eventList[i].judgeExtinctionParam(param))	|| //全滅イベント
+                    (type == MapEventData.TYPE_TURN && _eventList[i].judgeTurnParam(param))	|| //ターンイベント
                     )
                     {
                         endFlg = true;

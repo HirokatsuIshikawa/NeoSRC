@@ -385,6 +385,10 @@ package main
             var j:int = 0;
             var posX:int = 0;
             var posY:int = 0;
+            
+            //マップターン数
+            battleMap.turn = data.turn;
+            
             //マップ配置画像読み込み
             for (i = 0; i < CommonDef.objectLength(data.mapPictureList); i++)
             {

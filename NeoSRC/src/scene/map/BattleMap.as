@@ -162,6 +162,7 @@ package scene.map
         //-------------------------------------------------------------
         private var _skyFlg:Boolean = false;
         
+        private var _turn:int = 0;
         //-------------------------------------------------------------
         //
         // コンストラクタ
@@ -187,6 +188,8 @@ package scene.map
             _btnReset.width = MAP_SIZE;
             _btnReset.height = MAP_SIZE;
             _btnReset.addEventListener(Event.TRIGGERED, resetMove);
+            
+            _turn = 1;
         }
         
         //-------------------------------------------------------------
@@ -3169,6 +3172,7 @@ package scene.map
             if (_selectSide >= _sideState.length)
             {
                 _selectSide = 0;
+                _turn++;
             }
             
             //拠点収入
@@ -3205,15 +3209,22 @@ package scene.map
                     }
                 }
             }
-            //味方ターンのみ
-            if (_selectSide == 0)
+            
+            //ターンイベント
+            MainController.$.view.eveManager.searchMapTurnEvent(_turn, _selectSide, phaseStart, MapEventData.TYPE_TURN);
+            
+            function phaseStart():void
             {
-                _battleMapPanel.showPanel(BattleMapPanel.PANEL_SYSTEM);
-            }
-            else
-            {
-                _battleMapPanel.showPanel(BattleMapPanel.PANEL_ENEMY_TURN);
-                enemyAct();
+                //味方ターンのみ
+                if (_selectSide == 0)
+                {
+                    _battleMapPanel.showPanel(BattleMapPanel.PANEL_SYSTEM);
+                }
+                else
+                {
+                    _battleMapPanel.showPanel(BattleMapPanel.PANEL_ENEMY_TURN);
+                    enemyAct();
+                }
             }
         }
         
@@ -3567,6 +3578,16 @@ package scene.map
         public function set mapTalkFlg(value:Boolean):void
         {
             _mapTalkFlg = value;
+        }
+        
+        public function get turn():int 
+        {
+            return _turn;
+        }
+        
+        public function set turn(value:int):void 
+        {
+            _turn = value;
         }
         
         //-------------------------------------------------------------

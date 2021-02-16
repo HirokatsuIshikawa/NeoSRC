@@ -1713,6 +1713,7 @@ package scene.map
                                 
                                 trace("#####X:" + _sideState[i].battleUnit[j].PosX + "-" + posX + "###Y:" + _sideState[i].battleUnit[j].PosY + "-" + posY + "###" + _sideState[i].battleUnit[j].onMap)
                                 sideOn = true;
+                                
                                 break;
                             }
                             else
@@ -1774,11 +1775,16 @@ package scene.map
                 terrain.MoveChecked = true;
                 terrain.moveClone(dirrectionList);
                 
+                //敵行動時
                 if (aiMove != null)
                 {
-                    var moveTarget:EnemyMoveData = new EnemyMoveData();
-                    moveTarget.getPriority(posX, posY, stayFlg, nowBattleUnit, _sideState, _baseDataList, _selectSide);
-                    aiMove.push(moveTarget);
+                    //通過ポイントでなければ移動先に加える
+                    if (!sideOn)
+                    {
+                       var moveTarget:EnemyMoveData = new EnemyMoveData();
+                        moveTarget.getPriority(posX, posY, stayFlg, nowBattleUnit, _sideState, _baseDataList, _selectSide);
+                        aiMove.push(moveTarget);
+                    }
                 }
             }
             // 移動可能時

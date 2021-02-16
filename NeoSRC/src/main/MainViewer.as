@@ -324,7 +324,7 @@ package main
                 
                 //基本データ読み込み
                 //今のデータ削除
-                resetWindow();
+                resetWindow(false);
                 MainController.$.model.resetUnitData();
                 MainController.$.model.resetGenericUnitData();
                 MainController.$.model.resetCommanderData();
@@ -580,7 +580,7 @@ package main
         /**ロードボタン押し後*/
         public function loadSaveData(data:Object):void
         {
-            resetWindow();
+            resetWindow(true);
             var i:int = 0;
             
             MainController.$.model.resetUnitData();
@@ -695,7 +695,7 @@ package main
         {
             MainController.$.model.playerParam.keepBGMFlg = false;
             //画面初期化
-            resetWindow();
+            resetWindow(true);
             if (nextEve != null)
             {
                 if (nextEve.indexOf(".") <= 0 && nextEve != "未設定")
@@ -716,9 +716,12 @@ package main
         }
         
         //画面初期化
-        public function resetWindow():void
+        public function resetWindow(stopBgmFlg:Boolean):void
         {
-            SingleMusic.endBGM(0.3);
+            if (stopBgmFlg)
+            {
+                SingleMusic.endBGM(0.3);
+            }
             removeChild(_eveManager);
             if (_eveManager != null)
             {

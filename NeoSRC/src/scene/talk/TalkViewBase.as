@@ -1337,7 +1337,7 @@ package scene.talk
                     (type == MapEventData.TYPE_BASE_CONTROL && _eventList[i].judgeBaseControllParam(param)) ||		//拠点制圧イベント
                     (type == MapEventData.TYPE_DEFEAT && _eventList[i].judgeDefeatParam(param)) ||	//撃破イベント
                     (type == MapEventData.TYPE_EXTINCTION && _eventList[i].judgeExtinctionParam(param))	|| //全滅イベント
-                    (type == MapEventData.TYPE_TURN && _eventList[i].judgeTurnParam(param))	|| //ターンイベント
+                    (type == MapEventData.TYPE_TURN && _eventList[i].judgeTurnParam(param)) //ターンイベント
                     )
                     {
                         endFlg = true;

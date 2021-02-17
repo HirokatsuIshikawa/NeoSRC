@@ -111,7 +111,7 @@ package common
             if (skill.heal > 0)
             {
                 value = skill.heal;
-                unit.healHP(skill.heal);
+                unit.healHP(skill.heal, false);
             }
             //補給
             if (skill.supply > 0)

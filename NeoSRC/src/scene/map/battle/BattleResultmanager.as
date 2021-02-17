@@ -124,7 +124,7 @@ package scene.map.battle
                 if (hitFlg)
                 {
                     damage = CommonBattleMath.battleDamage(attackItem);
-                    deffender.damageSet(damage);
+                    deffender.damageSet(damage, false);
                     
                     //味方の場合経験値取得
                     if (attacker.side == 0)

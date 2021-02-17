@@ -280,14 +280,14 @@ package scene.unit
         }
         
         /**ダメージ計算・ダメ―ジセット*/
-        public function damageSet(damage:int):void
+        public function damageSet(damage:int, imgRefresh:Boolean = true):void
         {
             _nowHp -= damage;
             if (_nowHp <= 0)
             {
                 _alive = false;
             }
-            else
+            else if(imgRefresh)
             {
                 setFormationNumImg();
             }
@@ -476,14 +476,17 @@ package scene.unit
             }
         }
         
-        public function healHP(num:int):void
+        public function healHP(num:int, refreshImg:Boolean = true):void
         {
             _nowHp += num;
             if (_nowHp > param.HP)
             {
                 _nowHp = param.HP;
             }
-            setFormationNumImg();
+            if (refreshImg)
+            {
+                setFormationNumImg();
+            }
         }
         
         public function supplyFP(num:int):void

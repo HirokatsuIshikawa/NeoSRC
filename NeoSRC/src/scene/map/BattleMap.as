@@ -2652,6 +2652,16 @@ package scene.map
         /**棋譜初期化*/
         private function refreshBattleRecord():void
         {
+            
+            if (nowBattleUnit != null)
+            {
+                nowBattleUnit.setFormationNumImg();
+            }
+            if (targetUnit != null)
+            {
+                targetUnit.setFormationNumImg();
+            }
+            
             var i:int = 0;
             if (_battleResultManager.attackRecord != null)
             {

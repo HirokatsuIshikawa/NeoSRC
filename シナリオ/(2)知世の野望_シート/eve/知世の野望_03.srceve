@@ -130,10 +130,10 @@ StartMove type:連続 wait:on
 clearmsg type:all
 DeleteLayer name:背景
 ClearLayer name:キャラクター
-Goto スタート
+Goto マップ開始
 Exit
 
-スタート:
+マップ開始:
 
 Talk ロッドアタッカー
 ああ、わかった……

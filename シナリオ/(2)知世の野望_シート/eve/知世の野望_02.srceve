@@ -993,9 +993,9 @@ StartMove type:同時 wait:on
 JoinCommander name:大道寺知世 Lv:1 
 SetCommander name:大道寺知世 sidename:さくらチーム
 StartBGM file:BGM/game_maoudamashii_1_battle24.mp3 vol:1 fade:0.5
-CreateUnit name:キャノンレイダー x:14 y:9 side:敵 level:5 
-CreateUnit name:ブッシュシューター x:11 y:8 side:敵 level:5 
-CreateUnit name:ロッドアタッカー x:17 y:8 side:敵 level:5 
+CreateUnit name:キャノンレイダー x:14 y:9 side:敵 level:2
+CreateUnit name:ブッシュシューター x:11 y:8 side:敵 level:2
+CreateUnit name:ロッドアタッカー x:17 y:8 side:敵 level:2
 Wait 0.5
 SetChara name:ロッドアタッカー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 0) alpha:1 y:160
 SetChara name:ブッシュシューター x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 1) alpha:1 y:160
@@ -1453,7 +1453,7 @@ ReadyMove
 SetMove layer:キャラクター time:0.3 fade:out
 StartMove type:同時 wait:on
 Wait 1
-CreateUnit name:グランモール x:14 y:11 side:敵 level:5
+CreateUnit name:グランモール x:14 y:11 side:敵 level:3
 Wait 1
 ReadyMove
 SetMove layer:キャラクター time:0 x:$変数(プレイヤー表示位置)

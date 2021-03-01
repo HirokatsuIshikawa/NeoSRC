@@ -17,6 +17,7 @@ Set name:エネミー表示位置 value:-1080
 Set name:エネミー配置位置 value:1300
 Set name:エネミー配置間隔 value:200
 //
+Wait 1
 SetImg img:草地 size:fill name:境内 layer:背景 alpha:1
 SetChara name:知世 x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 0) alpha:1
 SetChara name:さくら x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 1) alpha:1
@@ -24,12 +25,14 @@ SetChara name:なのは x:$式($変数(プレイヤー配置位置) + $変数(�
 SetChara name:ユーノ x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 3) alpha:1
 SetChara name:ケイブガード x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 4) alpha:1
 SetChara name:ワイルドランナー x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 5) alpha:1
+ReadyMove
+SetMove layer:背景 time:1 fade:in
+StartMove type:連続 wait:on
+Wait 1
 flash
 ReadyMove
-SetMove layer:キャラクター time:0.1 fade:in
-SetMove layer:背景 time:0.1 fade:in
-SetMove layer:エフェクト time:0.5 fade:out
-StartMove type:連続 wait:on
+SetMove layer:キャラクター time:1 fade:in
+StartMove wait:on
 //
 //
 //
@@ -62,8 +65,9 @@ Talk ケイブガード
 せっかく獲物を狩って来たってのに
 
 Talk ユーノ
-獲物って、そのジャガイモお化けの切り身……
-いったいどうするつもり？
+獲物って、そのジャガイモお化けの切り身のこと……？
+
+それ、いったいどうするつもり？
 
 Talk ケイブガード
 どうするって……
@@ -88,7 +92,7 @@ Talk ケイブガード
 俺達の獲物には、ちょうどいい感じじゃねーか？
 
 Talk 知世
-まぁ、確かにその格好の雰囲気には
+まぁ、確かに雰囲気は
 ぴったりだと思いますけれど……
 
 でも、気を付けてくださいね
@@ -102,7 +106,9 @@ Talk ケイブガード
 まぁ、解毒魔法もあるから大丈夫だろ
 
 Talk さくら
-大丈夫なのかなぁ……？
+あるんだ、そんなゲームみたいな魔法……
+
+でも、ホントに大丈夫なのかなぁ……？
 
 Talk ワイルドランナー
 まったく、食い意地が張ってるんだから
@@ -120,7 +126,7 @@ Talk さくら
 あれ？
 
 Talk なのは
-どうしました？
+どうなさいました、さくらちゃん？
 
 Talk さくら
 あっちの方……
@@ -157,6 +163,10 @@ Talk 知世
 Talk さくら
 あはは……
 
+Talk ユーノ
+（対して難しい魔法じゃないけれど
+　一体、誰から念話を……）
+
 Talk ケイブガード
 ……なんだって！？
 
@@ -164,8 +174,11 @@ Talk なのは
 ど、どうしたんですか！？
 
 Talk ケイブガード
-しまった！
+くそっ！
 まんまとひっかかっちまった！！
+
+Talk 知世
+引っかかった……ですか？
 
 hidemsg time:0.3
 SetImg img:tex_black size:fill name:ブラック layer:エフェクト alpha:1

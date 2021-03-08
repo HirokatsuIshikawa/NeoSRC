@@ -27,6 +27,9 @@ package scene.intermission.customdata
         
         /** ローカル変数 */
         public var playerVariable:Vector.<PlayerVariable> = null;
+        //勝利敗北条件
+        public var victoryConditions:String = null;
+        public var defeatConditions:String = null;
         
         public function PlayerParam()
         {
@@ -34,6 +37,9 @@ package scene.intermission.customdata
             intermissonData = new Vector.<ShowInterMissionData>();
             
             playerVariable = new Vector.<PlayerVariable>();
+            
+            victoryConditions = null;
+            defeatConditions = null;
         }
         
         public function setIntermissionParam(name:String, state:int):void
@@ -69,6 +75,11 @@ package scene.intermission.customdata
                     i--;
                 }
             }
+            
+            keepBGMFlg = false;
+            victoryConditions = null
+            defeatConditions = null;
+            
         }
         
         override public function loadObject(data:Object):void

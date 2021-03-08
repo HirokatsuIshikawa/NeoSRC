@@ -18,6 +18,7 @@ SetBase name:鉱山 x:3 y:11
 SetBase name:鉱山 x:4 y:11 eventId:となりの鉱山
 JoinCommander name:大道寺知世 Lv:1 
 SetCommander name:大道寺知世 sidename:さくらチーム
+VictoryCondition victory:敵の全滅,本拠地の占拠 defeat:味方の全滅
 //敵生産ユニット登録
 RegistGenericUnit name:ロッドアタッカー lv:1 cost:10 side:コクエン隊
 RegistGenericUnit name:エレクトロショッカー lv:1 cost:10 side:コクエン隊

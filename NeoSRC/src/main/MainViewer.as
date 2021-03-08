@@ -573,6 +573,8 @@ package main
             }
             
             MainController.$.model.playerParam.keepBGMFlg = data.playerData.keepBGMFlg;
+            MainController.$.model.playerParam.victoryConditions = data.playerData.victoryConditions;
+            MainController.$.model.playerParam.defeatConditions = data.playerData.defeatConditions;
             
             loadContinueEve(data.playerData.nowEve);
         }

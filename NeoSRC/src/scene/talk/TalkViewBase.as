@@ -698,6 +698,36 @@ package scene.talk
                     }
                 }
                 break;
+            case "victorycondition": //勝利・敗北条件セット
+                //勝利条件セット
+                if (param.hasOwnProperty("victory"))
+                {
+                    MainController.$.model.playerParam.victoryConditions = param.victory;
+                }
+                else
+                {
+                    MainController.$.model.playerParam.victoryConditions = null;
+                }
+                //敗北条件セット
+                if ( param.hasOwnProperty("defeat"))
+                {
+                    MainController.$.model.playerParam.defeatConditions = param.defeat;
+                }
+                else
+                {
+                    MainController.$.model.playerParam.defeatConditions = null;
+                }
+                
+                //勝利条件表示セット
+                if (MainController.$.map != null)
+                {
+                    MainController.$.map.battleMapPanel.systemPanel.setVictoryCondition();
+                }
+                
+                
+                setLineCommand();
+                break;
+                
             //-----------------------------------------------------マップイベント------------------------------------------------
             case "setevent": 
                 setEvent(command, param);

@@ -84,6 +84,9 @@ package scene.map
         /**ステータス表示*/
         private var _statusWindow:BattleMapStatus = null;
         
+        /**勝利条件表示*/
+        private var _conditionWindow:ConditionWindow = null;
+        
         /**バトルマップコマンドパネル*/
         private var _battleMapPanel:BattleMapPanel = null;
         /**戦闘アニメパネル*/
@@ -155,6 +158,7 @@ package scene.map
         private var _selectMoved:Boolean = false;
         //マップ会話フラグ
         private var _mapTalkFlg:Boolean = false;
+        
         //-------------------------------------------------------------
         //
         // オプション
@@ -181,6 +185,7 @@ package scene.map
             _statusWindow = new BattleMapStatus();
             _battleResultManager = new BattleResultmanager();
             _statusWindow.visible = false;
+            
             
             _btnReset = new CButton();
             _btnReset.styleName = "bigBtn";
@@ -1016,6 +1021,25 @@ package scene.map
             _statusWindow.visible = false;
             MainController.$.view.removeChild(_statusWindow);
         }
+        
+        /**勝利条件表示*/
+        public function showConditionWindow():void
+        {
+            _conditionWindow = new ConditionWindow();
+            MainController.$.view.addChild(_conditionWindow);
+        }
+        
+        /**勝利条件終了*/
+        public function hideConditionWindow():void
+        {
+            if (_conditionWindow != null)
+            {
+                _conditionWindow.dispose();
+                _conditionWindow = null;
+            }
+            MainController.$.view.removeChild(_conditionWindow);
+        }
+        
         
         //-------------------------------------------------------------
         //
@@ -3600,6 +3624,7 @@ package scene.map
         {
             return _turn;
         }
+        
         
         public function set turn(value:int):void 
         {

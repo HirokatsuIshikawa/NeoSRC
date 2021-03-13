@@ -1289,6 +1289,7 @@ Talk さくら
 
 hidemsg time:0.3
 clearmsg type:all
+VictoryCondition victory:敵の全滅 defeat:味方の全滅
 ReadyMove
 SetMove layer:キャラクター time:0.3 fade:out
 StartMove type:同時 wait:on
@@ -1549,6 +1550,7 @@ SetMove layer:キャラクター time:0.3 fade:out
 StartMove type:同時 wait:on
 ClearEvent 
 SetEvent target:グランモール type:撃破 label:グランモール撃破
+VictoryCondition victory:グランモールの撃破 defeat:味方の全滅
 DeleteAllLayer
 Exit
 

@@ -29,6 +29,8 @@ package scene.map.panel.subpanel
         protected var _passBtn:CImgButton = null;
         protected var _saveBtn:CImgButton = null;
         protected var _loadBtn:CImgButton = null;
+        //勝利・敗北条件
+        protected var _conditionBtn:CImgButton = null;
         protected var _commanderBtn:CImgButton = null;
         protected var _returnBtn:CImgButton = null;
         
@@ -80,6 +82,23 @@ package scene.map.panel.subpanel
             _commanderBtn.y = 0;
             _commanderBtn.addEventListener(Event.TRIGGERED, commanderBtnHandler);
             _listSprite.addChild(_commanderBtn);
+            
+                _conditionBtn = new CImgButton(MainController.$.imgAsset.getTexture("btn_operation"));
+                _conditionBtn.alpha = 1;
+                _conditionBtn.x = BattleMapPanel.BTN_INTERBAL * 4;
+                _conditionBtn.y = 0;
+                _conditionBtn.addEventListener(Event.TRIGGERED, conditionBtnHandler);
+                _listSprite.addChild(_conditionBtn);
+                
+                
+            if (MainController.$.model.playerParam.victoryConditions != null || MainController.$.model.playerParam.defeatConditions != null)
+            {
+                _conditionBtn.visible = true;
+            }
+            else
+            {
+                _conditionBtn.visible = false;
+            }
             
             _returnBtn = new CImgButton(MainController.$.imgAsset.getTexture("btn_Return"));
             _returnBtn.alpha = 1;
@@ -153,6 +172,13 @@ package scene.map.panel.subpanel
                 _listSprite = null;
             }
             
+            if (_conditionBtn != null)
+            {
+                _conditionBtn.removeEventListener(Event.TRIGGERED, conditionBtnHandler);
+                _conditionBtn.dispose();
+                _conditionBtn = null;
+            }
+            
             super.dispose();
         }
         
@@ -217,6 +243,19 @@ package scene.map.panel.subpanel
             _posText.text = "X:" + x + "\nY:" + y;
         }
         
+        public function setVictoryCondition():void
+        {
+            if (MainController.$.model.playerParam.victoryConditions != null || MainController.$.model.playerParam.defeatConditions != null)
+            {
+                _conditionBtn.visible = true;
+            }
+            else
+            {
+                _conditionBtn.visible = false;
+            }
+        }
+        
+        
         //-----------------------------------------------------------------
         //
         // クリック処理
@@ -265,6 +304,12 @@ package scene.map.panel.subpanel
         {
             if (_moving) return;
             MainController.$.map.showCommanderStatusWindow(0);            
+        }
+        
+        protected function conditionBtnHandler(e:Event):void
+        {
+            if (_moving) return;
+            MainController.$.map.showConditionWindow();     
         }
         
         

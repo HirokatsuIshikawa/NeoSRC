@@ -84,6 +84,9 @@ package scene.map
         /**ステータス表示*/
         private var _statusWindow:BattleMapStatus = null;
         
+        /**勝利条件表示*/
+        private var _conditionWindow:ConditionWindow = null;
+        
         /**バトルマップコマンドパネル*/
         private var _battleMapPanel:BattleMapPanel = null;
         /**戦闘アニメパネル*/
@@ -155,6 +158,7 @@ package scene.map
         private var _selectMoved:Boolean = false;
         //マップ会話フラグ
         private var _mapTalkFlg:Boolean = false;
+        
         //-------------------------------------------------------------
         //
         // オプション
@@ -162,6 +166,7 @@ package scene.map
         //-------------------------------------------------------------
         private var _skyFlg:Boolean = false;
         
+        private var _turn:int = 0;
         //-------------------------------------------------------------
         //
         // コンストラクタ
@@ -181,12 +186,15 @@ package scene.map
             _battleResultManager = new BattleResultmanager();
             _statusWindow.visible = false;
             
+            
             _btnReset = new CButton();
             _btnReset.styleName = "bigBtn";
             _btnReset.alpha = 0;
             _btnReset.width = MAP_SIZE;
             _btnReset.height = MAP_SIZE;
             _btnReset.addEventListener(Event.TRIGGERED, resetMove);
+            
+            _turn = 1;
         }
         
         //-------------------------------------------------------------
@@ -1014,6 +1022,25 @@ package scene.map
             MainController.$.view.removeChild(_statusWindow);
         }
         
+        /**勝利条件表示*/
+        public function showConditionWindow():void
+        {
+            _conditionWindow = new ConditionWindow();
+            MainController.$.view.addChild(_conditionWindow);
+        }
+        
+        /**勝利条件終了*/
+        public function hideConditionWindow():void
+        {
+            if (_conditionWindow != null)
+            {
+                _conditionWindow.dispose();
+                _conditionWindow = null;
+            }
+            MainController.$.view.removeChild(_conditionWindow);
+        }
+        
+        
         //-------------------------------------------------------------
         //
         // ユニット移動関連
@@ -1710,6 +1737,7 @@ package scene.map
                                 
                                 trace("#####X:" + _sideState[i].battleUnit[j].PosX + "-" + posX + "###Y:" + _sideState[i].battleUnit[j].PosY + "-" + posY + "###" + _sideState[i].battleUnit[j].onMap)
                                 sideOn = true;
+                                
                                 break;
                             }
                             else
@@ -1771,11 +1799,16 @@ package scene.map
                 terrain.MoveChecked = true;
                 terrain.moveClone(dirrectionList);
                 
+                //敵行動時
                 if (aiMove != null)
                 {
-                    var moveTarget:EnemyMoveData = new EnemyMoveData();
-                    moveTarget.getPriority(posX, posY, stayFlg, nowBattleUnit, _sideState, _baseDataList, _selectSide);
-                    aiMove.push(moveTarget);
+                    //通過ポイントでなければ移動先に加える
+                    if (!sideOn)
+                    {
+                       var moveTarget:EnemyMoveData = new EnemyMoveData();
+                        moveTarget.getPriority(posX, posY, stayFlg, nowBattleUnit, _sideState, _baseDataList, _selectSide);
+                        aiMove.push(moveTarget);
+                    }
                 }
             }
             // 移動可能時
@@ -2643,6 +2676,16 @@ package scene.map
         /**棋譜初期化*/
         private function refreshBattleRecord():void
         {
+            
+            if (nowBattleUnit != null)
+            {
+                nowBattleUnit.setFormationNumImg();
+            }
+            if (targetUnit != null)
+            {
+                targetUnit.setFormationNumImg();
+            }
+            
             var i:int = 0;
             if (_battleResultManager.attackRecord != null)
             {
@@ -3169,6 +3212,7 @@ package scene.map
             if (_selectSide >= _sideState.length)
             {
                 _selectSide = 0;
+                _turn++;
             }
             
             //拠点収入
@@ -3205,15 +3249,22 @@ package scene.map
                     }
                 }
             }
-            //味方ターンのみ
-            if (_selectSide == 0)
+            
+            //ターンイベント
+            MainController.$.view.eveManager.searchMapTurnEvent(_turn, _selectSide, phaseStart, MapEventData.TYPE_TURN);
+            
+            function phaseStart():void
             {
-                _battleMapPanel.showPanel(BattleMapPanel.PANEL_SYSTEM);
-            }
-            else
-            {
-                _battleMapPanel.showPanel(BattleMapPanel.PANEL_ENEMY_TURN);
-                enemyAct();
+                //味方ターンのみ
+                if (_selectSide == 0)
+                {
+                    _battleMapPanel.showPanel(BattleMapPanel.PANEL_SYSTEM);
+                }
+                else
+                {
+                    _battleMapPanel.showPanel(BattleMapPanel.PANEL_ENEMY_TURN);
+                    enemyAct();
+                }
             }
         }
         
@@ -3567,6 +3618,17 @@ package scene.map
         public function set mapTalkFlg(value:Boolean):void
         {
             _mapTalkFlg = value;
+        }
+        
+        public function get turn():int 
+        {
+            return _turn;
+        }
+        
+        
+        public function set turn(value:int):void 
+        {
+            _turn = value;
         }
         
         //-------------------------------------------------------------

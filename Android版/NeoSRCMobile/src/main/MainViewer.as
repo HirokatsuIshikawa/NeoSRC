@@ -324,7 +324,7 @@ package main
                 
                 //基本データ読み込み
                 //今のデータ削除
-                resetWindow();
+                resetWindow(false);
                 MainController.$.model.resetUnitData();
                 MainController.$.model.resetGenericUnitData();
                 MainController.$.model.resetCommanderData();
@@ -385,6 +385,10 @@ package main
             var j:int = 0;
             var posX:int = 0;
             var posY:int = 0;
+            
+            //マップターン数
+            battleMap.turn = data.turn;
+            
             //マップ配置画像読み込み
             for (i = 0; i < CommonDef.objectLength(data.mapPictureList); i++)
             {
@@ -569,6 +573,8 @@ package main
             }
             
             MainController.$.model.playerParam.keepBGMFlg = data.playerData.keepBGMFlg;
+            MainController.$.model.playerParam.victoryConditions = data.playerData.victoryConditions;
+            MainController.$.model.playerParam.defeatConditions = data.playerData.defeatConditions;
             
             loadContinueEve(data.playerData.nowEve);
         }
@@ -576,7 +582,7 @@ package main
         /**ロードボタン押し後*/
         public function loadSaveData(data:Object):void
         {
-            resetWindow();
+            resetWindow(true);
             var i:int = 0;
             
             MainController.$.model.resetUnitData();
@@ -691,7 +697,7 @@ package main
         {
             MainController.$.model.playerParam.keepBGMFlg = false;
             //画面初期化
-            resetWindow();
+            resetWindow(true);
             if (nextEve != null)
             {
                 if (nextEve.indexOf(".") <= 0 && nextEve != "未設定")
@@ -712,9 +718,12 @@ package main
         }
         
         //画面初期化
-        public function resetWindow():void
+        public function resetWindow(stopBgmFlg:Boolean):void
         {
-            SingleMusic.endBGM(0.3);
+            if (stopBgmFlg)
+            {
+                SingleMusic.endBGM(0.3);
+            }
             removeChild(_eveManager);
             if (_eveManager != null)
             {

@@ -279,7 +279,7 @@ Goto マップ開始
 Exit
 
 マップ開始:
-
+LoadMap file:ライドグラウンド.map
 StartBGM file:Narrow_Gear fade:0.5
 
 Talk ケイブガード

@@ -23,20 +23,20 @@ SetChara name:知世 x:$式($変数(プレイヤー配置位置) + $変数(プ�
 SetChara name:さくら x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 1) alpha:1
 SetChara name:なのは x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 2) alpha:1
 SetChara name:ユーノ x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 3) alpha:1
-SetChara name:ケイブガード x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 4) alpha:1
-SetChara name:ワイルドランナー x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 5) alpha:1
+SetChara name:ケイブガード x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 4) alpha:1 y:160
+SetChara name:ワイルドランナー x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 5) alpha:1 y:160
 ReadyMove
 SetMove layer:背景 time:1 fade:in
 StartMove type:連続 wait:on
 Wait 1
 flash
 ReadyMove
-SetMove layer:キャラクター time:1 fade:in
+SetMove layer:キャラクター time:0.5 fade:in
 StartMove wait:on
 //
 //
 //
-StartBGM file:game_maoudamashii_7_event43 vol:1 fade:0.5
+StartBGM file:game_maoudamashii_7_event43 fade:0.5
 Talk ケイブガード
 ただいまー
 
@@ -47,6 +47,9 @@ Talk ユーノ
 
 テレポートって、こんな所に戻ってくるんだ……
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:-240
+StartMove type:連続
 Talk ワイルドランナー
 ポータルゲートって、私達は呼んでるわ
 
@@ -59,7 +62,8 @@ Talk なのは
 
 Talk ケイブガード
 おーい！！
-
+Wait 1
+clearmsg
 うーん、やっぱみんないないな……
 せっかく獲物を狩って来たってのに
 
@@ -90,6 +94,9 @@ Talk ケイブガード
 ふかすだけで食べられそうだし、
 俺達の獲物には、ちょうどいい感じじゃねーか？
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
+StartMove type:連続
 Talk 知世
 まぁ、確かにその格好の雰囲気には
 ぴったりだと思いますが……
@@ -109,18 +116,24 @@ Talk さくら
 
 でも、ホントに大丈夫なのかなぁ……？
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:-240
+StartMove type:連続
 Talk ワイルドランナー
 まったく、食い意地が張ってるんだから
 
 それにしても、みんなどこ行っちゃったのかしら？
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
+StartMove type:連続
 Talk 知世
 もう結構な時間ですし、お帰りになられたのでしょうか？
 
 Talk ケイブガード
 いや、普段だったら残ってる奴が……
 
-StopBGM
+StopBGM fade:0.5
 Talk さくら
 あれ？
 
@@ -130,20 +143,26 @@ Talk なのは
 Talk さくら
 あっちの方……
 
-私達が入ってきた入口の方から、なんか妙な気配がする……
+私達が入ってきた入口の方から、なんか妙な気配が……
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:-240
+StartMove type:連続
 Talk ワイルドランナー
-あっち……友枝町の神社とつながってるところだっけ？
+あっち……
+Wait 0.5
+友枝町の神社とつながってるところだっけ？
 
 Talk さくら
 うん……
 
 なんだろう……
 Wait 0.3
+StartBGM file:Narrow_Gear fade:0.5
 これ、すごく嫌な感じがする……！
 
 Wait 0.3
-PlaySound 
+PlaySound file:念話
 Wait 0.8
 Talk ケイブガード
 ん……呼び出し……？
@@ -159,6 +178,9 @@ Talk 知世
 Talk ワイルドランナー
 やっぱりあなた達も知ってるのね
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(プレイヤー表示位置)
+StartMove type:連続
 Talk 知世
 ええ、私は使えませんが
 この間、ちょっとした事件が起こったもので
@@ -189,6 +211,68 @@ SetMove layer:エフェクト time:0.5 fade:in
 SetMove layer:背景 time:0.3 fade:out
 StartMove type:連続 wait:on
 clearmsg type:all
+ClearLayer name:キャラクター
+ClearLayer name:背景
+StopBGM fade:2
+Wait 2
+//
+//
+//
+SetImg img:草地 size:fill name:境内 layer:背景 alpha:1
+SetChara name:奈緒子 x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 0) alpha:1
+SetChara name:すずか x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 1) alpha:1
+SetChara name:アリサ x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 2) alpha:1
+ReadyMove
+SetMove layer:背景 fade:in
+SetMove layer:キャラクター fade:out
+SetMove layer:エフェクト time:0.5 fade:out
+StartMove type:連続 wait:on
+Wait 1
+flash
+ReadyMove
+SetMove layer:キャラクター time:1 fade:in
+StartMove wait:on
+Wait 1
+ShowMsg 0.3
+Talk すずか
+あれ……ここは？
+
+Talk アリサ
+ちょっと……どこよ、ここ！？
+
+Talk 奈緒子
+さっきまで、月峰神社にいたのに……
+
+これって、もしかして不思議体験！？
+
+Talk アリサ
+不思議体験って……
+Wait 0.3
+（変わった感性ね……）
+
+Talk すずか
+！？
+Wait 1
+誰ッ！？
+Wait 1
+PlaySound file:マシン走行
+SetChara name:マシンキャバリー x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 4) alpha:0  y:160
+ReadyMove
+SetMove chara:マシンキャバリー fade:in time:0.5
+StartMove type:連続
+Talk ？？？
+へへっ、早速見つけたぜ……
+
+Talk アリサ
+な、なによアンタ！？
+
+hidemsg time:0.3
+SetImg img:tex_black size:fill name:ブラック layer:エフェクト alpha:1
+ReadyMove
+SetMove layer:エフェクト time:0.5 fade:in
+SetMove layer:背景 time:0.3 fade:out
+StartMove type:連続 wait:on
+clearmsg type:all
 DeleteLayer name:背景
 ClearLayer name:キャラクター
 Goto マップ開始
@@ -196,7 +280,7 @@ Exit
 
 マップ開始:
 
-StartBGM file:
+StartBGM file:Narrow_Gear fade:0.5
 
 Talk ケイブガード
 くっ……このぉ……！

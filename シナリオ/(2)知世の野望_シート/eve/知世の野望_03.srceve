@@ -280,19 +280,57 @@ Exit
 
 マップ開始:
 LoadMap file:ライドグラウンド.map
+//
+SetBase name:原始ベース EventNo:1 side:さくらチーム
+SetBase name:原始ベース EventNo:2 side:コクエン隊
+SetBase name:鉱山 EventNo:3
+SetBase name:原始ベース EventNo:4 side:コクエン隊 eventId:敵本拠地
+//
+CreateUnit name:ケイブガード x:6 y:7 side:さくらチーム level:1  anime:0
+CreateUnit name:ワイルドランナー x:6 y:9 side:さくらチーム level:1  anime:0
+CreateUnit name:ゼロハチアーミー x:6 y:11 side:さくらチーム level:1  anime:0
+CreateUnit name:ロッドアタッカー x:10 y:6 side:コクエン隊 level:1  anime:0
+CreateUnit name:ブッシュシューター x:12 y:10 side:コクエン隊 level:1  anime:0
+CreateUnit name:エレクトロショッカー x:10 y:13 side:コクエン隊 level:1  anime:0
+CreateUnit name:ブッシュシューター x:13 y:4 side:コクエン隊 level:1  anime:0
+CreateUnit name:ブッシュシューター x:17 y:9 side:コクエン隊 level:1  anime:0
+CreateUnit name:ロッドアタッカー x:17 y:13 side:コクエン隊 level:1  anime:0
+CreateUnit name:ロッドアタッカー x:20 y:4 side:コクエン隊 level:1  anime:0
+CreateUnit name:エレクトロショッカー x:23 y:9 side:コクエン隊 level:1  anime:0
+CreateUnit name:ロッドアタッカー x:23 y:13 side:コクエン隊 level:1  anime:0
+CreateUnit name:エレクトロショッカー x:27 y:13 side:コクエン隊 level:1  anime:0
+CreateUnit name:ブッシュシューター x:26 y:6 side:コクエン隊 level:1  anime:0
+CreateUnit name:キャノンレイダー x:28 y:9 side:コクエン隊 level:1  anime:0
+//
+RegistGenericUnit name:ロッドアタッカー lv:1 cost:3 side:コクエン隊
+RegistGenericUnit name:エレクトロショッカー lv:1 cost:3 side:コクエン隊
+RegistGenericUnit name:ブッシュシューター lv:1 cost:4 side:コクエン隊
+RegistGenericUnit name:キャノンレイダー lv:1 cost:5 side:コクエン隊
+RegistGenericUnit name:マシンキャバリー lv:1 cost:5 side:コクエン隊
+ReadyMove
+SetMove layer:キャラクター alpha:0
+SetMove layer:エフェクト time:0.5 fade:out
+StartMove type:連続 wait:on
+Wait 0.7
 StartBGM file:Narrow_Gear fade:0.5
-
-Talk ケイブガード
-くっ……このぉ……！
-
+Wait 0.7
+SetChara name:キャノンレイダー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 2) alpha:1
+SetChara name:ロッドアタッカー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 3) alpha:1
+SetChara name:ブッシュシューター x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 4) alpha:1
+ReadyMove
+SetMove layer:キャラクター time:0 x:$式($変数(エネミー表示位置) - 150)
+SetMove layer:キャラクター time:0.3 fade:in
+StartMove type:連続 wait:on
+ShowMsg 0.3
 Talk ロッドアタッカー
 どうやら、芋掘りチームは
 上手い事やってくれたみたいだな
 
+Talk ブッシュシューター
 ああ、主力が居ないせいで
 楽勝ったらないぜ
 
-Talk ブッシュシューター
+Talk ロッドアタッカー
 偵察隊の話じゃ、このあたりで
 めっちゃ強い女の子たちと会ったって話だったが……
 
@@ -304,11 +342,16 @@ Talk キャノンレイダー
 
 どんだけ強いか知らないが、
 そいつらも出てきたら捕まえて……
-
+Wait 1
+SetChara name:ヤイバ x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 5) alpha:0
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(エネミー表示位置) - 300)
+SetMove chara:ヤイバ time:0.3 fade:in
+StartMove type:連続 wait:on
 Talk ヤイバ
 ………………
 
-Talk エレクトロショッカー
+Talk キャノンレイダー
 ……？　
 
 どうしたんだよ、ヤイバ
@@ -331,7 +374,7 @@ Talk ヤイバ
 
 そもそも、強いヤツってのは本当なんだろうな？
 
-Talk エレクトロショッカー
+Talk ロッドアタッカー
 先発隊は、相手は女の子３人だって言ってたからな
 
 あれだけの人数をそれで押さえたんだから
@@ -353,13 +396,15 @@ Talk キャノンレイダー
 
 Talk ヤイバ
 後は任せた。
-Wait 0.3
+Wait 0.7
 ……少し、その辺を歩いてくる
-
+ReadyMove
+SetMove chara:ヤイバ time:0.8 fade:out x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 5 + 100)
+StartMove type:同時 wait:on
 Talk キャノンレイダー
 行っちまった……
 
-Talk スナイプシューター
+Talk ブッシュシューター
 ヤイバの奴、やっぱ不満みたいだな
 
 Talk キャノンレイダー
@@ -368,7 +413,22 @@ Talk キャノンレイダー
 
 ……おっ
 
-
+HideMessage time:0.3
+clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+Center x:19 y:7 
+CreateUnit name:マシンキャバリー x:18 y:1 side:コクエン隊 level:1 id:キャバリー１
+CreateUnit name:マシンキャバリー x:20 y:1 side:コクエン隊 level:1 id:キャバリー２
+Wait 0.5
+Center x:28 y:9
+UnitMove id:キャバリー１ x:27 y:8
+UnitMove id:キャバリー２ x:27 y:10
+ReadyMove
+SetMove layer:キャラクター time:0 x:$変数(プレイヤー表示位置)
+SetMove layer:キャラクター time:0.1 fade:in
+StartMove type:同時 wait:on
 StartBGM 
 Talk マシンキャバリー
 ……待たせたな
@@ -424,10 +484,13 @@ Talk 奈緒子
 
 Talk キャノンレイダー
 さてと、次はいったいどんな子が……
-
-
-
-
+HideMsg 0.3
+Wait 0.7
+LaunchUnit name:さくら x:5 y:8 
+LaunchUnit name:なのは x:5 y:10 
+LaunchUnit name:ユーノ x:5 y:12 
+Wait 1
+ShowMsg 0.3
 Talk キャノンレイダー
 おほっ、早速かわいこちゃんが……
 
@@ -520,6 +583,15 @@ Talk ケイブガード
 Talk 知世
 このままで済めば……の話ですが……
 
+SetSideCost side:さくらチーム cost:12
+SetSideCost side:コクエン隊 cost:12
+//
+RegistGenericUnit name:ケイブガード lv:1 cost:3
+RegistGenericUnit name:ワイルドランナー lv:1 cost:3
+RegistGenericUnit name:ゼロハチアーミー lv:1 cost:4
+RegistGenericUnit name:スライム lv:1 cost:1
+//
+Organize count:6 x:1 y:7 width:3 height:4 type:GENERIC
 HideMessage time:0.3
 clearmsg type:all
 VictoryCondition victory:敵の全滅,本拠地の占拠 defeat:味方の全滅
@@ -537,6 +609,7 @@ SetEvent side:敵 label:ボス登場判定 type:撃破
 SetEvent side:さくらチーム label:ゲームオーバー type:全滅
 SetEvent side:さくらチーム turn:4 label:ディッキー増援
 SetEvent side:コクエン隊 turn:2 label:妖精部隊
+SetEvent side:味方 label:ヤイバ登場 type:制圧 eventId:敵本拠地
 DeleteAllLayer
 Exit
 

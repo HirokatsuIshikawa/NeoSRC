@@ -3017,7 +3017,7 @@ package scene.map
         }
         
         /**ユニット情報取得*/
-        public function getUnitInfo(name:String):BattleUnit
+        public function getUnitInfoFromName(name:String):BattleUnit
         {
             var data:BattleUnit = null;
             var i:int = 0;
@@ -3035,9 +3035,35 @@ package scene.map
                         flg = true;
                         break;
                     }
-                    
+                }                
+                if (flg)
+                {
+                    break;
                 }
-                
+            }
+            return data;
+        }
+        
+                /**ユニット情報取得*/
+        public function getUnitInfoFromId(name:String):BattleUnit
+        {
+            var data:BattleUnit = null;
+            var i:int = 0;
+            var j:int = 0;
+            var posX:int = 0;
+            var posY:int = 0;
+            var flg:Boolean = false;
+            for (i = 0; i < _sideState.length; i++)
+            {
+                for (j = 0; j < _sideState[i].battleUnit.length; j++)
+                {
+                    if (_sideState[i].battleUnit[j].nameId === name)
+                    {
+                        data = _sideState[i].battleUnit[j];
+                        flg = true;
+                        break;
+                    }
+                }                
                 if (flg)
                 {
                     break;
@@ -3047,9 +3073,16 @@ package scene.map
         }
         
         /**ユニット移動*/
-        public function moveMapUnit(name:String, posX:int, posY:int, callBack:Function = null):void
+        public function moveMapUnit(name:String, posX:int, posY:int, param:Object,callBack:Function = null):void
         {
-            var unitData:BattleUnit = getUnitInfo(name);
+            //名前でユニット情報を取得
+            var unitData:BattleUnit = getUnitInfoFromName(name);
+            
+            //名前が無い場合はIDで検索
+            if (unitData == null && param.hasOwnProperty("id"))
+            {
+                unitData = getUnitInfoFromId(param.id);
+            }
             
             if (unitData != null)
             {
@@ -3082,7 +3115,13 @@ package scene.map
         public function setCenterPosUnit(name:String, callBack:Function = null):void
         {
             
-            var unitData:BattleUnit = getUnitInfo(name);
+            var unitData:BattleUnit = getUnitInfoFromName(name);
+            
+            if (unitData == null)
+            {
+                unitData = getUnitInfoFromId(name);
+            }
+            
             
             if (callBack != null)
             {

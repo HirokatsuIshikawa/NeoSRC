@@ -973,7 +973,7 @@ package scene.talk
                 break;
             //ユニット移動
             case "unitmove": 
-                MainController.$.view.battleMap.moveMapUnit(param.unit, param.x, param.y, setLineCommand);
+                MainController.$.view.battleMap.moveMapUnit(param.unit, param.x, param.y, param,setLineCommand);
                 break;
             //汎用ユニット生産リスト
             case "registgenericunit": 

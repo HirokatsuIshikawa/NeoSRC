@@ -931,6 +931,10 @@ package scene.talk
                 {
                     MainController.$.view.battleMap.escapeUnit(param.name, param.side, param, mapMoveComp);
                 }
+                else if (param.hasOwnProperty("id"))
+                {
+                    MainController.$.view.battleMap.escapeId(param.id, param, mapMoveComp);
+                }                
                 else
                 {
                     MainController.$.view.battleMap.escapeSide(param.side, param, mapMoveComp);

@@ -141,7 +141,7 @@ package viewitem.status.list
             //ネームドと汎用を併用する場合
             if (listCount >= 1)
             {
-                if (type.indexOf(TYPE_UNIQUE) >= 0 || type.indexOf(TYPE_UNIQUE_J) >= 0 || type.indexOf(TYPE_ALL) >= 0)
+                if ( type.indexOf(TYPE_ALL) >= 0 && (type.indexOf(TYPE_UNIQUE) >= 0 || type.indexOf(TYPE_UNIQUE_J) >= 0))
                 {
                     _uniqueBtn = new CButton();
                     _uniqueBtn.label = "ユニーク";
@@ -156,7 +156,7 @@ package viewitem.status.list
                     addChild(_uniqueBtn);
                 }
                 
-                if (type.indexOf(TYPE_GENERIC) >= 0 || type.indexOf(TYPE_GENERIC_J) >= 0 || type.indexOf(TYPE_ALL) >= 0)
+                if ( type.indexOf(TYPE_ALL) >= 0 && (type.indexOf(TYPE_GENERIC) >= 0 || type.indexOf(TYPE_GENERIC_J) >= 0))
                 {
                     _genericBtn = new CButton();
                     _genericBtn.label = "汎用";
@@ -263,31 +263,37 @@ package viewitem.status.list
                 }
             }
             
-            for (i = 0; i < _itemList.length; i++)
+            if (_itemList != null)
             {
-                if (_itemList[i].data.masterData.Cost > _cost)
+                for (i = 0; i < _itemList.length; i++)
                 {
-                    _itemList[i].alpha = 0.7;
-                    _itemList[i].touchable = false;
-                }
-                else
-                {
-                    _itemList[i].alpha = 1;
-                    _itemList[i].touchable = true;
+                    if (_itemList[i].data.masterData.Cost > _cost)
+                    {
+                        _itemList[i].alpha = 0.7;
+                        _itemList[i].touchable = false;
+                    }
+                    else
+                    {
+                        _itemList[i].alpha = 1;
+                        _itemList[i].touchable = true;
+                    }
                 }
             }
             
-            for (i = 0; i < _genericItemList.length; i++)
+            if (_genericItemList != null)
             {
-                if (_genericItemList[i].data.cost > _cost)
+                for (i = 0; i < _genericItemList.length; i++)
                 {
-                    _genericItemList[i].alpha = 0.7;
-                    _genericItemList[i].touchable = false;
-                }
-                else
-                {
-                    _genericItemList[i].alpha = 1;
-                    _genericItemList[i].touchable = true;
+                    if (_genericItemList[i].data.cost > _cost)
+                    {
+                        _genericItemList[i].alpha = 0.7;
+                        _genericItemList[i].touchable = false;
+                    }
+                    else
+                    {
+                        _genericItemList[i].alpha = 1;
+                        _genericItemList[i].touchable = true;
+                    }
                 }
             }
             

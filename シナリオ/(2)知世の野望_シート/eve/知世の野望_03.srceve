@@ -289,13 +289,6 @@ SetBase name:原始ベース EventNo:4 side:コクエン隊 eventId:敵本拠地
 CreateUnit name:ケイブガード x:6 y:7 side:さくらチーム level:1  anime:0
 CreateUnit name:ワイルドランナー x:6 y:9 side:さくらチーム level:1  anime:0
 CreateUnit name:ゼロハチアーミー x:6 y:11 side:さくらチーム level:1  anime:0
-CreateUnit name:ロッドアタッカー x:10 y:6 side:コクエン隊 level:1  anime:0
-CreateUnit name:ブッシュシューター x:12 y:10 side:コクエン隊 level:1  anime:0
-CreateUnit name:エレクトロショッカー x:10 y:13 side:コクエン隊 level:1  anime:0
-CreateUnit name:ブッシュシューター x:13 y:4 side:コクエン隊 level:1  anime:0
-CreateUnit name:ブッシュシューター x:17 y:9 side:コクエン隊 level:1  anime:0
-CreateUnit name:ロッドアタッカー x:17 y:13 side:コクエン隊 level:1  anime:0
-CreateUnit name:ロッドアタッカー x:20 y:4 side:コクエン隊 level:1  anime:0
 CreateUnit name:エレクトロショッカー x:23 y:9 side:コクエン隊 level:1  anime:0
 CreateUnit name:ロッドアタッカー x:23 y:13 side:コクエン隊 level:1  anime:0
 CreateUnit name:エレクトロショッカー x:27 y:13 side:コクエン隊 level:1  anime:0
@@ -401,6 +394,7 @@ Wait 0.7
 ReadyMove
 SetMove chara:ヤイバ time:0.8 fade:out x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 5 + 100)
 StartMove type:同時 wait:on
+RemoveChara name:ヤイバ
 Talk キャノンレイダー
 行っちまった……
 
@@ -425,19 +419,29 @@ Wait 0.5
 Center x:28 y:9
 UnitMove id:キャバリー１ x:27 y:8
 UnitMove id:キャバリー２ x:27 y:10
+SetChara name:マシンキャバリー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 1 - 80) alpha:1
 ReadyMove
-SetMove layer:キャラクター time:0 x:$変数(プレイヤー表示位置)
-SetMove layer:キャラクター time:0.1 fade:in
+SetMove layer:キャラクター time:0 x:$変数(エネミー表示位置)
+SetMove layer:キャラクター time:0.3 fade:in
 StartMove type:同時 wait:on
-StartBGM 
 Talk マシンキャバリー
 ……待たせたな
 
-手始めに二人ほど連れて来たぜ
+手始めに二人連れて来たぜ！
 
 Talk キャノンレイダー
-おお、ごくろう、どれどれ……
+おお、ごくろう
 
+どれどれ……
+
+SetChara name:奈緒子 x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 0 - 80) alpha:0
+SetChara name:すずか x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * -1 - 80) alpha:0
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$式($変数(エネミー表示位置) + $変数(エネミー配置間隔) * 2)
+SetMove chara:奈緒子 time:0.2 fade:in
+SetMove chara:すずか time:0.2 fade:in
+StartMove type:連続 wait:on
+wait 0.5
 Talk すずか
 ………………
 
@@ -446,6 +450,9 @@ Talk 奈緒子
 
 あなた達はいったい……
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$変数(エネミー表示位置)
+StartMove type:同時 wait:on
 Talk キャノンレイダー
 うわ……すっごい美少女が二人……
 
@@ -470,56 +477,104 @@ Talk マシンキャバリー
 Talk キャノンレイダー
 分ってるって
 
-お前は二人を丁重に案内してくれ
+お前他達は、その二人を丁重に案内してくれ
 
 Talk マシンキャバリー
 おう
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$式($変数(エネミー表示位置) + $変数(エネミー配置間隔) * 2)
+StartMove type:連続 wait:on
 それじゃ、ランデブーの続きといこうか……
 
 Talk 奈緒子
 え、えっと……？　
 
 わっ！
-
+Wait 0.5
+HideMessage time:0.3
+clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+UnitMove id:キャバリー１ baseId:敵本拠地
+Escape id:キャバリー１
+UnitMove id:キャバリー２ baseId:敵本拠地
+Escape id:キャバリー２
+Wait 1
+RemoveChara name:マシンキャバリー
+RemoveChara name:奈緒子
+RemoveChara name:すずか
+ReadyMove
+SetMove layer:キャラクター time:0 x:$変数(エネミー表示位置)
+SetMove layer:キャラクター time:0.3 fade:in
+StartMove type:連続 wait:on
+showmsg 0.3
 Talk キャノンレイダー
 さてと、次はいったいどんな子が……
+
 HideMsg 0.3
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
 Wait 0.7
-LaunchUnit name:さくら x:5 y:8 
-LaunchUnit name:なのは x:5 y:10 
-LaunchUnit name:ユーノ x:5 y:12 
+Center x:5 y:10
+LaunchUnit name:さくら x:5 y:6
+LaunchUnit name:なのは x:5 y:8
+LaunchUnit name:ユーノ x:5 y:10 
 Wait 1
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:in
+StartMove type:同時 wait:on
 ShowMsg 0.3
 Talk キャノンレイダー
 おほっ、早速かわいこちゃんが……
 
+StopBGM fade:0.5
 って、あれは……！？
 
+SetChara name:ケイブガード x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * -1) alpha:1
+SetChara name:ワイルドランナー x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * -2) alpha:1
+SetChara name:知世 x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 0) alpha:1
+SetChara name:さくら x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 1) alpha:1
+SetChara name:なのは x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 2) alpha:1
+SetChara name:ユーノ x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 3) alpha:1
+SetChara name:ケイブガード x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 4) alpha:1
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$式($変数(プレイヤー表示位置))
+StartMove type:連続 wait:on
+StartBGM file:サイバーバトルⅠ
 Talk ユーノ
 あいつら！　まだこんな所に……
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$式($変数(プレイヤー表示位置) + 400)
+StartMove type:連続 wait:on
 Talk ケイブガード
 みんな、大丈夫か！？
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$式($変数(プレイヤー表示位置))
+StartMove type:連続 wait:on
 Talk ケイブガード
 城門……！　弥生……！
 
 助かった……戻って来てくれたんだな
 
-Talk ワイルドランナー
-これは……
-
 Talk なのは
-さっきの子達の仲間……！
+あれは、さっきの子達の仲間……！
 
-でも、この数は……
-
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$式($変数(プレイヤー表示位置) + 400)
+StartMove type:連続 wait:on
 Talk ワイルドランナー
 どうやら、さっきの奴等は陽動だったみたいね……
 
 でも、一体何のために……？
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$式($変数(エネミー表示位置))
+StartMove type:連続 wait:on
 Talk キャノンレイダー
 アレは原始人共……！
 
@@ -538,8 +593,23 @@ Talk キャノンレイダー
 あの子達を連れて帰れれば大金星だ！
 どんどん増援要請を出せ！！
 
-
-
+hidemsg 0.3
+clearmsg
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+CreateUnit name:ロッドアタッカー x:10 y:6 side:コクエン隊 level:1  anime:1
+CreateUnit name:ブッシュシューター x:12 y:10 side:コクエン隊 level:1  anime:1
+CreateUnit name:エレクトロショッカー x:10 y:13 side:コクエン隊 level:1  anime:1
+CreateUnit name:ブッシュシューター x:13 y:4 side:コクエン隊 level:1  anime:1
+CreateUnit name:ブッシュシューター x:17 y:9 side:コクエン隊 level:1  anime:1
+CreateUnit name:ロッドアタッカー x:17 y:13 side:コクエン隊 level:1  anime:1
+CreateUnit name:ロッドアタッカー x:20 y:4 side:コクエン隊 level:1  anime:1
+Wait 1
+ReadyMove
+SetMove layer:キャラクター time:0 x:$変数(プレイヤー表示位置)
+SetMove layer:キャラクター time:0.3 fade:in
+StartMove type:連続 wait:on
 Talk さくら
 わっ！？　たくさん出てきた！！
 
@@ -547,54 +617,62 @@ Talk 知世
 あの竪穴式住居から出て来たようですけれど……
 
 Talk ケイブガード
-あいつらに、周辺のポータルを抑えられたか……
+ごめん、あいつらにポータルを抑えられちまった……
 
 Talk さくら
-さっき村に帰ってくる時に使ったのだよね……？
+ポータルって、さっき村に
+帰ってくる時に使ったのだよね……？
 
 もしかして、あの建物全部……？
 
+ReadyMove
+SetMove layer:キャラクター time:0.5 x:$式($変数(プレイヤー表示位置) + 400)
+StartMove type:連続 wait:on
 Talk ワイルドランナー
-ええ……向こう側のは、
-全部あいつ等に抑えられてしまったわ
+ええ……みんなが保護してくれたから
+こちらにも使えるポータルは残ってるけど……
 
-制圧したポータルゲートは、周囲のエネルギーを使って
+ポータルゲートは制圧すると、周囲のエネルギーを使って
+
 遠くから仲間を呼び出したり、マギクレストを再生する事が出来るの
 
+あの洞窟みたいなのから、エネルギーが取得できるから
 このままじゃ、どんどん増援を送り込まれてしまうわ
 
 Talk ケイブガード
-逆に、俺達も制圧したポータルを使えば
+逆に、俺達もポータルを制圧して使えば
 近くにいる仲間や、スライムを呼び出す事が出来るんだ
 
-あいつら、これからどんどん召喚してくるだろうから
-こっちも数を呼んで対抗しないと……
+先に戦ってた奴がエネルギーを
+溜めといてくれたから、すぐに増援を呼び出せるぜ
 
-Talk 知世
-分かりましたわ、とりあえずこのまま
-戦闘を続行できそうな方から、出撃をお願いします
-
-
+hidemsg 0.3
+clearmsg  type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+//
+call 出撃準備
+//
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:in
+StartMove type:連続 wait:on
 Talk ケイブガード
-敵の種類は、さっきとあんま変わんないか
-
-これなら、さっきと同じ要領で行けるかな……？
+よし、これで奴等に対抗できるはずだ
 
 Talk 知世
-このままで済めば……の話ですが……
+とにかく、早く拠点を制圧する事がカギですね
 
-SetSideCost side:さくらチーム cost:12
+それではみなさん、よろしくおねがいします
+
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
 SetSideCost side:コクエン隊 cost:12
 //
-RegistGenericUnit name:ケイブガード lv:1 cost:3
-RegistGenericUnit name:ワイルドランナー lv:1 cost:3
-RegistGenericUnit name:ゼロハチアーミー lv:1 cost:4
-RegistGenericUnit name:スライム lv:1 cost:1
-//
-Organize count:6 x:1 y:7 width:3 height:4 type:GENERIC
 HideMessage time:0.3
 clearmsg type:all
-VictoryCondition victory:敵の全滅,本拠地の占拠 defeat:味方の全滅
+VictoryCondition victory:敵の全滅,敵本拠地の占拠 defeat:味方の全滅
 ReadyMove
 SetMove layer:キャラクター time:0.3 fade:out
 StartMove type:同時 wait:on
@@ -612,6 +690,17 @@ SetEvent side:コクエン隊 turn:2 label:妖精部隊
 SetEvent side:味方 label:ヤイバ登場 type:制圧 eventId:敵本拠地
 DeleteAllLayer
 Exit
+
+出撃準備:
+RegistGenericUnit name:ケイブガード lv:1 cost:3
+RegistGenericUnit name:ワイルドランナー lv:1 cost:3
+RegistGenericUnit name:ゼロハチアーミー lv:1 cost:4
+RegistGenericUnit name:スライム lv:1 cost:1
+//
+SetSideCost side:さくらチーム cost:30
+Organize count:9 x:7 y:6 width:3 height:6 type:GENERIC
+Return
+
 
 
 妖精部隊:

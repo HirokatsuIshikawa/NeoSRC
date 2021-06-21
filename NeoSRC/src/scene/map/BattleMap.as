@@ -167,6 +167,7 @@ package scene.map
         private var _skyFlg:Boolean = false;
         
         private var _turn:int = 0;
+        
         //-------------------------------------------------------------
         //
         // コンストラクタ
@@ -185,7 +186,6 @@ package scene.map
             _statusWindow = new BattleMapStatus();
             _battleResultManager = new BattleResultmanager();
             _statusWindow.visible = false;
-            
             
             _btnReset = new CButton();
             _btnReset.styleName = "bigBtn";
@@ -275,7 +275,6 @@ package scene.map
         //
         //-------------------------------------------------------------
         
-
         /** 戦闘ユニット作成 */
         public function createUnit(name:String, side:String, posX:int, posY:int, level:int, strength:int, param:Object, callBack:Function, animeFlg:Boolean):void
         {
@@ -596,7 +595,7 @@ package scene.map
                     for (j = 0; j < _sideState[i].battleUnit.length; j++)
                     {
                         //同一位置があると選択不可
-                        if (_sideState[i].battleUnit[j].PosX == posX && _sideState[i].battleUnit[j].PosY == posY)
+                        if (_sideState[i].battleUnit[j].PosX == posX && _sideState[i].battleUnit[j].PosY == posY && _sideState[i].battleUnit[j].onMap == true)
                         {
                             return false;
                         }
@@ -671,6 +670,65 @@ package scene.map
                 }
                 
                 targetUnit.dispose();
+                callBack();
+            }
+        }
+        
+        /** 対象陣営撤退 */
+        public function escapeId(unitId:String, param:Object, callBack:Function):void
+        {
+            var newSide:Boolean = true;
+            var i:int = 0;
+            var j:int = 0;
+            
+            var tweenAry:Array = new Array();
+            
+            //対象IDユニットを設定
+            for (i = 0; i < _sideState.length; i++)
+            {
+                for (j = 0; j < _sideState[i].battleUnit.length; j++)
+                {
+                    if (_sideState[i].battleUnit[j].nameId === unitId)
+                    {
+                        var targetUnit:BattleUnit = _sideState[i].battleUnit[j];
+                        // 一定時間かけて表示
+                        var tweenUnit:Tween24 = Tween24.tween(targetUnit.unitImg, 0.3).fadeOut();
+                        var tweenFrame:Tween24 = Tween24.tween(targetUnit.frameImg, 0.3).fadeOut();
+                        tweenAry.push(tweenUnit);
+                        tweenAry.push(tweenFrame);
+                        if (targetUnit.formationNumImg != null)
+                        {
+                            var tweenNumImg:Tween24 = Tween24.tween(targetUnit.formationNumImg, 0.3).fadeOut();
+                            tweenAry.push(tweenNumImg);
+                        }
+                            //tweenAry.push(launchParticle(targetUnit.PosX, targetUnit.PosY));
+                    }
+                }
+            }
+            Tween24.parallel(tweenAry).onComplete(compEscape).play();
+            
+            function compEscape():void
+            {
+                for (i = 0; i < _sideState.length; i++)
+                    for (j = 0; j < _sideState[i].battleUnit.length; j++)
+                    {
+                        if (_sideState[i].battleUnit[j].nameId === unitId)
+                        {
+                            var targetUnit:BattleUnit = _sideState[i].battleUnit[j];
+                            // 戦闘ユニットを勢力に追加
+                            targetUnit.onMap = false;
+                            // ユニットエリアの画像排除
+                            _unitArea.removeChild(targetUnit.unitImg);
+                            // フレームエリアの枠排除
+                            _frameArea.removeChild(targetUnit.frameImg);
+                            if (targetUnit.formationNumImg != null)
+                            {
+                                _effectArea.removeChild(targetUnit.formationNumImg);
+                            }
+                            
+                            targetUnit.dispose();
+                        }
+                    }
                 callBack();
             }
         }
@@ -1040,7 +1098,6 @@ package scene.map
             MainController.$.view.removeChild(_conditionWindow);
         }
         
-        
         //-------------------------------------------------------------
         //
         // ユニット移動関連
@@ -1246,7 +1303,6 @@ package scene.map
         /**ユニット移動実行処理*/
         private function moveUnit(moveData:EnemyMoveData = null):void
         {
-            
             var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
             var baseData:BaseTip = getBaseDataOnUnit(unit);
             if (baseData != null)
@@ -1730,7 +1786,7 @@ package scene.map
                         {
                             if (_selectSide == i)
                             {
-                                if(unit === _sideState[i].battleUnit[j])
+                                if (unit === _sideState[i].battleUnit[j])
                                 {
                                     selfOn = true;
                                 }
@@ -1778,17 +1834,17 @@ package scene.map
             if (!terrain.MoveChecked && !terrain.RootSelected && !selfOn)
             {
                 /*
-                if (sideOn && _selectSide == 0)
-                {
-                    _battleMapPanel.alpha = 0.7;
-                    _battleMapPanel.touchable = false;
-                }
-                else
-                {
-                    _battleMapPanel.alpha = 1;
-                    _battleMapPanel.touchable = true;
-                }
-                */
+                   if (sideOn && _selectSide == 0)
+                   {
+                   _battleMapPanel.alpha = 0.7;
+                   _battleMapPanel.touchable = false;
+                   }
+                   else
+                   {
+                   _battleMapPanel.alpha = 1;
+                   _battleMapPanel.touchable = true;
+                   }
+                 */
                 terrain.onUnit = sideOn;
                 var img:CImage = new CImage(CommonDef.MOVE_TIP_TEX);
                 img.x = posX * MAP_SIZE;
@@ -1805,7 +1861,7 @@ package scene.map
                     //通過ポイントでなければ移動先に加える
                     if (!sideOn)
                     {
-                       var moveTarget:EnemyMoveData = new EnemyMoveData();
+                        var moveTarget:EnemyMoveData = new EnemyMoveData();
                         moveTarget.getPriority(posX, posY, stayFlg, nowBattleUnit, _sideState, _baseDataList, _selectSide);
                         aiMove.push(moveTarget);
                     }
@@ -1988,7 +2044,7 @@ package scene.map
             
             if (_terrainDataList[posNum].MoveChecked)
             {
-
+                
                 _selectMoved = true;
                 var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
                 
@@ -3035,7 +3091,7 @@ package scene.map
                         flg = true;
                         break;
                     }
-                }                
+                }
                 if (flg)
                 {
                     break;
@@ -3044,7 +3100,7 @@ package scene.map
             return data;
         }
         
-                /**ユニット情報取得*/
+        /**ユニット情報取得*/
         public function getUnitInfoFromId(name:String):BattleUnit
         {
             var data:BattleUnit = null;
@@ -3063,7 +3119,7 @@ package scene.map
                         flg = true;
                         break;
                     }
-                }                
+                }
                 if (flg)
                 {
                     break;
@@ -3073,8 +3129,9 @@ package scene.map
         }
         
         /**ユニット移動*/
-        public function moveMapUnit(name:String, posX:int, posY:int, param:Object,callBack:Function = null):void
+        public function moveMapUnit(name:String, posX:int, posY:int, param:Object, callBack:Function = null):void
         {
+            var i:int = 0;
             //名前でユニット情報を取得
             var unitData:BattleUnit = getUnitInfoFromName(name);
             
@@ -3082,6 +3139,20 @@ package scene.map
             if (unitData == null && param.hasOwnProperty("id"))
             {
                 unitData = getUnitInfoFromId(param.id);
+            }
+            
+            //baseがある場合は検索
+            if (param.hasOwnProperty("baseid"))
+            {
+                for (i = 0; i < _baseDataList.length; i++)
+                {
+                    if (_baseDataList[i].eventId === param.baseid)
+                    {
+                        posX = _baseDataList[i].posX;
+                        posY = _baseDataList[i].posY;
+                        break;
+                    }
+                }
             }
             
             if (unitData != null)
@@ -3121,7 +3192,6 @@ package scene.map
             {
                 unitData = getUnitInfoFromId(name);
             }
-            
             
             if (callBack != null)
             {
@@ -3659,13 +3729,12 @@ package scene.map
             _mapTalkFlg = value;
         }
         
-        public function get turn():int 
+        public function get turn():int
         {
             return _turn;
         }
         
-        
-        public function set turn(value:int):void 
+        public function set turn(value:int):void
         {
             _turn = value;
         }

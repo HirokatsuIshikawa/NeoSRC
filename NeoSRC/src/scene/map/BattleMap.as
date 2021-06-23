@@ -3359,21 +3359,20 @@ package scene.map
                 }
             }
             
-            //ターンイベント
-            MainController.$.view.eveManager.searchMapTurnEvent(_turn, _selectSide, phaseStart, MapEventData.TYPE_TURN);
+            //ターンイベント・プレイヤーターンはイベント先、エネミーターンはパネルが先
+            if (_selectSide == 0)
+            {
+                MainController.$.view.eveManager.searchMapTurnEvent(_turn, _selectSide, phaseStart, MapEventData.TYPE_TURN);
+            }
+            else
+            {
+                MainController.$.view.eveManager.searchMapTurnEvent(_turn, _selectSide, enemyAct, MapEventData.TYPE_TURN);
+                _battleMapPanel.showPanel(BattleMapPanel.PANEL_ENEMY_TURN);
+            }
             
             function phaseStart():void
             {
-                //味方ターンのみ
-                if (_selectSide == 0)
-                {
-                    _battleMapPanel.showPanel(BattleMapPanel.PANEL_SYSTEM);
-                }
-                else
-                {
-                    _battleMapPanel.showPanel(BattleMapPanel.PANEL_ENEMY_TURN);
-                    enemyAct();
-                }
+                _battleMapPanel.showPanel(BattleMapPanel.PANEL_SYSTEM);
             }
         }
         

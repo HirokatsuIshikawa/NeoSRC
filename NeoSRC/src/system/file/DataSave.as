@@ -162,7 +162,7 @@ package system.file
             data.mapState = MainController.$.map.mapPanel.nowPanelType;
             data.playerData = MainController.$.model.playerParam;
             data.mapPath = MainController.$.model.mapPath;
-            data.mapTuen = MainController.$.map.turn;
+            data.mapTurn = MainController.$.map.turn;
             
             /**セーブ用ユニットデータ*/
             for (i = 0; i < MainController.$.model.PlayerUnitData.length; i++)

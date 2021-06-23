@@ -29,6 +29,7 @@ ReadyMove
 SetMove layer:背景 time:1 fade:in
 StartMove type:連続 wait:on
 Wait 1
+PlaySound file:テレポート
 flash
 ReadyMove
 SetMove layer:キャラクター time:0.5 fade:in
@@ -685,12 +686,13 @@ StartMove type:同時 wait:on
 //イベントセット
 SetEvent side:敵 label:ボス登場判定 type:撃破
 SetEvent side:さくらチーム label:ゲームオーバー type:全滅
-SetEvent side:さくらチーム turn:4 label:ディッキー増援
-SetEvent side:コクエン隊 turn:2 label:妖精部隊
+SetEvent side:さくらチーム type:ターン turn:4 label:ディッキー増援
+SetEvent side:コクエン隊 type:ターン turn:2 label:妖精部隊
 SetEvent side:味方 label:ヤイバ登場 type:制圧 eventId:敵本拠地
 DeleteAllLayer
 Exit
 
+///////////////////////////////////////////////////////////////////////////////////////////////
 出撃準備:
 RegistGenericUnit name:ケイブガード lv:1 cost:3
 RegistGenericUnit name:ワイルドランナー lv:1 cost:3
@@ -703,8 +705,22 @@ Return
 
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////
 妖精部隊:
-
+AddLayer name:キャラクター alpha:0
+CharaLayer name:キャラクター
+SetChara name:キャノンレイダー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 0) alpha:1
+SetChara name:エレクトロショッカー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 1) alpha:1
+SetChara name:さくら x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 0) alpha:1
+SetChara name:なのは x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 1) alpha:1
+SetChara name:ユーノ x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 2) alpha:1
+SetChara name:知世 x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 3) alpha:1
+SetChara name:ケイブガード x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * -2) alpha:1 y:160
+SetChara name:ワイルドランナー x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * -1) alpha:1 y:160
+ReadyMove
+SetMove layer:キャラクター time:0 x:$式($変数(エネミー表示位置) + 200)
+SetMove layer:キャラクター time:0.1 fade:in
+StartMove type:連続 wait:on
 Talk キャノンレイダー
 チッ、原始人め……
 
@@ -716,58 +732,130 @@ Talk エレクトロショッカー
 Talk キャノンレイダー
 なら、こっちも飛べる奴を出すまでだ！
 
-新規増援要請だ！　あいつらを呼び出せ！！
+増援要請だ！　あいつらを呼び出せ！！
+
+HideMsg 0.3
+Clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(プレイヤー表示位置) + 400)
+StartMove type:連続 wait:on
+Talk さくら
+！？
+
+新しい力が近づいてくる！
+Wait 0.7
+誰か来るよ！！
 
 Talk ケイブガード
 ！？　また仲間を呼ぶつもりか！？
 
+HideMsg 0.3
+Clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+StopBGM
+Wait 1
+StartBGM file:kthxbi
+CreateUnit name:弾幕妖精 x:22 y:4 side:コクエン隊 level:1 
+CreateUnit name:弾幕妖精 x:24 y:6 side:コクエン隊 level:1 
+CreateUnit name:弾幕妖精 x:24 y:11 side:コクエン隊 level:1 
+CreateUnit name:弾幕妖精 x:22 y:13 side:コクエン隊 level:1 
+RegistGenericUnit name:弾幕妖精 lv:1 cost:6 side:コクエン隊
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+SetChara name:弾幕妖精 x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 2) alpha:0 id:妖精１
+SetChara name:弾幕妖精 x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 3) alpha:0 id:妖精２
+SetChara name:弾幕妖精 x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 4) alpha:0 id:妖精３
+ReadyMove
+SetMove layer:キャラクター time:0 x:$変数(エネミー表示位置)
+SetMove layer:キャラクター time:0.3 fade:in
+Setmove id:妖精１ time:0.3 fade:in
+Setmove id:妖精２ time:0.3 fade:in
+Setmove id:妖精３ time:0.3 fade:in
+StartMove type:連続 wait:on
 Talk 妖精
 ひゃっほー！
 
+Clearmsg
 ひーはー！
 
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(プレイヤー表示位置) + 400)
+StartMove type:連続 wait:on
 Talk ワイルドランナー
-な、なにあの子達！？　幼稚園児……
+な、なんなの、あの子達！？
+Wait 0.8
+幼稚園児……
 
 Talk なのは
-それにしてはなんか、羽が生えていますけど……
+なんか、羽が生えていますけど……
 
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(プレイヤー表示位置))
+StartMove type:連続 wait:on
 Talk 知世
 さくらちゃん、あれってひょっとして……
 
 Talk さくら
-妖精さん……なのかな？
+妖精さん……だよね？
 
 前に会った子達とは、ずいぶん雰囲気が違うけど……
 
 Talk ユーノ
 （前に……会った？）
 
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$変数(エネミー表示位置)
+StartMove type:連続 wait:on
 Talk キャノンレイダー
 お前ら、出番だ！！　あの原始人共を追っ払え！！
 
 Talk 妖精
 んー、なんかその言い方気に入らないー
 
+Clearmsg
 なんだかエラそー
 
+Clearmsg
 でも、おもしろそー
 
 それっ！！
 
+ReadyMove
+PlaySound file:妖精弾幕
+SetMove layer:キャラクター time:0.3 x:$式($変数(プレイヤー表示位置) + 400)
+StartMove type:連続 wait:on
+flash time:0.3
+Wait 0.5
 Talk ケイブガード
 わっ！？　なんだ……エネルギー弾！？
 
+Talk ワイルドランナー
+くっ、数がすごくてよけにくい……！
+
+ReadyMove
+SetMove layer:キャラクター time:0 x:$式($変数(エネミー表示位置) + 200)
+SetMove layer:キャラクター time:0.1 fade:in
+StartMove type:連続 wait:on
 Talk キャノンレイダー
 へへっ、空中飛んでるんじゃ原始人には
 相手しづらいだろ
 
-あの三人はどのみち連れて来たいからな
+あの三人はなんとしても連れて来たいんでな……
 
-邪魔者のお前らには、ここで退場してもらおうか！！
+邪魔者のお前らには、ここで退場してもらうぜ！！
 
+hidemsg time:0.3
+clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+DeleteAllLayer
 Exit
 
+///////////////////////////////////////////////////////////////////////////////////////////////
 ディッキー増援:
 
 Talk ケイブガード

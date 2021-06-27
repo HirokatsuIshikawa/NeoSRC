@@ -284,6 +284,21 @@ package system.file
                     //ラベル
                     mapDateList[i].unitDate[j].talkLabel = MainController.$.map.sideState[i].battleUnit[j].talkLabel;
                 }
+                
+                
+                //生産ユニットデータ
+                if (i > 0)
+                {
+                    mapDateList[i].genericUnitList = new Object();
+                    for (j = 0; j < MainController.$.map.sideState[i].genericUnitList.length; j++)
+                    {
+                        mapDateList[i].genericUnitList[j] = new Object();
+                        mapDateList[i].genericUnitList[j].name = MainController.$.map.sideState[i].genericUnitList[j].name;
+                        mapDateList[i].genericUnitList[j].lv = MainController.$.map.sideState[i].genericUnitList[j].lv;
+                        mapDateList[i].genericUnitList[j].cost = MainController.$.map.sideState[i].genericUnitList[j].cost;
+                        mapDateList[i].genericUnitList[j].customBgm = MainController.$.map.sideState[i].genericUnitList[j].customBgm;
+                    }
+                }                
             }
             
             var mapEventList:Object = new Object();

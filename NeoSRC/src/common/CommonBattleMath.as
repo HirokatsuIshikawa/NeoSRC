@@ -83,7 +83,7 @@ package common
         /** ランダム作成 */
         public static function getRandom(max:int, min:int):int
         {
-            return (int)(Math.floor(Math.random() * max - min + 1) + min);
+            return (int)(Math.floor(Math.random() * max - min) + min);
         }
         
         /**経験値計算*/

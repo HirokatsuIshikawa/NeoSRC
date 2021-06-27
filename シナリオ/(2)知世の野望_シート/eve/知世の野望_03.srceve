@@ -599,9 +599,9 @@ clearmsg
 ReadyMove
 SetMove layer:キャラクター time:0.3 fade:out
 StartMove type:同時 wait:on
-CreateUnit name:ロッドアタッカー x:10 y:6 side:コクエン隊 level:1  anime:1
+CreateUnit name:ロッドアタッカー x:13 y:6 side:コクエン隊 level:1  anime:1
 CreateUnit name:ブッシュシューター x:12 y:10 side:コクエン隊 level:1  anime:1
-CreateUnit name:エレクトロショッカー x:10 y:13 side:コクエン隊 level:1  anime:1
+CreateUnit name:エレクトロショッカー x:12 y:13 side:コクエン隊 level:1  anime:1
 CreateUnit name:ブッシュシューター x:13 y:4 side:コクエン隊 level:1  anime:1
 CreateUnit name:ブッシュシューター x:17 y:9 side:コクエン隊 level:1  anime:1
 CreateUnit name:ロッドアタッカー x:17 y:13 side:コクエン隊 level:1  anime:1
@@ -823,8 +823,8 @@ Clearmsg
 
 それっ！！
 
-ReadyMove
 PlaySound file:妖精弾幕
+ReadyMove
 SetMove layer:キャラクター time:0.3 x:$式($変数(プレイヤー表示位置) + 400)
 StartMove type:連続 wait:on
 flash time:0.3
@@ -855,9 +855,41 @@ StartMove type:同時 wait:on
 DeleteAllLayer
 Exit
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+キャラクター表示:
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+Return
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+キャラクター隠し:
+HideMsg 0.3
+Clearmsg type:all
+ReadyMove
+SetMove layer:キャラクター time:0.3 fade:out
+StartMove type:同時 wait:on
+Return
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ディッキー増援:
-
+AddLayer name:キャラクター alpha:0
+CharaLayer name:キャラクター
+SetChara name:キャノンレイダー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 0) alpha:1
+SetChara name:エレクトロショッカー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 1) alpha:1
+SetChara name:弾幕妖精 x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 2) alpha:1
+SetChara name:さくら x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 0) alpha:1
+SetChara name:なのは x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 1) alpha:1
+SetChara name:ユーノ x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 2) alpha:1
+SetChara name:知世 x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 3) alpha:1
+SetChara name:ケイブガード x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * -2) alpha:1 y:160
+SetChara name:ワイルドランナー x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * -1) alpha:1 y:160
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(プレイヤー表示位置) + 400)
+SetMove layer:キャラクター time:0.1 fade:in
+StartMove type:連続 wait:on
 Talk ケイブガード
 クッ、空中の相手じゃ流石に分が悪すぎる……
 
@@ -870,6 +902,9 @@ Talk ワイルドランナー
 
 とはいえ、こっちの攻撃が当たらないんじゃ……
 
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(プレイヤー表示位置))
+StartMove type:連続 wait:on
 Talk なのは
 あの弾幕、スピードはそれほどじゃないんだけど
 ずっと残ってるから、これ以上数が増えたら……
@@ -878,63 +913,135 @@ Talk ユーノ
 あの妖精達も、次から次へと出てくるし
 なんとかしないと、コレじゃ動けなくなる……
 
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$変数(エネミー表示位置)
+StartMove type:連続 wait:on
 Talk 妖精
 わははー
 
-Talk ディッキー
+Talk キャノンレイダー
+へへ、いいぞチビッ子ども！
+
+そのまま、奴等をやって……
+
+Wait 1
+StopBGM
+Talk ？？？
 そこまでだ！　コクエン隊！！
 
 Talk キャノンレイダー
 なっ！？
 
+Call キャラクター隠し
+Wait 0.7
+StartBGM file:The_Evil_Sacrifice_Archenemies
+CreateUnit name:ディッキー x:11 y:16 side:さくらチーム level:1 
+CreateUnit name:ディッキー x:14 y:16 side:さくらチーム level:1 
+CreateUnit name:ディッキー x:17 y:16 side:さくらチーム level:1 
+RegistGenericUnit name:ディッキー lv:1 cost:6
+SetChara name:ディッキー x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * -3) alpha:1 y:160
+ReadyMove
+SetMove layer:キャラクター time:0 x:$式($変数(プレイヤー表示位置))
+SetMove layer:キャラクター time:0.1 fade:in
+StartMove type:連続 wait:on
 Talk なのは
 ま、また新しい子達が……
 
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(プレイヤー表示位置) + 600)
+StartMove type:連続 wait:on
 Talk ケイブガード
-お前達は……カリンのとこの……！
+お前達は……カリンのとこの……
 
+大丈夫だ、アイツらは敵じゃない！
+
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(プレイヤー表示位置))
+StartMove type:連続 wait:on
 Talk 知世
-知り合いなのですか？
+お知り合いなのですか？
 
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(プレイヤー表示位置) + 400)
+StartMove type:連続 wait:on
 Talk ワイルドランナー
 うん、他所のエリアで活動している子達で
-何度か交流した事があるの
+ウチとは何度か交流した事があるの
 
 あなた達、どうしてここに……？
 
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(プレイヤー表示位置) + 600)
+StartMove type:連続 wait:on
 Talk ディッキー
 決まってんだろ、アイツらを追ってきたんだ
 
 お前達、またこりもせずこんな所で……
 
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$変数(エネミー表示位置)
+StartMove type:連続 wait:on
 Talk キャノンレイダー
-うるせぇ！　お前に偉そうに説教される言われはねーよ！！
+うるせぇ！　お前に説教される言われはねーよ！！
 
 妖精ども！　あいつらも一緒にたたんじまえ！！
 
 Talk 妖精
 おー！！
 
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(プレイヤー表示位置))
+StartMove type:連続 wait:on
 Talk さくら
 あの子達、また……！
 
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(プレイヤー表示位置) + 600)
+StartMove type:連続 wait:on
 Talk ディッキー
-大丈夫、空中戦相手なら俺達は
-ケイブヴィレッジの皆よりは上手くやれる自信があるから
+大丈夫、空中戦なら俺達コマンダータイプは
+ケイブヴィレッジの皆よりは上手くやれるから
 
-ま、どっちかと言うと地上の射撃戦の方が得意なんだけど……
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(プレイヤー表示位置))
+StartMove type:連続 wait:on
+Talk さくら
+コマンダータイプ？
 
-近くで仲間達が待ってるんだけど、呼ぶ準備はできてる？
-
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(プレイヤー表示位置) + 600)
+StartMove type:連続 wait:on
 Talk ケイブガード
-ああ、ありがたい！
+ああ、こいつらのエリアで流行ってる戦闘スタイルでさ
 
-そこの転送ポートを利用してくれ！！
+射撃と機動力に優れ、なおかつ近接もいける
+バランスのいい能力が特徴なんだ
 
 Talk ディッキー
-よーし、それじゃいくぜ！！
+同じコマンドタイプでも、色んなスタイルがあって
+それぞれ秀でてるものが違うんだけど……
 
+俺達のタイプは、機動力に優れてるし
+射撃ならば、空中の相手もやりやすいんだ
 
+（……ま、ホントは俺達のスタイルだと
+　地上の方が得意なんだけどね……）
+
+……急いできたから、今は俺達だけだけど
+
+仲間達も向こう側で待ってるから
+良ければ、転送ポートで読んでやってくれ
+
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(プレイヤー表示位置))
+StartMove type:連続 wait:on
+Talk 知世
+わかりましたわ
+
+それでは、改めてお願いいたします
+
+Call キャラクター隠し
+DeleteAllLayer
 Exit
 
 ヤイバ登場:
@@ -986,9 +1093,10 @@ Talk 知世
 あの子と、お知り合いなのですか？
 
 Talk ディッキー
-……俺達の隣の学区では有名な
+……俺達の学校の隣の学区では有名な
 コマンダー三兄弟の一人、ヤイバって言って
-兄弟３人全員が中々腕が立つ、コマンドタイプのクレストマイスターなんだ
+兄弟３人全員が中々腕が立つ、
+コマンドタイプのクレストマイスターなんだ
 
 Talk さくら
 じゃあ、あなた達と同じ……？

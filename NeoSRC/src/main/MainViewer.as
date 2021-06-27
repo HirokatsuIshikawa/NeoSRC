@@ -7,6 +7,7 @@ package main
     import common.SystemController;
     import common.util.CharaDataUtil;
     import database.master.MasterBaseData;
+    import database.user.GenericUnitData;
     import database.user.UnitCharaData;
     import database.user.buff.SkillBuffData;
     import flash.display.StageQuality;
@@ -403,7 +404,6 @@ package main
             //マップユニット読み込み
             for (i = 0; i < CommonDef.objectLength(data.mapDateList); i++)
             {
-                
                 MainController.$.map.sideState[i] = new SideState(data.mapDateList[i].name);
                 
                 MainController.$.map.sideState[i].cost = data.mapDateList[i].cost;
@@ -413,6 +413,18 @@ package main
                     MainController.$.map.sideState[i].loadSaveCommander(data.mapDateList[i].commander);
                 }
                 
+                if (i > 0)
+                {
+                    for (j = 0; j < CommonDef.objectLength(data.mapDateList[i].genericUnitList); j++)
+                    {
+                        var genericData:Object = data.mapDateList[i].genericUnitList[j];
+                        var genericUnit:GenericUnitData = new GenericUnitData(MainController.$.model.getMasterCharaData(genericData.name), genericData.lv, genericData.cost);
+                        MainController.$.map.sideState[i].genericUnitList.push(genericUnit);
+                        
+                    }
+                }
+                
+                //マップ上ユニット
                 for (j = 0; j < CommonDef.objectLength(data.mapDateList[i].unitDate); j++)
                 {
                     var unitData:Object = data.mapDateList[i].unitDate[j];

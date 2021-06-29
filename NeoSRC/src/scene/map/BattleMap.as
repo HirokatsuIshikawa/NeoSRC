@@ -3140,7 +3140,7 @@ package scene.map
             {
                 unitData = getUnitInfoFromId(param.id);
             }
-            
+            /*
             //baseがある場合は検索
             if (param.hasOwnProperty("baseid"))
             {
@@ -3154,6 +3154,7 @@ package scene.map
                     }
                 }
             }
+            */
             
             if (unitData != null)
             {

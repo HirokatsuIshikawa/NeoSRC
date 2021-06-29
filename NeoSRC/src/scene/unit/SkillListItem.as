@@ -74,7 +74,7 @@ package scene.unit
             //武器名
             _name = new CTextArea(24, 0xFFFFFF);
             _name.styleName = "custom_text";
-            _name.width = 240;
+            _name.width = 320;
             _name.height = 32;
             _name.x = 8;
             _name.y = nextPosY;

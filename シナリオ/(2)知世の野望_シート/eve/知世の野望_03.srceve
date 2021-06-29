@@ -688,7 +688,7 @@ SetEvent side:敵 label:ボス登場判定 type:撃破
 SetEvent side:さくらチーム label:ゲームオーバー type:全滅
 SetEvent side:さくらチーム type:ターン turn:4 label:ディッキー増援
 SetEvent side:コクエン隊 type:ターン turn:2 label:妖精部隊
-SetEvent side:味方 label:ヤイバ登場 type:制圧 eventId:敵本拠地
+SetEvent side:さくらチーム label:ヤイバ登場 type:制圧 eventId:敵本拠地
 DeleteAllLayer
 Exit
 
@@ -1044,27 +1044,65 @@ Call キャラクター隠し
 DeleteAllLayer
 Exit
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ヤイバ登場:
-
+AddLayer name:キャラクター alpha:0
+CharaLayer name:キャラクター
+SetChara name:キャノンレイダー x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 0) alpha:1
+SetChara name:さくら x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 0) alpha:1
+SetChara name:なのは x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 1) alpha:1
+SetChara name:ユーノ x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 2) alpha:1
+SetChara name:知世 x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * 3) alpha:1
+SetChara name:ケイブガード x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * -2) alpha:1 y:160
+SetChara name:ワイルドランナー x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * -1) alpha:1 y:160
+SetChara name:ディッキー x:$式($変数(プレイヤー配置位置) + $変数(プレイヤー配置間隔) * -3) alpha:1 y:160
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$変数(エネミー表示位置)
+SetMove layer:キャラクター time:0.1 fade:in
+StartMove type:連続 wait:on
 Talk キャノンレイダー
 クソっ！　まさかコマンドタイプが出てくるとは……
 
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(プレイヤー表示位置) + 400)
+StartMove type:連続 wait:on
 Talk ケイブガード
-よし、奴等のリーダー格はこれで戦えないはずだ
+よし、これで奴等はこれ以上増援を呼べないぜ！
 
-Talk ユーノ
-あのモグラロボみたいなのは、居ないみたいだね
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(プレイヤー表示位置) + 400)
+StartMove type:連続 wait:on
+Talk なのは
+今回は、あのモグラロボットは
+居ないみたいだね
 
 Talk 知世
-それにしても、彼らはいったい何をしにここへ……？
+それにしても、彼らはどうして
+ここへ来たのでしょうか……？
 
+Talk ユーノ
+これだけ大勢で来たって事は
+何か理由があるんだろうけど……
+
+Wait 1
+StopBGM
 Talk さくら
-待って！　こっちに誰かすごいスピードで近づいてくる！
+待って！
+誰かがすごいスピードで近づいてくるよ！
 
 Talk なのは
 え？
 
-
+Call キャラクター隠し
+Wait 0.7
+StartBGM file:
+CreateUnit name:ヤイバ baseId:敵本拠地 side:コクエン隊 level:1 
+Wait 0.7
+SetChara name:ヤイバ x:$式($変数(エネミー配置位置) + $変数(エネミー配置間隔) * 2) alpha:1
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(エネミー表示位置) - 100)
+SetMove layer:キャラクター time:0.1 fade:in
+StartMove type:連続 wait:on
 Talk ヤイバ
 チッ、ちょっと目を離したすきに
 こんなボロボロにやられやがって……
@@ -1072,57 +1110,94 @@ Talk ヤイバ
 情けない奴らだぜ、全く……
 
 Talk キャノンレイダー
-ヤイバ！！　お前今までどこに言ってたんだ！？
+ヤイバ！！
+
+お前今までどこに居たんだよ！？
 
 Talk ヤイバ
 ちょっとその辺を歩いてくるって言ってただろ
 
 まさか、その間にやられてるとは思いもしなかったけどな
 
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(プレイヤー表示位置) + 600)
+StartMove type:連続 wait:on
 Talk ディッキー
 お前……ヤイバ！？
 
 どうしてお前がここに……
 
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(エネミー表示位置) - 100)
+StartMove type:連続 wait:on
 Talk ヤイバ
-お前ら、カリンの所の奴等か
+カリンの所の奴等か……
 
-……俺が何処にいようが、俺の勝手だろ
+俺が何処にいようが、俺の勝手だろ
 
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(プレイヤー表示位置) )
+StartMove type:連続 wait:on
 Talk 知世
 あの子と、お知り合いなのですか？
 
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(プレイヤー表示位置) + 400)
+StartMove type:連続 wait:on
 Talk ディッキー
-……俺達の学校の隣の学区では有名な
-コマンダー三兄弟の一人、ヤイバって言って
-兄弟３人全員が中々腕が立つ、
-コマンドタイプのクレストマイスターなんだ
+コマンダー三兄弟……
 
+俺達の隣の学区では有名なコマンドタイプの
+クレストマイスターの一人だ
+
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(プレイヤー表示位置) )
+StartMove type:連続 wait:on
 Talk さくら
 じゃあ、あなた達と同じ……？
 
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(エネミー表示位置) - 100)
+StartMove type:連続 wait:on
 Talk ヤイバ
 そいつらと一緒にするな
 
-同タイプのクレストマイスターでも、装備で性能は大幅に変化するし
-仮にそれが同じでも、使い手の腕次第で、強さも格段に異なるんだ
+同タイプのクレストマイスターでも、
+装備で性能は大幅に変化するし
 
-……お前達か、先発隊が言ってたクレストマイスターっていうのは
+同じ構成でも、使い手の腕次第で
+強さは格段に異なるんだ
 
+……お前達だな
+
+先発隊が言ってた腕の立つ
+クレストマイスターっていうのは……
+
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(プレイヤー表示位置) )
+StartMove type:連続 wait:on
 Talk さくら
 ほえ……？
 
+ReadyMove
+SetMove layer:キャラクター time:0.3 x:$式($変数(エネミー表示位置) - 100)
+StartMove type:連続 wait:on
 Talk ヤイバ
-………こいつ等じゃ無いとは思うけどな
+……こんなフワフワした連中じゃないと思うが
 
 腕が立つクレストマイスターが相手なら
 それだけで出向いてきた価値がある！
 
 俺と勝負してもらうぞ！！
 
+SetEvent target:ヤイバ type:撃破 label:ヤイバ撃破
+VictoryCondition victory:ヤイバの撃破 defeat:味方の全滅
+Call キャラクター隠し
+DeleteAllLayer
 
 Exit
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ヤイバ撃破:
 
 Talk ヤイバ

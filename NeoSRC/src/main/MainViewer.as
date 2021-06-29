@@ -7,6 +7,7 @@ package main
     import common.SystemController;
     import common.util.CharaDataUtil;
     import database.master.MasterBaseData;
+    import database.user.CommanderData;
     import database.user.GenericUnitData;
     import database.user.UnitCharaData;
     import database.user.buff.SkillBuffData;
@@ -239,6 +240,14 @@ package main
                 _battleMap.setDrag();
                 //_battleMap.visible = true;
                 
+                
+                //軍師データセット
+                if (MainController.$.model.playerParam.selectCommanderName != null)
+                {
+                    var commanderData:CommanderData = new CommanderData(MainController.$.model.getMasterCommanderDataFromName(MainController.$.model.playerParam.selectCommanderName), MainController.$.model.playerParam.selectCommanderLv);
+                    MainController.$.map.setCommander(MainController.$.model.playerParam.sideName, commanderData);
+                }
+                
                 //waitDark(false);
                 if (callBack != null)
                 {
@@ -400,7 +409,7 @@ package main
                 battleMap.unitArea.addChild(mapPict);
                 battleMap.mapPictureList.push(mapPict);
             }
-            
+
             //マップユニット読み込み
             for (i = 0; i < CommonDef.objectLength(data.mapDateList); i++)
             {
@@ -666,7 +675,6 @@ package main
             {
                 _eveManager = new IconTalkView();
             }
-            
             debugText.addText(eveName);
             _eveManager.eveStart(eveName, startLabel);
             //EVEマネージャー追加

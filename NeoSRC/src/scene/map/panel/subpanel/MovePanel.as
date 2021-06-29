@@ -145,8 +145,26 @@ package scene.map.panel.subpanel
         {
             _data = data;
             
-            if (data != null && unit.param.CON > 0)
+            if (data != null)
             {
+                if (data.sideNum == unit.side)
+                {
+                    _btnGetPoint.changeImg(MainController.$.imgAsset.getTexture("btn_info_base"));
+                }
+                else
+                {
+                    _btnGetPoint.changeImg(MainController.$.imgAsset.getTexture("btn_getpoint"));
+                }
+                
+                if (unit.param.CON > 0)
+                {
+                    _btnGetPoint.isEnabled = true;
+                }
+                else
+                {
+                    _btnGetPoint.isEnabled = false;
+                }
+                
                 _btnGetPoint.visible = true;
                 _getPointNo = num;
                 _side = unitSide;

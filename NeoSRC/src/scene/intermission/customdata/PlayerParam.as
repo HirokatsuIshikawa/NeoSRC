@@ -24,6 +24,7 @@ package scene.intermission.customdata
         
         /**選択軍師名*/
         public var selectCommanderName:String;
+        public var selectCommanderLv:int = 1;
         
         /** ローカル変数 */
         public var playerVariable:Vector.<PlayerVariable> = null;

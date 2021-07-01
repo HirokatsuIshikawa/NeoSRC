@@ -293,6 +293,10 @@ package scene.map
                 {
                     joinFlg = param.join;
                 }
+                else
+                {
+                    joinFlg = 0;
+                }
                 
                 if (joinFlg)
                 {
@@ -935,7 +939,6 @@ package scene.map
                 {
                     break;
                 }
-                
             }
             
             organizeLaunch();

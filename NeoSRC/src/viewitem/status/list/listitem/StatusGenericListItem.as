@@ -1,38 +1,38 @@
 package viewitem.status.list.listitem
 {
-    import common.CommonSystem;
     import common.util.CharaDataUtil;
     import database.master.MasterCharaData;
+    import database.user.GenericUnitData;
     import database.user.UnitCharaData;
+    import feathers.controls.TextArea;
     import main.MainController;
     import starling.events.Touch;
     import starling.events.TouchEvent;
     import starling.events.TouchPhase;
     import starling.textures.TextureSmoothing;
     import system.custom.customSprite.CImage;
-    import system.custom.customSprite.CTextArea;
     import viewitem.status.list.listitem.ListItemBase;
     
     /**
      * ...
      * @author ishikawa
      */
-    public class StrengthListItem extends ListItemBase
+    public class StatusGenericListItem extends ListItemBase
     {
         public static const LIST_WIDTH:int = 240;
         public static const LIST_HEIGHT:int = 104;
         public static const ICON_SIZE:int = 96;
         
         /**ユニットデータ*/
-        private var _data:UnitCharaData = null;
+        private var _data:GenericUnitData = null;
         /**ユニット画像*/
         private var _unitImg:CImage = null;
         /**名前エリア*/
-        private var _nameTxt:CTextArea = null;
-        /**強化段階*/
-        private var _strengthTxt:CTextArea = null;
+        private var _nameTxt:TextArea = null;
+        //コスと表示
+        private var _costTxt:TextArea = null;
         
-        public function StrengthListItem(data:UnitCharaData)
+        public function StatusGenericListItem(data:GenericUnitData)
         {
             super(LIST_WIDTH, LIST_HEIGHT);
             var i:int = 0;
@@ -44,41 +44,34 @@ package viewitem.status.list.listitem
             //_unitImg = new CImage(TextureManager.loadUnitNameTexture(charaData.unitsImgName, TextureManager.TYPE_UNIT));
             
             _unitImg = new CImage(MainController.$.imgAsset.getTexture(charaData.unitsImgName));
-            
             _unitImg.x = 4;
             _unitImg.y = 4;
             _unitImg.width = ICON_SIZE;
             _unitImg.height = ICON_SIZE;
             _unitImg.textureSmoothing = TextureSmoothing.NONE;
             
-            _nameTxt = new CTextArea();
+            _nameTxt = new TextArea();
             _nameTxt.styleName = "list_text";
             _nameTxt.x = 112;
             _nameTxt.y = 40;
             _nameTxt.width = 120;
             _nameTxt.text = charaData.name;
             
-            _strengthTxt = new CTextArea();
-            _strengthTxt.styleName = "list_text";
-            _strengthTxt.x = 112;
-            _strengthTxt.y = 64;
-            _strengthTxt.width = 120;
-            _strengthTxt.text = "+" + data.strengthPoint;
-            
-            if (data.strengthPoint < CommonSystem.STRENGTH_MONEY.length)
+            if (data.cost > 0)
             {
-                this.addEventListener(TouchEvent.TOUCH, clickHandler);
-                _unitImg.color = 0xFFFFFF;
-            }
-            else
-            {
-                _unitImg.color = 0x888888;
+                _costTxt = new TextArea();
+                _costTxt.styleName = "list_text";
+                _costTxt.x = 112;
+                _costTxt.y = 72;
+                _costTxt.width = 120;
+                _costTxt.text = "コスト：" + data.cost;
+                addChild(_costTxt);
             }
             
             addChild(_unitImg);
             addChild(_nameTxt);
-            addChild(_strengthTxt);
-        
+            
+            this.addEventListener(TouchEvent.TOUCH, clickHandler);
         }
         
         override public function dispose():void
@@ -90,7 +83,7 @@ package viewitem.status.list.listitem
                 _unitImg = null;
             }
             
-            if (_nameTxt != null)
+            if (_unitImg != null)
             {
                 removeChild(_nameTxt);
                 _nameTxt.dispose();
@@ -105,17 +98,21 @@ package viewitem.status.list.listitem
         {
             var touch:Touch = event.getTouch(this);
             //タッチしているか
+            //var pos:Point;
             if (touch)
             {
+                //pos = _unitImage.globalToLocal(new Point(touch.globalX, touch.globalY));
                 //クリック上げた時
                 switch (touch.phase)
                 {
                 //ボタン離す
                 case TouchPhase.ENDED: 
-                    MainController.$.view.interMission.callStrengthWindow(_data);
+                    _listImg.color = 0xFFFFFF;
+                    MainController.$.view.interMission.callGenericStatusWindow(_data);
                     break;
                 //マウスオーバー
                 case TouchPhase.HOVER: 
+                    _listImg.color = 0x4444FF;
                     break;
                 case TouchPhase.STATIONARY: 
                     break;
@@ -129,8 +126,9 @@ package viewitem.status.list.listitem
             }
             else
             {
-                //_listImg.color = 0xFFFFFF;
+                _listImg.color = 0xFFFFFF;
             }
         }
     }
+
 }

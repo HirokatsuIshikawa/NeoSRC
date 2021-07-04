@@ -16,6 +16,7 @@ name:資金, type:label,key:資金, x:10, y:10
 name:次へ, type:btn,action:NextStage, x:20, y:100
 name:一覧, type:btn,action:UnitList, x:340, y:100
 name:軍師, type:btn,action:CommanderList, x:500, y:100
+name:汎用, type:btn,action:GenericList, x:660, y:100
 name:セーブ, type:btn,action:DataSave, x:180, y:100
 name:強化イベント,type:btn, action:UnitStrength ,x:20, y:200
 //追加イベント

@@ -276,6 +276,12 @@ package viewitem.status
                 _evaImg.visible = false;
                 removeChild(_evaImg);
             }
+            
+            if (_costImg != null)
+            {
+                _costImg.visible = false;
+            }
+            
             //this.addEventListener(TouchEvent.TOUCH, clickHandler);
         }
         
@@ -349,6 +355,7 @@ package viewitem.status
             addChild(_supplyImg);
             
             _costImg.setNumber(cost, ImgNumber.TYPE_STATE_COST);
+            _costImg.visible = true;
             addChild(_costImg);
         
             //this.addEventListener(TouchEvent.TOUCH, clickHandler);

@@ -139,8 +139,11 @@ package scene.map
         private var _frameArea:CSprite = null;
         /** 効果エリア */
         private var _effectArea:CSprite = null;
+        
+        /**ステータス選択番号*/
+        private var _selectMoveSide:int = 0;
         /** ユニット選択番号 */
-        private var _selectUnit:int = 0;
+        private var _selectMoveUnit:int = 0;
         /**選択行動タイプ*/
         private var _selectActType:int = 0;
         /**選択行動ターゲットタイプ*/
@@ -882,6 +885,7 @@ package scene.map
                     battleUnit.formationNumImg.alpha = 0;
                 }
                 
+                battleUnit.commanderStatusSet(_sideState[0].commander);                
                 // 戦闘ユニットを勢力に追加
                 _sideState[0].addUnit(battleUnit);
                 // ユニットエリアに画像追加
@@ -1006,7 +1010,7 @@ package scene.map
         /**選択中ユニットデータゲット*/
         public function getSelectSideUnitData():BattleUnit
         {
-            var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
+            var unit:BattleUnit = _sideState[_selectMoveSide].battleUnit[_selectMoveUnit];
             return unit;
         }
         
@@ -1020,7 +1024,7 @@ package scene.map
                 {
                     var unit:BattleUnit = _sideState[i].battleUnit[j];
                     var baseData:BaseTip = _baseDataList[num];
-                    if (baseData.posX == unit.PosX && baseData.posY == unit.PosY)
+                    if (baseData.posX >= 0 && baseData.posY >= 0 && baseData.posX < mapWidth && baseData.posY < mapHeight && baseData.posX == unit.PosX && baseData.posY == unit.PosY && unit.onMap == true)
                     {
                         return true;
                     }
@@ -1128,7 +1132,7 @@ package scene.map
             
             deleteMoveImg();
             
-            var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
+            var unit:BattleUnit = _sideState[_selectMoveSide].battleUnit[_selectMoveUnit];
             unit.resetImgPos();
             
             var i:int = 0;
@@ -1149,7 +1153,7 @@ package scene.map
         /**移動パネル・制圧*/
         public function baseConquest(e:Event):void
         {
-            var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
+            var unit:BattleUnit = _sideState[_selectMoveSide].battleUnit[_selectMoveUnit];
             var baseTip:BaseTip = getBaseDataOnUnit(unit);
             _conquestInfo = new BaseConquestInfo(baseTip, baseTip.sideNum >= 0 ? _sideState[baseTip.sideNum].name : "", unit, conquestStart, closeBaseConquest);
             MainController.$.view.addChild(_conquestInfo);
@@ -1158,7 +1162,7 @@ package scene.map
         /**制圧開始*/
         private function conquestStart():void
         {
-            var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
+            var unit:BattleUnit = _sideState[_selectMoveSide].battleUnit[_selectMoveUnit];
             _conquestInfo.conquestAction(unit, endConquest);
         }
         
@@ -1220,7 +1224,7 @@ package scene.map
         {
             var i:int = 0;
             
-            var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
+            var unit:BattleUnit = _sideState[_selectMoveSide].battleUnit[_selectMoveUnit];
             unit.PosX = _nowMovePosX + 1;
             unit.PosY = _nowMovePosY + 1;
             
@@ -1257,8 +1261,7 @@ package scene.map
             }
             else if (_conquestInfo != null)
             {
-                
-                var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
+                var unit:BattleUnit = _sideState[_selectMoveSide].battleUnit[_selectMoveUnit];
                 _conquestInfo.btnInvisible();
                 _conquestInfo.visible = true;
                 _conquestInfo.conquestAction(unit, endConquest);
@@ -1306,7 +1309,7 @@ package scene.map
         /**ユニット移動実行処理*/
         private function moveUnit(moveData:EnemyMoveData = null):void
         {
-            var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
+            var unit:BattleUnit = _sideState[_selectMoveSide].battleUnit[_selectMoveUnit];
             var baseData:BaseTip = getBaseDataOnUnit(unit);
             if (baseData != null)
             {
@@ -1411,7 +1414,7 @@ package scene.map
         /**ユニット移動可否フラグ*/
         public function moveEnable():Boolean
         {
-            if (_sideState[0].battleUnit[_selectUnit].PosX == (_nowMovePosX + 1) && _sideState[0].battleUnit[_selectUnit].PosY == (_nowMovePosY + 1))
+            if (_sideState[0].battleUnit[_selectMoveUnit].PosX == (_nowMovePosX + 1) && _sideState[0].battleUnit[_selectMoveUnit].PosY == (_nowMovePosY + 1))
             {
                 return false;
             }
@@ -1490,7 +1493,7 @@ package scene.map
             
             deleteMoveImg();
             
-            var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
+            var unit:BattleUnit = _sideState[_selectMoveSide].battleUnit[_selectMoveUnit];
             unit.resetImgPos();
             
             var i:int = 0;
@@ -1926,8 +1929,8 @@ package scene.map
                         {
                             showStatusWindow(unit, false);
                         }
-                        _selectSide = i;
-                        _selectUnit = j;
+                        _selectMoveSide = i;
+                        _selectMoveUnit = j;
                         setCenterPos(posX, posY);
                         remakeMoveArea(unit, unit.PosX - 1, unit.PosY - 1, unit.param.MOV, list, i);
                         var funcList:Vector.<Function> = new Vector.<Function>;
@@ -1970,7 +1973,6 @@ package scene.map
             
             if (_baseInfo != null)
             {
-                
                 MainController.$.view.removeChild(_baseInfo);
                 _baseInfo.dispose();
                 _baseInfo = null;
@@ -2049,7 +2051,7 @@ package scene.map
             {
                 
                 _selectMoved = true;
-                var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
+                var unit:BattleUnit = _sideState[_selectMoveSide].battleUnit[_selectMoveUnit];
                 
                 var moveList:TerrainData = _terrainDataList[posNum];
                 
@@ -2911,7 +2913,7 @@ package scene.map
             _battleMapPanel.showPanel(BattleMapPanel.PANEL_MOVE);
             MainController.$.view.addChild(_battleMapPanel);
             var list:Vector.<String> = new Vector.<String>;
-            var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
+            var unit:BattleUnit = _sideState[_selectMoveSide].battleUnit[_selectMoveUnit];
             unit.resetImgPos();
             remakeMoveArea(unit, unit.PosX - 1, unit.PosY - 1, unit.param.MOV, list);
             setCenterPos(unit.PosX - 1, unit.PosY - 1);
@@ -3328,6 +3330,8 @@ package scene.map
                 _turn++;
             }
             
+            _selectMoveSide = _selectSide;
+            
             //拠点収入
             for (i = 0; i < _baseDataList.length; i++)
             {
@@ -3395,7 +3399,7 @@ package scene.map
                 unit = _sideState[_selectSide].battleUnit[i];
                 if (unit.moveEnable())
                 {
-                    _selectUnit = i;
+                    _selectMoveUnit = i;
                     setCenterPos(unit.PosX, unit.PosY, returnEnemyMove(unit));
                     selectFlg = true;
                     break;
@@ -3425,16 +3429,18 @@ package scene.map
                         //自軍拠点
                         if (_baseDataList[i].sideNum == _selectSide && _baseDataList[i].masterData.producttype != "")
                         {
-                            var jjj:int = 0;
                             //上にユニットが乗っていない
                             if (isUnitOnNumberBase(i) == false)
                             {
+                                var rand:int = CommonBattleMath.getRandom(productUnitNumList.length - 1, 0);
                                 selectFlg = true;
-                                setCenterPos(_baseDataList[i].posX, _baseDataList[i].posY, productEnemyUnit);
+                                if (productUnitNumList[rand].cost <= _sideState[_selectSide].cost)
+                                {
+                                    setCenterPos(_baseDataList[i].posX, _baseDataList[i].posY, productEnemyUnit);
+                                }
                                 
                                 function productEnemyUnit():void
                                 {
-                                    var rand:int = CommonBattleMath.getRandom(productUnitNumList.length - 1, 0);
                                     _battleMapPanel.showPanel(BattleMapPanel.PANEL_NONE);
                                     _sideState[_selectSide].cost -= productUnitNumList[rand].cost;
                                     createUnit(productUnitNumList[rand].name, _sideState[_selectSide].name, _baseDataList[i].posX, _baseDataList[i].posY, productUnitNumList[rand].lv, 0, null, compEnemyProduct, true);
@@ -3634,7 +3640,7 @@ package scene.map
         
         public function get nowBattleUnit():BattleUnit
         {
-            return _sideState[_selectSide].battleUnit[_selectUnit];
+            return _sideState[_selectSide].battleUnit[_selectMoveUnit];
         }
         
         public function get mapPanel():BattleMapPanel

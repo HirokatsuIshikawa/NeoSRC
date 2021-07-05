@@ -240,7 +240,6 @@ package main
                 _battleMap.setDrag();
                 //_battleMap.visible = true;
                 
-                
                 //軍師データセット
                 if (MainController.$.model.playerParam.selectCommanderName != null)
                 {

@@ -109,11 +109,20 @@ package viewitem.status.list
         
         override public function dispose():void
         {
-            _listContena.dispose();
-            _listArea.dispose();
+            if (_listContena != null)
+            {
+                _listContena.dispose();
+            }
+            if (_listArea != null)
+            {
+                _listArea.dispose();
+            }
             
-            _slider.removeEventListener(Event.CHANGE, listAreaMove);
-            _slider.dispose();
+            if (_slider != null)
+            {
+                _slider.removeEventListener(Event.CHANGE, listAreaMove);
+                _slider.dispose();
+            }
             
             _listContena = null;
             _listArea = null;

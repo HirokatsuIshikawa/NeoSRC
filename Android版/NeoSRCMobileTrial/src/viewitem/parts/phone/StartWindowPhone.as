@@ -33,7 +33,7 @@ package viewitem.parts.phone
 		{
 			CommonSystem.initPhoneInfo();
 			var dir:File = File.userDirectory;
-			var file:File = dir.resolvePath("シミュラマPになろう//Scenario");
+			var file:File = dir.resolvePath(CommonSystem.FOLDER_NAME + "//Scenario");
 			
 			file.addEventListener(PermissionEvent.PERMISSION_STATUS, checkPermissions);
 			
@@ -74,10 +74,8 @@ package viewitem.parts.phone
 			addChild(_backImg);
 			_compFunc = func;
 			
-            
-            
 			var dir:File = File.userDirectory;
-			var homefile:File = dir.resolvePath("シミュラマPになろう//Scenario");
+			var homefile:File = dir.resolvePath(CommonSystem.FOLDER_NAME + "//Scenario");
             
             if(homefile.exists)
             {
@@ -115,7 +113,7 @@ package viewitem.parts.phone
 			{
                 homefile.createDirectory();
 				var alertText:TextArea = new TextArea();
-				alertText.text = "シナリオがありません\nシミュラマPになろうのScenarioフォルダ内に、\nシナリオフォルダを入れてください。\n（ルートフォルダに、シミュラマPになろうフォルダと、Scenarioフォルダを作成しました。）";
+				alertText.text = "シナリオがありません\n" + CommonSystem.FOLDER_NAME + "のScenarioフォルダ内に、\nシナリオフォルダを入れてください。\n（ルートフォルダに、" + CommonSystem.FOLDER_NAME +"フォルダと、Scenarioフォルダを作成しました。）";
 				alertText.width = 400;
 				alertText.height = 300;
 				alertText.x = (CommonDef.WINDOW_W - alertText.width) / 2

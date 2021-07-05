@@ -113,8 +113,7 @@ package main
             debugText.x = 100;
             debugText.y = 300;
             Starling.current.antiAliasing = 0;
-            Starling.current.nativeStage.quality = StageQuality.LOW;
-            /*
+            Starling.current.nativeStage.quality = StageQuality.LOW;            
             CONFIG::pc
             {
                 var startWindow:StartWindowPC = new StartWindowPC(InitialLoader.$.loadAssetStart);
@@ -125,10 +124,6 @@ package main
                 //スマホ用
                 var startWindow:StartWindowPhone = new StartWindowPhone(InitialLoader.$.loadAssetStart);
             }
-            */
-                        
-            var startWindow:StartWindowPC = new StartWindowPC(InitialLoader.$.loadAssetStart);
-            
             //startWindow.x = 100;
             //startWindow.y = 100;
             

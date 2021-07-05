@@ -2,7 +2,10 @@ package scene.intermission
 {
     import common.CommonDef;
     import common.CommonSystem;
+    import common.util.CharaDataUtil;
+    import database.master.MasterCharaData;
     import database.user.CommanderData;
+    import database.user.GenericUnitData;
     import main.MainViewer;
     import system.custom.customSprite.CImage;
     import system.custom.customSprite.CImgButton;
@@ -22,6 +25,7 @@ package scene.intermission
     import viewitem.status.InterMissionStatus;
     import viewitem.status.StrengthWindow;
     import viewitem.status.list.CommanderStatusList;
+    import viewitem.status.list.GenericStatusList;
     import viewitem.status.list.StatusList;
     import viewitem.status.list.StrengthList;
     
@@ -42,9 +46,13 @@ package scene.intermission
         
         private var _saveList:SaveList = null;
         private var _statusList:StatusList = null;
+        //強化一覧
         private var _strengthList:StrengthList = null;
         //軍師リスト
         private var _commanderStatusList:CommanderStatusList = null;
+        //汎用一覧
+        private var _genericStatusList:GenericStatusList = null;
+        
         /**ステータス表示*/
         private var _statusWindow:InterMissionStatus = null;
         private var _strengthWindow:StrengthWindow = null;
@@ -52,7 +60,7 @@ package scene.intermission
         public function InterMission()
         {
             //出撃状況を元に戻す
-            for (var i:int = 0; i < MainController.$.model.PlayerUnitData.length; i++ )
+            for (var i:int = 0; i < MainController.$.model.PlayerUnitData.length; i++)
             {
                 MainController.$.model.PlayerUnitData[i].launched = false;
             }
@@ -238,17 +246,24 @@ package scene.intermission
                     }
                     addBtn = new CImgButton(MainController.$.imgAsset.getTexture("btn_chara"));
                     addBtn.name = "UnitList";
-                    break;                
+                    break;
                 case "CommanderList": 
                 case "軍師一覧": 
                     if (MainController.$.model.playerCommanderData.length <= 0)
                     {
                         return;
                     }
-                    
-                    
                     addBtn = new CImgButton(MainController.$.imgAsset.getTexture("btn_intermission_commander"));
                     addBtn.name = "CommanderList";
+                    break;
+                case "GenericList": 
+                case "汎用一覧": 
+                    if (MainController.$.model.playerGenericUnitData.length <= 0)
+                    {
+                        return;
+                    }
+                    addBtn = new CImgButton(MainController.$.imgAsset.getTexture("btn_intermission_generic"));
+                    addBtn.name = "GenericList";
                     break;
                 case "DataSave": 
                 case "セーブ": 
@@ -353,6 +368,9 @@ package scene.intermission
             case "CommanderList": 
                 callCommanderList();
                 break;
+            case "GenericList":
+                callGenericList();
+                break;
             case "DataSave": 
                 callSaveList();
                 break;
@@ -384,18 +402,26 @@ package scene.intermission
             addChild(_strengthList);
         }
         
+        //ステータス・強化一覧呼び出し
         public function callStatusList():void
         {
             _statusList = new StatusList(MainController.$.model.PlayerUnitData);
             addChild(_statusList);
         }
         
+        //軍師リスト呼び出し
         public function callCommanderList():void
         {
             _commanderStatusList = new CommanderStatusList(MainController.$.model.playerCommanderData);
             addChild(_commanderStatusList);
         }
         
+        //汎用ユニット一覧呼び出し
+        public function callGenericList():void
+        {
+            _genericStatusList = new GenericStatusList(MainController.$.model.playerGenericUnitData);
+            addChild(_genericStatusList);
+        }
         
         public function closeStrengthList(event:Event):void
         {
@@ -418,6 +444,15 @@ package scene.intermission
             _commanderStatusList = null;
         }
         
+        
+        public function closeGenericStatusList(event:Event):void
+        {
+            removeChild(_genericStatusList);
+            _genericStatusList.dispose();
+            _genericStatusList = null;
+        }
+        
+        
         public function callStatusWindow(data:UnitCharaData):void
         {
             var battleUnit:BattleUnit = new BattleUnit(data, 0, 0);
@@ -428,6 +463,16 @@ package scene.intermission
         }
         
         
+        public function callGenericStatusWindow(data:GenericUnitData):void
+        {
+            var charaData:UnitCharaData = new UnitCharaData(0, CharaDataUtil.getMasterCharaDataName(data.name), data.lv);            
+            var battleUnit:BattleUnit = new BattleUnit(charaData, 0, 0);
+            _statusWindow = new InterMissionStatus();
+            _statusWindow.setCharaData(battleUnit);
+            addChild(_statusWindow);
+            _statusWindow.visible = true;
+        }
+        
         public function callCommanderStatusWindow(data:CommanderData):void
         {
             _statusWindow = new InterMissionStatus();
@@ -436,14 +481,12 @@ package scene.intermission
             _statusWindow.visible = true;
         }
         
-        
         public function closeStatusWindow(event:Event):void
         {
             removeChild(_statusWindow);
             _statusWindow.dispose();
             _statusWindow = null;
         }
-                
         
         public function callStrengthWindow(data:UnitCharaData):void
         {

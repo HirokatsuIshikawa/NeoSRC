@@ -7,6 +7,8 @@ package main
     import common.SystemController;
     import common.util.CharaDataUtil;
     import database.master.MasterBaseData;
+    import database.user.CommanderData;
+    import database.user.GenericUnitData;
     import database.user.UnitCharaData;
     import database.user.buff.SkillBuffData;
     import flash.display.StageQuality;
@@ -111,7 +113,7 @@ package main
             debugText.x = 100;
             debugText.y = 300;
             Starling.current.antiAliasing = 0;
-            Starling.current.nativeStage.quality = StageQuality.LOW;
+            Starling.current.nativeStage.quality = StageQuality.LOW;            
             CONFIG::pc
             {
                 var startWindow:StartWindowPC = new StartWindowPC(InitialLoader.$.loadAssetStart);
@@ -122,7 +124,6 @@ package main
                 //スマホ用
                 var startWindow:StartWindowPhone = new StartWindowPhone(InitialLoader.$.loadAssetStart);
             }
-            
             //startWindow.x = 100;
             //startWindow.y = 100;
             
@@ -237,6 +238,13 @@ package main
                 _battleMap.mapPanel.showPanel(BattleMapPanel.PANEL_NONE);
                 _battleMap.setDrag();
                 //_battleMap.visible = true;
+                
+                //軍師データセット
+                if (MainController.$.model.playerParam.selectCommanderName != null)
+                {
+                    var commanderData:CommanderData = new CommanderData(MainController.$.model.getMasterCommanderDataFromName(MainController.$.model.playerParam.selectCommanderName), MainController.$.model.playerParam.selectCommanderLv);
+                    MainController.$.map.setCommander(MainController.$.model.playerParam.sideName, commanderData);
+                }
                 
                 //waitDark(false);
                 if (callBack != null)
@@ -387,7 +395,7 @@ package main
             var posY:int = 0;
             
             //マップターン数
-            battleMap.turn = data.turn;
+            battleMap.turn = data.mapTurn;
             
             //マップ配置画像読み込み
             for (i = 0; i < CommonDef.objectLength(data.mapPictureList); i++)
@@ -399,11 +407,10 @@ package main
                 battleMap.unitArea.addChild(mapPict);
                 battleMap.mapPictureList.push(mapPict);
             }
-            
+
             //マップユニット読み込み
             for (i = 0; i < CommonDef.objectLength(data.mapDateList); i++)
             {
-                
                 MainController.$.map.sideState[i] = new SideState(data.mapDateList[i].name);
                 
                 MainController.$.map.sideState[i].cost = data.mapDateList[i].cost;
@@ -413,6 +420,18 @@ package main
                     MainController.$.map.sideState[i].loadSaveCommander(data.mapDateList[i].commander);
                 }
                 
+                if (i > 0)
+                {
+                    for (j = 0; j < CommonDef.objectLength(data.mapDateList[i].genericUnitList); j++)
+                    {
+                        var genericData:Object = data.mapDateList[i].genericUnitList[j];
+                        var genericUnit:GenericUnitData = new GenericUnitData(MainController.$.model.getMasterCharaData(genericData.name), genericData.lv, genericData.cost);
+                        MainController.$.map.sideState[i].genericUnitList.push(genericUnit);
+                        
+                    }
+                }
+                
+                //マップ上ユニット
                 for (j = 0; j < CommonDef.objectLength(data.mapDateList[i].unitDate); j++)
                 {
                     var unitData:Object = data.mapDateList[i].unitDate[j];
@@ -654,7 +673,6 @@ package main
             {
                 _eveManager = new IconTalkView();
             }
-            
             debugText.addText(eveName);
             _eveManager.eveStart(eveName, startLabel);
             //EVEマネージャー追加

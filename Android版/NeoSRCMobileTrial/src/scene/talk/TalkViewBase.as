@@ -698,6 +698,35 @@ package scene.talk
                     }
                 }
                 break;
+            case "victorycondition": //勝利・敗北条件セット
+                //勝利条件セット
+                if (param.hasOwnProperty("victory"))
+                {
+                    MainController.$.model.playerParam.victoryConditions = param.victory;
+                }
+                else
+                {
+                    MainController.$.model.playerParam.victoryConditions = null;
+                }
+                //敗北条件セット
+                if (param.hasOwnProperty("defeat"))
+                {
+                    MainController.$.model.playerParam.defeatConditions = param.defeat;
+                }
+                else
+                {
+                    MainController.$.model.playerParam.defeatConditions = null;
+                }
+                
+                //勝利条件表示セット
+                if (MainController.$.map != null)
+                {
+                    MainController.$.map.battleMapPanel.systemPanel.setVictoryCondition();
+                }
+                
+                setLineCommand();
+                break;
+            
             //-----------------------------------------------------マップイベント------------------------------------------------
             case "setevent": 
                 setEvent(command, param);
@@ -847,6 +876,8 @@ package scene.talk
                     }
                 }
                 
+                baseIdPos(param);
+                
                 _moveFlg = true;
                 if (MainController.$.view.battleMap == null)
                 {
@@ -873,6 +904,7 @@ package scene.talk
                         animeFlg = false;
                     }
                 }
+                baseIdPos(param);
                 
                 MainController.$.view.battleMap.launchUnit(param.name, param.x, param.y, param, mapMoveComp, animeFlg);
                 //setLineCommand();
@@ -900,6 +932,10 @@ package scene.talk
                 if (param.hasOwnProperty("name"))
                 {
                     MainController.$.view.battleMap.escapeUnit(param.name, param.side, param, mapMoveComp);
+                }
+                else if (param.hasOwnProperty("id"))
+                {
+                    MainController.$.view.battleMap.escapeId(param.id, param, mapMoveComp);
                 }
                 else
                 {
@@ -942,8 +978,9 @@ package scene.talk
                 setLineCommand();
                 break;
             //ユニット移動
-            case "unitmove": 
-                MainController.$.view.battleMap.moveMapUnit(param.unit, param.x, param.y, setLineCommand);
+            case "unitmove":                 
+                baseIdPos(param);
+                MainController.$.view.battleMap.moveMapUnit(param.unit, param.x, param.y, param, setLineCommand);
                 break;
             //汎用ユニット生産リスト
             case "registgenericunit": 
@@ -1237,6 +1274,13 @@ package scene.talk
                 eventData.setExtinctionParam(param.side, param.label, param);
                 _eventList.push(eventData);
                 break;
+            //ターン
+            case MapEventData.TYPE_NAME[MapEventData.TYPE_TURN]: 
+            case MapEventData.TYPE_NAME_JP[MapEventData.TYPE_TURN]: 
+                eventData = new MapEventData();
+                eventData.setTurnParam(param.side, param.label, param);
+                _eventList.push(eventData);
+                break;
             }
         }
         
@@ -1261,6 +1305,17 @@ package scene.talk
             param.side = MainController.$.map.sideState[side].name;
             param.unit = data.name;
             param.eventid = baseData.eventId;
+            
+            searchEvent(param, callBack, type);
+        }
+        
+        /**マップターンイベント検索*/
+        public function searchMapTurnEvent(turn:int, side:int, callBack:Function, type:int):void
+        {
+            var param:Object = new Object();
+            
+            param.turn = turn;
+            param.side = MainController.$.map.sideState[side].name;
             
             searchEvent(param, callBack, type);
         }
@@ -1317,7 +1372,8 @@ package scene.talk
                     (type == MapEventData.TYPE_MATH_IN && _eventList[i].judgeMapParam(param)) ||		//マス侵入イベント
                     (type == MapEventData.TYPE_BASE_CONTROL && _eventList[i].judgeBaseControllParam(param)) ||		//拠点制圧イベント
                     (type == MapEventData.TYPE_DEFEAT && _eventList[i].judgeDefeatParam(param)) ||	//撃破イベント
-                    (type == MapEventData.TYPE_EXTINCTION && _eventList[i].judgeExtinctionParam(param))	//全滅イベント
+                    (type == MapEventData.TYPE_EXTINCTION && _eventList[i].judgeExtinctionParam(param)) || //全滅イベント
+                    (type == MapEventData.TYPE_TURN && _eventList[i].judgeTurnParam(param)) //ターンイベント
                     )
                     {
                         endFlg = true;
@@ -2401,14 +2457,13 @@ package scene.talk
                     break;
                 }
             }
-        
+            
             if (!sideFind)
             {
                 
                 MainController.$.map.sideState[sideNum].genericUnitList.push(new GenericUnitData(data, lv, cost));
             }
-            
-            
+        
         }
         
         //-----------------------------------------------------------------
@@ -3235,6 +3290,24 @@ package scene.talk
             // 会話ウィンドウを最上段に
             setChildIndex(_talkArea, this.numChildren - 1);
             setChildIndex(_touchBtn, this.numChildren - 1);
+        }
+        
+        //param.x、yに基地ポジションをセット
+        private function baseIdPos(param:Object):void
+        {
+            //baseがある場合は検索
+            if (param.hasOwnProperty("baseid"))
+            {
+                for (var i:int = 0; i < MainController.$.map.baseDataList.length; i++)
+                {
+                    if (MainController.$.map.baseDataList[i].eventId === param.baseid)
+                    {
+                        param.x = MainController.$.map.baseDataList[i].posX;
+                        param.y = MainController.$.map.baseDataList[i].posY;
+                        break;
+                    }
+                }
+            }
         }
     }
 }

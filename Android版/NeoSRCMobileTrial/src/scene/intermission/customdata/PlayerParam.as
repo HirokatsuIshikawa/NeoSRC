@@ -16,7 +16,7 @@ package scene.intermission.customdata
         public var nowEve:String = null;
         public var clearEve:String = null;
         public var playingMapBGM:String = null;
-        public var playingMapBGMVol:Number = 1.0;
+        public var playingMapBGMVol:Number = 0.5;
         public var keepBGMFlg:Boolean = false;
         
         public var intermissonData:Vector.<ShowInterMissionData> = null;
@@ -24,9 +24,13 @@ package scene.intermission.customdata
         
         /**選択軍師名*/
         public var selectCommanderName:String;
+        public var selectCommanderLv:int = 1;
         
         /** ローカル変数 */
         public var playerVariable:Vector.<PlayerVariable> = null;
+        //勝利敗北条件
+        public var victoryConditions:String = null;
+        public var defeatConditions:String = null;
         
         public function PlayerParam()
         {
@@ -34,6 +38,9 @@ package scene.intermission.customdata
             intermissonData = new Vector.<ShowInterMissionData>();
             
             playerVariable = new Vector.<PlayerVariable>();
+            
+            victoryConditions = null;
+            defeatConditions = null;
         }
         
         public function setIntermissionParam(name:String, state:int):void
@@ -69,6 +76,11 @@ package scene.intermission.customdata
                     i--;
                 }
             }
+            
+            keepBGMFlg = false;
+            victoryConditions = null
+            defeatConditions = null;
+            
         }
         
         override public function loadObject(data:Object):void

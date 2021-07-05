@@ -20,6 +20,7 @@ package system.custom.customSprite
 		private var _addY:int = 0;
 		private var IMG_BASE:int = 16;
 		private var _imgPartsList:Vector.<String> = null;
+        private var _imgId:String = null;
 		
 		public function ImageBoard(add:Point = null, area:Quad = null)
 		{
@@ -182,6 +183,16 @@ package system.custom.customSprite
 		{
 			_imgPartsList = value;
 		}
+        
+        public function get imgId():String 
+        {
+            return _imgId;
+        }
+        
+        public function set imgId(value:String):void 
+        {
+            _imgId = value;
+        }
 	
 	}
 

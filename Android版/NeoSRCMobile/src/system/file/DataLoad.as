@@ -145,7 +145,7 @@ package system.file
         {
             var i:int = 0;
             var dir:File = File.userDirectory;
-            var homefile:File = dir.resolvePath("シミュラマPになろう//Scenario");
+            var homefile:File = dir.resolvePath(CommonSystem.FOLDER_NAME +"//Scenario");
             var getList:Array = homefile.getDirectoryListing();
             var getpath:Vector.<String> = new Vector.<String>;
             var getname:Vector.<String> = new Vector.<String>;

@@ -73,14 +73,19 @@ package viewitem.status.list.listitem
         
         override public function dispose():void
         {
+            if (_faceImg != null)
+            {
+                removeChild(_faceImg);
+                _faceImg.dispose();
+                _faceImg = null;
+            }
             
-            removeChild(_faceImg);
-            _faceImg.dispose();
-            _faceImg = null;
-            
-            removeChild(_nameTxt);
-            _nameTxt.dispose();
-            _nameTxt = null;
+            if (_nameTxt != null)
+            {
+                removeChild(_nameTxt);
+                _nameTxt.dispose();
+                _nameTxt = null;
+            }
             
             if (_faceBase != null)
             {

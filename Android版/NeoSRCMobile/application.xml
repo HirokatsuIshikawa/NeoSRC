@@ -4,7 +4,7 @@
   <versionNumber>1.31</versionNumber>
   <supportedProfiles>mobileDevice</supportedProfiles>
   <filename>SimramaBox</filename>
-  <name>SimramaBox</name>
+  <name>シミュラマBox</name>
   <android>
     <manifestAdditions><![CDATA[<manifest android:installLocation="auto">
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />

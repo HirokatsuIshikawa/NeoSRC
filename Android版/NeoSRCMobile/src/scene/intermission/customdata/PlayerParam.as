@@ -16,7 +16,7 @@ package scene.intermission.customdata
         public var nowEve:String = null;
         public var clearEve:String = null;
         public var playingMapBGM:String = null;
-        public var playingMapBGMVol:Number = 1.0;
+        public var playingMapBGMVol:Number = 0.5;
         public var keepBGMFlg:Boolean = false;
         
         public var intermissonData:Vector.<ShowInterMissionData> = null;
@@ -24,6 +24,7 @@ package scene.intermission.customdata
         
         /**選択軍師名*/
         public var selectCommanderName:String;
+        public var selectCommanderLv:int = 1;
         
         /** ローカル変数 */
         public var playerVariable:Vector.<PlayerVariable> = null;

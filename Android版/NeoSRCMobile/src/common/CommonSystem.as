@@ -12,6 +12,8 @@ package common
 	 */
 	public class CommonSystem
 	{
+        public static var FOLDER_NAME:String = "シミュラマボックス";
+        
 		private static var INFO:SharedObject = null;
 		/**資金名*/
 		public static var MONEY_NAME:String = "資金";
@@ -61,18 +63,18 @@ package common
 		{
 			INFO = SharedObject.getLocal("NeoSrcInfo");
 			var dir:File = File.userDirectory;
-			var file:File = dir.resolvePath("シミュラマPになろう//BGM");
+			var file:File = dir.resolvePath( FOLDER_NAME + "//BGM");
 			
 			COMMON_BGM_PATH = file.nativePath;
 			
-			file = dir.resolvePath("シミュラマPになろう//SE");
+			file = dir.resolvePath(FOLDER_NAME + "//SE");
 			COMMON_SE_PATH = file.nativePath;
 		
             LAST_SAVE_NUM = INFO.data.LastContinueNo;
-			//file = dir.resolvePath("シミュラマPになろう//IMG");
+			//file = dir.resolvePath(FOLDER_NAME + "//IMG");
 			//COMMON_IMG_PATH = file.nativePath;
 		
-			//file = dir.resolvePath("シミュラマPになろう//PEX");
+			//file = dir.resolvePath(FOLDER_NAME + "//PEX");
 			//COMMON_PEX_PATH = file.nativePath;
 		
 		}

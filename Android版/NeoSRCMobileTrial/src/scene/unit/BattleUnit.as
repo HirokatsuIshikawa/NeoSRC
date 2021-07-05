@@ -280,14 +280,14 @@ package scene.unit
         }
         
         /**ダメージ計算・ダメ―ジセット*/
-        public function damageSet(damage:int):void
+        public function damageSet(damage:int, imgRefresh:Boolean = true):void
         {
             _nowHp -= damage;
             if (_nowHp <= 0)
             {
                 _alive = false;
             }
-            else
+            else if(imgRefresh)
             {
                 setFormationNumImg();
             }
@@ -476,14 +476,17 @@ package scene.unit
             }
         }
         
-        public function healHP(num:int):void
+        public function healHP(num:int, refreshImg:Boolean = true):void
         {
             _nowHp += num;
             if (_nowHp > param.HP)
             {
                 _nowHp = param.HP;
             }
-            setFormationNumImg();
+            if (refreshImg)
+            {
+                setFormationNumImg();
+            }
         }
         
         public function supplyFP(num:int):void
@@ -506,6 +509,11 @@ package scene.unit
         {
             var i:int = 0;
             super.levelSet(lv);
+            
+            for (i = 0; i < BaseParam.ADD_STR.length; i++ )
+            {
+                this.param[BaseParam.ADD_STR[i]] = 0;
+            }
             for (i = 0; i < BaseParam.STATUS_STR.length; i++)
             {
                 switch (BaseParam.STATUS_STR[i])
@@ -687,16 +695,14 @@ package scene.unit
             var lv:int = 0;
             var i:int = 0;
             
-            for (i = 0; i < data.length; i++)
+            for (i = data.length - 1; i >= 0; i--)
             {
-                if (data[i].learnLevel > _nowLv)
+                if (data[i].learnLevel <= _nowLv)
                 {
-                    lv = data[i].skillLevel;
+                    lv = data[i].skillLevel - 1;
                     break;
                 }
-                
             }
-            
             return lv;
         }
         
@@ -718,7 +724,7 @@ package scene.unit
                     }
                     for (j = 0; j < BaseParam.ADD_STR.length; j++)
                     {
-                        this.param[BaseParam.ADD_STR[j]] += _passiveList[i].buffParam[skillLv]._param[BaseParam.ADD_STR[j]];
+                        this.param[BaseParam.ADD_STR[j]] += _passiveList[i].buffParam[learnLv]._param[BaseParam.ADD_STR[j]];
                     }
                 }
             }

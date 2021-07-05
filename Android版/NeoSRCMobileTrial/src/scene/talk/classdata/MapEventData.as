@@ -8,8 +8,8 @@ package scene.talk.classdata
      */
     public class MapEventData
     {
-        public static const TYPE_NAME_JP:Array = ["", "移動", "戦闘", "戦闘後", "撃破", "全滅", "制圧"];
-        public static const TYPE_NAME:Array = ["", "move", "battle", "afterbattle", "defeat", "extinction", "control"];
+        public static const TYPE_NAME_JP:Array = ["", "移動", "戦闘", "戦闘後", "撃破", "全滅", "制圧", "ターン"];
+        public static const TYPE_NAME:Array = ["", "move", "battle", "afterbattle", "defeat", "extinction", "control", "turn"];
         
         public static const TYPE_NONE:int = 0;
         public static const TYPE_MATH_IN:int = 1;
@@ -18,6 +18,7 @@ package scene.talk.classdata
         public static const TYPE_DEFEAT:int = 4;
         public static const TYPE_EXTINCTION:int = 5;
         public static const TYPE_BASE_CONTROL:int = 6;
+        public static const TYPE_TURN:int = 7;
         
         private var _label:String = "";
         
@@ -94,7 +95,6 @@ package scene.talk.classdata
         /**撃破イベント*/
         public function setDefeatParam(label:String, param:Object):void
         {
-            var i:int = 0;
             _param = param;
             _label = label;
             _type = TYPE_DEFEAT;
@@ -103,11 +103,20 @@ package scene.talk.classdata
         /**全滅イベント*/
         public function setExtinctionParam(side:String, label:String, param:Object):void
         {
-            var i:int = 0;
             _param = param;
             _param.side = side;
             _label = label;
             _type = TYPE_EXTINCTION;
+        }
+        
+        
+        /**ターンイベント*/
+        public function setTurnParam(side:String, label:String, param:Object):void
+        {
+            _param = param;
+            _param.side = side;
+            _label = label;
+            _type = TYPE_TURN;
         }
         
         public function judgeMapParam(param:Object):Boolean
@@ -222,6 +231,27 @@ package scene.talk.classdata
             if (_param.side === param.side)
             {
                 flg = true;
+            }
+            return flg;
+        }
+        
+        public function judgeTurnParam(param:Object):Boolean
+        {
+            var flg:Boolean = false;
+            
+            if (_param.side === param.side)
+            {
+                if (_param.hasOwnProperty("turn"))
+                {
+                    if (_param.turn == param.turn)
+                    {
+                        flg = true;
+                    }
+                }
+                else
+                {
+                    flg = true;
+                }
             }
             return flg;
         }

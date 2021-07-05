@@ -28,15 +28,17 @@ package viewitem.status.list
                 _itemList[i] = new CommanderStatusListItem(datalist[i]);
                 _itemList[i].x = 60 + (CommanderStatusListItem.LIST_WIDTH + 40) * (int)(i % 3);
                 _itemList[i].y = (CommanderStatusListItem.LIST_HEIGHT + 24) * (int)(i / 3);
-                this.addChild(_itemList[i]);
+                _listContena.addChild(_itemList[i]);
                 
                 _itemList[i].judgeSelect(MainController.$.model.playerParam.selectCommanderName);
                 
             }
             
+            setSlider(_itemList.length);
+            
             _closeBtn = new CImgButton(MainController.$.imgAsset.getTexture("btn_Return"));
-            _closeBtn.x = 780;
-            _closeBtn.y = 360;
+            _closeBtn.x = 960 - 96;
+            _closeBtn.y = 460;
             _closeBtn.width = 96;
             _closeBtn.height = 64;
             _closeBtn.addEventListener(Event.TRIGGERED, MainController.$.view.interMission.closeCommanderStatusList);

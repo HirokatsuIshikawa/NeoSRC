@@ -1,10 +1,14 @@
 package viewitem.status.list
 {
 	import common.CommonDef;
+    import feathers.controls.Slider;
 	import system.custom.customSprite.CButton;
 	import database.user.UnitCharaData;
 	import starling.events.Event;
 	import main.MainController;
+    import system.custom.customSprite.CImage;
+    import system.custom.customSprite.CImgButton;
+    import system.custom.customSprite.CSprite;
 	import viewitem.parts.numbers.ImgNumber;
 	import viewitem.status.list.listitem.StrengthListItem;
 	
@@ -16,7 +20,8 @@ package viewitem.status.list
 	{
 		/**暗幕画像*/
 		private var _itemList:Vector.<StrengthListItem> = null;
-		private var _closeBtn:CButton = null;
+		private var _closeBtn:CImgButton = null;
+        
 		
 		public function StrengthList(datalist:Vector.<UnitCharaData>)
 		{
@@ -34,30 +39,33 @@ package viewitem.status.list
 				_itemList[count] = new StrengthListItem(datalist[i]);
 				_itemList[count].x = 60 + (StrengthListItem.LIST_WIDTH + 40) * (int)(count % 3);
 				_itemList[count].y = (StrengthListItem.LIST_HEIGHT + 24) * (int)(count / 3);
-				this.addChild(_itemList[count]);
+				_listContena.addChild(_itemList[count]);
 				count++;
 			}
 			
-			_closeBtn = new CButton();
-			_closeBtn.label = "閉じる";
-			_closeBtn.styleName = "bigBtn";
-			_closeBtn.x = 780;
-			_closeBtn.y = 360;
-			_closeBtn.width = 160;
-			_closeBtn.height = 160;
+            setSlider(_itemList.length);
+            
+            //閉じるボタン            
+            _closeBtn = new CImgButton(MainController.$.imgAsset.getTexture("btn_Return"));
+            _closeBtn.x = 960 - 96;
+            _closeBtn.y = 460;
+            _closeBtn.width = 96;
+            _closeBtn.height = 64;
 			_closeBtn.addEventListener(Event.TRIGGERED, MainController.$.view.interMission.closeStrengthList);
 			addChild(_closeBtn);
 		}
 		
 		override public function dispose():void
 		{
-			
-			for (var i:int = 0; i < _itemList.length; i++)
-			{
-				this.removeChild(_itemList[i]);
-				_itemList[i].dispose();
-				_itemList[i] = null;
-			}
+			if (_itemList != null)
+            {
+                for (var i:int = 0; i < _itemList.length; i++)
+                {
+                    this.removeChild(_itemList[i]);
+                    _itemList[i].dispose();
+                    _itemList[i] = null;
+                }
+            }
 			
 			if (_closeBtn != null)
 			{

@@ -84,6 +84,9 @@ package scene.map
         /**ステータス表示*/
         private var _statusWindow:BattleMapStatus = null;
         
+        /**勝利条件表示*/
+        private var _conditionWindow:ConditionWindow = null;
+        
         /**バトルマップコマンドパネル*/
         private var _battleMapPanel:BattleMapPanel = null;
         /**戦闘アニメパネル*/
@@ -136,8 +139,11 @@ package scene.map
         private var _frameArea:CSprite = null;
         /** 効果エリア */
         private var _effectArea:CSprite = null;
+        
+        /**ステータス選択番号*/
+        private var _selectMoveSide:int = 0;
         /** ユニット選択番号 */
-        private var _selectUnit:int = 0;
+        private var _selectMoveUnit:int = 0;
         /**選択行動タイプ*/
         private var _selectActType:int = 0;
         /**選択行動ターゲットタイプ*/
@@ -155,12 +161,15 @@ package scene.map
         private var _selectMoved:Boolean = false;
         //マップ会話フラグ
         private var _mapTalkFlg:Boolean = false;
+        
         //-------------------------------------------------------------
         //
         // オプション
         //
         //-------------------------------------------------------------
         private var _skyFlg:Boolean = false;
+        
+        private var _turn:int = 0;
         
         //-------------------------------------------------------------
         //
@@ -187,6 +196,8 @@ package scene.map
             _btnReset.width = MAP_SIZE;
             _btnReset.height = MAP_SIZE;
             _btnReset.addEventListener(Event.TRIGGERED, resetMove);
+            
+            _turn = 1;
         }
         
         //-------------------------------------------------------------
@@ -267,7 +278,6 @@ package scene.map
         //
         //-------------------------------------------------------------
         
-
         /** 戦闘ユニット作成 */
         public function createUnit(name:String, side:String, posX:int, posY:int, level:int, strength:int, param:Object, callBack:Function, animeFlg:Boolean):void
         {
@@ -285,6 +295,10 @@ package scene.map
                 if (param != null && param.hasOwnProperty("join"))
                 {
                     joinFlg = param.join;
+                }
+                else
+                {
+                    joinFlg = 0;
                 }
                 
                 if (joinFlg)
@@ -588,7 +602,7 @@ package scene.map
                     for (j = 0; j < _sideState[i].battleUnit.length; j++)
                     {
                         //同一位置があると選択不可
-                        if (_sideState[i].battleUnit[j].PosX == posX && _sideState[i].battleUnit[j].PosY == posY)
+                        if (_sideState[i].battleUnit[j].PosX == posX && _sideState[i].battleUnit[j].PosY == posY && _sideState[i].battleUnit[j].onMap == true)
                         {
                             return false;
                         }
@@ -663,6 +677,65 @@ package scene.map
                 }
                 
                 targetUnit.dispose();
+                callBack();
+            }
+        }
+        
+        /** 対象陣営撤退 */
+        public function escapeId(unitId:String, param:Object, callBack:Function):void
+        {
+            var newSide:Boolean = true;
+            var i:int = 0;
+            var j:int = 0;
+            
+            var tweenAry:Array = new Array();
+            
+            //対象IDユニットを設定
+            for (i = 0; i < _sideState.length; i++)
+            {
+                for (j = 0; j < _sideState[i].battleUnit.length; j++)
+                {
+                    if (_sideState[i].battleUnit[j].nameId === unitId)
+                    {
+                        var targetUnit:BattleUnit = _sideState[i].battleUnit[j];
+                        // 一定時間かけて表示
+                        var tweenUnit:Tween24 = Tween24.tween(targetUnit.unitImg, 0.3).fadeOut();
+                        var tweenFrame:Tween24 = Tween24.tween(targetUnit.frameImg, 0.3).fadeOut();
+                        tweenAry.push(tweenUnit);
+                        tweenAry.push(tweenFrame);
+                        if (targetUnit.formationNumImg != null)
+                        {
+                            var tweenNumImg:Tween24 = Tween24.tween(targetUnit.formationNumImg, 0.3).fadeOut();
+                            tweenAry.push(tweenNumImg);
+                        }
+                            //tweenAry.push(launchParticle(targetUnit.PosX, targetUnit.PosY));
+                    }
+                }
+            }
+            Tween24.parallel(tweenAry).onComplete(compEscape).play();
+            
+            function compEscape():void
+            {
+                for (i = 0; i < _sideState.length; i++)
+                    for (j = 0; j < _sideState[i].battleUnit.length; j++)
+                    {
+                        if (_sideState[i].battleUnit[j].nameId === unitId)
+                        {
+                            var targetUnit:BattleUnit = _sideState[i].battleUnit[j];
+                            // 戦闘ユニットを勢力に追加
+                            targetUnit.onMap = false;
+                            // ユニットエリアの画像排除
+                            _unitArea.removeChild(targetUnit.unitImg);
+                            // フレームエリアの枠排除
+                            _frameArea.removeChild(targetUnit.frameImg);
+                            if (targetUnit.formationNumImg != null)
+                            {
+                                _effectArea.removeChild(targetUnit.formationNumImg);
+                            }
+                            
+                            targetUnit.dispose();
+                        }
+                    }
                 callBack();
             }
         }
@@ -812,6 +885,7 @@ package scene.map
                     battleUnit.formationNumImg.alpha = 0;
                 }
                 
+                battleUnit.commanderStatusSet(_sideState[0].commander);                
                 // 戦闘ユニットを勢力に追加
                 _sideState[0].addUnit(battleUnit);
                 // ユニットエリアに画像追加
@@ -869,7 +943,6 @@ package scene.map
                 {
                     break;
                 }
-                
             }
             
             organizeLaunch();
@@ -937,7 +1010,7 @@ package scene.map
         /**選択中ユニットデータゲット*/
         public function getSelectSideUnitData():BattleUnit
         {
-            var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
+            var unit:BattleUnit = _sideState[_selectMoveSide].battleUnit[_selectMoveUnit];
             return unit;
         }
         
@@ -951,7 +1024,7 @@ package scene.map
                 {
                     var unit:BattleUnit = _sideState[i].battleUnit[j];
                     var baseData:BaseTip = _baseDataList[num];
-                    if (baseData.posX == unit.PosX && baseData.posY == unit.PosY)
+                    if (baseData.posX >= 0 && baseData.posY >= 0 && baseData.posX < mapWidth && baseData.posY < mapHeight && baseData.posX == unit.PosX && baseData.posY == unit.PosY && unit.onMap == true)
                     {
                         return true;
                     }
@@ -1014,6 +1087,24 @@ package scene.map
             MainController.$.view.removeChild(_statusWindow);
         }
         
+        /**勝利条件表示*/
+        public function showConditionWindow():void
+        {
+            _conditionWindow = new ConditionWindow();
+            MainController.$.view.addChild(_conditionWindow);
+        }
+        
+        /**勝利条件終了*/
+        public function hideConditionWindow():void
+        {
+            if (_conditionWindow != null)
+            {
+                _conditionWindow.dispose();
+                _conditionWindow = null;
+            }
+            MainController.$.view.removeChild(_conditionWindow);
+        }
+        
         //-------------------------------------------------------------
         //
         // ユニット移動関連
@@ -1041,7 +1132,7 @@ package scene.map
             
             deleteMoveImg();
             
-            var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
+            var unit:BattleUnit = _sideState[_selectMoveSide].battleUnit[_selectMoveUnit];
             unit.resetImgPos();
             
             var i:int = 0;
@@ -1062,7 +1153,7 @@ package scene.map
         /**移動パネル・制圧*/
         public function baseConquest(e:Event):void
         {
-            var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
+            var unit:BattleUnit = _sideState[_selectMoveSide].battleUnit[_selectMoveUnit];
             var baseTip:BaseTip = getBaseDataOnUnit(unit);
             _conquestInfo = new BaseConquestInfo(baseTip, baseTip.sideNum >= 0 ? _sideState[baseTip.sideNum].name : "", unit, conquestStart, closeBaseConquest);
             MainController.$.view.addChild(_conquestInfo);
@@ -1071,7 +1162,7 @@ package scene.map
         /**制圧開始*/
         private function conquestStart():void
         {
-            var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
+            var unit:BattleUnit = _sideState[_selectMoveSide].battleUnit[_selectMoveUnit];
             _conquestInfo.conquestAction(unit, endConquest);
         }
         
@@ -1133,7 +1224,7 @@ package scene.map
         {
             var i:int = 0;
             
-            var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
+            var unit:BattleUnit = _sideState[_selectMoveSide].battleUnit[_selectMoveUnit];
             unit.PosX = _nowMovePosX + 1;
             unit.PosY = _nowMovePosY + 1;
             
@@ -1170,8 +1261,7 @@ package scene.map
             }
             else if (_conquestInfo != null)
             {
-                
-                var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
+                var unit:BattleUnit = _sideState[_selectMoveSide].battleUnit[_selectMoveUnit];
                 _conquestInfo.btnInvisible();
                 _conquestInfo.visible = true;
                 _conquestInfo.conquestAction(unit, endConquest);
@@ -1219,8 +1309,7 @@ package scene.map
         /**ユニット移動実行処理*/
         private function moveUnit(moveData:EnemyMoveData = null):void
         {
-            
-            var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
+            var unit:BattleUnit = _sideState[_selectMoveSide].battleUnit[_selectMoveUnit];
             var baseData:BaseTip = getBaseDataOnUnit(unit);
             if (baseData != null)
             {
@@ -1325,7 +1414,7 @@ package scene.map
         /**ユニット移動可否フラグ*/
         public function moveEnable():Boolean
         {
-            if (_sideState[0].battleUnit[_selectUnit].PosX == (_nowMovePosX + 1) && _sideState[0].battleUnit[_selectUnit].PosY == (_nowMovePosY + 1))
+            if (_sideState[0].battleUnit[_selectMoveUnit].PosX == (_nowMovePosX + 1) && _sideState[0].battleUnit[_selectMoveUnit].PosY == (_nowMovePosY + 1))
             {
                 return false;
             }
@@ -1404,7 +1493,7 @@ package scene.map
             
             deleteMoveImg();
             
-            var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
+            var unit:BattleUnit = _sideState[_selectMoveSide].battleUnit[_selectMoveUnit];
             unit.resetImgPos();
             
             var i:int = 0;
@@ -1703,13 +1792,14 @@ package scene.map
                         {
                             if (_selectSide == i)
                             {
-                                if(unit === _sideState[i].battleUnit[j])
+                                if (unit === _sideState[i].battleUnit[j])
                                 {
                                     selfOn = true;
                                 }
                                 
                                 trace("#####X:" + _sideState[i].battleUnit[j].PosX + "-" + posX + "###Y:" + _sideState[i].battleUnit[j].PosY + "-" + posY + "###" + _sideState[i].battleUnit[j].onMap)
                                 sideOn = true;
+                                
                                 break;
                             }
                             else
@@ -1750,17 +1840,17 @@ package scene.map
             if (!terrain.MoveChecked && !terrain.RootSelected && !selfOn)
             {
                 /*
-                if (sideOn && _selectSide == 0)
-                {
-                    _battleMapPanel.alpha = 0.7;
-                    _battleMapPanel.touchable = false;
-                }
-                else
-                {
-                    _battleMapPanel.alpha = 1;
-                    _battleMapPanel.touchable = true;
-                }
-                */
+                   if (sideOn && _selectSide == 0)
+                   {
+                   _battleMapPanel.alpha = 0.7;
+                   _battleMapPanel.touchable = false;
+                   }
+                   else
+                   {
+                   _battleMapPanel.alpha = 1;
+                   _battleMapPanel.touchable = true;
+                   }
+                 */
                 terrain.onUnit = sideOn;
                 var img:CImage = new CImage(CommonDef.MOVE_TIP_TEX);
                 img.x = posX * MAP_SIZE;
@@ -1771,11 +1861,16 @@ package scene.map
                 terrain.MoveChecked = true;
                 terrain.moveClone(dirrectionList);
                 
+                //敵行動時
                 if (aiMove != null)
                 {
-                    var moveTarget:EnemyMoveData = new EnemyMoveData();
-                    moveTarget.getPriority(posX, posY, stayFlg, nowBattleUnit, _sideState, _baseDataList, _selectSide);
-                    aiMove.push(moveTarget);
+                    //通過ポイントでなければ移動先に加える
+                    if (!sideOn)
+                    {
+                        var moveTarget:EnemyMoveData = new EnemyMoveData();
+                        moveTarget.getPriority(posX, posY, stayFlg, nowBattleUnit, _sideState, _baseDataList, _selectSide);
+                        aiMove.push(moveTarget);
+                    }
                 }
             }
             // 移動可能時
@@ -1834,8 +1929,8 @@ package scene.map
                         {
                             showStatusWindow(unit, false);
                         }
-                        _selectSide = i;
-                        _selectUnit = j;
+                        _selectMoveSide = i;
+                        _selectMoveUnit = j;
                         setCenterPos(posX, posY);
                         remakeMoveArea(unit, unit.PosX - 1, unit.PosY - 1, unit.param.MOV, list, i);
                         var funcList:Vector.<Function> = new Vector.<Function>;
@@ -1878,7 +1973,6 @@ package scene.map
             
             if (_baseInfo != null)
             {
-                
                 MainController.$.view.removeChild(_baseInfo);
                 _baseInfo.dispose();
                 _baseInfo = null;
@@ -1955,9 +2049,9 @@ package scene.map
             
             if (_terrainDataList[posNum].MoveChecked)
             {
-
+                
                 _selectMoved = true;
-                var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
+                var unit:BattleUnit = _sideState[_selectMoveSide].battleUnit[_selectMoveUnit];
                 
                 var moveList:TerrainData = _terrainDataList[posNum];
                 
@@ -2643,6 +2737,16 @@ package scene.map
         /**棋譜初期化*/
         private function refreshBattleRecord():void
         {
+            
+            if (nowBattleUnit != null)
+            {
+                nowBattleUnit.setFormationNumImg();
+            }
+            if (targetUnit != null)
+            {
+                targetUnit.setFormationNumImg();
+            }
+            
             var i:int = 0;
             if (_battleResultManager.attackRecord != null)
             {
@@ -2809,7 +2913,7 @@ package scene.map
             _battleMapPanel.showPanel(BattleMapPanel.PANEL_MOVE);
             MainController.$.view.addChild(_battleMapPanel);
             var list:Vector.<String> = new Vector.<String>;
-            var unit:BattleUnit = _sideState[_selectSide].battleUnit[_selectUnit];
+            var unit:BattleUnit = _sideState[_selectMoveSide].battleUnit[_selectMoveUnit];
             unit.resetImgPos();
             remakeMoveArea(unit, unit.PosX - 1, unit.PosY - 1, unit.param.MOV, list);
             setCenterPos(unit.PosX - 1, unit.PosY - 1);
@@ -2974,7 +3078,7 @@ package scene.map
         }
         
         /**ユニット情報取得*/
-        public function getUnitInfo(name:String):BattleUnit
+        public function getUnitInfoFromName(name:String):BattleUnit
         {
             var data:BattleUnit = null;
             var i:int = 0;
@@ -2992,9 +3096,35 @@ package scene.map
                         flg = true;
                         break;
                     }
-                    
                 }
-                
+                if (flg)
+                {
+                    break;
+                }
+            }
+            return data;
+        }
+        
+        /**ユニット情報取得*/
+        public function getUnitInfoFromId(name:String):BattleUnit
+        {
+            var data:BattleUnit = null;
+            var i:int = 0;
+            var j:int = 0;
+            var posX:int = 0;
+            var posY:int = 0;
+            var flg:Boolean = false;
+            for (i = 0; i < _sideState.length; i++)
+            {
+                for (j = 0; j < _sideState[i].battleUnit.length; j++)
+                {
+                    if (_sideState[i].battleUnit[j].nameId === name)
+                    {
+                        data = _sideState[i].battleUnit[j];
+                        flg = true;
+                        break;
+                    }
+                }
                 if (flg)
                 {
                     break;
@@ -3004,9 +3134,32 @@ package scene.map
         }
         
         /**ユニット移動*/
-        public function moveMapUnit(name:String, posX:int, posY:int, callBack:Function = null):void
+        public function moveMapUnit(name:String, posX:int, posY:int, param:Object, callBack:Function = null):void
         {
-            var unitData:BattleUnit = getUnitInfo(name);
+            var i:int = 0;
+            //名前でユニット情報を取得
+            var unitData:BattleUnit = getUnitInfoFromName(name);
+            
+            //名前が無い場合はIDで検索
+            if (unitData == null && param.hasOwnProperty("id"))
+            {
+                unitData = getUnitInfoFromId(param.id);
+            }
+            /*
+            //baseがある場合は検索
+            if (param.hasOwnProperty("baseid"))
+            {
+                for (i = 0; i < _baseDataList.length; i++)
+                {
+                    if (_baseDataList[i].eventId === param.baseid)
+                    {
+                        posX = _baseDataList[i].posX;
+                        posY = _baseDataList[i].posY;
+                        break;
+                    }
+                }
+            }
+            */
             
             if (unitData != null)
             {
@@ -3039,7 +3192,12 @@ package scene.map
         public function setCenterPosUnit(name:String, callBack:Function = null):void
         {
             
-            var unitData:BattleUnit = getUnitInfo(name);
+            var unitData:BattleUnit = getUnitInfoFromName(name);
+            
+            if (unitData == null)
+            {
+                unitData = getUnitInfoFromId(name);
+            }
             
             if (callBack != null)
             {
@@ -3169,7 +3327,10 @@ package scene.map
             if (_selectSide >= _sideState.length)
             {
                 _selectSide = 0;
+                _turn++;
             }
+            
+            _selectMoveSide = _selectSide;
             
             //拠点収入
             for (i = 0; i < _baseDataList.length; i++)
@@ -3205,15 +3366,21 @@ package scene.map
                     }
                 }
             }
-            //味方ターンのみ
+            
+            //ターンイベント・プレイヤーターンはイベント先、エネミーターンはパネルが先
             if (_selectSide == 0)
             {
-                _battleMapPanel.showPanel(BattleMapPanel.PANEL_SYSTEM);
+                MainController.$.view.eveManager.searchMapTurnEvent(_turn, _selectSide, phaseStart, MapEventData.TYPE_TURN);
             }
             else
             {
+                MainController.$.view.eveManager.searchMapTurnEvent(_turn, _selectSide, enemyAct, MapEventData.TYPE_TURN);
                 _battleMapPanel.showPanel(BattleMapPanel.PANEL_ENEMY_TURN);
-                enemyAct();
+            }
+            
+            function phaseStart():void
+            {
+                _battleMapPanel.showPanel(BattleMapPanel.PANEL_SYSTEM);
             }
         }
         
@@ -3232,7 +3399,7 @@ package scene.map
                 unit = _sideState[_selectSide].battleUnit[i];
                 if (unit.moveEnable())
                 {
-                    _selectUnit = i;
+                    _selectMoveUnit = i;
                     setCenterPos(unit.PosX, unit.PosY, returnEnemyMove(unit));
                     selectFlg = true;
                     break;
@@ -3262,16 +3429,18 @@ package scene.map
                         //自軍拠点
                         if (_baseDataList[i].sideNum == _selectSide && _baseDataList[i].masterData.producttype != "")
                         {
-                            var jjj:int = 0;
                             //上にユニットが乗っていない
                             if (isUnitOnNumberBase(i) == false)
                             {
+                                var rand:int = CommonBattleMath.getRandom(productUnitNumList.length - 1, 0);
                                 selectFlg = true;
-                                setCenterPos(_baseDataList[i].posX, _baseDataList[i].posY, productEnemyUnit);
+                                if (productUnitNumList[rand].cost <= _sideState[_selectSide].cost)
+                                {
+                                    setCenterPos(_baseDataList[i].posX, _baseDataList[i].posY, productEnemyUnit);
+                                }
                                 
                                 function productEnemyUnit():void
                                 {
-                                    var rand:int = CommonBattleMath.getRandom(productUnitNumList.length - 1, 0);
                                     _battleMapPanel.showPanel(BattleMapPanel.PANEL_NONE);
                                     _sideState[_selectSide].cost -= productUnitNumList[rand].cost;
                                     createUnit(productUnitNumList[rand].name, _sideState[_selectSide].name, _baseDataList[i].posX, _baseDataList[i].posY, productUnitNumList[rand].lv, 0, null, compEnemyProduct, true);
@@ -3471,7 +3640,7 @@ package scene.map
         
         public function get nowBattleUnit():BattleUnit
         {
-            return _sideState[_selectSide].battleUnit[_selectUnit];
+            return _sideState[_selectSide].battleUnit[_selectMoveUnit];
         }
         
         public function get mapPanel():BattleMapPanel
@@ -3567,6 +3736,16 @@ package scene.map
         public function set mapTalkFlg(value:Boolean):void
         {
             _mapTalkFlg = value;
+        }
+        
+        public function get turn():int
+        {
+            return _turn;
+        }
+        
+        public function set turn(value:int):void
+        {
+            _turn = value;
         }
         
         //-------------------------------------------------------------

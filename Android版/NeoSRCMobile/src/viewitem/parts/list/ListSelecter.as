@@ -67,8 +67,6 @@ package viewitem.parts.list
 			_slider.addEventListener(Event.CHANGE, tipAreaMove);
 			_slider.visible = false;
 			addChild(_slider);
-			
-
 		}
 		
 		/**チップリスト表示*/

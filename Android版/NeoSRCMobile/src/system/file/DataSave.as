@@ -162,7 +162,7 @@ package system.file
             data.mapState = MainController.$.map.mapPanel.nowPanelType;
             data.playerData = MainController.$.model.playerParam;
             data.mapPath = MainController.$.model.mapPath;
-            data.mapTuen = MainController.$.map.turn;
+            data.mapTurn = MainController.$.map.turn;
             
             /**セーブ用ユニットデータ*/
             for (i = 0; i < MainController.$.model.PlayerUnitData.length; i++)
@@ -284,6 +284,21 @@ package system.file
                     //ラベル
                     mapDateList[i].unitDate[j].talkLabel = MainController.$.map.sideState[i].battleUnit[j].talkLabel;
                 }
+                
+                
+                //生産ユニットデータ
+                if (i > 0)
+                {
+                    mapDateList[i].genericUnitList = new Object();
+                    for (j = 0; j < MainController.$.map.sideState[i].genericUnitList.length; j++)
+                    {
+                        mapDateList[i].genericUnitList[j] = new Object();
+                        mapDateList[i].genericUnitList[j].name = MainController.$.map.sideState[i].genericUnitList[j].name;
+                        mapDateList[i].genericUnitList[j].lv = MainController.$.map.sideState[i].genericUnitList[j].lv;
+                        mapDateList[i].genericUnitList[j].cost = MainController.$.map.sideState[i].genericUnitList[j].cost;
+                        mapDateList[i].genericUnitList[j].customBgm = MainController.$.map.sideState[i].genericUnitList[j].customBgm;
+                    }
+                }                
             }
             
             var mapEventList:Object = new Object();

@@ -113,7 +113,8 @@ package main
             debugText.x = 100;
             debugText.y = 300;
             Starling.current.antiAliasing = 0;
-            Starling.current.nativeStage.quality = StageQuality.LOW;            
+            Starling.current.nativeStage.quality = StageQuality.LOW;
+            
             CONFIG::pc
             {
                 var startWindow:StartWindowPC = new StartWindowPC(InitialLoader.$.loadAssetStart);
@@ -124,6 +125,7 @@ package main
                 //スマホ用
                 var startWindow:StartWindowPhone = new StartWindowPhone(InitialLoader.$.loadAssetStart);
             }
+            
             //startWindow.x = 100;
             //startWindow.y = 100;
             
@@ -407,7 +409,7 @@ package main
                 battleMap.unitArea.addChild(mapPict);
                 battleMap.mapPictureList.push(mapPict);
             }
-
+            
             //マップユニット読み込み
             for (i = 0; i < CommonDef.objectLength(data.mapDateList); i++)
             {

@@ -225,7 +225,7 @@ package viewitem.parts.pc
             file.addEventListener(Event.CANCEL, FileBrowseForDirectoryCancelFunc);
             function FileBrowseForDirectoryCancelFunc(e:Event):void
             {
-                trace("閉じるボタンが押された");            
+                trace("閉じるボタンが押された");
             };
             
             // フォルダを選択するためのダイアログを表示する(非同期)

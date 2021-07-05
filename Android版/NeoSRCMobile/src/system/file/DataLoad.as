@@ -137,7 +137,7 @@ package system.file
             });
             
             //ファイル選択ダイアログ起動
-            loadfile.browseForDirectory("コモンBGMフォルダ選択");
+            loadfile.browseForDirectory("フォルダ選択");
         }
         
         /**スマホ用、ファイル読み込み*/
@@ -145,7 +145,7 @@ package system.file
         {
             var i:int = 0;
             var dir:File = File.userDirectory;
-            var homefile:File = dir.resolvePath(CommonSystem.FOLDER_NAME +"//Scenario");
+            var homefile:File = dir.resolvePath(CommonSystem.FOLDER_NAME + "//Scenario");
             var getList:Array = homefile.getDirectoryListing();
             var getpath:Vector.<String> = new Vector.<String>;
             var getname:Vector.<String> = new Vector.<String>;

@@ -78,9 +78,8 @@ package viewitem.parts.phone
             if(homefile.exists)
             {
                 
-                //CommonSystem.FILE_HEAD = "file://";
-                CommonSystem.FILE_HEAD = "";
-                //_scenalioListData = DataLoad.loadPhoneList([".srcsys", ".srctxt"]);
+                CommonSystem.FILE_HEAD = "file://";
+                //CommonSystem.FILE_HEAD = "";
                 _scenalioListData = DataLoad.loadPhoneList([".srcsys", ".srctxt"], homefile);
                 _scenalioList = new ListSelecter(false);
                 var ary:Array = new Array();

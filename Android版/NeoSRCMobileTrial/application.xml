@@ -4,7 +4,7 @@
   <versionNumber>1.40</versionNumber>
   <supportedProfiles>mobileDevice</supportedProfiles>
   <filename>SimramaBoxTrial</filename>
-  <name>SimramaBoxTrial</name>
+  <name>シミュラマBoxTrial</name>
   <android>
     <manifestAdditions><![CDATA[<manifest android:installLocation="auto">
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />

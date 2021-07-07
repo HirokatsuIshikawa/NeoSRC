@@ -118,6 +118,7 @@ package main
             CONFIG::pc
             {
                 var startWindow:StartWindowPC = new StartWindowPC(InitialLoader.$.loadAssetStart);
+                //var startWindow:StartWindowPhone = new StartWindowPhone(InitialLoader.$.loadAssetStart);
             }
             
             CONFIG::phone

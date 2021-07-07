@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:77b9b65d129ff56304c12021614e690d:bd49a4d8e5a4948731ff6b0a2c6b1b97:fb5f73a964afa1176e2f89f571876680$ -->
+<TextureAtlas imagePath="chara_0.png" width="2007" height="2029">
+    <SubTexture name="base_genshi" x="575" y="495" width="32" height="32"/>
+    <SubTexture name="fire" x="418" y="1866" width="31" height="31" frameX="0" frameY="0" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="slime_b" x="1318" y="528" width="19" height="16" frameX="-6" frameY="-14" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="さくら" x="1785" y="602" width="166" height="361" frameX="-80" frameY="-39" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="さくらU" x="979" y="1838" width="17" height="31" frameX="-7" frameY="0" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="すずか" x="1795" y="1334" width="166" height="357" frameX="-80" frameY="-43" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="どんぐり目_0001" x="1357" y="1" rotated="true" width="640" height="304"/>
+    <SubTexture name="どんぐり目U_0001" x="618" y="1212" width="18" height="28" frameX="-8" frameY="-3" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="なのは" x="1779" y="966" width="227" height="366" frameX="-51" frameY="-34" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="なのはU" x="1514" y="1635" width="21" height="29" frameX="-5" frameY="-3" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="アタッカー" x="1339" y="307" rotated="true" width="630" height="293"/>
+    <SubTexture name="アタッカーU" x="1963" y="1334" width="25" height="31" frameX="-1" frameY="0" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="アリサ" x="1795" y="1334" width="166" height="357" frameX="-80" frameY="-43" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="アルフU" x="451" y="1866" width="21" height="31" frameX="-6" frameY="-1" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="エアバイク" x="1412" y="1874" width="32" height="25" frameX="0" frameY="-4" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="グランモールU" x="998" y="1407" width="32" height="27" frameX="0" frameY="-4" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="ケイブガード" x="1153" y="1225" rotated="true" width="624" height="209" frameX="-14" frameY="-12" frameWidth="240" frameHeight="640"/>
+    <SubTexture name="ケイブガードU" x="368" y="1179" width="22" height="32" frameX="-6" frameY="0" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="ケロちゃん" x="1176" y="495" rotated="true" width="140" height="102" frameX="-13" frameY="-207" frameWidth="120" frameHeight="640"/>
+    <SubTexture name="コクエン隊_男" x="1032" y="1407" rotated="true" width="32" height="23" frameX="-6" frameY="0" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="シューター" x="1153" y="966" rotated="true" width="611" height="257" frameX="-3" frameY="-68" frameWidth="278" frameHeight="680"/>
+    <SubTexture name="シューターU" x="334" y="1213" width="24" height="31" frameX="-2" frameY="0" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="スライム" x="1795" y="1693" rotated="true" width="208" height="285" frameX="-31" frameY="-39" frameWidth="320" frameHeight="260"/>
+    <SubTexture name="スライムB_U" x="1318" y="528" width="19" height="16" frameX="-6" frameY="-14" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="セシルU_0001" x="618" y="1242" width="18" height="28" frameX="-8" frameY="-3" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="ディッキー" x="575" y="1" rotated="true" width="780" height="259"/>
+    <SubTexture name="ディッキーU" x="1971" y="307" width="26" height="32" frameX="-4" frameY="0" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="パーカー少年_0001" x="998" y="1635" rotated="true" width="480" height="237"/>
+    <SubTexture name="パーカー少年U_0001" x="1318" y="495" width="19" height="31" frameX="-7" frameY="-1" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="フェイトU" x="35" y="1920" width="23" height="30" frameX="-5" frameY="-1" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="ポテトン" x="638" y="495" width="536" height="466" frameX="-22" frameY="-20" frameWidth="573" frameHeight="500"/>
+    <SubTexture name="ポテトンU" x="1480" y="1635" width="32" height="29" frameX="0" frameY="-3" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="ポテドン" x="638" y="963" width="513" height="442" frameX="-11" frameY="-9" frameWidth="530" frameHeight="454"/>
+    <SubTexture name="ポテドンU" x="594" y="1179" width="32" height="31" frameX="0" frameY="-1" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="マシンキャバリー" x="418" y="1179" width="174" height="685" frameX="-77" frameY="-10" frameWidth="330" frameHeight="700"/>
+    <SubTexture name="マシンキャバリーU" x="334" y="1179" width="32" height="32"/>
+    <SubTexture name="メカニック" x="1" y="1294" width="415" height="624"/>
+    <SubTexture name="メカニックU" x="594" y="1212" width="22" height="32" frameX="-5" frameY="0" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="モンスター" x="1" y="1" width="572" height="534" frameX="-49" frameY="-6" frameWidth="675" frameHeight="540"/>
+    <SubTexture name="ヤイバ" x="575" y="262" rotated="true" width="762" height="231" frameX="-35" frameY="-2" frameWidth="294" frameHeight="780"/>
+    <SubTexture name="ヤイバU" x="1" y="1952" width="21" height="32" frameX="-4" frameY="0" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="ユーノ" x="594" y="1838" rotated="true" width="383" height="158" frameX="-88" frameY="-17" frameWidth="300" frameHeight="400"/>
+    <SubTexture name="ユーノU" x="1480" y="1666" width="21" height="31" frameX="-6" frameY="-1" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="レイダー" x="1176" y="602" rotated="true" width="607" height="362" frameX="-39" frameY="-25" frameWidth="415" frameHeight="640"/>
+    <SubTexture name="レイダーU" x="609" y="495" width="23" height="32" frameX="-6" frameY="0" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="ローブ" x="1" y="537" width="331" height="755" frameX="-12" frameY="-8" frameWidth="368" frameHeight="773"/>
+    <SubTexture name="ワイルドランナー" x="998" y="1436" rotated="true" width="567" height="197" frameX="-18" frameY="-58" frameWidth="240" frameHeight="640"/>
+    <SubTexture name="ワイルドランナーU" x="1990" y="1334" width="16" height="30" frameX="-8" frameY="-2" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="三白眼_0001" x="334" y="537" width="302" height="640"/>
+    <SubTexture name="三白眼U_0001" x="1537" y="1635" rotated="true" width="28" height="17" frameX="-7" frameY="-3" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="少年_0001" x="979" y="1874" rotated="true" width="431" height="154"/>
+    <SubTexture name="少年U_0001" x="1779" y="1334" width="14" height="31" frameX="-9" frameY="-1" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="東方妖精" x="594" y="1407" width="402" height="429" frameX="-4" frameY="-4" frameWidth="410" frameHeight="433"/>
+    <SubTexture name="東方妖精U" x="1" y="1920" width="32" height="30" frameX="0" frameY="-2" frameWidth="32" frameHeight="32"/>
+    <SubTexture name="真ケルベロス" x="1567" y="1436" width="226" height="470" frameX="-44" frameY="-70" frameWidth="300" frameHeight="540"/>
+    <SubTexture name="虚魂U" x="1339" y="262" rotated="true" width="16" height="32" frameX="0" frameY="-9" frameWidth="32" frameHeight="32"/>
+</TextureAtlas>

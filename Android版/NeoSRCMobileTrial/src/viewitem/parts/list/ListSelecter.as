@@ -20,7 +20,7 @@ package viewitem.parts.list
 	 */
 	public class ListSelecter extends CSprite
 	{
-		public static var ITEM_WIDTH:int = 200;
+		public static var ITEM_WIDTH:int = 290;
 		public static var ITEM_HEIGHT:int = 32;
 		
 		protected var _bgmBtn:CImgButton = null;
@@ -28,7 +28,7 @@ package viewitem.parts.list
 		protected var _listContena:CSprite = null;
 		protected var _BtnList:Vector.<CButton> = null;
 		protected var _back:Image = null;
-		protected const MAX_SHOW:int = 3;
+		protected const MAX_SHOW:int = 5;
 		protected var _slider:Slider = null;
 		protected var _callBack:Function = null;
 		protected var _custom:Boolean = false;
@@ -59,7 +59,7 @@ package viewitem.parts.list
 			_slider = new Slider();
 			//_slider.visible = false;
 			_slider.direction = Direction.VERTICAL;
-			_slider.x = 124;
+			_slider.x = 290;
 			_slider.y = 0;
 			_slider.height = MAX_SHOW * ITEM_HEIGHT;
 			_slider.step = 0.1;

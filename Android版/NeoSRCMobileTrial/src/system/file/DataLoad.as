@@ -141,11 +141,9 @@ package system.file
         }
         
         /**スマホ用、ファイル読み込み*/
-        public static function loadPhoneList(file:Array):Object
+        public static function loadPhoneList(file:Array, homefile:File):Object
         {
             var i:int = 0;
-            var dir:File = File.userDirectory;
-            var homefile:File = dir.resolvePath(CommonSystem.FOLDER_NAME + "//Scenario");
             var getList:Array = homefile.getDirectoryListing();
             var getpath:Vector.<String> = new Vector.<String>;
             var getname:Vector.<String> = new Vector.<String>;

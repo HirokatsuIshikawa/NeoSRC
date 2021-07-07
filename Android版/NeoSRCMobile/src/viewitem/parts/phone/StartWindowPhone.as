@@ -34,6 +34,7 @@ package viewitem.parts.phone
 			CommonSystem.initPhoneInfo();
 			var dir:File = File.userDirectory;
 			var file:File = dir.resolvePath(CommonSystem.FOLDER_NAME + "//Scenario");
+			//var file:File = dir.resolvePath("C:\\Users\\syoug\\Desktop\\Git_NeoSRC\\シナリオ");
 			
 			file.addEventListener(PermissionEvent.PERMISSION_STATUS, checkPermissions);
 			
@@ -59,12 +60,12 @@ package viewitem.parts.phone
 					{
 						file.createDirectory();
 					}
-					loadFileList(func);
+					loadFileList(func, file);
 				}
 			}
 		}
 		
-		public function loadFileList(func:Function):void
+		public function loadFileList(func:Function, homefile:File):void
 		{
 			
 			_backImg = new CImage(CommonDef.BACK_TEX);
@@ -73,16 +74,14 @@ package viewitem.parts.phone
 			_backImg.height = CommonDef.WINDOW_H - 96;
 			addChild(_backImg);
 			_compFunc = func;
-			
-			var dir:File = File.userDirectory;
-			var homefile:File = dir.resolvePath(CommonSystem.FOLDER_NAME + "//Scenario");
-            
+			            
             if(homefile.exists)
             {
                 
-                CommonSystem.FILE_HEAD = "file://";
+                //CommonSystem.FILE_HEAD = "file://";
+                CommonSystem.FILE_HEAD = "";
                 //_scenalioListData = DataLoad.loadPhoneList([".srcsys", ".srctxt"]);
-                _scenalioListData = DataLoad.loadPhoneList([".srcsys", ".srctxt"]);
+                _scenalioListData = DataLoad.loadPhoneList([".srcsys", ".srctxt"], homefile);
                 _scenalioList = new ListSelecter(false);
                 var ary:Array = new Array();
                 var str:String;
